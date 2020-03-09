@@ -8,7 +8,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [macos-10.14, windows-2019, ubuntu-18.04]
+        os: [macos-latest, windows-2019, ubuntu-18.04]
 
     steps:
       - name: Check out Git repository
@@ -31,6 +31,11 @@ jobs:
           yarn lint
           yarn ts
 
+      - name: Archive packaged app artifacts
+        uses: actions/upload-artifact@v1
+        with:
+          name: release
+          path: release
 # Failing beacuse virtual framebuffer not installed
 #          yarn build-e2e
 #          yarn test-e2e
