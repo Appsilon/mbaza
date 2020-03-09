@@ -1,10 +1,5 @@
 # Wildlife Explorer
 
-<div align="center">
-[![Github Tag][github-tag-image]][github-tag-url]
-</div>
-
-
 A desktop application that allows bioconservation researchers to classify camera trap animal images and analyze the results.
 
 The application is multi-platform. We support MacOS, Linux and Windows 10. Primary focus is on Windows 10.
