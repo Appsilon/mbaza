@@ -1,10 +1,10 @@
 import React from 'react';
-import styles from './Home.css';
+import styles from './Sidebar.css';
 
-export default function Home() {
+export default function Sidebar() {
   return (
     <div className={styles.container} data-tid="container">
-      <h3>Wildlife app</h3>
+      <h4>sidebar</h4>
     </div>
   );
 }
