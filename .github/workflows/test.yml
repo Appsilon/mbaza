@@ -31,11 +31,12 @@ jobs:
           yarn lint
           yarn ts
 
-      - name: Archive packaged app artifacts
+      - name: Archive packaged app artifact for MacOS
         uses: actions/upload-artifact@v1
         with:
-          name: release
-          path: release
+          name: release/ElectronReact-1.0.0-mac.zip
+          path: ElectronReact-1.0.0-mac.zip
+        if: ${{ contains(matrix.os, 'macos'}}
 # Failing beacuse virtual framebuffer not installed
 #          yarn build-e2e
 #          yarn test-e2e
