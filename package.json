@@ -271,6 +271,7 @@
     "yarn": "^1.21.1"
   },
   "dependencies": {
+    "@blueprintjs/core": "^3.24.0",
     "@fortawesome/fontawesome-free": "^5.12.1",
     "@hot-loader/react-dom": "^16.12.0",
     "connected-react-router": "^6.6.1",
@@ -280,8 +281,8 @@
     "electron-log": "^4.0.6",
     "electron-updater": "^4.2.0",
     "history": "^4.10.1",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0",
     "react-hot-loader": "^4.12.19",
     "react-redux": "^7.1.3",
     "react-router": "^5.1.2",
