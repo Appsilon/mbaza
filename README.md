@@ -18,7 +18,7 @@ The application is multi-platform. We support MacOS, Linux and Windows 10. Prima
 ### Dev environment setup
 - Install Yarn (on Ubuntu: https://linuxize.com/post/how-to-install-yarn-on-ubuntu-18-04/) -- for node packages management, we will use https://yarnpkg.com/. This is recommended by Electron Builder (npm can lead to errors).
 - Editor configuration: https://electron-react-boilerplate.js.org/docs/editor-configuration
-- Install app on Windows machines: https://developer.microsoft.com/en-us/windows/downloads/virtual-machines/
+- To test on Windows use virtual machine image from https://developer.microsoft.com/en-us/windows/downloads/virtual-machines/ (install VirtualBox 6 on Ubuntu following this guide: https://tecadmin.net/install-virtualbox-on-ubuntu-18-04/)
 
 ### Running the app
 - `yarn` installs dependencies
