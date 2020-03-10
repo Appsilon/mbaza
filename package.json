@@ -1,6 +1,6 @@
 {
-  "name": "wildlife-explorer",
-  "productName": "Wildlife Explorer",
+  "name": "mbaza-ai",
+  "productName": "Mbaza AI",
   "version": "1.0.0",
   "description": "A desktop application that allows bioconservation researchers to classify camera trap animal images and analyze the results.",
   "scripts": {
@@ -51,7 +51,7 @@
     ]
   },
   "build": {
-    "productName": "Wildlife Explorer",
+    "productName": "Mbaza AI",
     "appId": "com.appsilon.wildlifeexplorer",
     "files": [
       "dist/",
