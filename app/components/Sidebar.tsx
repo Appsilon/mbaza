@@ -1,26 +1,30 @@
 import React from 'react';
-import { withRouter } from 'react-router';
+import { RouteComponentProps, withRouter } from 'react-router';
 import styles from './Sidebar.css';
 
 import SidebarItem from './SidebarItem';
-import { RouteType, RoutesType } from '../constants/RoutesType';
+import { RoutesType } from '../constants/RoutesType';
 
-// TODO(wojtek): fix the typing issue here
-function Sidebar(props: RoutesType) {
-  const { routes } = props;
+interface Props extends RouteComponentProps<any> {
+  routes: RoutesType;
+  location: any;
+}
+
+function Sidebar(props: Props) {
+  const { routes, location } = props;
 
   return (
     <div
       className={styles.container}
       style={{ display: 'flex', flexDirection: 'column', textAlign: 'center' }}
     >
-      {Object.values(routes).map((route: RouteType) => (
+      {Object.keys(routes).map((key: string) => (
         <SidebarItem
-          key={route}
-          text={route.name}
-          iconName={route.iconName}
-          link={route.path}
-          active={props.location.pathname === route.path}
+          key={routes[key].name}
+          text={routes[key].name}
+          iconName={routes[key].iconName}
+          link={routes[key].path}
+          active={location.pathname === routes[key].path}
         />
       ))}
     </div>

@@ -1,12 +1,14 @@
+import { IconName } from '@blueprintjs/icons';
+
 export type RouteType = {
   path: string;
   name: string;
-  iconName: string;
+  iconName: IconName;
 };
 
-export interface RoutesType {
+export type RoutesType = {
   [key: string]: RouteType;
-}
+};
 
 export const routes: RoutesType = {
   HOME: {
