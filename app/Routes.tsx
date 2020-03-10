@@ -4,14 +4,23 @@ import routes from './constants/routes.json';
 import App from './containers/App';
 import HomePage from './containers/HomePage';
 import CounterPage from './containers/CounterPage';
+import ExplorePage from './containers/ExplorePage';
+import ClassifyPage from './containers/ClassifyPage';
+
+import Sidebar from './components/Sidebar';
 
 export default function Routes() {
   return (
     <App>
-      <Switch>
-        <Route path={routes.COUNTER} component={CounterPage} />
-        <Route path={routes.HOME} component={HomePage} />
-      </Switch>
+      <div style={{ display: 'flex', flexDirection: 'row' }}>
+        <Sidebar />
+        <Switch>
+          <Route path={routes.CLASSIFY.path} component={ClassifyPage} />
+          <Route path={routes.EXPLORE.path} component={ExplorePage} />
+          <Route path={routes.COUNTER.path} component={CounterPage} />
+          <Route path={routes.HOME.path} component={HomePage} />
+        </Switch>
+      </div>
     </App>
   );
 }
