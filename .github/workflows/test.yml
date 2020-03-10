@@ -35,21 +35,21 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: wildlife-explorer-mac
-          path: release/ElectronReact-1.0.0-mac.zip
+          path: 'release/Mbaza AI-1.0.0-mac.zip'
         if: ${{ contains(matrix.os, 'macos')}}
 
       - name: Archive packaged app artifact for Windows
         uses: actions/upload-artifact@v1
         with:
           name: wildlife-explorer-windows
-          path: 'release/ElectronReact Setup 1.0.0.exe'
+          path: 'release/Mbaza AI Setup 1.0.0.exe'
         if: ${{ contains(matrix.os, 'windows')}}
 
       - name: Archive packaged app artifact for Debian
         uses: actions/upload-artifact@v1
         with:
           name: wildlife-explorer-deb
-          path: release/electron-react-boilerplate_1.0.0_amd64.deb
+          path: release/mbaza-ai_1.0.0_amd64.deb
         if: ${{ contains(matrix.os, 'ubuntu')}}
 # Failing beacuse virtual framebuffer not installed
 #          yarn build-e2e
