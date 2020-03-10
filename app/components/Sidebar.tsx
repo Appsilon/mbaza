@@ -1,10 +1,12 @@
 import React from 'react';
+import { withRouter } from 'react-router';
 import styles from './Sidebar.css';
 
 import SidebarItem from './SidebarItem';
 import { RouteType, RoutesType } from '../constants/RoutesType';
 
-export default function Sidebar(props: RoutesType) {
+// TODO(wojtek): fix the typing issue here
+function Sidebar(props: RoutesType) {
   const { routes } = props;
 
   return (
@@ -18,9 +20,11 @@ export default function Sidebar(props: RoutesType) {
           text={route.name}
           iconName={route.iconName}
           link={route.path}
-          active={false}
+          active={props.location.pathname === route.path}
         />
       ))}
     </div>
   );
 }
+
+export default withRouter(Sidebar);

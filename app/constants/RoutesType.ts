@@ -25,7 +25,7 @@ export const routes: RoutesType = {
     iconName: 'send-to-graph'
   },
   EXPLORE: {
-    path: '/send-to-graph',
+    path: '/explore',
     name: 'Explore',
     iconName: 'search-template'
   }
