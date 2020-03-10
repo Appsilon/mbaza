@@ -3,7 +3,7 @@
 A desktop application that allows bioconservation researchers to classify camera trap animal images and analyze the results.
 
 The application is multi-platform. We support MacOS, Linux and Windows 10. Primary focus is on Windows 10.
-
+qweqweqwe
 ## Maintainers
 
 - [Marek Rogala](https://github.com/marekrogala)
