@@ -5,13 +5,12 @@ import styles from './Sidebar.css';
 import SidebarItem from './SidebarItem';
 import { RoutesType } from '../constants/RoutesType';
 
-interface Props extends RouteComponentProps<any> {
+interface Props extends RouteComponentProps {
   routes: RoutesType;
-  location: any;
 }
 
 function Sidebar(props: Props) {
-  const { routes, location } = props;
+  const { routes } = props;
 
   return (
     <div
@@ -24,7 +23,7 @@ function Sidebar(props: Props) {
           text={routes[key].name}
           iconName={routes[key].iconName}
           link={routes[key].path}
-          active={location.pathname === routes[key].path}
+          active={props.location.pathname === routes[key].path}
         />
       ))}
     </div>
