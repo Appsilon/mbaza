@@ -1,18 +1,22 @@
 {
   "HOME": {
     "path": "/",
+    "name": "Home",
     "iconName": "home"
   },
   "COUNTER": {
     "path": "/counter",
+    "name": "Counter",
     "iconName": "pulse"
   },
   "CLASSIFY": {
     "path": "/classify",
-    "iconName": "home"
+    "name": "Classify",
+    "iconName": "send-to-graph"
   },
   "EXPLORE": {
     "path": "/send-to-graph",
+    "name": "Explore",
     "iconName": "search-template"
   }
 }
