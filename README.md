@@ -20,6 +20,9 @@ The application is multi-platform. We support MacOS, Linux and Windows 10. Prima
 - Editor configuration: https://electron-react-boilerplate.js.org/docs/editor-configuration
 - To test on Windows use virtual machine image from https://developer.microsoft.com/en-us/windows/downloads/virtual-machines/ (install VirtualBox 6 on Ubuntu following this guide: https://tecadmin.net/install-virtualbox-on-ubuntu-18-04/)
 
+### Linting
+We check for appropriate linting before each commit. You will be able to fix some lint errors automatically using `yarn lint-fix`.
+
 ### Running the app
 - `yarn` installs dependencies
 - `yarn dev` runs the app
