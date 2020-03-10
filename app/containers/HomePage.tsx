@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom';
 import { Navbar, Alignment, Button } from '@blueprintjs/core';
 
 import Home from '../components/Home';
+import Sidebar from '../components/Sidebar';
 import routes from '../constants/routes.json';
 
 export default function HomePage() {
   return (
-    <>
+    <div>
       <Navbar>
         <Navbar.Group align={Alignment.LEFT}>
           <Navbar.Heading>Blueprint</Navbar.Heading>
@@ -20,7 +21,10 @@ export default function HomePage() {
           </Link>
         </Navbar.Group>
       </Navbar>
-      <Home />
-    </>
+      <div style={{ display: 'flex', flexDirection: 'row' }}>
+        <Sidebar />
+        <Home />
+      </div>
+    </div>
   );
 }

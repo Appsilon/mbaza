@@ -1,12 +1,15 @@
 .container {
-  position: absolute;
   top: 30%;
   left: 10px;
   text-align: center;
+  display: 'flex';
+  flex: 1;
+  flex-direction: 'column';
 }
 
 .container h2 {
   font-size: 5rem;
+  color: #2a3743;
 }
 
 .container a {
