@@ -13,7 +13,7 @@ def compute_predictions(directory):
     print("Will now start computing predictions for images in {} \n".format(directory))
     file_names = get_filenames(directory)
     for i, file_name in enumerate(file_names):
-        print("{}/{} {}".format(i, len(file_names), "- "*15))
+        print("{}/{} {}".format(i+1, len(file_names), "- "*15))
         print("     Now computing predictions for {}...".format(file_name))
 
         do_prediction(file_path=os.path.join(directory+file_name))
