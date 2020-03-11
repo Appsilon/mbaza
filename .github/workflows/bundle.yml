@@ -17,8 +17,8 @@ jobs:
         with:
           python-version: 3.6
 
-      - name:
-        run: sudo apt-get install tree
+      #- name:
+        #run: sudo apt-get install tree
 
       - name: Install dependencies
         run: |
