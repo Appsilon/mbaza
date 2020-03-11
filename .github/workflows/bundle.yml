@@ -24,7 +24,7 @@ jobs:
         working-directory: ./models/serengeti
 
       - name: Run pyinstaller
-        run: pyinstaller main.py --clean --noconfirm
+        run: pyinstaller main.py --clean --noconfirm --additional-hooks-dir=hooks/
         working-directory: ./models/serengeti
 
 
