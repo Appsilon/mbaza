@@ -1,8 +1,6 @@
 name: bundle
 
-on:
-  push:
-    paths: models/serengeti
+on: push
 
 jobs:
   release:
