@@ -1,0 +1,30 @@
+name: bundle
+
+on: push
+
+jobs:
+  release:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest, windows-2019, ubuntu-18.04]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Setup python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.6
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt -f https://download.pytorch.org/whl/torch_stable.html
+
+      - name: Run pyinstaller
+        run: pyinstaller main.py --clean --noconfirm
+
+      - name: Run model!
+        run: ./main ../../images_serengeti
+        working-directory: ./dist/main
