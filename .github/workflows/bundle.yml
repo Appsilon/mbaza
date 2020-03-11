@@ -1,6 +1,9 @@
 name: bundle
 
-on: push
+on:
+  push:
+    paths: models/serengeti
+  
 
 jobs:
   release:
@@ -21,10 +24,13 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt -f https://download.pytorch.org/whl/torch_stable.html
+        working-directory: ./models/serengeti
 
       - name: Run pyinstaller
         run: pyinstaller main.py --clean --noconfirm
+        working-directory: ./models/serengeti
+
 
       - name: Run model!
         run: ./main ../../images_serengeti
-        working-directory: ./dist/main
+        working-directory: ./models/serengeti/dist/main
