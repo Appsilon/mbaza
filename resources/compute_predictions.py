@@ -7,20 +7,18 @@ def do_prediction(file_path):
     time.sleep(2)
 
 def get_filenames_mock(directory):
-    print("Files in the directory {}:".format(directory))
-    print(os.listdir(directory))
-    return ["img_{}.png".format(x) for x in random.sample(range(1, 100), 10)]
+    return os.listdir(directory)
 
 def compute_predictions_mock(directory):
     print("Will now start computing predictions for images in {} \n".format(directory))
+    time.sleep(2)
+
     filenames = get_filenames_mock(directory)
     for i, filename in enumerate(filenames):
-        print("{}/{} {}".format(i+1, len(filenames), "- "*15))
-        print("     Now computing predictions for {}...".format(filename))
-
+        print("{}/{}   Now computing predictions for {}...".format(i+1, len(filenames), filename))
         do_prediction(file_path=os.path.join(directory+filename))
 
-        print("     Prediction computed and saved! \n")
+    print("Predictions computed and saved! \n")
 
 
 def main():
