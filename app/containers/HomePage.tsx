@@ -33,8 +33,10 @@ const chooseDirectoryAndStartPredictions = () => {
       properties: ['openDirectory']
     })
     .then(result => {
-      const directory = result.filePaths[0];
-      computePredictions(directory);
+      if (!result.canceled) {
+        const directory = result.filePaths[0];
+        computePredictions(directory);
+      }
       return null;
     })
     .catch(error => {
