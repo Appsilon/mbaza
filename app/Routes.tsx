@@ -26,7 +26,7 @@ export default function Routes() {
             />
           </Navbar.Heading>
           <Navbar.Heading>
-            <strong>MBaza</strong>
+            <strong>Mbaza</strong>
           </Navbar.Heading>
           <Navbar.Divider />
           <span>AI for species discovery</span>
