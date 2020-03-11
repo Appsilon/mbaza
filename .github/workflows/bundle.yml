@@ -3,7 +3,6 @@ name: bundle
 on:
   push:
     paths: models/serengeti
-  
 
 jobs:
   release:
