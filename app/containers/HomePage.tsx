@@ -26,14 +26,21 @@ const computePredictions = (directory: string) => {
 };
 
 const chooseDirectoryAndStartPredictions = () => {
+  // eslint-disable-next-line global-require
   const { dialog } = require('electron').remote;
-  const selectedFolders = dialog.showOpenDialog({
-    properties: ['openDirectory']
-  });
-  selectedFolders.then(result => {
-    const directory = result.filePaths[0];
-    computePredictions(directory);
-  });
+  dialog
+    .showOpenDialog({
+      properties: ['openDirectory']
+    })
+    .then(result => {
+      const directory = result.filePaths[0];
+      computePredictions(directory);
+      return null;
+    })
+    .catch(error => {
+      // eslint-disable-next-line no-console
+      console.log('error', error);
+    });
 };
 
 export default function ExplorePage() {
