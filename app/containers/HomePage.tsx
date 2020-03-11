@@ -5,6 +5,7 @@ import { spawn } from 'node-pty';
 
 const computePredictions = () => {
   // TODO(wojtek): catch stdout here and display it in some textbox in the UI
+  // TODO(wojtek): create a text input box for the "directory" parameter
   // TODO(wojtek): make sure the "directory" parameter is intercepted from JS and passed to Python correctly
 
   const args: string[] = [
