@@ -7,7 +7,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [windows-2019, ubuntu-18.04]
+        os: [ubuntu-18.04]
     steps:
       - name: Checkout
         uses: actions/checkout@v1
@@ -27,6 +27,9 @@ jobs:
         run: pyinstaller main.py --clean --noconfirm --additional-hooks-dir=hooks/
         working-directory: ./models/serengeti
 
+      - name: Show me what you got inside
+        run: tree -d -I __pycache__
+        working-directory: ./models/serengeti
 
       - name: Run model!
         run: ./main ../../images_serengeti
