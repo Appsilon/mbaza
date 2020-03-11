@@ -1,6 +1,5 @@
 import React from 'react';
 import { Switch, Route } from 'react-router';
-import { Link } from 'react-router-dom';
 
 import { Navbar, Alignment, Icon, Intent, Button } from '@blueprintjs/core';
 
