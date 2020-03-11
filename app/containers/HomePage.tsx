@@ -3,15 +3,13 @@ import { Button } from '@blueprintjs/core';
 
 import { spawn } from 'node-pty';
 
-const computePredictions = () => {
+const computePredictions = (directory: string) => {
   // TODO(wojtek): catch stdout here and display it in some textbox in the UI
-  // TODO(wojtek): create a text input box for the "directory" parameter
-  // TODO(wojtek): make sure the "directory" parameter is intercepted from JS and passed to Python correctly
 
   const args: string[] = [
     './resources/compute_predictions.py',
     '--directory',
-    '/home/wojtek'
+    directory
   ];
 
   const pyProcess = spawn('python', args, {});
@@ -27,6 +25,26 @@ const computePredictions = () => {
   });
 };
 
+const chooseDirectoryAndStartPredictions = () => {
+  // eslint-disable-next-line global-require
+  const { dialog } = require('electron').remote;
+  dialog
+    .showOpenDialog({
+      properties: ['openDirectory']
+    })
+    .then(result => {
+      if (!result.canceled) {
+        const directory = result.filePaths[0];
+        computePredictions(directory);
+      }
+      return null;
+    })
+    .catch(error => {
+      // eslint-disable-next-line no-console
+      console.log('error', error);
+    });
+};
+
 export default function ExplorePage() {
   return (
     <div style={{ padding: '20px' }}>
@@ -34,9 +52,9 @@ export default function ExplorePage() {
       <h4>The first offline AI wildlife explorer</h4>
 
       <Button
-        text="start predictions!"
+        text="Choose directory and start predictions!"
         icon="predictive-analysis"
-        onClick={computePredictions}
+        onClick={chooseDirectoryAndStartPredictions}
       />
     </div>
   );
