@@ -1,36 +1,31 @@
 import React from 'react';
-import { execFile, ExecException } from 'child_process';
 import { Button } from '@blueprintjs/core';
+
+import { spawn } from 'node-pty';
 
 const computePredictions = () => {
   // eslint-disable-next-line no-console
   console.log('Will start streaming predictions now. Output will appear soon.');
 
   // TODO(wojtek): catch stdout here and display it in some textbox in the UI
-  // TODO(wojtek): make sure the output is streamed instead of returned once
 
-  const args: ReadonlyArray<string> = [
+  const args: string[] = [
     './resources/compute_predictions.py',
     '--directory',
     '/home/wojtek'
   ];
-  execFile(
-    'python',
-    args,
-    (
-      error: ExecException | null,
-      stdout: string | Buffer,
-      stderr: string | Buffer
-    ) => {
-      if (error) {
-        // eslint-disable-next-line no-console
-        console.log(stderr);
-        throw error;
-      }
-      // eslint-disable-next-line no-console
-      console.log(stdout);
-    }
-  );
+
+  const pyProcess = spawn('python', args, {});
+
+  pyProcess.on('data', data => {
+    // eslint-disable-next-line no-console
+    console.log(data);
+  });
+
+  pyProcess.on('exit', exitCode => {
+    // eslint-disable-next-line no-console
+    console.log(`Exiting with code ${exitCode}`);
+  });
 };
 
 export default function ExplorePage() {
