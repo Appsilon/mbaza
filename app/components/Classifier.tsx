@@ -46,7 +46,7 @@ const chooseDirectoryAndStartPredictions = (
     })
     .catch(error => {
       // eslint-disable-next-line no-console
-      console.log('error', error);
+      alert(error);
     });
 };
 
