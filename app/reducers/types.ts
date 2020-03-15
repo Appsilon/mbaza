@@ -4,13 +4,12 @@ export type counterStateType = {
   counter: number;
 };
 
-export type logMessageStateType = {
+export type classifierStateType = {
   logMessage: string;
+  directoryChoice: string;
 };
 
 export type GetState = () => counterStateType;
-
-export type GetLogMessageState = () => logMessageStateType;
 
 export type Dispatch = ReduxDispatch<Action<string>>;
 
