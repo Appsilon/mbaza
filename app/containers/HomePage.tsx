@@ -1,4 +1,5 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import { Button } from '@blueprintjs/core';
 
 import { spawn } from 'node-pty';
@@ -45,14 +46,16 @@ const chooseDirectoryAndStartPredictions = () => {
     });
 };
 
-export default function ExplorePage() {
+export default function HomePage() {
+  const { t } = useTranslation();
+
   return (
     <div style={{ padding: '20px' }}>
-      <h1>Welcome to Mbaza AI!</h1>
-      <h4>The first offline AI wildlife explorer</h4>
+      <h1>{t('Welcome to Mbaza AI!')}</h1>
+      <h4>{t('The first offline AI wildlife explorer')}</h4>
 
       <Button
-        text="Choose directory and start predictions!"
+        text={t('Choose directory and start predictions!')}
         icon="predictive-analysis"
         onClick={chooseDirectoryAndStartPredictions}
       />

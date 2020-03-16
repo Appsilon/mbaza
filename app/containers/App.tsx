@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Navbar, Alignment, Icon, Intent, Button } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
 
@@ -11,6 +12,8 @@ type Props = {
 
 export default function App(props: Props) {
   const { children } = props;
+  const { t, i18n } = useTranslation();
+
   return (
     <>
       <Navbar className="bp3-dark">
@@ -26,20 +29,24 @@ export default function App(props: Props) {
             <strong>Mbaza</strong>
           </Navbar.Heading>
           <Navbar.Divider />
-          <span>AI for species discovery</span>
+          <span>{t('AI for species discovery')}</span>
         </Navbar.Group>
 
         <Navbar.Group align={Alignment.RIGHT}>
           <Button
             className="bp3-minimal"
             icon="projects"
-            text="Projects"
+            text={t('Projects')}
             style={{ color: '#fff' }}
           />
           <Navbar.Divider />
           <Button className="bp3-minimal" icon="user" />
           <Button className="bp3-minimal" icon="notifications" />
-          <Button className="bp3-minimal" icon="cog" />
+          <Button
+            className="bp3-minimal"
+            icon="cog"
+            onClick={() => i18n.changeLanguage('fr')}
+          />
         </Navbar.Group>
       </Navbar>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
