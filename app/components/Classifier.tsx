@@ -12,11 +12,13 @@ const computePredictions = (
 ) => {
   const args: string[] = [
     './resources/compute_predictions.py',
-    '--directory',
-    directory
+    '--inpath',
+    directory,
+    '--outpath',
+    'results/'+(new Date()).toISOString()
   ];
 
-  const pyProcess = spawn('python', args, {});
+  const pyProcess = spawn('python3', args, {});
 
   pyProcess.on('data', data => {
     // eslint-disable-next-line no-console
