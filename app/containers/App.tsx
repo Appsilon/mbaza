@@ -1,6 +1,15 @@
 import React, { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Navbar, Alignment, Icon, Intent, Button } from '@blueprintjs/core';
+import {
+  Navbar,
+  Alignment,
+  Icon,
+  Intent,
+  Button,
+  Popover,
+  Menu,
+  MenuItem
+} from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
 
 import { routes } from '../constants/RoutesType';
@@ -42,11 +51,19 @@ export default function App(props: Props) {
           <Navbar.Divider />
           <Button className="bp3-minimal" icon="user" />
           <Button className="bp3-minimal" icon="notifications" />
-          <Button
-            className="bp3-minimal"
-            icon="cog"
-            onClick={() => i18n.changeLanguage('fr')}
-          />
+          <Popover>
+            <Button className="bp3-minimal" icon="globe" />
+            <Menu>
+              <MenuItem
+                text="English"
+                onClick={() => i18n.changeLanguage('en')}
+              />
+              <MenuItem
+                text="Française"
+                onClick={() => i18n.changeLanguage('fr')}
+              />
+            </Menu>
+          </Popover>
         </Navbar.Group>
       </Navbar>
       <div style={{ display: 'flex', flexDirection: 'row' }}>
