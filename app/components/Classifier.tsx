@@ -143,7 +143,7 @@ export default function Classifier(props: Props) {
       </div>
 
       <Button
-        text={t('Start predictions!')}
+        text={t('Find animals!')}
         icon="predictive-analysis"
         onClick={() => {
           computePredictions(
