@@ -9,7 +9,15 @@ ANIMALS = ['timon', 'pumba', 'simba', 'nala']
 
 def do_prediction(file_path: str):
     time.sleep(1)
-    return {'path': file_path, 'result': random.choice(ANIMALS)}
+    return {
+      'path': file_path,
+      'pred_1': random.choice(ANIMALS),
+      'score_1': 0.85,
+      'station': "STATION_1",
+      'check': "1",
+      'camera': "CAM68107",
+      'coords': "(coords)"
+    }
 
 
 def get_filenames_mock(directory: str):
@@ -35,7 +43,7 @@ def compute_predictions_mock(inpath: str, outpath: str):
         results.append(do_prediction(file_path=os.path.join(inpath, filename)))
 
     with open(outpath, 'w') as csvfile:
-        fieldnames = ['path', 'result']
+        fieldnames = ['path', 'station', 'check', 'camera', 'coords', 'pred_1', 'score_1']
         writer = csv.DictWriter(csvfile, fieldnames = fieldnames)
         writer.writeheader()
         for row in results:
