@@ -34,9 +34,7 @@ def compute_predictions_mock(inpath: str, outpath: str):
         )
         results.append(do_prediction(file_path=os.path.join(inpath, filename)))
 
-    os.mkdir(outpath)
-
-    with open(os.path.join(outpath, 'results.csv'), 'w') as csvfile:
+    with open(outpath, 'w') as csvfile:
         fieldnames = ['path', 'result']
         writer = csv.DictWriter(csvfile, fieldnames = fieldnames)
         writer.writeheader()

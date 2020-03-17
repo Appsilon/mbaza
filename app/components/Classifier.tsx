@@ -6,10 +6,11 @@ import { useTranslation } from 'react-i18next';
 import PythonLogViewer from './PythonLogViewer';
 
 type changeLogMessageType = (newChangeLogMessage: string) => {};
-type changeDirectoryChoiceType = (newDirectory: string) => {};
+type changePathChoiceType = (newPath: string) => {};
 
 const computePredictions = (
   directory: string,
+  savePath: string,
   changeLogMessage: changeLogMessageType
 ) => {
   const args: string[] = [
@@ -17,7 +18,7 @@ const computePredictions = (
     '--inpath',
     directory,
     '--outpath',
-    `results/${new Date().toISOString()}`
+    savePath
   ];
 
   const pyProcess = spawn('python3', args, {});
@@ -53,18 +54,45 @@ const chooseDirectory = (changeDirectoryChoice: changeDirectoryChoiceType) => {
     });
 };
 
+function chooseSavePath(changeSavePathChoice: changePathChoiceType) {
+  // eslint-disable-next-line global-require
+  const { dialog, app } = require('electron').remote;
+  dialog
+    .showSaveDialog({
+      defaultPath: `${app.getPath('documents')}/classification_result.csv`,
+      filters: [
+        { name: 'CSV', extensions: ['csv'] },
+        { name: 'All Files', extensions: ['*'] }
+      ]
+    })
+    .then(result => {
+      if (!result.canceled) {
+        changeSavePathChoice(result.filePath);
+      }
+      return null;
+    })
+    .catch(error => {
+      // eslint-disable-next-line no-alert
+      alert(error);
+    });
+}
+
 type Props = {
   changeLogMessage: changeLogMessageType;
-  changeDirectoryChoice: changeDirectoryChoiceType;
+  changeDirectoryChoice: changePathChoiceType;
+  changeSavePathChoice: changePathChoiceType;
   logMessage: string;
   directoryChoice: string;
+  savePath: string;
 };
 
 export default function Classifier(props: Props) {
   const {
     directoryChoice,
+    savePath,
     logMessage,
     changeDirectoryChoice,
+    changeSavePathChoice,
     changeLogMessage
   } = props;
   const { t } = useTranslation();
@@ -94,11 +122,35 @@ export default function Classifier(props: Props) {
         />
       </div>
 
+      <div className="bp3-input-group" style={{ marginBottom: '10px' }}>
+        <input
+          type="text"
+          className="bp3-input"
+          placeholder={t('Choose where to save the classification results')}
+          value={savePath}
+          onChange={e => {
+            changeSavePathChoice(e.target.value);
+          }}
+        />
+        <button
+          aria-label="Search"
+          type="submit"
+          className="bp3-button bp3-minimal bp3-intent-primary bp3-icon-search"
+          onClick={() => {
+            chooseSavePath(changeSavePathChoice);
+          }}
+        />
+      </div>
+
       <Button
         text={t('Start predictions!')}
         icon="predictive-analysis"
         onClick={() => {
-          computePredictions(props.directoryChoice, changeLogMessage);
+          computePredictions(
+            props.directoryChoice,
+            props.savePath,
+            changeLogMessage
+          );
         }}
         style={{ marginBottom: '10px', backgroundColor: '#fff' }}
       />
