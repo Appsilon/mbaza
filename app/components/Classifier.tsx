@@ -17,7 +17,7 @@ const computePredictions = (
     '--inpath',
     directory,
     '--outpath',
-    'results/'+(new Date()).toISOString()
+    `results/${new Date().toISOString()}`
   ];
 
   const pyProcess = spawn('python3', args, {});
