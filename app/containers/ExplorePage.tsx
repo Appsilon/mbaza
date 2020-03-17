@@ -14,7 +14,7 @@ export default function ExplorePage() {
   });
   
   const pathRender = (rowIndex: number) => {
-    console.log(result);
+    // console.log(result);
     // return <Cell>{ data[rowIndex]["path"] }</Cell>
     return <Cell>1</Cell>
   };
