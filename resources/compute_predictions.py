@@ -10,7 +10,9 @@ def do_prediction(file_path: str):
 
 
 def get_filenames_mock(directory: str):
-    return os.listdir(directory)
+    for root, dirs, files in os.walk(directory):
+        for name in files:
+            yield os.path.join(root, name)
 
 
 def compute_predictions_mock(inpath: str, outpath: str):
@@ -19,7 +21,7 @@ def compute_predictions_mock(inpath: str, outpath: str):
     )
     time.sleep(2)
 
-    filenames = get_filenames_mock(inpath)
+    filenames = list(get_filenames_mock(inpath))
     for i, filename in enumerate(filenames):
         print(
             "{}/{}   Now computing predictions for {}...".format(
