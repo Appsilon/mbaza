@@ -48,7 +48,7 @@ def compute_predictions_mock(inpath: str, outpath: str):
         writer = csv.DictWriter(csvfile, fieldnames = fieldnames)
         writer.writeheader()
         for row in results:
-            writer.writerow(row)
+            writer.writerow({k: row.get(k, "") for k in fieldnames})
 
 
     print("Predictions computed and saved! \n")

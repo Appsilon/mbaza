@@ -1,7 +1,4 @@
 import React, { useState } from 'react';
-import { Column, Table, Cell } from '@blueprintjs/table';
-import * as fs from 'fs';
-import { csv } from 'd3-fetch';
 import Plot from 'react-plotly.js';
 import { useTranslation } from 'react-i18next';
 
@@ -41,14 +38,6 @@ export default function ExplorePage() {
   //   return val;
   // });
 
-  const pathRender = (rowIndex: number) => {
-    // console.log(result);
-    // return <Cell>{ data[rowIndex]["path"] }</Cell>
-    return <Cell>1</Cell>;
-  };
-  const classRender = (rowIndex: number) => {
-    return <Cell>1</Cell>;
-  };
   const trace1 = {
     x: ['2020-10-04', '2021-11-04', '2023-12-04', '2024-12-04', '2025-12-04'],
     y: [90, 40, 60, 90, 30],
