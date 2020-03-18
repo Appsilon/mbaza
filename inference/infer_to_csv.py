@@ -13,6 +13,8 @@ import pandas as pd
 from fastai import *
 from fastai.vision import *
 
+import exifread
+
 def is_image(filename):
     return filename.endswith("jpg") or filename.endswith("jpeg") or filename.endswith("png")
 
@@ -82,6 +84,44 @@ def get_top_preds_and_scores(preds, classes):
     
     return df_preds
 
+def parse_path(df):
+    """ extract station, check and cam from path column and store. """
+    pattern = "STATION_([^\\/]*).*Check\s([^\\/]*).*CAM([^\\/]*)"
+    result = df.copy()
+    result[["station", "check", "camera"]] = result.path.str.extract(pattern)
+    return result
+
+def parse_exif(df):
+    """ extract datetime, gps long and gps lat from exif of images """
+    result = df.copy()
+    
+    exif_datetime = []
+    exif_gps_long = []
+    exif_gps_lat = []
+    for path_name in result.path:
+        f = open(path_name, 'rb')
+        tags = exifread.process_file(f)
+        if tags:
+            try:
+                exif_datetime.append(tags["EXIF DateTimeOriginal"].values)
+            except:
+                exif_datetime.append(None)
+            try:
+                exif_gps_long.append(tags["GPS GPSLongitude"].values)
+                exif_gps_lat.append(tags["GPS GPSLatitude"].values)
+            except:
+                exif_gps_long.append(None)
+                exif_gps_lat.append(None)
+        else:
+            exif_datetime.append(None)
+            exif_gps_long.append(None)
+            exif_gps_lat.append(None)
+    result["exif_datetime"] = exif_datetime
+    result["exif_gps_long"] = exif_gps_long
+    result["exif_gps_lat"] = exif_gps_lat
+    
+    return result
+
 def order_df(df,var):
     """ make the var list of columns as the first columns, keep rest at the end in df """
     if type(var) is str:
@@ -96,11 +136,17 @@ def infer_to_csv(model, data_folder, output="output.csv", keep_scores=True, over
     images = get_images(data_folder)
     preds, classes = get_predictions(model, images)
     df_preds = get_top_preds_and_scores(preds, classes)
-    df_preds["image"] = images
-
-    result = order_df(df_preds, ["image", "pred_1", "score_1", "pred_2", "score_2", "pred_3", "score_3"])
+    df_preds["path"] = images
+    df_preds = parse_path(df_preds) # extract station, check, cam where possible from path
+    df_preds = parse_exif(df_preds) # extract datetime, gps_long and gps_lat from exif if images
+    
+    result = order_df(df_preds, ["path", "station", "check", "camera",\
+                                 "exif_datetime", "exif_gps_long", "exif_gps_lat",\
+                                 "pred_1", "score_1", "pred_2", "score_2", "pred_3", "score_3"])
     if not keep_scores:
-        result = df_preds[["image", "pred_1"]]
+        result = df_preds[["path", "station", "check", "camera",\
+                           "exif_datetime", "exif_gps_long", "exif_gps_lat",\
+                           "pred_1"]]
     
     result.to_csv(output, index=False)
     print(f"Results stored in {output}.")
