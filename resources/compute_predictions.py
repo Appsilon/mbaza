@@ -16,7 +16,8 @@ def do_prediction(file_path: str):
       'station': "STATION_1",
       'check': "1",
       'camera': "CAM68107",
-      'coords': "(coords)"
+      'coords': "(coords)",
+      'datetime': '2020-03-18T01:38:12.369433'
     }
 
 
