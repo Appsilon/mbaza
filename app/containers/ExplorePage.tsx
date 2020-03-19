@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import Plot from 'react-plotly.js';
 import { useTranslation } from 'react-i18next';
 
-function chooseFile(changeFileChoice: (string) => {}) {
+type SetPathType = (path: string) => {};
+
+function chooseFile(changeFileChoice: SetPathType) {
   // eslint-disable-next-line global-require
   const { dialog } = require('electron').remote;
   dialog
@@ -70,11 +72,13 @@ export default function ExplorePage() {
           type="submit"
           className="bp3-button bp3-minimal bp3-intent-primary bp3-icon-search"
           onClick={() => {
-            chooseFile(setFilePath);
+            chooseFile(setFilePath as SetPathType);
           }}
         />
       </div>
-      {filePath && <Plot data={data} layout={{ responsive: true }} />}
+      {filePath && (
+        <Plot data={data as any} layout={{ responsive: true } as any} />
+      )}
     </div>
   );
   // <Table numRows={5}>

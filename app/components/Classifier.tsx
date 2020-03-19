@@ -34,7 +34,7 @@ const computePredictions = (
   });
 };
 
-const chooseDirectory = (changeDirectoryChoice: changeDirectoryChoiceType) => {
+const chooseDirectory = (changeDirectoryChoice: changePathChoiceType) => {
   // eslint-disable-next-line global-require
   const { dialog } = require('electron').remote;
   dialog
@@ -67,7 +67,7 @@ function chooseSavePath(changeSavePathChoice: changePathChoiceType) {
     })
     .then(result => {
       if (!result.canceled) {
-        changeSavePathChoice(result.filePath);
+        changeSavePathChoice(result.filePath ? result.filePath : '');
       }
       return null;
     })
