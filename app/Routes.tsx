@@ -4,7 +4,6 @@ import { Switch, Route } from 'react-router';
 import { routes } from './constants/Routes';
 import App from './containers/App';
 import HomePage from './containers/HomePage';
-import CounterPage from './containers/CounterPage';
 import ExplorePage from './containers/ExplorePage';
 import ClassifyPage from './containers/ClassifyPage';
 

@@ -1,3 +1,4 @@
+/*eslint max-len: ["error", { "code": 200 }]*/
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
