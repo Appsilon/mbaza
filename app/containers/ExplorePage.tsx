@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import Plot from 'react-plotly.js';
 import { useTranslation } from 'react-i18next';
+import { csv } from 'd3-fetch';
+import { Column, Table, Cell } from '@blueprintjs/table';
 
 type SetPathType = (path: string) => {};
 
-function chooseFile(changeFileChoice: SetPathType) {
+function chooseFile(changeFileChoice: SetPathType, setData: Dispatch<any>) {
   // eslint-disable-next-line global-require
   const { dialog } = require('electron').remote;
   dialog
@@ -17,10 +19,16 @@ function chooseFile(changeFileChoice: SetPathType) {
     })
     .then(result => {
       if (!result.canceled) {
-        const directory = result.filePaths[0];
-        changeFileChoice(directory);
+        const file = result.filePaths[0];
+        changeFileChoice(file);
+        return file;
       }
       return null;
+    })
+    .then(file => csv(file))
+    .then(data => {
+      console.log(data);
+      setData(data);
     })
     .catch(error => {
       // eslint-disable-next-line no-alert
@@ -31,14 +39,7 @@ function chooseFile(changeFileChoice: SetPathType) {
 export default function ExplorePage() {
   const { t } = useTranslation();
   const [filePath, setFilePath] = useState();
-  // TODO: read data from the loaded csv
-  // const lastFolder = fs.readdirSync('results/');
-  // const lastFile = lastFolder.sort().splice(-1)[0];
-  // let data = [];
-  // const result = csv(`../results/${lastFile}/results.csv`).then(function(val) {
-  //   data = val;
-  //   return val;
-  // });
+  const [data, setData] = useState();
 
   const trace1 = {
     x: ['2020-10-04', '2021-11-04', '2023-12-04', '2024-12-04', '2025-12-04'],
@@ -52,10 +53,10 @@ export default function ExplorePage() {
     type: 'scatter',
     name: 'Bird'
   };
-  const data = [trace1, trace2];
+  const data2 = [trace1, trace2];
 
   return (
-    <div style={{ padding: '10px', flex: 1 }}>
+    <div style={{ padding: '10px 30px', width: '100vw' }}>
       <h1>{t('Explore')}</h1>
       <div className="bp3-input-group" style={{ marginBottom: '10px' }}>
         <input
@@ -72,17 +73,26 @@ export default function ExplorePage() {
           type="submit"
           className="bp3-button bp3-minimal bp3-intent-primary bp3-icon-search"
           onClick={() => {
-            chooseFile(setFilePath as SetPathType);
+            chooseFile(setFilePath as SetPathType, setData);
           }}
         />
       </div>
       {filePath && (
-        <Plot data={data as any} layout={{ responsive: true } as any} />
+        <Plot data={data2 as any} layout={{ responsive: true } as any} />
       )}
+
+      { data &&
+        <Table numRows={data.length} enableColumnReordering={true}>
+          <Column name="Station" cellRenderer={(rowIndex: number) => <Cell>{data[rowIndex]["station"]}</Cell>} />
+          <Column name="Check" cellRenderer={(rowIndex: number) => <Cell>{data[rowIndex]["check"]}</Cell>} />
+          <Column name="Camera" cellRenderer={(rowIndex: number) => <Cell>{data[rowIndex]["camera"]}</Cell>} />
+          <Column name="Date and time" cellRenderer={(rowIndex: number) => <Cell>{data[rowIndex]["exif_datetime"]}</Cell>} />
+          <Column name="GPS" cellRenderer={(rowIndex: number) => <Cell>{data[rowIndex]["exif_gps_lat"]}</Cell>} />
+          <Column name="Predicted class" cellRenderer={(rowIndex: number) => <Cell>{data[rowIndex]["pred_1"]}</Cell>} />
+          <Column name="Certainty" cellRenderer={(rowIndex: number) => <Cell>{data[rowIndex]["score_1"]}</Cell>} />
+        </Table>
+      }
     </div>
   );
-  // <Table numRows={5}>
-  //   <Column name="path" cellRenderer={pathRender} />
-  //   <Column name="class" cellRenderer={classRender} />
-  // </Table>
+
 }

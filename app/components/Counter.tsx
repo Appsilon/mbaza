@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { routes } from '../constants/RoutesType';
+import { routes } from '../constants/Routes';
 import styles from './Counter.css';
 
 type Props = {

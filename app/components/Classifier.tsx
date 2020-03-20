@@ -98,9 +98,8 @@ export default function Classifier(props: Props) {
   const { t } = useTranslation();
 
   return (
-    <div style={{ padding: '20px', width: '60vw' }}>
-      <h1>{t('Welcome to Mbaza AI!')}</h1>
-      <h4>{t('The first offline AI wildlife explorer')}</h4>
+    <div style={{ padding: '10px 30px', width: '60vw' }}>
+      <h1>{t('Classify')}</h1>
 
       <div className="bp3-input-group" style={{ marginBottom: '10px' }}>
         <input

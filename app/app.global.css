@@ -11,19 +11,8 @@
 body {
   position: relative;
   background-color: #f8f9fa;
-  font-family: Arial, Helvetica, Helvetica Neue, serif;
+  font-family: Roboto, Arial, Helvetica, Helvetica Neue, serif;
   overflow-y: hidden;
-}
-
-h2 {
-  margin: 0;
-  font-size: 2.25rem;
-  font-weight: bold;
-  letter-spacing: -0.025em;
-}
-
-p {
-  font-size: 12px;
 }
 
 li {
@@ -31,7 +20,6 @@ li {
 }
 
 a {
-  color: white;
   opacity: 0.75;
   text-decoration: none;
 }
