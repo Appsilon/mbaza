@@ -6,7 +6,10 @@ export type counterStateType = {
 
 export type classifierStateType = {
   logMessage: string;
-  directoryChoice: string;
+  classify: {
+    directoryChoice: string;
+    savePath: string;
+  };
 };
 
 export type GetState = () => counterStateType;

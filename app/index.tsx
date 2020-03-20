@@ -24,9 +24,10 @@ const resources = {
       'The first offline AI wildlife explorer':
         'FR The first offline AI wildlife explorer',
       'AI for species discovery': 'FR AI for species discovery',
-      'Start predictions!': 'FR Start predictions!',
+      'Find animals!': 'FR Find animals!',
       'Choose directory with photos': 'FR Choose directory with photos',
-      'Prediction progress': 'FR Prediction progress'
+      'Prediction progress': 'FR Prediction progress',
+      'Choose results file to analyze': 'FR Choose results file to analyze'
     }
   }
 };
