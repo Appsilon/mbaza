@@ -59,7 +59,7 @@ export default function App(props: Props) {
                 onClick={() => i18n.changeLanguage('en')}
               />
               <MenuItem
-                text="Française"
+                text="Français"
                 onClick={() => i18n.changeLanguage('fr')}
               />
             </Menu>
