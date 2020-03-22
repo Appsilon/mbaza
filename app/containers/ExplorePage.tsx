@@ -3,6 +3,7 @@ import Plot from 'react-plotly.js';
 import { useTranslation } from 'react-i18next';
 import { csv } from 'd3-fetch';
 import { Column, Table, Cell } from '@blueprintjs/table';
+import Map from '../components/Map';
 
 type SetPathType = (path: string) => {};
 
@@ -103,7 +104,10 @@ export default function ExplorePage() {
   return (
     <div style={{ padding: '10px 30px', width: '100vw' }}>
       <h1>{t('Explore')}</h1>
-      <div className="bp3-input-group" style={{ marginBottom: '10px' }}>
+      <div
+        className="bp3-input-group"
+        style={{ marginBottom: '10px', width: '60vw' }}
+      >
         <input
           type="text"
           className="bp3-input"
@@ -128,6 +132,7 @@ export default function ExplorePage() {
       )}
 
       {table}
+      <Map />
     </div>
   );
 }

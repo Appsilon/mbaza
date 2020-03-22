@@ -15,6 +15,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "mapbox-gl": "^1.8.1",
     "node-pty": "^0.9.0"
   }
 }
