@@ -56,7 +56,7 @@ export default function ExplorePage() {
   };
   const data2 = [trace1, trace2];
 
-  const table = (
+  const table = data && (
     <Table numRows={data.length} enableColumnReordering>
       <Column
         name="Station"
