@@ -16,11 +16,6 @@ export const routes: RoutesType = {
     name: 'Home',
     iconName: 'home'
   },
-  COUNTER: {
-    path: '/counter',
-    name: 'Counter',
-    iconName: 'pulse'
-  },
   CLASSIFY: {
     path: '/classify',
     name: 'Classify',

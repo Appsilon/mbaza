@@ -12,7 +12,7 @@ import {
 } from '@blueprintjs/core';
 import { IconNames } from '@blueprintjs/icons';
 
-import { routes } from '../constants/RoutesType';
+import { routes } from '../constants/Routes';
 import Sidebar from '../components/Sidebar';
 
 type Props = {

@@ -3,7 +3,7 @@ import { RouteComponentProps, withRouter } from 'react-router';
 import styles from './Sidebar.css';
 
 import SidebarItem from './SidebarItem';
-import { RoutesType } from '../constants/RoutesType';
+import { RoutesType } from '../constants/Routes';
 
 interface Props extends RouteComponentProps {
   routes: RoutesType;
