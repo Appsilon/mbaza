@@ -37,6 +37,38 @@ function chooseFile(changeFileChoice: SetPathType, setData: React.Dispatch<any>)
     });
 }
 
+const selectorOptions = {
+  buttons: [
+    {
+      step: 'month',
+      stepmode: 'backward',
+      count: 1,
+      label: '1m'
+    },
+    {
+      step: 'month',
+      stepmode: 'backward',
+      count: 6,
+      label: '6m'
+    },
+    {
+      step: 'year',
+      stepmode: 'todate',
+      count: 1,
+      label: 'YTD'
+    },
+    {
+      step: 'year',
+      stepmode: 'backward',
+      count: 1,
+      label: '1y'
+    },
+    {
+      step: 'all'
+    }
+  ]
+};
+
 export default function ExplorePage() {
   const { t } = useTranslation();
   const [filePath, setFilePath] = useState();
@@ -100,6 +132,15 @@ export default function ExplorePage() {
       />
     </Table>
   );
+
+  const layout = {
+    responsive: true,
+    title: 'Animals count over time',
+    xaxis: {
+      rangeselector: selectorOptions,
+      rangeslider: {}
+    }
+  };
   return (
     <div style={{ padding: '10px 30px', width: '100vw' }}>
       <h1>{t('Explore')}</h1>
@@ -124,7 +165,7 @@ export default function ExplorePage() {
       </div>
       {filePath && (
         // eslint-disable-next-line
-        <Plot data={data2 as any} layout={{ responsive: true } as any} />
+        <Plot data={data2 as any} layout={layout as any} />
       )}
 
       {table}
