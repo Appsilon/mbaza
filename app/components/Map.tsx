@@ -44,7 +44,7 @@ const mapboxStyle = require('../../resources/map-style.json');
 
 delete mapboxStyle.sources.mapbox;
 changeSources(mapboxStyle);
-const gabonMap = require('../../resources/map_sources/gabon-latest-minified.json');
+const gabonMap = require('../../resources/map_sources/gabon_parks_map.json');
 
 mapboxStyle.sources.jsonsource = {
   type: 'geojson',

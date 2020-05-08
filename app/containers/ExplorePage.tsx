@@ -130,9 +130,8 @@ export default function ExplorePage() {
         // eslint-disable-next-line
         <Plot data={data2 as any} layout={{ responsive: true } as any} />
       )}
-
-      {table}
       <Map />
+      {table}
     </div>
   );
 }
