@@ -3,6 +3,7 @@ import Plot from 'react-plotly.js';
 import { useTranslation } from 'react-i18next';
 import { csv } from 'd3-fetch';
 import { Column, Table, Cell } from '@blueprintjs/table';
+import _ from 'lodash';
 import Map from '../components/Map';
 
 type SetPathType = (path: string) => {};
@@ -36,6 +37,27 @@ function chooseFile(changeFileChoice: SetPathType, setData: React.Dispatch<any>)
       // eslint-disable-next-line no-alert
       alert(error);
     });
+}
+
+function getDateFromRow(row) {
+  const onlyDay = row.exif_datetime.substr(0, row.exif_datetime.indexOf(' '));
+  return _.replace(onlyDay, /:/g, '-');
+}
+
+function preparePlotTrace(animalData) {
+  const animalByDate = _.groupBy(animalData, getDateFromRow);
+
+  return {
+    x: _.keys(animalByDate),
+    y: _.map(animalByDate, 'length'),
+    type: 'scatter',
+    name: animalData[1].pred_1
+  };
+}
+
+function prepareDataForPlot(data) {
+  const groupAnimal = _.groupBy(data, 'pred_1');
+  _.map(groupAnimal, preparePlotTrace);
 }
 
 const selectorOptions = {
@@ -75,19 +97,7 @@ export default function ExplorePage() {
   const [filePath, setFilePath] = useState();
   const [data, setData] = useState();
 
-  const trace1 = {
-    x: ['2020-10-04', '2021-11-04', '2023-12-04', '2024-12-04', '2025-12-04'],
-    y: [90, 40, 60, 90, 30],
-    type: 'scatter',
-    name: 'Elephant'
-  };
-  const trace2 = {
-    x: ['2020-10-04', '2021-11-04', '2023-12-04', '2024-12-04', '2025-12-04'],
-    y: [150, 30, 80, 40, 12],
-    type: 'scatter',
-    name: 'Bird'
-  };
-  const data2 = [trace1, trace2];
+  const dataForPlot = prepareDataForPlot(data);
 
   const table = data && (
     <Table numRows={data.length} enableColumnReordering>
@@ -169,7 +179,7 @@ export default function ExplorePage() {
       </div>
       {filePath && (
         // eslint-disable-next-line
-        <Plot data={data2 as any} layout={layout as any} />
+        <Plot data={dataForPlot as any} layout={layout as any} />
       )}
       <Map />
       {table}
