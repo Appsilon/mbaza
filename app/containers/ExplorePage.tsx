@@ -199,19 +199,21 @@ export default function ExplorePage() {
         </div>
       )}
       {filePath && (
-        <Card interactive elevation={Elevation.TWO}>
-          <div style={{ flex: 1, width: '100%', padding: '10px' }}>
+        <div style={{ flex: 1, width: '100%', paddingBottom: '20px' }}>
+          <Card interactive elevation={Elevation.TWO}>
             <Plot
               data={dataForPlot}
               useResizeHandler
               style={{ width: '100%' }}
               layout={layout}
             />
-          </div>
-        </Card>
+          </Card>
+        </div>
       )}
-      <div style={{ flex: 1, width: '100%', padding: '10px' }}>
-        <Map />
+      <div style={{ flex: 1, width: '100%', paddingBottom: '20px' }}>
+        <Card interactive elevation={Elevation.TWO}>
+          <Map />
+        </Card>
       </div>
       {table}
     </div>
