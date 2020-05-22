@@ -55,12 +55,10 @@ function getDateFromRow(row) {
 
 function preparePlotTrace(animalData) {
   const animalByDate = _.groupBy(animalData, getDateFromRow);
-
   return {
     x: _.keys(animalByDate),
     y: _.map(animalByDate, 'length'),
     type: 'scatter',
-    mode: 'markers',
     name: animalData[1].pred_1
   };
 }
@@ -69,7 +67,8 @@ function prepareDataForPlot(data) {
   if (data === '') {
     return [];
   }
-  const groupAnimal = _.groupBy(data, 'pred_1');
+  const dataSorted = _.sortBy(data, 'exif_datetime');
+  const groupAnimal = _.groupBy(dataSorted, 'pred_1');
   return _.map(groupAnimal, preparePlotTrace);
 }
 
