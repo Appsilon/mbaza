@@ -74,7 +74,7 @@ export default function Map() {
   });
 
   return (
-    <div style={{ width: '60vw' }}>
+    <div style={{ width: '100%' }}>
       <div
         ref={(el): void => {
           mapContainer = el;

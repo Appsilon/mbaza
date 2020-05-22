@@ -3,6 +3,7 @@ import Plot from 'react-plotly.js';
 import { useTranslation } from 'react-i18next';
 import { csv } from 'd3-fetch';
 import { Column, Table, Cell } from '@blueprintjs/table';
+import { Card, Elevation } from '@blueprintjs/core';
 import _ from 'lodash';
 import Map from '../components/Map';
 
@@ -28,8 +29,16 @@ function chooseFile(changeFileChoice: SetPathType, setData: React.Dispatch<any>)
       }
       return '';
     })
-    .then(file => csv(file))
+    .then(file => {
+      if (file === '') {
+        return '';
+      }
+      return csv(file);
+    })
     .then(data => {
+      if (data === '') {
+        return '';
+      }
       setData(data);
       return data;
     })
@@ -57,6 +66,9 @@ function preparePlotTrace(animalData) {
 }
 
 function prepareDataForPlot(data) {
+  if (data === '') {
+    return [];
+  }
   const groupAnimal = _.groupBy(data, 'pred_1');
   return _.map(groupAnimal, preparePlotTrace);
 }
@@ -155,11 +167,11 @@ export default function ExplorePage() {
     }
   };
   return (
-    <div style={{ padding: '10px 30px', width: '100vw' }}>
+    <div style={{ padding: '10px 30px', width: '100%', overflowY: 'overlay' }}>
       <h1>{t('Explore')}</h1>
       <div
         className="bp3-input-group"
-        style={{ marginBottom: '10px', width: '60vw' }}
+        style={{ marginBottom: '10px', width: '60%' }}
       >
         <input
           type="text"
@@ -180,10 +192,27 @@ export default function ExplorePage() {
         />
       </div>
       {filePath && (
-        // eslint-disable-next-line
-        <Plot data={dataForPlot as any} layout={layout as any} />
+        <div style={{ flex: 1, paddingBottom: '20px' }}>
+          <Card interactive elevation={Elevation.TWO}>
+            <h2 style={{ marginTop: 0 }}>{t('Filters')}</h2>
+          </Card>
+        </div>
       )}
-      <Map />
+      {filePath && (
+        <Card interactive elevation={Elevation.TWO}>
+          <div style={{ flex: 1, width: '100%', padding: '10px' }}>
+            <Plot
+              data={dataForPlot}
+              useResizeHandler
+              style={{ width: '100%' }}
+              layout={layout}
+            />
+          </div>
+        </Card>
+      )}
+      <div style={{ flex: 1, width: '100%', padding: '10px' }}>
+        <Map />
+      </div>
       {table}
     </div>
   );
