@@ -57,7 +57,7 @@ function preparePlotTrace(animalData) {
 
 function prepareDataForPlot(data) {
   const groupAnimal = _.groupBy(data, 'pred_1');
-  _.map(groupAnimal, preparePlotTrace);
+  return _.map(groupAnimal, preparePlotTrace);
 }
 
 const selectorOptions = {
