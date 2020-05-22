@@ -51,6 +51,7 @@ function preparePlotTrace(animalData) {
     x: _.keys(animalByDate),
     y: _.map(animalByDate, 'length'),
     type: 'scatter',
+    mode: 'markers',
     name: animalData[1].pred_1
   };
 }
@@ -147,6 +148,7 @@ export default function ExplorePage() {
   const layout = {
     responsive: true,
     title: 'Animals count over time',
+    hovermode: 'closest',
     xaxis: {
       rangeselector: selectorOptions,
       rangeslider: {}
