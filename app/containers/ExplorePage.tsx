@@ -48,12 +48,12 @@ function chooseFile(changeFileChoice: SetPathType, setData: React.Dispatch<any>)
     });
 }
 
-function getDateFromRow(row) {
+function getDateFromRow(row: any) {
   const onlyDay = row.exif_datetime.substr(0, row.exif_datetime.indexOf(' '));
   return _.replace(onlyDay, /:/g, '-');
 }
 
-function preparePlotTrace(animalData) {
+function preparePlotTrace(animalData: any) {
   const animalByDate = _.groupBy(animalData, getDateFromRow);
   return {
     x: _.keys(animalByDate),
@@ -63,7 +63,7 @@ function preparePlotTrace(animalData) {
   };
 }
 
-function prepareDataForPlot(data) {
+function prepareDataForPlot(data: any) {
   if (data === '') {
     return [];
   }
@@ -166,7 +166,7 @@ export default function ExplorePage() {
     }
   };
   return (
-    <div style={{ padding: '10px 30px', width: '100%', overflowY: 'overlay' }}>
+    <div style={{ padding: '10px 30px', width: '100%', overflowY: 'scroll' }}>
       <h1>{t('Explore')}</h1>
       <div
         className="bp3-input-group"
