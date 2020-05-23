@@ -201,10 +201,10 @@ export default function ExplorePage() {
         <div style={{ flex: 1, width: '100%', paddingBottom: '20px' }}>
           <Card interactive elevation={Elevation.TWO}>
             <Plot
-              data={dataForPlot}
+              data={dataForPlot as any}
               useResizeHandler
               style={{ width: '100%' }}
-              layout={layout}
+              layout={layout as any}
             />
           </Card>
         </div>
