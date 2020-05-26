@@ -39,6 +39,7 @@ const selectorOptions = {
   ]
 };
 
+const windowLength = 5;
 const millisecondsInDay = 24 * 60 * 60 * 1000;
 
 function getDateFromRow(row: Observation) {
@@ -47,7 +48,6 @@ function getDateFromRow(row: Observation) {
 }
 
 function getKeyFromRow(row: Observation) {
-  const windowLength = 5;
   const date = getDateFromRow(row);
   const utcDate = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
   const window = Math.round(utcDate / millisecondsInDay / windowLength);
@@ -79,7 +79,7 @@ export default function AnimalsPlot(props: Props) {
 
   const layout = {
     responsive: true,
-    title: 'Animals count over time',
+    title: `Animals count over time (${windowLength} day intervals)`,
     hovermode: 'closest',
     xaxis: {
       rangeselector: selectorOptions,
