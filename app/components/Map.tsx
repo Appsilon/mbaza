@@ -54,7 +54,11 @@ mapboxStyle.glyphs = '../resources/map_font/{fontstack}/{range}.pbf';
 
 // COMPONENT RENDERING
 
-export default function Map() {
+type Props = {
+  data: ObservationsData;
+};
+
+export default function Map(props: Props) {
   let mapContainer: HTMLElement | null | undefined;
 
   useEffect(() => {
