@@ -79,7 +79,9 @@ export default function AnimalsPlot(props: Props) {
 
   const layout = {
     responsive: true,
-    title: `Animals count over time (${windowLength} day intervals)`,
+    title: `${t('Animals count over time')} (${windowLength} ${t(
+      'days intervals'
+    )})`,
     hovermode: 'closest',
     xaxis: {
       rangeselector: selectorOptions,

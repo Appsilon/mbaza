@@ -60,6 +60,10 @@ type Props = {
 
 export default function Map(props: Props) {
   let mapContainer: HTMLElement | null | undefined;
+  const { data } = props;
+
+  // eslint-disable-next-line no-console
+  console.log(data.observations.length);
 
   useEffect(() => {
     const map = new mapboxgl.Map({
