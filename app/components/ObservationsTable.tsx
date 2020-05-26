@@ -7,51 +7,53 @@ type Props = {
 };
 
 export default function ObservationsTable(props: Props) {
-  const { fullData } = props;
+  const { data } = props;
   const { t } = useTranslation();
 
-  const data = fullData.observations;
+  const { observations } = data;
 
   return (
-    <Table numRows={data.length} enableColumnReordering>
+    <Table numRows={observations.length} enableColumnReordering>
       <Column
-        name="Station"
+        name={t('Station')}
         cellRenderer={(rowIndex: number) => (
-          <Cell>{data[rowIndex].station}</Cell>
+          <Cell>{observations[rowIndex].station}</Cell>
         )}
       />
       <Column
-        name="Check"
-        cellRenderer={(rowIndex: number) => <Cell>{data[rowIndex].check}</Cell>}
-      />
-      <Column
-        name="Camera"
+        name={t('Check')}
         cellRenderer={(rowIndex: number) => (
-          <Cell>{data[rowIndex].camera}</Cell>
+          <Cell>{observations[rowIndex].check}</Cell>
         )}
       />
       <Column
-        name="Date and time"
+        name={t('Camera')}
         cellRenderer={(rowIndex: number) => (
-          <Cell>{data[rowIndex].exif_datetime}</Cell>
+          <Cell>{observations[rowIndex].camera}</Cell>
         )}
       />
       <Column
-        name="GPS"
+        name={t('Date and time')}
         cellRenderer={(rowIndex: number) => (
-          <Cell>{data[rowIndex].exif_gps_lat}</Cell>
+          <Cell>{observations[rowIndex].exif_datetime}</Cell>
         )}
       />
       <Column
-        name="Predicted class"
+        name={t('GPS')}
         cellRenderer={(rowIndex: number) => (
-          <Cell>{data[rowIndex].pred_1}</Cell>
+          <Cell>{observations[rowIndex].exif_gps_lat}</Cell>
         )}
       />
       <Column
-        name="Certainty"
+        name={t('Predicted animal')}
         cellRenderer={(rowIndex: number) => (
-          <Cell>{data[rowIndex].score_1}</Cell>
+          <Cell>{observations[rowIndex].pred_1}</Cell>
+        )}
+      />
+      <Column
+        name={t('Certainty')}
+        cellRenderer={(rowIndex: number) => (
+          <Cell>{observations[rowIndex].score_1}</Cell>
         )}
       />
     </Table>

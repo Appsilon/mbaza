@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { csv } from 'd3-fetch';
-import { Card, Elevation } from '@blueprintjs/core';
+import { Card, Elevation, Button } from '@blueprintjs/core';
 import Map from '../components/Map';
 import AnimalsPlot from '../components/AnimalsPlot';
 import ObservationsTable from '../components/ObservationsTable';
@@ -43,6 +43,7 @@ function chooseFile(
     })
     .catch(error => {
       // eslint-disable-next-line no-alert
+      console.log(error);
       alert(error);
     });
 }
@@ -55,11 +56,19 @@ export default function ExplorePage() {
   const contents =
     data !== undefined ? (
       <>
-        <div style={{ flex: 1, paddingBottom: '20px' }}>
+        <h1>{t('Explore')}</h1>
+        <Button
+          text={t('Back')}
+          icon="arrow-left"
+          onClick={() => setData(undefined)}
+          style={{ marginBottom: '10px', backgroundColor: '#fff' }}
+        />
+        ,
+        {/* <div style={{ flex: 1, paddingBottom: '20px' }}>
           <Card interactive elevation={Elevation.TWO}>
             <h2 style={{ marginTop: 0 }}>{t('Filters')}</h2>
           </Card>
-        </div>
+        </div> */}
         ,
         <div style={{ flex: 1, width: '100%', paddingBottom: '20px' }}>
           <Card interactive elevation={Elevation.TWO}>
@@ -75,33 +84,35 @@ export default function ExplorePage() {
         <ObservationsTable data={data} />
       </>
     ) : (
-      <div
-        className="bp3-input-group"
-        style={{ marginBottom: '10px', width: '60%' }}
-      >
-        <input
-          type="text"
-          className="bp3-input"
-          placeholder={t('Choose results file to analyze')}
-          value={filePath}
-          onChange={e => {
-            setFilePath(e.target.value);
-          }}
-        />
-        <button
-          aria-label="Search"
-          type="submit"
-          className="bp3-button bp3-minimal bp3-intent-primary bp3-icon-search"
-          onClick={() => {
-            chooseFile(setFilePath, setData);
-          }}
-        />
-      </div>
+      <>
+        <h1>{t('Explore')}</h1>
+        <div
+          className="bp3-input-group"
+          style={{ marginBottom: '10px', width: '60%' }}
+        >
+          <input
+            type="text"
+            className="bp3-input"
+            placeholder={t('Choose results file to analyze')}
+            value={filePath}
+            onChange={e => {
+              setFilePath(e.target.value);
+            }}
+          />
+          <button
+            aria-label="Search"
+            type="submit"
+            className="bp3-button bp3-minimal bp3-intent-primary bp3-icon-search"
+            onClick={() => {
+              chooseFile(setFilePath, setData);
+            }}
+          />
+        </div>
+      </>
     );
 
   return (
     <div style={{ padding: '10px 30px', width: '100%', overflowY: 'scroll' }}>
-      <h1>{t('Explore')}</h1>
       {contents}
     </div>
   );
