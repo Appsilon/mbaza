@@ -39,13 +39,24 @@ const selectorOptions = {
   ]
 };
 
+const millisecondsInDay = 24 * 60 * 60 * 1000;
+
 function getDateFromRow(row: Observation) {
   const onlyDay = row.exif_datetime.substr(0, row.exif_datetime.indexOf(' '));
-  return _.replace(onlyDay, /:/g, '-');
+  return new Date(Date.parse(_.replace(onlyDay, /:/g, '-')));
+}
+
+function getKeyFromRow(row: Observation) {
+  const windowLength = 5;
+  const date = getDateFromRow(row);
+  const utcDate = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
+  const window = Math.round(utcDate / millisecondsInDay / windowLength);
+  const windowStartDate = new Date(window * windowLength * millisecondsInDay);
+  return windowStartDate;
 }
 
 function preparePlotTrace(animalData: Observation[]) {
-  const animalByDate = _.groupBy(animalData, getDateFromRow);
+  const animalByDate = _.groupBy(animalData, getKeyFromRow);
   return {
     x: _.keys(animalByDate),
     y: _.map(animalByDate, 'length'),
@@ -72,7 +83,8 @@ export default function AnimalsPlot(props: Props) {
     hovermode: 'closest',
     xaxis: {
       rangeselector: selectorOptions,
-      rangeslider: {}
+      rangeslider: {},
+      tickformat: '%Y-%m-%d'
     }
   };
 
