@@ -27,20 +27,20 @@ function chooseFile(changeFileChoice: SetPathType, setData: React.Dispatch<any>)
         changeFileChoice(file);
         return file;
       }
-      return '';
+      return undefined;
     })
     .then(file => {
-      if (file === '') {
-        return '';
+      if (file !== undefined) {
+        return csv(file);
       }
-      return csv(file);
+      return undefined;
     })
     .then(data => {
-      if (data === '') {
-        return '';
+      if (data !== undefined) {
+        setData(data);
+        return data;
       }
-      setData(data);
-      return data;
+      return undefined;
     })
     .catch(error => {
       // eslint-disable-next-line no-alert
