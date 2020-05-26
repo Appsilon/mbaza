@@ -7,10 +7,18 @@ import { Card, Elevation } from '@blueprintjs/core';
 import _ from 'lodash';
 import Map from '../components/Map';
 
-type SetPathType = (path: string) => {};
+type Observation = {
+  exif_datetime: string;
+  pred_1: string;
+  score_1: string;
+  station: string;
+  check: string;
+  camera: string;
+  exif_gps_lat: string;
+};
 
 // eslint-disable-next-line
-function chooseFile(changeFileChoice: SetPathType, setData: React.Dispatch<any>) {
+function chooseFile(changeFileChoice: (path: string) => void, setData: (data: Observation[]) => void) {
   // eslint-disable-next-line global-require
   const { dialog } = require('electron').remote;
   dialog
@@ -37,7 +45,7 @@ function chooseFile(changeFileChoice: SetPathType, setData: React.Dispatch<any>)
     })
     .then(data => {
       if (data !== undefined) {
-        setData(data);
+        setData((data as unknown) as Observation[]);
         return data;
       }
       return undefined;
@@ -48,12 +56,12 @@ function chooseFile(changeFileChoice: SetPathType, setData: React.Dispatch<any>)
     });
 }
 
-function getDateFromRow(row: any) {
+function getDateFromRow(row: Observation) {
   const onlyDay = row.exif_datetime.substr(0, row.exif_datetime.indexOf(' '));
   return _.replace(onlyDay, /:/g, '-');
 }
 
-function preparePlotTrace(animalData: any) {
+function preparePlotTrace(animalData: Observation[]) {
   const animalByDate = _.groupBy(animalData, getDateFromRow);
   return {
     x: _.keys(animalByDate),
@@ -63,10 +71,7 @@ function preparePlotTrace(animalData: any) {
   };
 }
 
-function prepareDataForPlot(data: any) {
-  if (data === '') {
-    return [];
-  }
+function prepareDataForPlot(data: Observation[]) {
   const dataSorted = _.sortBy(data, 'exif_datetime');
   const groupAnimal = _.groupBy(dataSorted, 'pred_1');
   return _.map(groupAnimal, preparePlotTrace);
@@ -106,10 +111,10 @@ const selectorOptions = {
 
 export default function ExplorePage() {
   const { t } = useTranslation();
-  const [filePath, setFilePath] = useState();
-  const [data, setData] = useState();
+  const [filePath, setFilePath] = useState<string>();
+  const [data, setData] = useState<undefined | Observation[]>();
 
-  const dataForPlot = prepareDataForPlot(data);
+  const dataForPlot = data !== undefined ? prepareDataForPlot(data) : undefined;
 
   const table = data && (
     <Table numRows={data.length} enableColumnReordering>
@@ -186,7 +191,7 @@ export default function ExplorePage() {
           type="submit"
           className="bp3-button bp3-minimal bp3-intent-primary bp3-icon-search"
           onClick={() => {
-            chooseFile(setFilePath as SetPathType, setData);
+            chooseFile(setFilePath, setData);
           }}
         />
       </div>
