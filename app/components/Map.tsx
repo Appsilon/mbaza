@@ -54,8 +54,16 @@ mapboxStyle.glyphs = '../resources/map_font/{fontstack}/{range}.pbf';
 
 // COMPONENT RENDERING
 
-export default function Map() {
+type Props = {
+  data: ObservationsData;
+};
+
+export default function Map(props: Props) {
   let mapContainer: HTMLElement | null | undefined;
+  const { data } = props;
+
+  // eslint-disable-next-line no-console
+  console.log(data.observations.length);
 
   useEffect(() => {
     const map = new mapboxgl.Map({
@@ -74,7 +82,7 @@ export default function Map() {
   });
 
   return (
-    <div style={{ width: '60vw' }}>
+    <div style={{ width: '100%' }}>
       <div
         ref={(el): void => {
           mapContainer = el;

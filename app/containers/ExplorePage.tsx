@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
-import Plot from 'react-plotly.js';
 import { useTranslation } from 'react-i18next';
 import { csv } from 'd3-fetch';
-import { Column, Table, Cell } from '@blueprintjs/table';
+import { Card, Elevation, Button } from '@blueprintjs/core';
 import Map from '../components/Map';
+import AnimalsPlot from '../components/AnimalsPlot';
+import ObservationsTable from '../components/ObservationsTable';
 
-type SetPathType = (path: string) => {};
-
-// eslint-disable-next-line
-function chooseFile(changeFileChoice: SetPathType, setData: React.Dispatch<any>) {
+function chooseFile(
+  changeFileChoice: (path: string) => void,
+  setData: (data: ObservationsData) => void
+) {
   // eslint-disable-next-line global-require
   const { dialog } = require('electron').remote;
   dialog
@@ -25,154 +26,94 @@ function chooseFile(changeFileChoice: SetPathType, setData: React.Dispatch<any>)
         changeFileChoice(file);
         return file;
       }
-      return '';
+      return undefined;
     })
-    .then(file => csv(file))
+    .then(file => {
+      if (file !== undefined) {
+        return csv(file);
+      }
+      return undefined;
+    })
     .then(data => {
-      setData(data);
-      return data;
+      if (data !== undefined) {
+        setData({ observations: (data as unknown) as Observation[] });
+        return data;
+      }
+      return undefined;
     })
     .catch(error => {
       // eslint-disable-next-line no-alert
+      console.log(error);
       alert(error);
     });
 }
 
-const selectorOptions = {
-  buttons: [
-    {
-      step: 'month',
-      stepmode: 'backward',
-      count: 1,
-      label: '1m'
-    },
-    {
-      step: 'month',
-      stepmode: 'backward',
-      count: 6,
-      label: '6m'
-    },
-    {
-      step: 'year',
-      stepmode: 'todate',
-      count: 1,
-      label: 'YTD'
-    },
-    {
-      step: 'year',
-      stepmode: 'backward',
-      count: 1,
-      label: '1y'
-    },
-    {
-      step: 'all'
-    }
-  ]
-};
-
 export default function ExplorePage() {
   const { t } = useTranslation();
-  const [filePath, setFilePath] = useState();
-  const [data, setData] = useState();
+  const [filePath, setFilePath] = useState<string>();
+  const [data, setData] = useState<undefined | ObservationsData>();
 
-  const trace1 = {
-    x: ['2020-10-04', '2021-11-04', '2023-12-04', '2024-12-04', '2025-12-04'],
-    y: [90, 40, 60, 90, 30],
-    type: 'scatter',
-    name: 'Elephant'
-  };
-  const trace2 = {
-    x: ['2020-10-04', '2021-11-04', '2023-12-04', '2024-12-04', '2025-12-04'],
-    y: [150, 30, 80, 40, 12],
-    type: 'scatter',
-    name: 'Bird'
-  };
-  const data2 = [trace1, trace2];
+  const contents =
+    data !== undefined ? (
+      <>
+        <h1>{t('Explore')}</h1>
+        <Button
+          text={t('Back')}
+          icon="arrow-left"
+          onClick={() => setData(undefined)}
+          style={{ marginBottom: '10px', backgroundColor: '#fff' }}
+        />
+        ,
+        {/* <div style={{ flex: 1, paddingBottom: '20px' }}>
+          <Card interactive elevation={Elevation.TWO}>
+            <h2 style={{ marginTop: 0 }}>{t('Filters')}</h2>
+          </Card>
+        </div> */}
+        ,
+        <div style={{ flex: 1, width: '100%', paddingBottom: '20px' }}>
+          <Card interactive elevation={Elevation.TWO}>
+            <AnimalsPlot data={data} />
+          </Card>
+        </div>
+        ,
+        <div style={{ flex: 1, width: '100%', paddingBottom: '20px' }}>
+          <Card interactive elevation={Elevation.TWO}>
+            <Map data={data} />
+          </Card>
+        </div>
+        <ObservationsTable data={data} />
+      </>
+    ) : (
+      <>
+        <h1>{t('Explore')}</h1>
+        <div
+          className="bp3-input-group"
+          style={{ marginBottom: '10px', width: '60%' }}
+        >
+          <input
+            type="text"
+            className="bp3-input"
+            placeholder={t('Choose results file to analyze')}
+            value={filePath}
+            onChange={e => {
+              setFilePath(e.target.value);
+            }}
+          />
+          <button
+            aria-label="Search"
+            type="submit"
+            className="bp3-button bp3-minimal bp3-intent-primary bp3-icon-search"
+            onClick={() => {
+              chooseFile(setFilePath, setData);
+            }}
+          />
+        </div>
+      </>
+    );
 
-  const table = data && (
-    <Table numRows={data.length} enableColumnReordering>
-      <Column
-        name="Station"
-        cellRenderer={(rowIndex: number) => (
-          <Cell>{data[rowIndex].station}</Cell>
-        )}
-      />
-      <Column
-        name="Check"
-        cellRenderer={(rowIndex: number) => <Cell>{data[rowIndex].check}</Cell>}
-      />
-      <Column
-        name="Camera"
-        cellRenderer={(rowIndex: number) => (
-          <Cell>{data[rowIndex].camera}</Cell>
-        )}
-      />
-      <Column
-        name="Date and time"
-        cellRenderer={(rowIndex: number) => (
-          <Cell>{data[rowIndex].exif_datetime}</Cell>
-        )}
-      />
-      <Column
-        name="GPS"
-        cellRenderer={(rowIndex: number) => (
-          <Cell>{data[rowIndex].exif_gps_lat}</Cell>
-        )}
-      />
-      <Column
-        name="Predicted class"
-        cellRenderer={(rowIndex: number) => (
-          <Cell>{data[rowIndex].pred_1}</Cell>
-        )}
-      />
-      <Column
-        name="Certainty"
-        cellRenderer={(rowIndex: number) => (
-          <Cell>{data[rowIndex].score_1}</Cell>
-        )}
-      />
-    </Table>
-  );
-
-  const layout = {
-    responsive: true,
-    title: 'Animals count over time',
-    xaxis: {
-      rangeselector: selectorOptions,
-      rangeslider: {}
-    }
-  };
   return (
-    <div style={{ padding: '10px 30px', width: '100vw' }}>
-      <h1>{t('Explore')}</h1>
-      <div
-        className="bp3-input-group"
-        style={{ marginBottom: '10px', width: '60vw' }}
-      >
-        <input
-          type="text"
-          className="bp3-input"
-          placeholder={t('Choose results file to analyze')}
-          value={filePath}
-          onChange={e => {
-            setFilePath(e.target.value);
-          }}
-        />
-        <button
-          aria-label="Search"
-          type="submit"
-          className="bp3-button bp3-minimal bp3-intent-primary bp3-icon-search"
-          onClick={() => {
-            chooseFile(setFilePath as SetPathType, setData);
-          }}
-        />
-      </div>
-      {filePath && (
-        // eslint-disable-next-line
-        <Plot data={data2 as any} layout={layout as any} />
-      )}
-      <Map />
-      {table}
+    <div style={{ padding: '10px 30px', width: '100%', overflowY: 'scroll' }}>
+      {contents}
     </div>
   );
 }
