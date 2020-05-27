@@ -1710,6 +1710,16 @@
     d3-collection "1"
     d3-shape "^1.2.0"
 
+"@redux-beacon/google-analytics@^1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@redux-beacon/google-analytics/-/google-analytics-1.2.3.tgz#f7c7d1ed271f5bfeb983e034c51028ebbcc3d2b4"
+  integrity sha512-AauJHv+OATEfcy+MYt0li9Ez/eXZf48VYXHm5o8ASlH/Q4HBKXMr40xHjWC6HC5PchhueTMN/dKca21wj7LcKg==
+
+"@redux-beacon/offline-web@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@redux-beacon/offline-web/-/offline-web-1.0.0.tgz#eef08776e6e37a3cd0b46e864f5622b79ed38423"
+  integrity sha512-8V91oXHDV+3RX0KI3TScyWnkdSQTOr2qcW85Z3c7fYLh6rOWRzROoITmgrERwlHrF94kessg8RdMY5vOwhlB/Q==
+
 "@samverschueren/stream-to-observable@^0.3.0":
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/@samverschueren/stream-to-observable/-/stream-to-observable-0.3.0.tgz#ecdf48d532c58ea477acfcab80348424f8d0662f"
