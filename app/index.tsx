@@ -6,9 +6,13 @@ import { initReactI18next } from 'react-i18next';
 
 import Root from './containers/Root';
 import { configureStore, history } from './store/configureStore';
+import { classifierStateType } from './reducers/types';
 import './app.global.css';
 
-const store = configureStore();
+const initialState: classifierStateType = {
+  isConnected: true
+};
+const store = configureStore(initialState);
 
 const AppContainer = process.env.PLAIN_HMR ? Fragment : ReactHotAppContainer;
 const translations = require('assets/translations.json');

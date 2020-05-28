@@ -1,26 +1,47 @@
-import { createMiddleware } from 'redux-beacon';
-import GoogleAnalytics, { trackEvent } from '@redux-beacon/google-analytics';
+import { LOCATION_CHANGE } from 'connected-react-router';
+import { createMiddleware, EventsMap, EventsMapper } from 'redux-beacon';
+import { trackPageView } from '@redux-beacon/google-analytics';
 import OfflineWeb from '@redux-beacon/offline-web';
+import logger from '@redux-beacon/logger';
 
-// Copy & paste the event definition you chose in step 2, then fill it in.
-const emitVideoPlayed = trackEvent((action: { type: string }) => ({
-  category: 'Videos',
-  action: action.type
-}));
+import {
+  createElectronGoogleAnalyticsTarget,
+  actionMetaEventMapper
+} from 'redux-beacon-electron';
 
-// Match the event definition to a Redux action:
-const eventsMap = {
-  PLAY_VIDEO: emitVideoPlayed
+interface FSA {
+  type: string;
+  payload: any;
+  meta?: any;
+}
+
+const eventsMap: EventsMap = {
+  [LOCATION_CHANGE]: trackPageView(action => ({
+    page: action.payload.location.pathname
+  }))
+};
+
+const eventsMapper = (action: FSA) => {
+  if (action.type in eventsMap) {
+    return eventsMap[action.type];
+  }
+  return actionMetaEventMapper(action as FSA);
 };
 
 const isConnected = (state: { isConnected: boolean }) => state.isConnected;
-
-// Pass the connectivity selector from Step 2 as the first parameter
+// Pass the connectivity selector
 const offlineStorage = OfflineWeb(isConnected);
 
-// Create the middleware
-const ga = GoogleAnalytics();
-const gaMiddleware = createMiddleware(eventsMap, ga, { offlineStorage });
-// Maybe: const metaReducer = createMetaReducer(eventsMap, target, { offlineStorage });
+const electronTarget = createElectronGoogleAnalyticsTarget({
+  ua: 'UA-234184649'
+});
+const gaMiddleware = createMiddleware(
+  eventsMapper as EventsMapper,
+  electronTarget,
+  {
+    logger,
+    offlineStorage
+  }
+);
 
 export default gaMiddleware;
