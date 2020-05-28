@@ -304,6 +304,8 @@
     "react-router-dom": "^5.1.2",
     "react-select": "^3.1.0",
     "redux": "^4.0.5",
+    "redux-beacon": "^2.1.0",
+    "redux-beacon-electron": "^1.0.1",
     "redux-thunk": "^2.3.0",
     "source-map-support": "^0.5.16"
   },
