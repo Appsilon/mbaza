@@ -8,6 +8,7 @@ import Root from './containers/Root';
 import { configureStore, history } from './store/configureStore';
 import { classifierStateType } from './reducers/types';
 import { statusOnline } from './actions/online';
+import { logError } from './actions/logError';
 import './app.global.css';
 
 const initialState: classifierStateType = {
@@ -48,6 +49,19 @@ function dispatchOnlineStatus() {
 }
 window.addEventListener('online', dispatchOnlineStatus);
 window.addEventListener('offline', dispatchOnlineStatus);
+
+// Log application errors along the state:
+window.onerror = (
+  message: string | Event,
+  url: string | undefined,
+  line: number,
+  column: number,
+  error: Error
+) => {
+  store.dispatch(
+    logError({ message, url, line, column, error, state: store.getState() })
+  );
+};
 
 document.addEventListener('DOMContentLoaded', () =>
   render(

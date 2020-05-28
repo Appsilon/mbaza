@@ -7,7 +7,7 @@ export interface StatusOnlineAction {
 
 export function statusOnline(status: boolean): StatusOnlineAction {
   return {
-    type: 'STATUS_ONLINE',
+    type: STATUS_ONLINE,
     status
   };
 }
