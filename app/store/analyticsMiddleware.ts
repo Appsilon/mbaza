@@ -28,7 +28,7 @@ const eventsMapper = (action: FSA) => {
   return actionMetaEventMapper(action as FSA);
 };
 
-const isConnected = (state: { isConnected: boolean }) => state.isConnected;
+const isConnected = (state: { isConnected: boolean }) => navigator.onLine; //state.isConnected;
 // Pass the connectivity selector
 const offlineStorage = OfflineWeb(isConnected);
 
