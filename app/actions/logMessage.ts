@@ -15,11 +15,13 @@ export function changeLogMessage(
     type: CHANGE_LOG_MESSAGE,
     newLogMessage,
     meta: {
-      track: (action: unknown) => ({
-        hit: 'event',
-        category: 'interface',
-        action: 'new log message'
-      })
+      track: (action: unknown) => {
+        return {
+          hit: 'event',
+          category: 'interface',
+          action: 'new log message'
+        };
+      }
     }
   };
 }
