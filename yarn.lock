@@ -2902,6 +2902,11 @@ array-flatten@1.1.1:
   resolved "https://registry.yarnpkg.com/array-flatten/-/array-flatten-1.1.1.tgz#9a5f699051b1e7073328f2a008968b64ea2955d2"
   integrity sha1-ml9pkFGx5wczKPKgCJaLZOopVdI=
 
+array-flatten@2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/array-flatten/-/array-flatten-2.1.1.tgz#426bb9da84090c1838d812c8150af20a8331e296"
+  integrity sha1-Qmu52oQJDBg42BLIFQryCoMx4pY=
+
 array-flatten@^2.1.0:
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/array-flatten/-/array-flatten-2.1.2.tgz#24ef80a28c1a893617e2149b0c6d0d788293b099"
@@ -6704,6 +6709,14 @@ electron-download@^4.1.1:
     rc "^1.2.1"
     semver "^5.4.1"
     sumchecker "^2.0.2"
+
+electron-ga@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/electron-ga/-/electron-ga-1.0.6.tgz#6a1a911902a1d5c75433424d81b8083d5c9350fc"
+  integrity sha512-x+GVARjpa9DdmK9OettGjP6ayTR4OxX60+gRzpmJHAimN/2keOfG/yYvDlhUgZ2qvIFMKhfvjUwrzPSpeTP+oQ==
+  dependencies:
+    node-machine-id "^1.1.9"
+    qs "^6.5.1"
 
 electron-is-accelerator@^0.1.0:
   version "0.1.2"
@@ -12302,6 +12315,11 @@ node-ipc@^9.1.0:
     util "^0.11.0"
     vm-browserify "^1.0.1"
 
+node-machine-id@^1.1.9:
+  version "1.1.12"
+  resolved "https://registry.yarnpkg.com/node-machine-id/-/node-machine-id-1.1.12.tgz#37904eee1e59b320bb9c5d6c0a59f3b469cb6267"
+  integrity sha512-QNABxbrPa3qEIfrE6GOJ7BYIuignnJw7iQ2YPbc3Nla1HzRJjXzZOiikfF8m7eAMfichLt3M4VgLOetqgDmgGQ==
+
 node-modules-regexp@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/node-modules-regexp/-/node-modules-regexp-1.0.0.tgz#8d9dbe28964a4ac5712e9131642107c71e90ec40"
@@ -14161,6 +14179,11 @@ qs@6.7.0:
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.7.0.tgz#41dc1a015e3d581f1621776be31afb2876a9b1bc"
   integrity sha512-VCdBRNFTX1fyE7Nb6FYoURo/SPe62QCaAyzJvUjwRaIsc+NePBEniHlvxFmmX56+HZphIGtV0XeCirBtpDrTyQ==
 
+qs@^6.5.1:
+  version "6.9.4"
+  resolved "https://registry.yarnpkg.com/qs/-/qs-6.9.4.tgz#9090b290d1f91728d3c22e54843ca44aea5ab687"
+  integrity sha512-A1kFqHekCTM7cz0udomYUoYNWjBebHm/5wzU/XqrBRBNWectVH0QIiN+NEcZ0Dte5hvzHwbr8+XQmguPhJ6WdQ==
+
 qs@~6.5.2:
   version "6.5.2"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
@@ -14588,6 +14611,20 @@ reduce-simplicial-complex@^1.0.0:
     cell-orientation "^1.0.1"
     compare-cell "^1.0.0"
     compare-oriented-cell "^1.0.1"
+
+redux-beacon-electron@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/redux-beacon-electron/-/redux-beacon-electron-1.0.1.tgz#2e2b0285aabd4f74468820594d4323bcb18429b2"
+  integrity sha512-CkdlJp6e6EJTBF7EQ9pHmF3IzAefHylrAL6KUZ1Tbc6C4mnIAuU8tlzwtOImCADjonRDMv9DuP4uUd5565+ILw==
+  dependencies:
+    electron-ga "^1.0.6"
+
+redux-beacon@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/redux-beacon/-/redux-beacon-2.1.0.tgz#a88ab3c2861f10ebafa0e5e94b78ca3209b537b9"
+  integrity sha512-KMbopAM7YLnQdospn5ClG3o8c4uhYkLBDEWSmxNbvQb4MGAJJh3sbbPKoEB00qU5rTXbwKuaaqZlWdgrY1Twxw==
+  dependencies:
+    array-flatten "2.1.1"
 
 redux-logger@^3.0.6:
   version "3.0.6"
