@@ -17,10 +17,8 @@ export function changeLogMessage(
     meta: {
       track: (action: unknown) => ({
         hit: 'event',
-        category: 'category',
-        action,
-        label: 'label',
-        value: 'value'
+        category: 'interface',
+        action: 'new log message'
       })
     }
   };

@@ -7,10 +7,18 @@ import { initReactI18next } from 'react-i18next';
 import Root from './containers/Root';
 import { configureStore, history } from './store/configureStore';
 import { classifierStateType } from './reducers/types';
+import { statusOnline } from './actions/online';
 import './app.global.css';
 
 const initialState: classifierStateType = {
-  isConnected: true
+  online: {
+    isConnected: navigator.onLine
+  },
+  logMessage: '',
+  classify: {
+    directoryChoice: '',
+    savePath: ''
+  }
 };
 const store = configureStore(initialState);
 
@@ -48,6 +56,13 @@ i18n
       escapeValue: false // react already safes from xss
     }
   });
+
+// Detect online/offline events and dispatch to state:
+function dispatchOnlineStatus() {
+  store.dispatch(statusOnline(navigator.onLine));
+}
+window.addEventListener('online', dispatchOnlineStatus);
+window.addEventListener('offline', dispatchOnlineStatus);
 
 document.addEventListener('DOMContentLoaded', () =>
   render(
