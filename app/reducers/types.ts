@@ -1,8 +1,9 @@
 import { Dispatch as ReduxDispatch, Store as ReduxStore, Action } from 'redux';
 
 export type classifierStateType = {
-  logMessage: string;
-  classify: {
+  isConnected: boolean;
+  logMessage?: string;
+  classify?: {
     directoryChoice: string;
     savePath: string;
   };
