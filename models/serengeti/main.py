@@ -1,13 +1,53 @@
-import argparse
+import argparse, sys
 
 from functions import *
 
-
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("images_path")
-    arguments = parser.parse_args()
-    run_classification(images_path=arguments.images_path)
+    parser = argparse.ArgumentParser(
+        description="infer_to_csv.py: classifies images from folder structure with a model, returns csv with image path, predictions, some metadata from EXIF's"
+    )
+    parser.add_argument(
+        "-m",
+        "--model",
+        required = True,
+        metavar = "/path/to/model",
+        help = "Path to the model .pkl file",
+    )
+    parser.add_argument(
+        "-i",
+        "--input_folder",
+        required = True,
+        metavar = "/path/to/folder",
+        help="Path to the folder with subfolders with structure: STATION_*/Check*/CAM*/*/*.(jpg|jpeg|png)",
+    )
+    parser.add_argument(
+        "-o",
+        "--output",
+        required = True,
+        metavar = "/path/to/output.csv",
+        help="Path to the output .csv file with results",
+    )
+    parser.add_argument(
+        "--keep_scores",
+        default = False,
+        action = "store_true",
+        help="Use this switch to keep top 3 predictions and all scores per image",
+    )
+    parser.add_argument(
+        "--overwrite",
+        default = False,
+        action = "store_true",
+        help="Use this switch to force overwriting output file",
+    )
+    parser.add_argument(
+        "--pytorch_num_workers",
+        type = int,
+        default = 16,
+        help="Number of PyTorch data read workers. Set to 0 on Windows to avoid fork issues",
+    )
 
-if __name__ == "__main__":
+    args = parser.parse_args()
+    infer_to_csv(args.model, args.input_folder, args.output, args.keep_scores, args.overwrite, args.pytorch_num_workers)
+
+if (__name__ == "__main__"):
     main()

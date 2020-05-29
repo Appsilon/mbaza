@@ -1,130 +1,150 @@
-# Functions and globals for loading and running the Serengeti models
+# This script loads all images in subfolders of a specified folder and a model.
+# Next it runs inference from the model on the images and saves a csv with image path, classification, possibly toop predictions and scores.
 
-from datetime import datetime
-from pathlib import Path
 import os
-import imghdr
-import numpy as np
+from datetime import datetime
+
+from pathlib import Path
+
+import pandas as pd
+
 from fastai import *
 from fastai.vision import *
-import cv2 as cv
-import matplotlib.pyplot as plt
 
-try:
-    from google.colab import files
+import exifread
 
-    IN_COLAB = True
-except:
-    IN_COLAB = False
+def is_image(filename):
+    return filename.endswith("jpg") or filename.endswith("jpeg") or filename.endswith("png")
 
-MODEL_PATH = Path("model")
-MODEL_FILENAME = "trained_model.pkl"
-DATA_PATH_SERENGETI = Path("images_serengeti")
-DATA_PATH_FUN_EXAMPLES = Path("images_fun_examples")
-ALLOWED_IMAGE_EXTENSIONS = {"jpeg", "png"}
+def get_images(data_folder):
+    images = []
+    try:
+        for dirpath, dirnames, filenames in os.walk(data_folder):
+            for filename in [f for f in filenames if is_image(f)]:
+                images.append(os.path.join(dirpath, filename))
+    except Exception as e:
+        print(f"Got exception {e}, double check {data_folder} is a folder")
+    assert images, "No images found in the folder"
+    print(f"Found {len(images)} images.")
+    return images
 
-def get_test_images_from_folder(data_path):
-    test_img_list = [
-        image_path for image_path in [
-            str(Path(data_path) / file)
-            for file in os.listdir(data_path)
-        ]
-        if os.path.isfile(image_path)
-        and imghdr.what(image_path) in ALLOWED_IMAGE_EXTENSIONS
-    ]
-    print(f"Found {len(test_img_list)} images in folder: {data_path}.")
-    return test_img_list
-
-
-def load_model(test_img_list):
-    print(f"Loading model: {MODEL_PATH}/{MODEL_FILENAME}.")
-    print(f"Running inference on {len(test_img_list)} images.")
-    learn = load_learner(MODEL_PATH, MODEL_FILENAME, test=test_img_list)
-    learn.callback_fns = []
+def load_model(model, images, pytorch_num_workers):
+    model_path = Path(model)
+    print(f"Loading model: {model}.")
+    assert model_path.exists(), f"It seems {model} is not a file"
+    assert model_path.suffix == ".pkl", "The model should end with .pkl"
+    learn = load_learner(model_path.parent, model_path.name, test=images, num_workers=pytorch_num_workers)
+    # learn.callback_fns=[]
     print(f"Model loaded.")
     return learn
 
+def get_gpu_status(learn):
+    if torch.cuda.device_count() > 0:
+        print("GPU available.")
+        try:
+            learn.model = model.cuda()
+            print("Using GPU for inference.")
+        except:
+            print("Unable to use GPU, using CPU.")
+    else:
+        print("No GPU detected.")
 
 def run_inference(learn):
     inference_start = datetime.now()
     print(f"Starting inference. time={inference_start}")
-    preds, y = learn.get_preds(ds_type=DatasetType.Test)
+    preds,y = learn.get_preds(ds_type=DatasetType.Test)
     inference_stop = datetime.now()
     print(f"Inference complete. It took {inference_stop - inference_start}.")
     return preds
 
-
-def plot_predictions(test_img_list, pred_dicts):
-
-    markings_color = (0.667, 0.686, 0.694)
-    content_color = (0.106, 0.565, 0.969)
-    bg_color = (0.388, 0.416, 0.435)
-
-    fig, axs = plt.subplots(
-        len(test_img_list),
-        2,
-        figsize=(12, 4 * len(test_img_list)),
-        gridspec_kw={"width_ratios": [4, 1]},
-        constrained_layout=True,
-        squeeze=False,
-    )
-    fig.suptitle(
-        "Top 5 predictions per image",
-        color=markings_color,
-        va="bottom",
-        ha="right",
-        x=0.95,
-        y=1,
-    )
-    fig.set_facecolor(bg_color)
-
-    for i in range(len(test_img_list)):
-        data = pred_dicts[i]
-        names = list(data.keys())[::-1]
-        values = [round(v, 4) for v in list(data.values())[::-1]]
-
-        img = cv.cvtColor(cv.imread(test_img_list[i]), cv.COLOR_BGR2RGB)
-
-        axs[i, 0].imshow(img)
-        axs[i, 0].set_axis_off()
-
-        axs[i, 1].set_facecolor(bg_color)
-        axs[i, 1].barh(names, values, color=content_color)
-        axs[i, 1].set_yticklabels(names, minor=False)
-        for j, v in enumerate(values):
-            axs[i, 1].text(v + 0.01, j, str(v), va="center", color=content_color)
-        axs[i, 1].tick_params(color=markings_color, labelcolor=markings_color)
-        for spine in axs[i, 1].spines.values():
-            spine.set_edgecolor(markings_color)
-        axs[i, 1].spines["top"].set_visible(False)
-        axs[i, 1].spines["right"].set_visible(False)
-        axs[i, 1].spines["left"].set_visible(False)
-
-
-def upload_files():
-    """ used on Google Colab to upload data """
-    uploaded = files.upload()
-    for k, v in uploaded.items():
-        open(k, "wb").write(v)
-    return list(uploaded.keys())
-
-
-def run_classification(images_path=None, images_from="serengeti", images_upload=False):
-    if images_upload:
-        if not IN_COLAB:
-            raise Exception('images_from="upload" is only available on Google Colab')
-        # Warning - this is an option meant to work on Google Colab
-        test_img_list = upload_files()
-    else:
-        fixed_paths = {
-            "serengeti": DATA_PATH_SERENGETI,
-            "fun_examples": DATA_PATH_FUN_EXAMPLES,
-        }
-        path = Path(images_path) if images_path else fixed_paths[images_from]
-        test_img_list = get_test_images_from_folder(path)
-    learn = load_model(test_img_list)
+def get_predictions(model, images, pytorch_num_workers):
+    learn = load_model(model, images, pytorch_num_workers)
+    get_gpu_status(learn)
     preds = run_inference(learn)
     classes = learn.data.classes
-    preds_df = pd.DataFrame(np.stack(preds), index=test_img_list, columns=classes)
-    pred_dicts = [dict(preds_df.loc[img].nlargest()) for img in test_img_list]
-    plot_predictions(test_img_list, pred_dicts)
+    preds = pd.DataFrame(
+            np.stack(preds),
+            columns=classes,
+        )
+    return preds, classes
+
+def get_top_preds_and_scores(preds, classes):
+    df_preds = preds.copy()
+    ranks = df_preds.rank(axis=1,method='dense', ascending=False).astype(int)
+
+    df_preds["pred_1"] = pd.Series(ranks.where(ranks==1).notnull().values.nonzero()[1]).apply(lambda x: classes[x])
+    df_preds["pred_2"] = pd.Series(ranks.where(ranks==2).notnull().values.nonzero()[1]).apply(lambda x: classes[x])
+    df_preds["pred_3"] = pd.Series(ranks.where(ranks==3).notnull().values.nonzero()[1]).apply(lambda x: classes[x])
+
+    df_preds["score_1"] = df_preds.apply(lambda x: x[x.pred_1], axis=1)
+    df_preds["score_2"] = df_preds.apply(lambda x: x[x.pred_2], axis=1)
+    df_preds["score_3"] = df_preds.apply(lambda x: x[x.pred_3], axis=1)
+
+    return df_preds
+
+def parse_path(df):
+    """ extract station, check and cam from path column and store. """
+    pattern = "STATION_([^\\/]*).*Check\s([^\\/]*).*CAM([^\\/]*)"
+    result = df.copy()
+    result[["station", "check", "camera"]] = result.path.str.extract(pattern)
+    return result
+
+def parse_exif(df):
+    """ extract datetime, gps long and gps lat from exif of images """
+    result = df.copy()
+
+    exif_datetime = []
+    exif_gps_long = []
+    exif_gps_lat = []
+    for path_name in result.path:
+        f = open(path_name, 'rb')
+        tags = exifread.process_file(f)
+        if tags:
+            try:
+                exif_datetime.append(tags["EXIF DateTimeOriginal"].values)
+            except:
+                exif_datetime.append(None)
+            try:
+                exif_gps_long.append(tags["GPS GPSLongitude"].values)
+                exif_gps_lat.append(tags["GPS GPSLatitude"].values)
+            except:
+                exif_gps_long.append(None)
+                exif_gps_lat.append(None)
+        else:
+            exif_datetime.append(None)
+            exif_gps_long.append(None)
+            exif_gps_lat.append(None)
+    result["exif_datetime"] = exif_datetime
+    result["exif_gps_long"] = exif_gps_long
+    result["exif_gps_lat"] = exif_gps_lat
+
+    return result
+
+def order_df(df,var):
+    """ make the var list of columns as the first columns, keep rest at the end in df """
+    if type(var) is str:
+        var = [var] # handling var being a single name not a list
+    varlist =[w for w in df.columns if w not in var]
+    df = df[var+varlist]
+    return df
+
+def infer_to_csv(model, data_folder, output, keep_scores, overwrite, pytorch_num_workers):
+    if not overwrite:
+        assert not Path(output).exists(), f"{output} already exists, use the 'overwrite' option to proceed anyway."
+    images = get_images(data_folder)
+    preds, classes = get_predictions(model, images, pytorch_num_workers)
+    df_preds = get_top_preds_and_scores(preds, classes)
+    df_preds["path"] = images
+    df_preds = parse_path(df_preds) # extract station, check, cam where possible from path
+    df_preds = parse_exif(df_preds) # extract datetime, gps_long and gps_lat from exif if images
+
+    result = order_df(df_preds, ["path", "station", "check", "camera",\
+                                 "exif_datetime", "exif_gps_long", "exif_gps_lat",\
+                                 "pred_1", "score_1", "pred_2", "score_2", "pred_3", "score_3"])
+    if not keep_scores:
+        result = df_preds[["path", "station", "check", "camera",\
+                           "exif_datetime", "exif_gps_long", "exif_gps_lat",\
+                           "pred_1"]]
+
+    result.to_csv(output, index=False)
+    print(f"Results stored in {output}.")
