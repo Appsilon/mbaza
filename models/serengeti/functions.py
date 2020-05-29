@@ -13,6 +13,8 @@ from fastai.vision import *
 
 import exifread
 
+N_TOP_RESULTS = 3
+
 def is_image(filename):
     return filename.endswith("jpg") or filename.endswith("jpeg") or filename.endswith("png")
 
@@ -72,13 +74,9 @@ def get_top_preds_and_scores(preds, classes):
     df_preds = preds.copy()
     ranks = df_preds.rank(axis=1,method='dense', ascending=False).astype(int)
 
-    df_preds["pred_1"] = pd.Series(ranks.where(ranks==1).notnull().values.nonzero()[1]).apply(lambda x: classes[x])
-    df_preds["pred_2"] = pd.Series(ranks.where(ranks==2).notnull().values.nonzero()[1]).apply(lambda x: classes[x])
-    df_preds["pred_3"] = pd.Series(ranks.where(ranks==3).notnull().values.nonzero()[1]).apply(lambda x: classes[x])
-
-    df_preds["score_1"] = df_preds.apply(lambda x: x[x.pred_1], axis=1)
-    df_preds["score_2"] = df_preds.apply(lambda x: x[x.pred_2], axis=1)
-    df_preds["score_3"] = df_preds.apply(lambda x: x[x.pred_3], axis=1)
+    for i in range(1, N_TOP_RESULTS + 1):
+        df_preds[f"pred_{i}"] = pd.Series(ranks.where(ranks==i).notnull().values.nonzero()[1]).apply(lambda x: classes[x])
+        df_preds[f"score_{i}"] = df_preds.apply(lambda x: x[x[f"pred_{i}"]], axis=1)
 
     return df_preds
 
@@ -140,7 +138,7 @@ def infer_to_csv(model, data_folder, output, keep_scores, overwrite, pytorch_num
 
     result = order_df(df_preds, ["path", "station", "check", "camera",\
                                  "exif_datetime", "exif_gps_long", "exif_gps_lat",\
-                                 "pred_1", "score_1", "pred_2", "score_2", "pred_3", "score_3"])
+                                 ] + [f"{prefix}_{i}" for prefix in ["pred", "score"] for i in range(1, N_TOP_RESULTS + 1) ])
     if not keep_scores:
         result = df_preds[["path", "station", "check", "camera",\
                            "exif_datetime", "exif_gps_long", "exif_gps_lat",\
