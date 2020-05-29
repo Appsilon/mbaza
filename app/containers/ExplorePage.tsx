@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { csv } from 'd3-fetch';
-import { Card, Elevation, Button } from '@blueprintjs/core';
+import { Card, Elevation, Button, Tab, Tabs } from '@blueprintjs/core';
 import Map from '../components/Map';
 import AnimalsPlot from '../components/AnimalsPlot';
 import ObservationsTable from '../components/ObservationsTable';
@@ -53,35 +53,62 @@ export default function ExplorePage() {
   const [filePath, setFilePath] = useState<string>();
   const [data, setData] = useState<undefined | ObservationsData>();
 
+  const MainPanel: React.SFC = () => (
+    <div style={{ display: 'flex' }}>
+      <div
+        style={{
+          flex: '1',
+          width: '65%',
+          paddingBottom: '20px',
+          marginRight: '10px'
+        }}
+      >
+        <Card style={{ height: '100%' }} interactive elevation={Elevation.TWO}>
+          <AnimalsPlot data={data} />
+        </Card>
+      </div>
+      <div
+        style={{
+          flex: '1',
+          width: '35%',
+          paddingBottom: '20px',
+          marginLeft: '10px'
+        }}
+      >
+        <Card style={{ height: '100%' }} interactive elevation={Elevation.TWO}>
+          <Map data={data} />
+        </Card>
+      </div>
+    </div>
+  );
+
+  const TablePanel: React.SFC = () => (
+    <div style={{ display: 'flex' }}>
+      <ObservationsTable style={{ width: '100%' }} data={data} />
+    </div>
+  );
+
   const contents =
     data !== undefined ? (
       <>
         <h1>{t('Explore')}</h1>
-        <Button
-          text={t('Back')}
-          icon="arrow-left"
-          onClick={() => setData(undefined)}
-          style={{ marginBottom: '10px', backgroundColor: '#fff' }}
-        />
-        ,
-        {/* <div style={{ flex: 1, paddingBottom: '20px' }}>
-          <Card interactive elevation={Elevation.TWO}>
-            <h2 style={{ marginTop: 0 }}>{t('Filters')}</h2>
-          </Card>
-        </div> */}
-        ,
-        <div style={{ flex: 1, width: '100%', paddingBottom: '20px' }}>
-          <Card interactive elevation={Elevation.TWO}>
-            <AnimalsPlot data={data} />
-          </Card>
+        <div>
+          <Button
+            text={t('Back')}
+            icon="arrow-left"
+            onClick={() => setData(undefined)}
+            style={{
+              marginBottom: '10px',
+              backgroundColor: '#fff',
+              width: '200px'
+            }}
+          />
         </div>
-        ,
-        <div style={{ flex: 1, width: '100%', paddingBottom: '20px' }}>
-          <Card interactive elevation={Elevation.TWO}>
-            <Map data={data} />
-          </Card>
-        </div>
-        <ObservationsTable data={data} />
+        <Tabs style={{ flex: 1, backgroundColor: 'red' }}>
+          <Tab id="main" title="Main Information" panel={<MainPanel />} />
+          <Tab id="table" title="Observations Table" panel={<TablePanel />} />
+          <Tabs.Expander />
+        </Tabs>
       </>
     ) : (
       <>
@@ -112,7 +139,16 @@ export default function ExplorePage() {
     );
 
   return (
-    <div style={{ padding: '10px 30px', width: '100%', overflowY: 'scroll' }}>
+    <div
+      style={{
+        padding: '10px 30px',
+        width: '100%',
+        overflowY: 'scroll',
+        maxHeight: 'calc(100vh - 50px)',
+        display: 'flex',
+        flexDirection: 'column'
+      }}
+    >
       {contents}
     </div>
   );
