@@ -94,7 +94,10 @@ export default function AnimalsPlot(props: Props) {
     <Plot
       data={dataForPlot as any}
       useResizeHandler
-      style={{ width: '100%' }}
+      style={{
+        width: '100%',
+        height: '100%'
+      }}
       layout={layout as any}
     />
   );

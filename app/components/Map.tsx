@@ -82,7 +82,12 @@ export default function Map(props: Props) {
   });
 
   return (
-    <div style={{ width: '100%' }}>
+    <div
+      style={{
+        width: '100%',
+        height: '100%'
+      }}
+    >
       <div
         ref={(el): void => {
           mapContainer = el;
