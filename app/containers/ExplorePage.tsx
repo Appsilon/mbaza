@@ -83,9 +83,7 @@ export default function ExplorePage() {
   );
 
   const TablePanel: React.SFC = () => (
-    <div style={{ display: 'flex' }}>
-      <ObservationsTable style={{ width: '100%' }} data={data} />
-    </div>
+    <ObservationsTable style={{ width: '100%' }} data={data} />
   );
 
   const contents =
@@ -104,7 +102,7 @@ export default function ExplorePage() {
             }}
           />
         </div>
-        <Tabs style={{ flex: 1, backgroundColor: 'red' }}>
+        <Tabs>
           <Tab id="main" title="Main Information" panel={<MainPanel />} />
           <Tab id="table" title="Observations Table" panel={<TablePanel />} />
           <Tabs.Expander />
