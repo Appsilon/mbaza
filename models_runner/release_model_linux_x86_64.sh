@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-pushd models/serengeti
 pyinstaller main.py --clean --noconfirm \
      --additional-hooks-dir=hooks
 
