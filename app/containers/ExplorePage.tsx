@@ -52,26 +52,34 @@ function chooseFile(
 export default function ExplorePage() {
   const { t } = useTranslation();
   const [filePath, setFilePath] = useState<string>();
-  const [filters, setFilters] = useState<object>();
+  const [filters, setFilters] = useState<object>({
+    activeAnimals: [],
+    activeCameras: [],
+    activeStations: [],
+    activeChecks: []
+  });
   const [data, setData] = useState<undefined | ObservationsData>();
-
   const handleFilters = val => {
-    setFilters(val);
+    setFilters({ ...filters, ...val });
+  };
+
+  const filterCondition = (needle, haystack) => {
+    if (haystack.length === 0) return true;
+    return haystack.map(entry => entry.value).includes(needle);
   };
 
   const getFilteredData = options => {
     let filtered = options.observations;
 
     if (typeof filters !== 'undefined') {
-      if (filters.activeAnimals) {
-        if (filters.activeAnimals.length !== 0) {
-          const activeAnimals = filters.activeAnimals.map(entry => entry.value);
-
-          filtered = filtered.filter(entry => {
-            return activeAnimals.includes(entry.pred_1);
-          });
-        }
-      }
+      filtered = filtered.filter(entry => {
+        const validEntry =
+          filterCondition(entry.pred_1, filters.activeAnimals) &&
+          filterCondition(entry.camera, filters.activeCameras) &&
+          filterCondition(entry.station, filters.activeStations) &&
+          filterCondition(entry.check, filters.activeChecks);
+        return validEntry;
+      });
     }
     return { observations: filtered };
   };
@@ -81,7 +89,7 @@ export default function ExplorePage() {
       <div
         style={{
           flex: '1',
-          width: '65%',
+          width: '55%',
           paddingBottom: '20px',
           marginRight: '10px'
         }}
@@ -93,7 +101,7 @@ export default function ExplorePage() {
       <div
         style={{
           flex: '1',
-          width: '35%',
+          width: '45%',
           paddingBottom: '20px',
           marginLeft: '10px'
         }}
@@ -111,15 +119,24 @@ export default function ExplorePage() {
   const contents =
     data !== undefined ? (
       <>
-        <h1>{t('Explore')}</h1>
+        <div>
+          <h1>{t('Explore')}</h1>
+        </div>
         <ExplorerFilter data={data} onChange={handleFilters} />
+        <div style={{ minHeight: '30px' }}>
+          <span>
+            <span style={{ fontWeight: 600 }}>{t('Number of results')}</span>
+            <span style={{ paddingLeft: '5px' }}>
+              {getFilteredData(data).observations.length}
+            </span>
+          </span>
+        </div>
         <div>
           <Button
             text={t('Back')}
             icon="arrow-left"
             onClick={() => setData(undefined)}
             style={{
-              marginBottom: '10px',
               backgroundColor: '#fff',
               width: '200px'
             }}
@@ -138,10 +155,7 @@ export default function ExplorePage() {
     ) : (
       <>
         <h1>{t('Explore')}</h1>
-        <div
-          className="bp3-input-group"
-          style={{ marginBottom: '10px', width: '60%' }}
-        >
+        <div className="bp3-input-group" style={{ width: '60%' }}>
           <input
             type="text"
             className="bp3-input"
