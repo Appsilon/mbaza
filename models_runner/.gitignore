@@ -1,0 +1,7 @@
+__pycache__
+dist/
+main/
+win10/
+build/
+*.swp
+main.spec
