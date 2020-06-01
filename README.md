@@ -35,7 +35,7 @@ We check for appropriate linting before each commit. You will be able to fix som
 ### Packaging for production
 
 `yarn package` packages the app for install. We run it with GitHub actions and store artifacts, so you can simply download an artifact from there.
-Model packaging: run `./release_model_linux_x86_64.sh` to build a zipped package containing the model. Please make sure that you are doing this in the environment that has all the dependencies installed. (`pip install -r models/serengeti/requirements.txt`)
+Model packaging: go to `models_runner` and follow the README there (both for Windows and Linux).
 
 ## License
 
