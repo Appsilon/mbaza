@@ -5,6 +5,7 @@ import { Card, Elevation, Button, Tab, Tabs } from '@blueprintjs/core';
 import Map from '../components/Map';
 import AnimalsPlot from '../components/AnimalsPlot';
 import ObservationsTable from '../components/ObservationsTable';
+import ExplorerFilter from '../components/explorerFilters';
 
 function chooseFile(
   changeFileChoice: (path: string) => void,
@@ -51,7 +52,29 @@ function chooseFile(
 export default function ExplorePage() {
   const { t } = useTranslation();
   const [filePath, setFilePath] = useState<string>();
+  const [filters, setFilters] = useState<object>();
   const [data, setData] = useState<undefined | ObservationsData>();
+
+  const handleFilters = val => {
+    setFilters(val);
+  };
+
+  const getFilteredData = options => {
+    let filtered = options.observations;
+
+    if (typeof filters !== 'undefined') {
+      if (filters.activeAnimals) {
+        if (filters.activeAnimals.length !== 0) {
+          const activeAnimals = filters.activeAnimals.map(entry => entry.value);
+
+          filtered = filtered.filter(entry => {
+            return activeAnimals.includes(entry.pred_1);
+          });
+        }
+      }
+    }
+    return { observations: filtered };
+  };
 
   const MainPanel: React.SFC = () => (
     <div style={{ display: 'flex' }}>
@@ -64,7 +87,7 @@ export default function ExplorePage() {
         }}
       >
         <Card style={{ height: '100%' }} interactive elevation={Elevation.TWO}>
-          <AnimalsPlot data={data} />
+          <AnimalsPlot data={getFilteredData(data)} />
         </Card>
       </div>
       <div
@@ -76,20 +99,20 @@ export default function ExplorePage() {
         }}
       >
         <Card style={{ height: '100%' }} interactive elevation={Elevation.TWO}>
-          <Map data={data} />
+          <Map data={getFilteredData(data)} />
         </Card>
       </div>
     </div>
   );
-
   const TablePanel: React.SFC = () => (
-    <ObservationsTable style={{ width: '100%' }} data={data} />
+    <ObservationsTable style={{ width: '100%' }} data={getFilteredData(data)} />
   );
 
   const contents =
     data !== undefined ? (
       <>
         <h1>{t('Explore')}</h1>
+        <ExplorerFilter data={data} onChange={handleFilters} />
         <div>
           <Button
             text={t('Back')}
