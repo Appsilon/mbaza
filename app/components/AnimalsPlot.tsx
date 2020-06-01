@@ -61,7 +61,7 @@ function preparePlotTrace(animalData: Observation[]) {
     x: _.keys(animalByDate),
     y: _.map(animalByDate, 'length'),
     type: 'scatter',
-    name: animalData[1].pred_1
+    name: animalData[0].pred_1
   };
 }
 
