@@ -120,7 +120,13 @@ export default function Map(props: Props) {
   });
 
   return (
-    <div style={{ width: '100%' }}>
+    <div
+      style={{
+        width: '100%',
+        position: 'relative',
+        overflow: 'hidden'
+      }}
+    >
       <div ref={mapRef} className={styles.mapContainer} />
     </div>
   );
