@@ -125,7 +125,7 @@ export default function ExplorePage() {
             }}
           />
         </div>
-        <Tabs>
+        <Tabs renderActiveTabPanelOnly>
           <Tab id="main" title="Main Information" panel={<MainPanel />} />
           <Tab id="table" title="Observations Table" panel={<TablePanel />} />
           <Tabs.Expander />
