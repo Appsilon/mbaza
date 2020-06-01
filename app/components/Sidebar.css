@@ -1,9 +1,6 @@
 .container {
-  display: 'flex';
-  width: 105px;
+  width: 160px;
   height: 100vw;
-  padding-left: 15px;
-  flex-direction: 'column';
   background-color: #2a3743;
   color: #fff;
 }

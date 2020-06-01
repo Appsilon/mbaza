@@ -5,24 +5,14 @@
 @import '~@fortawesome/fontawesome-free/css/all.css';
 @import '~normalize.css';
 @import '~@blueprintjs/core/lib/css/blueprint.css';
+@import '~@blueprintjs/table/lib/css/table.css';
 @import '~@blueprintjs/icons/lib/css/blueprint-icons.css';
 
 body {
   position: relative;
   background-color: #f8f9fa;
-  font-family: Arial, Helvetica, Helvetica Neue, serif;
+  font-family: Roboto, Arial, Helvetica, Helvetica Neue, serif;
   overflow-y: hidden;
-}
-
-h2 {
-  margin: 0;
-  font-size: 2.25rem;
-  font-weight: bold;
-  letter-spacing: -0.025em;
-}
-
-p {
-  font-size: 24px;
 }
 
 li {
@@ -30,7 +20,6 @@ li {
 }
 
 a {
-  color: white;
   opacity: 0.75;
   text-decoration: none;
 }
