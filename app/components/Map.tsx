@@ -1,11 +1,6 @@
 import React, { useEffect } from 'react';
 import mapboxgl from 'mapbox-gl';
-
-// The below seems to not be suppressing the "missing CSS declarations" warning
-// because we are using typed imports in this project
-// Worth looking at: https://github.com/mapbox/mapbox-gl-js/issues/5785
-import 'mapbox-gl/dist/mapbox-gl.css';
-
+import _ from 'lodash';
 import styles from './Map.css';
 
 /*
@@ -58,37 +53,81 @@ type Props = {
   data: ObservationsData;
 };
 
+function randomFloat(min: number, max: number) {
+  return min + (max - min) * Math.random();
+}
+
+function makeLocationFeature(
+  observations: Observation[],
+  coordinates: [number, number]
+) {
+  // TODO: remove random coordinates from Lope and verify that photos have correct coords in .
+  coordinates = [randomFloat(11.2912, 11.743), randomFloat(-0.1099, -0.9365)];
+  const description = _.map(observations, 'pred_1').join(', ');
+  return {
+    type: 'Feature',
+    geometry: {
+      type: 'Point',
+      coordinates
+    },
+    properties: {
+      title: `${observations.length} observations`,
+      description
+    }
+  };
+}
+
 export default function Map(props: Props) {
-  let mapContainer: HTMLElement | null | undefined;
+  const mapRef = React.createRef<HTMLDivElement>();
+
   const { data } = props;
 
-  // eslint-disable-next-line no-console
-  console.log(data.observations.length);
+  // TODO: remove slice and fix performance.
+  const locations = _.groupBy(data.observations.slice(0, 100), row => [
+    row.exif_gps_lat,
+    row.exif_gps_long
+  ]);
+
+  const observationsGeojsonFeatures = _.map(locations, makeLocationFeature);
 
   useEffect(() => {
     const map = new mapboxgl.Map({
-      container:
-        mapContainer === undefined || mapContainer === null ? '' : mapContainer,
+      container: mapRef.current as HTMLElement,
       style: mapboxStyle,
       center: [12, -0.8],
       zoom: 6
     });
     map.on('load', () => {
-      map.addSource('gabon', {
-        type: 'geojson',
-        data: gabonMap
+      observationsGeojsonFeatures.forEach((marker: any) => {
+        // create a HTML element for each feature
+        const el = document.createElement('div');
+        el.className = 'marker';
+        // make a marker for each feature and add to the map
+        new mapboxgl.Marker(el)
+          .setLngLat(marker.geometry.coordinates)
+          .setPopup(
+            new mapboxgl.Popup({ offset: 25 }) // add popups
+              .setHTML(
+                `<h3>${marker.properties.title}</h3><p><b>Observed:</b> ${marker.properties.description}</p>`
+              )
+          )
+          .addTo(map);
       });
     });
+    return function cleanup() {
+      map.remove();
+    };
   });
 
   return (
-    <div style={{ width: '100%' }}>
-      <div
-        ref={(el): void => {
-          mapContainer = el;
-        }}
-        className={styles.mapContainer}
-      />
+    <div
+      style={{
+        width: '100%',
+        position: 'relative',
+        overflow: 'hidden'
+      }}
+    >
+      <div ref={mapRef} className={styles.mapContainer} />
     </div>
   );
 }

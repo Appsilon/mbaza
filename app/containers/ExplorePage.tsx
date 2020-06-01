@@ -63,13 +63,11 @@ export default function ExplorePage() {
           onClick={() => setData(undefined)}
           style={{ marginBottom: '10px', backgroundColor: '#fff' }}
         />
-        ,
         {/* <div style={{ flex: 1, paddingBottom: '20px' }}>
           <Card interactive elevation={Elevation.TWO}>
             <h2 style={{ marginTop: 0 }}>{t('Filters')}</h2>
           </Card>
         </div> */}
-        ,
         <div style={{ flex: 1, width: '100%', paddingBottom: '20px' }}>
           <Card interactive elevation={Elevation.TWO}>
             <AnimalsPlot data={data} />
