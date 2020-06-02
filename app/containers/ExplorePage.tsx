@@ -43,8 +43,9 @@ function chooseFile(
       return undefined;
     })
     .catch(error => {
-      // eslint-disable-next-line no-alert
+      // eslint-disable-next-line no-console
       console.log(error);
+      // eslint-disable-next-line no-alert
       alert(error);
     });
 }

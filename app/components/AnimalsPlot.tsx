@@ -96,13 +96,13 @@ export default function AnimalsPlot(props: Props) {
 
   return (
     <Plot
-      data={dataForPlot as any}
+      data={(dataForPlot as unknown) as Plotly.Data[]}
       useResizeHandler
       style={{
         width: '100%',
         height: '100%'
       }}
-      layout={layout as any}
+      layout={(layout as unknown) as Plotly.Layout}
     />
   );
 }
