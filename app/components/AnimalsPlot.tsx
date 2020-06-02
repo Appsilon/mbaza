@@ -88,6 +88,9 @@ export default function AnimalsPlot(props: Props) {
       rangeselector: selectorOptions,
       rangeslider: {},
       tickformat: '%Y-%m-%d'
+    },
+    yaxis: {
+      tickformat: ',d'
     }
   };
 
