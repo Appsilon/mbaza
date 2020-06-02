@@ -63,6 +63,7 @@ function makeLocationFeature(
 ) {
   // TODO: remove random coordinates from Lope and verify that photos have correct coords in .
   coordinates = [randomFloat(11.2912, 11.743), randomFloat(-0.1099, -0.9365)];
+  // coordinates = [observations[0].exif_gps_lat, observations[0].exif_gps_long]
   const description = _.map(observations, 'pred_1').join(', ');
   return {
     type: 'Feature',

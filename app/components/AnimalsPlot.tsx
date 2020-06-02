@@ -51,23 +51,24 @@ function getKeyFromRow(row: Observation) {
   const date = getDateFromRow(row);
   const utcDate = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
   const window = Math.round(utcDate / millisecondsInDay / windowLength);
-  const windowStartDate = new Date(window * windowLength * millisecondsInDay);
+  const windowStartDate = window * windowLength * millisecondsInDay;
   return windowStartDate;
 }
 
 function preparePlotTrace(animalData: Observation[]) {
-  const animalByDate = _.groupBy(animalData, getKeyFromRow);
-  return {
-    x: _.keys(animalByDate),
-    y: _.map(animalByDate, 'length'),
-    type: 'scatter',
-    name: animalData[0].pred_1
-  };
+  const observationsGroups = _(_.groupBy(animalData, getKeyFromRow))
+    .values()
+    .sortBy(rowsGroup => getKeyFromRow(rowsGroup[0]));
+  const x = observationsGroups
+    .map(rowsGroup => new Date(getKeyFromRow(rowsGroup[0])))
+    .value();
+  const y = observationsGroups.map(rowsGroup => rowsGroup.length).value();
+  const name = animalData[0].pred_1;
+  return { x, y, type: 'scatter', name };
 }
 
 function prepareDataForPlot(data: Observation[]) {
-  const dataSorted = _.sortBy(data, 'exif_datetime');
-  const groupAnimal = _.groupBy(dataSorted, 'pred_1');
+  const groupAnimal = _.groupBy(data, 'pred_1');
   return _.map(groupAnimal, preparePlotTrace);
 }
 
