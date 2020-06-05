@@ -117,6 +117,8 @@ export default function ExplorePage() {
     <ObservationsTable style={{ width: '100%' }} data={getFilteredData(data)} />
   );
 
+  const filename = filePath.replace(/^.*[\\\/]/, ''); //eslint-disable-line
+
   const contents =
     data !== undefined ? (
       <>
@@ -151,7 +153,7 @@ export default function ExplorePage() {
                 textAlign: 'center'
               }}
             >
-              {filePath.replace(/^.*[\\]/, '')}
+              {filename}
             </span>
           </div>
           <Button
