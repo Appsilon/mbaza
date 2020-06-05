@@ -3,7 +3,17 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import Select from 'react-select';
 
-const orderByName = (a, b) => {
+type Props = {
+  data: ObservationsData;
+  updateFilters: Function;
+};
+
+type entry = {
+  label: string;
+  value: string;
+};
+
+const orderByName = (a: entry, b: entry) => {
   const nameA = a.label.toUpperCase();
   const nameB = b.label.toUpperCase();
 
@@ -14,44 +24,46 @@ const orderByName = (a, b) => {
 
 export default function ExplorerFilter(props: Props) {
   const { t } = useTranslation();
-  const { data, onChange } = props;
+  const { data, updateFilters } = props;
 
-  const getUniqueSet = attribute => {
-    return Array.from(new Set(data.observations.map(x => x[attribute]))).map(
-      item => {
-        return { value: item, label: item.replace(/_/g, ' ') };
-      }
-    );
+  const getUniqueSet = (dataset: string[]) => {
+    return Array.from(new Set(dataset)).map((entry: string) => {
+      return { value: entry, label: entry.replace(/_/g, ' ') };
+    });
   };
 
-  const animals = getUniqueSet('pred_1').sort(orderByName);
-  const cameras = getUniqueSet('camera').sort(
-    (a, b) => parseInt(a.value, 10) - parseInt(b.value, 10)
-  );
-  const stations = getUniqueSet('station').sort(orderByName);
-  const checks = getUniqueSet('check').sort(
+  const animals = getUniqueSet(
+    data.observations.map(entry => entry.pred_1)
+  ).sort(orderByName);
+  const cameras = getUniqueSet(
+    data.observations.map(entry => entry.camera)
+  ).sort((a, b) => parseInt(a.value, 10) - parseInt(b.value, 10));
+  const stations = getUniqueSet(
+    data.observations.map(entry => entry.station)
+  ).sort(orderByName);
+  const checks = getUniqueSet(data.observations.map(entry => entry.check)).sort(
     (a, b) => parseInt(b.value, 10) - parseInt(a.value, 10)
   );
 
-  const setAnimals = options => {
-    let result = [];
+  const setAnimals = (options: entry[]) => {
+    let result: entry[] = [];
     if (Array.isArray(options)) result = options;
-    onChange({ activeAnimals: result });
+    updateFilters({ activeAnimals: result });
   };
-  const setStations = options => {
-    let result = [];
+  const setStations = (options: entry[]) => {
+    let result: entry[] = [];
     if (Array.isArray(options)) result = options;
-    onChange({ activeStations: result });
+    updateFilters({ activeStations: result });
   };
-  const setCameras = options => {
-    let result = [];
+  const setCameras = (options: entry[]) => {
+    let result: entry[] = [];
     if (Array.isArray(options)) result = options;
-    onChange({ activeCameras: result });
+    updateFilters({ activeCameras: result });
   };
-  const setChecks = options => {
-    let result = [];
+  const setChecks = (options: entry[]) => {
+    let result: entry[] = [];
     if (Array.isArray(options)) result = options;
-    onChange({ activeChecks: result });
+    updateFilters({ activeChecks: result });
   };
 
   return (

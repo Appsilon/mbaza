@@ -8,6 +8,18 @@ import ObservationsTable from '../components/ObservationsTable';
 import ExplorerFilter from '../components/explorerFilters';
 import ExplorerMetrics from '../components/explorerMetrics';
 
+type filters = {
+  activeAnimals: entry[];
+  activeCameras: entry[];
+  activeStations: entry[];
+  activeChecks: entry[];
+};
+
+type entry = {
+  label: string;
+  value: string;
+};
+
 function chooseFile(
   changeFileChoice: (path: string) => void,
   setData: (data: ObservationsData) => void
@@ -54,28 +66,28 @@ function chooseFile(
 export default function ExplorePage() {
   const { t } = useTranslation();
   const [filePath, setFilePath] = useState<string>();
-  const [filters, setFilters] = useState<object>({
+  const [filters, setFilters] = useState<filters>({
     activeAnimals: [],
     activeCameras: [],
     activeStations: [],
     activeChecks: []
   });
   const [data, setData] = useState<undefined | ObservationsData>();
-  const handleFilters = val => {
+  const handleFilters = (val: string[]) => {
     setFilters({ ...filters, ...val });
   };
 
-  const filterCondition = (needle, haystack) => {
+  const filterCondition = (needle: string, haystack: entry[]) => {
     if (haystack.length === 0) return true;
     return haystack.map(entry => entry.value).includes(needle);
   };
 
-  const getFilteredData = options => {
-    let filtered = options.observations;
+  const getFilteredData = (options: undefined | ObservationsData) => {
+    let filtered = typeof options !== 'undefined' ? options.observations : [];
 
     if (typeof filters !== 'undefined') {
       filtered = filtered.filter(
-        entry =>
+        (entry: Observation) =>
           filterCondition(entry.pred_1, filters.activeAnimals) &&
           filterCondition(entry.camera, filters.activeCameras) &&
           filterCondition(entry.station, filters.activeStations) &&
@@ -114,10 +126,11 @@ export default function ExplorePage() {
     </div>
   );
   const TablePanel: React.SFC = () => (
-    <ObservationsTable style={{ width: '100%' }} data={getFilteredData(data)} />
+    <ObservationsTable data={getFilteredData(data)} />
   );
 
-  const filename = filePath.replace(/^.*[\\\/]/, ''); //eslint-disable-line
+  // eslint-disable-next-line
+  const filename = (filePath !== undefined) ? filePath.replace(/^.*[\\\/]/, '') : "";
 
   const contents =
     data !== undefined ? (
@@ -143,7 +156,7 @@ export default function ExplorePage() {
               minWidth: '150px',
               maxWidth: '200px',
               height: '70px',
-              fontWeight: '500'
+              fontWeight: 'bold'
             }}
           >
             <span
@@ -173,7 +186,7 @@ export default function ExplorePage() {
           data={getFilteredData(data).observations}
           rareTargets={['Cat_Golden', 'Duiker_Red', 'Civet_African_Palm']}
         />
-        <ExplorerFilter data={data} onChange={handleFilters} />
+        <ExplorerFilter data={data} updateFilters={handleFilters} />
         <Tabs renderActiveTabPanelOnly>
           <Tab id="main" title={t('Main Information')} panel={<MainPanel />} />
           <Tab

@@ -1,29 +1,46 @@
 import * as React from 'react';
 
 import { useTranslation } from 'react-i18next';
-import { Icon, Card, Elevation } from '@blueprintjs/core';
+import { Icon, IconName, Card, Elevation } from '@blueprintjs/core';
+
+type Props = {
+  data: Observation[];
+  rareTargets: string[];
+};
+
+type entry = {
+  label: string;
+  value: string;
+};
 
 export default function ExplorerMetrics(props: Props) {
   const { t } = useTranslation();
   const { data, rareTargets } = props;
 
-  const getUniqueSet = (dataset, attribute) => {
-    return Array.from(new Set(dataset.map(x => x[attribute]))).map(item => {
-      return { value: item, label: item.replace(/_/g, ' ') };
+  const getUniqueSet = (dataset: string[]) => {
+    return Array.from(new Set(dataset)).map((entry: string) => {
+      return { value: entry, label: entry.replace(/_/g, ' ') };
     });
   };
 
-  const getRareAnimals = (dataset, rares) => {
+  const getRareAnimals = (dataset: entry[], rares: string[]) => {
     return dataset.filter(entry => rares.includes(entry.value));
   };
 
   const nonEmpty = data.filter(
-    entry => !['Blank', 'empty'].includes(entry.pred_1)
+    (entry: Observation) => !['Blank', 'empty'].includes(entry.pred_1)
   );
-  const uniqueAnimals = getUniqueSet(data, 'pred_1');
+  const uniqueAnimals = getUniqueSet(
+    data.map((entry: Observation) => entry.pred_1)
+  );
   const rareAnimals = getRareAnimals(uniqueAnimals, rareTargets);
 
-  const metricsCard = (icon, color, title, value) => {
+  const metricsCard = (
+    icon: IconName,
+    color: string,
+    title: string,
+    value: number
+  ) => {
     return (
       <Card
         elevation={Elevation.TWO}
