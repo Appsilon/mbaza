@@ -6,6 +6,7 @@ import Map from '../components/Map';
 import AnimalsPlot from '../components/AnimalsPlot';
 import ObservationsTable from '../components/ObservationsTable';
 import ExplorerFilter from '../components/explorerFilters';
+import ExplorerMetrics from '../components/explorerMetrics';
 
 function chooseFile(
   changeFileChoice: (path: string) => void,
@@ -73,14 +74,13 @@ export default function ExplorePage() {
     let filtered = options.observations;
 
     if (typeof filters !== 'undefined') {
-      filtered = filtered.filter(entry => {
-        const validEntry =
+      filtered = filtered.filter(
+        entry =>
           filterCondition(entry.pred_1, filters.activeAnimals) &&
           filterCondition(entry.camera, filters.activeCameras) &&
           filterCondition(entry.station, filters.activeStations) &&
-          filterCondition(entry.check, filters.activeChecks);
-        return validEntry;
-      });
+          filterCondition(entry.check, filters.activeChecks)
+      );
     }
     return { observations: filtered };
   };
@@ -120,29 +120,58 @@ export default function ExplorePage() {
   const contents =
     data !== undefined ? (
       <>
-        <div>
-          <h1>{t('Explore')}</h1>
-        </div>
-        <ExplorerFilter data={data} onChange={handleFilters} />
-        <div style={{ minHeight: '30px' }}>
-          <span>
-            <span style={{ fontWeight: 600 }}>{t('Number of results')}</span>
-            <span style={{ paddingLeft: '5px' }}>
-              {getFilteredData(data).observations.length}
+        <Card
+          style={{
+            position: 'absolute',
+            padding: '0',
+            display: 'inline-flex',
+            flexDirection: 'column'
+          }}
+          interactive
+          elevation={Elevation.TWO}
+        >
+          <div
+            style={{
+              padding: '20px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: '#4e5e6b',
+              color: 'white',
+              minWidth: '150px',
+              maxWidth: '200px',
+              height: '70px',
+              fontWeight: '500'
+            }}
+          >
+            <span
+              style={{
+                wordWrap: 'break-word',
+                width: '100%',
+                textAlign: 'center'
+              }}
+            >
+              {filePath.replace(/^.*[\\]/, '')}
             </span>
-          </span>
-        </div>
-        <div>
+          </div>
           <Button
-            text={t('Back')}
+            text={t('Change data')}
             icon="arrow-left"
             onClick={() => setData(undefined)}
             style={{
               backgroundColor: '#fff',
-              width: '200px'
+              width: '100%',
+              height: '30px',
+              textAlign: 'center',
+              lineHeight: '1.4'
             }}
           />
-        </div>
+        </Card>
+        <ExplorerMetrics
+          data={getFilteredData(data).observations}
+          rareTargets={['Cat_Golden', 'Duiker_Red', 'Civet_African_Palm']}
+        />
+        <ExplorerFilter data={data} onChange={handleFilters} />
         <Tabs renderActiveTabPanelOnly>
           <Tab id="main" title={t('Main Information')} panel={<MainPanel />} />
           <Tab
@@ -155,7 +184,6 @@ export default function ExplorePage() {
       </>
     ) : (
       <>
-        <h1>{t('Explore')}</h1>
         <div className="bp3-input-group" style={{ width: '60%' }}>
           <input
             type="text"
@@ -181,7 +209,7 @@ export default function ExplorePage() {
   return (
     <div
       style={{
-        padding: '10px 30px',
+        padding: '30px 30px',
         width: '100%',
         overflowY: 'scroll',
         maxHeight: 'calc(100vh - 50px)',

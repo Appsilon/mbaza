@@ -98,9 +98,7 @@ export default function Classifier(props: Props) {
   const { t } = useTranslation();
 
   return (
-    <div style={{ padding: '10px 30px', width: '60vw' }}>
-      <h1>{t('Classify')}</h1>
-
+    <div style={{ padding: '30px 30px', width: '60vw' }}>
       <div className="bp3-input-group" style={{ marginBottom: '10px' }}>
         <input
           type="text"
