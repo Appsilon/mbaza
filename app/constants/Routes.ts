@@ -18,12 +18,12 @@ export const routes: RoutesType = {
   },
   CLASSIFY: {
     path: '/classify',
-    name: 'Classify',
+    name: 'Detect animals',
     iconName: 'send-to-graph'
   },
   EXPLORE: {
     path: '/explore',
-    name: 'Explore',
+    name: 'Explore results',
     iconName: 'search-template'
   }
 };

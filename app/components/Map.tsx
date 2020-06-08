@@ -53,27 +53,18 @@ type Props = {
   data: ObservationsData;
 };
 
-function randomFloat(min: number, max: number) {
-  return min + (max - min) * Math.random();
+function getObservationCoordinates(row: Observation): [number, number] {
+  return [row.exif_gps_long, row.exif_gps_lat];
 }
 
-function makeLocationFeature(
-  observations: Observation[],
-  coordinates: [number, number]
-) {
+function makeLocationFeature(observations: Observation[]) {
   // TODO: remove random coordinates from Lope and verify that photos have correct coords in .
-  coordinates = [randomFloat(11.2912, 11.743), randomFloat(-0.1099, -0.9365)];
+  const coordinates = getObservationCoordinates(observations[0]);
   const description = _.map(observations, 'pred_1').join(', ');
   return {
-    type: 'Feature',
-    geometry: {
-      type: 'Point',
-      coordinates
-    },
-    properties: {
-      title: `${observations.length} observations`,
-      description
-    }
+    coordinates,
+    title: `${observations.length} observations`,
+    description
   };
 }
 
@@ -83,12 +74,9 @@ export default function Map(props: Props) {
   const { data } = props;
 
   // TODO: remove slice and fix performance.
-  const locations = _.groupBy(data.observations.slice(0, 100), row => [
-    row.exif_gps_lat,
-    row.exif_gps_long
-  ]);
-
-  const observationsGeojsonFeatures = _.map(locations, makeLocationFeature);
+  const locations = _(data.observations.slice(0, 100)).groupBy(
+    getObservationCoordinates
+  );
 
   useEffect(() => {
     const map = new mapboxgl.Map({
@@ -98,17 +86,18 @@ export default function Map(props: Props) {
       zoom: 6
     });
     map.on('load', () => {
-      observationsGeojsonFeatures.forEach((marker: any) => {
+      locations.forEach((observations: Observation[]) => {
+        const marker = makeLocationFeature(observations);
         // create a HTML element for each feature
         const el = document.createElement('div');
         el.className = 'marker';
         // make a marker for each feature and add to the map
         new mapboxgl.Marker(el)
-          .setLngLat(marker.geometry.coordinates)
+          .setLngLat(marker.coordinates)
           .setPopup(
             new mapboxgl.Popup({ offset: 25 }) // add popups
               .setHTML(
-                `<h3>${marker.properties.title}</h3><p><b>Observed:</b> ${marker.properties.description}</p>`
+                `<h3>${marker.title}</h3><p><b>Observed:</b> ${marker.description}</p>`
               )
           )
           .addTo(map);
