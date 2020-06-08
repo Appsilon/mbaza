@@ -8,14 +8,14 @@ import ObservationsTable from '../components/ObservationsTable';
 import ExplorerFilter from '../components/explorerFilters';
 import ExplorerMetrics from '../components/explorerMetrics';
 
-type filters = {
-  activeAnimals: entry[];
-  activeCameras: entry[];
-  activeStations: entry[];
-  activeChecks: entry[];
+type Filters = {
+  activeAnimals: Entry[];
+  activeCameras: Entry[];
+  activeStations: Entry[];
+  activeChecks: Entry[];
 };
 
-type entry = {
+type Entry = {
   label: string;
   value: string;
 };
@@ -66,7 +66,7 @@ function chooseFile(
 export default function ExplorePage() {
   const { t } = useTranslation();
   const [filePath, setFilePath] = useState<string>();
-  const [filters, setFilters] = useState<filters>({
+  const [filters, setFilters] = useState<Filters>({
     activeAnimals: [],
     activeCameras: [],
     activeStations: [],
@@ -77,7 +77,7 @@ export default function ExplorePage() {
     setFilters({ ...filters, ...val });
   };
 
-  const filterCondition = (needle: string, haystack: entry[]) => {
+  const filterCondition = (needle: string, haystack: Entry[]) => {
     if (haystack.length === 0) return true;
     return haystack.map(entry => entry.value).includes(needle);
   };

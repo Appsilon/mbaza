@@ -94,12 +94,7 @@ export default function ExplorerMetrics(props: Props) {
         t('Images with animals'),
         nonEmpty.length
       )}
-      {metricsCard(
-        'search',
-        '#2a3743',
-        t('Species found'),
-        uniqueAnimals.length
-      )}
+      {metricsCard('star', '#5c7080', t('Species found'), uniqueAnimals.length)}
       {metricsCard(
         'clean',
         '#ca9f00',
