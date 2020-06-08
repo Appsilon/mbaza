@@ -5,3 +5,5 @@ win10/
 build/
 *.swp
 main.spec
+*.zip
+venv

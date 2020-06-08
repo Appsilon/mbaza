@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 
-pyinstaller main.py --clean --noconfirm \
-     --additional-hooks-dir=hooks
+source venv/bin/activate
 
-zip -r model_linux_x86_64.zip dist/main
+pyinstaller main.py --distpath linux \
+     --noconfirm --additional-hooks-dir=hooks \
+     --noupx --console --clean --hidden-import pkg_resources.py2_warn --hidden-import six
+
+zip -r model_linux_x86_64.zip linux/main
