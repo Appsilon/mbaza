@@ -17,8 +17,8 @@ const resources = {
   fr: {
     translation: {
       'Welcome to Mbaza AI!': 'FR Welcome to Mbaza AI!',
-      Explore: 'FR Explore',
-      Classify: 'FR Classify',
+      'Explore results': 'FR Explore results',
+      'Detect animals': 'FR Detect animals',
       Home: 'FR Home',
       Projects: 'FR Projects',
       'The first offline AI wildlife explorer':
