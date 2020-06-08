@@ -28,10 +28,10 @@ export default function App(props: Props) {
       <Navbar className="bp3-dark">
         <Navbar.Group align={Alignment.LEFT}>
           <Navbar.Heading>
-            <Icon
-              icon={IconNames.MAP}
-              iconSize={Icon.SIZE_LARGE}
-              intent={Intent.PRIMARY}
+            <img
+              src="../resources/icon.png"
+              style={{ width: '32px', height: '32px' }}
+              alt="Mbaza"
             />
           </Navbar.Heading>
           <Navbar.Heading>
