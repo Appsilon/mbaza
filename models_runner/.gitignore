@@ -1,5 +1,6 @@
 __pycache__
 dist/
+linux/
 main/
 win10/
 build/

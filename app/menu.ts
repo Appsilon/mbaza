@@ -63,13 +63,16 @@ export default class MenuBuilder {
         {
           label: 'Hide ElectronReact',
           accelerator: 'Command+H',
+          // @ts-ignore
           selector: 'hide:'
         },
         {
           label: 'Hide Others',
           accelerator: 'Command+Shift+H',
+          // @ts-ignore
           selector: 'hideOtherApplications:'
         },
+        // @ts-ignore
         { label: 'Show All', selector: 'unhideAllApplications:' },
         { type: 'separator' },
         {
@@ -86,14 +89,19 @@ export default class MenuBuilder {
       submenu: [
         // @ts-ignore
         { label: 'Undo', accelerator: 'Command+Z', selector: 'undo:' },
+        // @ts-ignore
         { label: 'Redo', accelerator: 'Shift+Command+Z', selector: 'redo:' },
         { type: 'separator' },
+        // @ts-ignore
         { label: 'Cut', accelerator: 'Command+X', selector: 'cut:' },
+        // @ts-ignore
         { label: 'Copy', accelerator: 'Command+C', selector: 'copy:' },
+        // @ts-ignore
         { label: 'Paste', accelerator: 'Command+V', selector: 'paste:' },
         {
           label: 'Select All',
           accelerator: 'Command+A',
+          // @ts-ignore
           selector: 'selectAll:'
         }
       ]
@@ -145,8 +153,10 @@ export default class MenuBuilder {
           // @ts-ignore
           selector: 'performMiniaturize:'
         },
+        // @ts-ignore
         { label: 'Close', accelerator: 'Command+W', selector: 'performClose:' },
         { type: 'separator' },
+        // @ts-ignore
         { label: 'Bring All to Front', selector: 'arrangeInFront:' }
       ]
     };
