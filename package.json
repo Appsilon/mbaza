@@ -52,7 +52,7 @@
   },
   "build": {
     "productName": "Mbaza AI",
-    "appId": "com.appsilon.wildlifeexplorer",
+    "appId": "com.appsilon.mbaza",
     "files": [
       "dist/",
       "node_modules/",
@@ -77,14 +77,12 @@
     },
     "win": {
       "target": [
-        "nsis",
-        "msi"
+        "nsis"
       ]
     },
     "linux": {
       "target": [
         "deb",
-        "rpm",
         "AppImage"
       ],
       "category": "Development"
@@ -96,8 +94,7 @@
     "publish": {
       "provider": "github",
       "owner": "Appsilon",
-      "repo": "wildlife-explorer",
-      "private": true
+      "repo": "wildlife-explorer"
     }
   },
   "repository": {
@@ -112,7 +109,7 @@
   "contributors": [
     {
       "name": "Robin Whytock",
-      "email": "robbie.whytock1@stir.ac.uk ",
+      "email": "robbie.whytock1@stir.ac.uk",
       "url": "https://twitter.com/RWhytock"
     },
     {
@@ -131,7 +128,7 @@
       "url": "https://github.com/wojdziw"
     }
   ],
-  "license": "MIT",
+  "license": "AGPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/Appsilon/wildlife-explorer/issues"
   },
@@ -292,6 +289,7 @@
     "electron-updater": "^4.2.0",
     "history": "^4.10.1",
     "i18next": "^19.3.3",
+    "mapbox-gl": "^1.10.1",
     "plotly.js": "^1.52.3",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
