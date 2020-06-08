@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '@blueprintjs/core';
-import { spawn } from 'node-pty';
+import { spawn, IPty } from 'node-pty';
 import { useTranslation } from 'react-i18next';
 
 import PythonLogViewer from './PythonLogViewer';
@@ -8,20 +8,49 @@ import PythonLogViewer from './PythonLogViewer';
 type changeLogMessageType = (newChangeLogMessage: string) => {};
 type changePathChoiceType = (newPath: string) => {};
 
+function runModelProcess(baseArgs: string[]): IPty {
+  const isDev = process.env.NODE_ENV === 'development';
+  const isWin = !isDev && process.platform === 'win32';
+  const isLinux = !isDev && process.platform === 'linux';
+
+  const options = { cwd: 'models_runner' };
+
+  if (isDev) {
+    return spawn('venv/bin/python3', ['main.py', ...baseArgs], options);
+  }
+  if (isWin) {
+    return spawn('main.exe', [...baseArgs, '--pytorch_num_workers=0'], options);
+  }
+  if (isLinux) {
+    return spawn('main', baseArgs, options);
+  }
+  throw new Error(
+    `Unsupported operating system for running models: ${process.platform}`
+  );
+}
+
 const computePredictions = (
   directory: string,
   savePath: string,
   changeLogMessage: changeLogMessageType
 ) => {
+  const modelPath =
+    process.platform !== 'win32'
+      ? '../models/serengeti/model/trained_model.pkl'
+      : String.raw`..\models\serengeti\model\trained_model.pkl`;
+
   const args: string[] = [
-    './resources/compute_predictions.py',
-    '--inpath',
+    '--model',
+    modelPath,
+    '--input_folder',
     directory,
-    '--outpath',
-    savePath
+    '--output',
+    savePath,
+    '--keep_scores',
+    '--overwrite'
   ];
 
-  const pyProcess = spawn('python3', args, {});
+  const pyProcess = runModelProcess(args);
 
   pyProcess.on('data', data => {
     // eslint-disable-next-line no-console
