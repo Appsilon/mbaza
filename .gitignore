@@ -50,4 +50,3 @@ npm-debug.log.*
 *.scss.d.ts
 
 test_data
-models_runner
