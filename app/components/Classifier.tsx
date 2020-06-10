@@ -13,16 +13,32 @@ function runModelProcess(baseArgs: string[]): IPty {
   const isWin = !isDev && process.platform === 'win32';
   const isLinux = !isDev && process.platform === 'linux';
 
-  const options = { cwd: 'models_runner' };
+  const modelName = 'serengeti';
+  const linuxBaseModelPath = `../${modelName}/model/trained_model.pkl`;
 
   if (isDev) {
-    return spawn('venv/bin/python3', ['main.py', ...baseArgs], options);
+    return spawn(
+      'venv/bin/python3',
+      ['main.py', '--model', linuxBaseModelPath, ...baseArgs],
+      { cwd: 'models/runner' }
+    );
   }
   if (isWin) {
-    return spawn('main.exe', [...baseArgs, '--pytorch_num_workers=0'], options);
+    return spawn(
+      'main.exe',
+      [
+        '--model',
+        `..\\${modelName}\\model\\trained_model.pkl`,
+        ...baseArgs,
+        '--pytorch_num_workers=0'
+      ],
+      { cwd: 'models/win_runner/main' }
+    );
   }
   if (isLinux) {
-    return spawn('main', baseArgs, options);
+    return spawn('main', ['--model', `../${linuxBaseModelPath}`, ...baseArgs], {
+      cwd: 'models/linux_runner/main'
+    });
   }
   throw new Error(
     `Unsupported operating system for running models: ${process.platform}`
@@ -34,14 +50,7 @@ const computePredictions = (
   savePath: string,
   changeLogMessage: changeLogMessageType
 ) => {
-  const modelPath =
-    process.platform !== 'win32'
-      ? '../models/serengeti/model/trained_model.pkl'
-      : String.raw`..\models\serengeti\model\trained_model.pkl`;
-
   const args: string[] = [
-    '--model',
-    modelPath,
     '--input_folder',
     directory,
     '--output',

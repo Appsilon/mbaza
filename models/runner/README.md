@@ -18,9 +18,9 @@ conda install -c conda-forge pyinstaller exifread
 4. build the bundle - Run release*model_win10_x86_64.bat from main repo dir
    REM If you run into issues with loading dependecies, set a shorter $env:PATH with only system paths and conda, and re-activate the environment (Windows has trouble loading packages if $PATH after activating the environment is too long ¯\\*(ツ)\_/¯)
 
-5. Now your model runner is in `win10\main\main.exe`. Distribute the entire `win10\main` folder
+5. Now your model runner is in `runner_win\main\main.exe`. Distribute the entire `win10\main` folder.
 
-6. Run it with: `main.exe --model=..\..\..\models\serengeti\model\trained_model.pkl --input_folder=..\..\..\models\serengeti\images_fun_examples --output=output.csv --keep_scores --overwrite --pytorch_num_workers=0`
+6. Run it for example with: `main.exe --model=..\..\serengeti\model\trained_model.pkl --input_folder=..\..\serengeti\images_fun_examples --output=output.csv --keep_scores --overwrite --pytorch_num_workers=0`
    (Warning: this needs to be run from `main.exe`'s directory for Pytorch to locate the necessary source files.)
 
 ## Building on Linux
