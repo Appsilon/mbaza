@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from '@blueprintjs/core';
 import { spawn, IPty } from 'node-pty';
 import { useTranslation } from 'react-i18next';
+import path from 'path';
 
 import PythonLogViewer from './PythonLogViewer';
 
@@ -13,30 +14,32 @@ function runModelProcess(baseArgs: string[]): IPty {
   const isWin = !isDev && process.platform === 'win32';
   const isLinux = !isDev && process.platform === 'linux';
 
+  // TODO: Explain why this path is different for Linux and Windows.
+  const modelsRoot = isLinux ? '../..' : '..';
   const modelName = 'serengeti';
-  const linuxBaseModelPath = `../${modelName}/model/trained_model.pkl`;
+  const modelPath = path.join(
+    modelsRoot,
+    modelName,
+    'model',
+    'trained_model.pkl'
+  );
 
   if (isDev) {
     return spawn(
       'venv/bin/python3',
-      ['main.py', '--model', linuxBaseModelPath, ...baseArgs],
+      ['main.py', '--model', modelPath, ...baseArgs],
       { cwd: 'models/runner' }
     );
   }
   if (isWin) {
     return spawn(
       'main.exe',
-      [
-        '--model',
-        `..\\${modelName}\\model\\trained_model.pkl`,
-        ...baseArgs,
-        '--pytorch_num_workers=0'
-      ],
+      ['--model', modelPath, ...baseArgs, '--pytorch_num_workers=0'],
       { cwd: 'models/win_runner/main' }
     );
   }
   if (isLinux) {
-    return spawn('main', ['--model', `../${linuxBaseModelPath}`, ...baseArgs], {
+    return spawn('main', ['--model', modelPath, ...baseArgs], {
       cwd: 'models/linux_runner/main'
     });
   }
