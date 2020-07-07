@@ -28,11 +28,11 @@ conda install -c conda-forge pyinstaller exifread
 1. Create a virtual environment (`python3 -m venv venv`)
 2. Install requirements from `requirements.txt` (`source venv/bin/activate; pip install -r requirements.txt`).
 3. Run `release_model_linux_x86_64.sh`
-4. Run it for example with: `./main --model=..\..\serengeti\model\trained_model.pkl --input_folder=..\..\serengeti\images_fun_examples --output=output.csv --keep_scores --overwrite`
+4. Run it for example with: `./main --model=../../serengeti/model/trained_model.pkl --input_folder=../../serengeti/images_fun_examples --output=output.csv --keep_scores --overwrite`
    (Warning: this needs to be run from `main`'s directory for Pytorch to locate the necessary source files.)
 
 ## Running in dev mode directly
 1. Create a virtual environment (`python3 -m venv venv`)
 2. Install requirements from `requirements.txt` (`source venv/bin/activate; pip install -r requirements.txt`).
-3. Run it for example with: `python3 main.py --model=..\..\serengeti\model\trained_model.pkl --input_folder=..\..\serengeti\images_fun_examples --output=output.csv --keep_scores --overwrite`
+3. Run it for example with: `python3 main.py --model=../serengeti/model/trained_model.pkl --input_folder=../serengeti/images_fun_examples --output=output.csv --keep_scores --overwrite`
 
