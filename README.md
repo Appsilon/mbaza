@@ -38,5 +38,4 @@ We check for appropriate linting before each commit. You will be able to fix som
 Model packaging: go to `models_runner` and follow the README there (both for Windows and Linux).
 
 ## License
-
-TO BE DEFINED ~MIT © [Electron React Boilerplate](https://github.com/electron-react-boilerplate)~
+AGPLv3
