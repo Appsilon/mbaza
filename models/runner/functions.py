@@ -16,7 +16,7 @@ import exifread
 N_TOP_RESULTS = 3
 
 def is_image(filename):
-    return filename.endswith("jpg") or filename.endswith("jpeg") or filename.endswith("png")
+    return filename.lower().endswith(("jpg", "jpeg", "png"))
 
 def get_images(data_folder):
     images = []
@@ -82,9 +82,9 @@ def get_top_preds_and_scores(preds, classes):
 
 def parse_path(df):
     """ extract station, check and cam from path column and store. """
-    pattern = "STATION_([^\\/]*).*Check\s([^\\/]*).*CAM([^\\/]*)"
+    pattern = "Check\s([^\\/]*).*STATION_([^\\/]*).*CAM([^\\/]*)"
     result = df.copy()
-    result[["station", "check", "camera"]] = result.path.str.extract(pattern)
+    result[["check", "station", "camera"]] = result.path.str.extract(pattern)
     return result
 
 def parse_exif(df):
