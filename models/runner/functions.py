@@ -85,7 +85,22 @@ def parse_path(df):
     pattern = "Check\s([^\\/]*).*STATION_([^\\/]*).*CAM([^\\/]*)"
     result = df.copy()
     result[["check", "station", "camera"]] = result.path.str.extract(pattern)
+    result["station"] = pd.to_numeric(result["station"])
     return result
+
+def read_exif_coords(tags):
+    """Read GPS coordinates from Exif tags and return longitude, latitude tuple"""
+    def get_coord(ref, coord):
+        ref = {"N": 1, "S": -1, "W": -1, "E": 1}[ref.values]
+        degrees, minutes, seconds = (v.num / v.den for v in coord.values)
+        return ref * (degrees + minutes / 60 + seconds / 3600)
+
+    try:
+        long = get_coord(tags["GPS GPSLongitudeRef"], tags["GPS GPSLongitude"])
+        lat = get_coord(tags["GPS GPSLatitudeRef"], tags["GPS GPSLatitude"])
+        return long, lat
+    except KeyError:
+        return None, None
 
 def parse_exif(df):
     """ extract datetime, gps long and gps lat from exif of images """
@@ -100,14 +115,11 @@ def parse_exif(df):
         if tags:
             try:
                 exif_datetime.append(tags["EXIF DateTimeOriginal"].values)
-            except:
+            except KeyError:
                 exif_datetime.append(None)
-            try:
-                exif_gps_long.append(tags["GPS GPSLongitude"].values)
-                exif_gps_lat.append(tags["GPS GPSLatitude"].values)
-            except:
-                exif_gps_long.append(None)
-                exif_gps_lat.append(None)
+            long, lat = read_exif_coords(tags)
+            exif_gps_long.append(long)
+            exif_gps_lat.append(lat)
         else:
             exif_datetime.append(None)
             exif_gps_long.append(None)
@@ -118,6 +130,34 @@ def parse_exif(df):
 
     return result
 
+def add_station_coords(df, grid_file):
+    """Add station coordinates matched from the grid file"""
+    # Grid file column name --> output column name mapping.
+    columns = {
+        "locationID": "station",
+        "Longitude": "grid_file_long",
+        "Latitude": "grid_file_lat",
+    }
+    if grid_file is None:
+        # Use empty data frame - as if the grid file had no stations.
+        stations = pd.DataFrame(columns=columns.values())
+    else:
+        stations = pd.read_csv(grid_file)
+        stations.rename(columns=columns, inplace=True, errors="raise")
+    return pd.merge(df, stations, how="left", on="station")
+
+def add_output_coords(df):
+    """Add output coordinates determined on best-effort basis"""
+    def prefer_exif(row):
+        # We assume that longitude is present iff latiitude is present.
+        if pd.notnull(row["exif_gps_long"]):
+            return row[["exif_gps_long", "exif_gps_lat"]]
+        else:
+            return row[["grid_file_long", "grid_file_lat"]]
+    df = df.copy()
+    df[["coordinates_long", "coordinates_lat"]] = df.apply(prefer_exif, axis=1)
+    return df
+
 def order_df(df,var):
     """ make the var list of columns as the first columns, keep rest at the end in df """
     if type(var) is str:
@@ -126,23 +166,25 @@ def order_df(df,var):
     df = df[var+varlist]
     return df
 
-def infer_to_csv(model, data_folder, output, keep_scores, overwrite, pytorch_num_workers):
-    if not overwrite:
-        assert not Path(output).exists(), f"{output} already exists, use the 'overwrite' option to proceed anyway."
-    images = get_images(data_folder)
-    preds, classes = get_predictions(model, images, pytorch_num_workers)
+def infer_to_csv(args):
+    if not args.overwrite:
+        assert not Path(args.output).exists(), f"{args.output} already exists, use the 'overwrite' option to proceed anyway."
+    images = get_images(args.input_folder)
+    preds, classes = get_predictions(args.model, images, args.pytorch_num_workers)
     df_preds = get_top_preds_and_scores(preds, classes)
     df_preds["path"] = images
     df_preds = parse_path(df_preds) # extract station, check, cam where possible from path
     df_preds = parse_exif(df_preds) # extract datetime, gps_long and gps_lat from exif if images
+    df_preds = add_station_coords(df_preds, args.grid_file)
+    df_preds = add_output_coords(df_preds)
 
     result = order_df(df_preds, ["path", "station", "check", "camera",\
-                                 "exif_datetime", "exif_gps_long", "exif_gps_lat",\
+                                 "exif_datetime", "coordinates_long", "coordinates_lat",\
                                  ] + [f"{prefix}_{i}" for prefix in ["pred", "score"] for i in range(1, N_TOP_RESULTS + 1) ])
-    if not keep_scores:
+    if not args.keep_scores:
         result = df_preds[["path", "station", "check", "camera",\
                            "exif_datetime", "exif_gps_long", "exif_gps_lat",\
                            "pred_1"]]
 
-    result.to_csv(output, index=False)
-    print(f"Results stored in {output}.")
+    result.to_csv(args.output, index=False)
+    print(f"Results stored in {args.output}.")

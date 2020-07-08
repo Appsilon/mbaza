@@ -28,6 +28,11 @@ def main():
         help="Path to the output .csv file with results",
     )
     parser.add_argument(
+        "--grid_file",
+        metavar="/path/to/stations.csv",
+        help="Path to a .csv file with the coordinates of monitoring stations",
+    )
+    parser.add_argument(
         "--keep_scores",
         default = False,
         action = "store_true",
@@ -47,7 +52,7 @@ def main():
     )
 
     args = parser.parse_args()
-    infer_to_csv(args.model, args.input_folder, args.output, args.keep_scores, args.overwrite, args.pytorch_num_workers)
+    infer_to_csv(args)
 
 if (__name__ == "__main__"):
     main()
