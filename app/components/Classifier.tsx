@@ -14,49 +14,32 @@ function runModelProcess(baseArgs: string[]): IPty {
   const isWin = !isDev && process.platform === 'win32';
   const isLinux = !isDev && process.platform === 'linux';
 
-  // TODO: Explain why this path is different for Linux and Windows.
-  const modelsRoot = isLinux ? '../..' : '..';
-  const modelName = 'serengeti';
-  const modelPath = path.join(
-    modelsRoot,
-    modelName,
-    'model',
-    'trained_model.pkl'
-  );
-  // TODO: Display a warning to the user if the grid file is missing.
-  const gridFile = path.join(modelsRoot, 'biomonitoring_stations.csv');
-
+  const root = path.resolve('models'); // Resolve to an absolute path.
+  let workdir;
+  let program;
+  const args = [];
   if (isDev) {
-    return spawn(
-      'venv/bin/python3',
-      ['main.py', '--model', modelPath, '--grid_file', gridFile, ...baseArgs],
-      { cwd: 'models/runner' }
+    workdir = path.join(root, 'runner');
+    program = path.join(workdir, 'venv', 'bin', 'python3');
+    args.push('main.py');
+  } else if (isWin) {
+    workdir = path.join(root, 'win_runner', 'main');
+    program = path.join(workdir, 'main.exe');
+  } else if (isLinux) {
+    workdir = path.join(root, 'linux_runner', 'main');
+    program = path.join(workdir, 'main');
+  } else {
+    throw new Error(
+      `Unsupported operating system for running models: ${process.platform}`
     );
   }
-  if (isWin) {
-    return spawn(
-      'main.exe',
-      [
-        '--model',
-        modelPath,
-        '--grid_file',
-        gridFile,
-        ...baseArgs,
-        '--pytorch_num_workers=0'
-      ],
-      { cwd: 'models/win_runner/main' }
-    );
-  }
-  if (isLinux) {
-    return spawn(
-      'main',
-      ['--model', modelPath, '--grid_file', gridFile, ...baseArgs],
-      { cwd: 'models/linux_runner/main' }
-    );
-  }
-  throw new Error(
-    `Unsupported operating system for running models: ${process.platform}`
-  );
+  // TODO: Allow user to choose model.
+  const modelName = 'serengeti';
+  // TODO: Display a warning to the user if the model or grid file are missing.
+  args.push('--model', path.join(root, modelName, 'trained_model.pkl'));
+  args.push('--grid_file', path.join(root, 'biomonitoring_stations.csv'));
+  args.push(...baseArgs);
+  return spawn(program, args, { cwd: workdir });
 }
 
 const computePredictions = (
