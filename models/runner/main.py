@@ -50,6 +50,12 @@ def main():
         default = 16,
         help="Number of PyTorch data read workers. Set to 0 on Windows to avoid fork issues",
     )
+    parser.add_argument(
+        "--batch_size",
+        type = int,
+        default = 64,
+        help="Number of images processed in one batch. Set to smaller number if facing memory issues",
+    )
 
     args = parser.parse_args()
     infer_to_csv(args)
