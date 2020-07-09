@@ -148,15 +148,16 @@ def add_station_coords(df, grid_file):
 
 def add_output_coords(df):
     """Add output coordinates determined on best-effort basis"""
-    def prefer_exif(row):
+    def f(row):
         # We assume that longitude is present iff latiitude is present.
-        if pd.notnull(row["exif_gps_long"]):
-            return row[["exif_gps_long", "exif_gps_lat"]]
+        if pd.notnull(row["exif_gps_long"]):  # Prefer Exif.
+            row["coordinates_long"] = row["exif_gps_long"]
+            row["coordinates_lat"] = row["exif_gps_lat"]
         else:
-            return row[["grid_file_long", "grid_file_lat"]]
-    df = df.copy()
-    df[["coordinates_long", "coordinates_lat"]] = df.apply(prefer_exif, axis=1)
-    return df
+            row["coordinates_long"] = row["grid_file_long"]
+            row["coordinates_lat"] = row["grid_file_lat"]
+        return row
+    return df.apply(f, axis=1)
 
 def order_df(df,var):
     """ make the var list of columns as the first columns, keep rest at the end in df """
