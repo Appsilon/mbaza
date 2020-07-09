@@ -60,7 +60,10 @@ function getObservationCoordinates(row: Observation): [number, number] {
 function makeLocationFeature(observations: Observation[]) {
   // TODO: remove random coordinates from Lope and verify that photos have correct coords in .
   const coordinates = getObservationCoordinates(observations[0]);
-  const description = _.map(observations, 'pred_1').join(', ');
+  const description = _(observations)
+    .map('pred_1')
+    .uniq()
+    .join(', ');
   return {
     coordinates,
     title: `${observations.length} observations`,
