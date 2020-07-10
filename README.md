@@ -7,6 +7,7 @@ The application is multi-platform. We support MacOS, Linux and Windows 10. Prima
 ## Maintainers
 
 - [Marek Rogala](https://github.com/marekrogala)
+- [Kamil Żyła](https://github.com/kamilzyla)
 - [Tomasz Dziopa](https://github.com/tomecki)
 - [Wojciech Dziwulski](https://github.com/wojdziw)
 
