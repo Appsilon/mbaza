@@ -5,8 +5,8 @@ type Observation = {
   station: string;
   check: string;
   camera: string;
-  exif_gps_lat: number;
-  exif_gps_long: number;
+  coordinates_lat: number;
+  coordinates_long: number;
 };
 
 type ObservationsData = {

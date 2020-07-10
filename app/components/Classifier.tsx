@@ -23,25 +23,36 @@ function runModelProcess(baseArgs: string[]): IPty {
     'model',
     'trained_model.pkl'
   );
+  // TODO: Display a warning to the user if the grid file is missing.
+  const gridFile = path.join(modelsRoot, 'biomonitoring_stations.csv');
 
   if (isDev) {
     return spawn(
       'venv/bin/python3',
-      ['main.py', '--model', modelPath, ...baseArgs],
+      ['main.py', '--model', modelPath, '--grid_file', gridFile, ...baseArgs],
       { cwd: 'models/runner' }
     );
   }
   if (isWin) {
     return spawn(
       'main.exe',
-      ['--model', modelPath, ...baseArgs, '--pytorch_num_workers=0'],
+      [
+        '--model',
+        modelPath,
+        '--grid_file',
+        gridFile,
+        ...baseArgs,
+        '--pytorch_num_workers=0'
+      ],
       { cwd: 'models/win_runner/main' }
     );
   }
   if (isLinux) {
-    return spawn('main', ['--model', modelPath, ...baseArgs], {
-      cwd: 'models/linux_runner/main'
-    });
+    return spawn(
+      'main',
+      ['--model', modelPath, '--grid_file', gridFile, ...baseArgs],
+      { cwd: 'models/linux_runner/main' }
+    );
   }
   throw new Error(
     `Unsupported operating system for running models: ${process.platform}`

@@ -54,7 +54,7 @@ type Props = {
 };
 
 function getObservationCoordinates(row: Observation): [number, number] {
-  return [row.exif_gps_long, row.exif_gps_lat];
+  return [row.coordinates_long, row.coordinates_lat];
 }
 
 function makeLocationFeature(observations: Observation[]) {

@@ -43,9 +43,9 @@ export default function ObservationsTable(props: Props) {
         cellRenderer={(rowIndex: number) => (
           <Cell>
             Lat:
-            {observations[rowIndex].exif_gps_lat}
+            {observations[rowIndex].coordinates_lat}
             Lon:
-            {observations[rowIndex].exif_gps_long}
+            {observations[rowIndex].coordinates_long}
           </Cell>
         )}
       />
