@@ -39,3 +39,10 @@ Model packaging: go to `models_runner` and follow the README there (both for Win
 
 ## License
 AGPLv3
+
+## Definition of Done:
+- Change has been tested (manually or with automated tests). No existing functionality is broken.
+- Continuous integration checks (linter, project build) pass.
+- README is updated with all information related to the change.
+- All code has been peer-reviewed before merging into any main branch.
+- Change is tested in installed version on Windows and Linux.
