@@ -66,15 +66,22 @@ function makeLocationFeature(observations: Observation[]) {
     .join(', ');
   return {
     coordinates,
-    title: `${observations.length} observations`,
+    count: observations.length,
     description
   };
+}
+
+function markerSize(count: number, total: number): number {
+  const minSize = 20;
+  const maxSize = 150;
+  return minSize + (count / total) * (maxSize - minSize);
 }
 
 export default function Map(props: Props) {
   const mapRef = React.createRef<HTMLDivElement>();
 
   const { data } = props;
+  const totalObservations = data.observations.length;
 
   // TODO: remove slice and fix performance.
   const locations = _(data.observations.slice(0, 100)).groupBy(
@@ -93,14 +100,16 @@ export default function Map(props: Props) {
         const marker = makeLocationFeature(observations);
         // create a HTML element for each feature
         const el = document.createElement('div');
+        const size = markerSize(marker.count, totalObservations);
+        el.setAttribute('style', `width: ${size}px; height: ${size}px;`);
         el.className = 'marker';
         // make a marker for each feature and add to the map
         new mapboxgl.Marker(el)
           .setLngLat(marker.coordinates)
           .setPopup(
-            new mapboxgl.Popup({ offset: 25 }) // add popups
+            new mapboxgl.Popup({ offset: size / 2 }) // add popups
               .setHTML(
-                `<h3>${marker.title}</h3><p><b>Observed:</b> ${marker.description}</p>`
+                `<h3>${marker.count} observations</h3><p><b>Observed:</b> ${marker.description}</p>`
               )
           )
           .addTo(map);
