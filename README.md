@@ -16,6 +16,7 @@ The application is multi-platform. We support MacOS, Linux and Windows 10. Prima
 ### Basic information
 
 - We're using Electron. The app is based on https://github.com/electron-react-boilerplate/electron-react-boilerplate], which internally uses https://github.com/electron-userland/electron-builder.
+- Useful files (sample data, biomonitoring stations, icons) can be found on our [Drive](https://drive.google.com/drive/folders/1eQWuf5WCT429xogQ2HiZqapehvweAtxP) (Appsilon internal).
 
 ### Dev environment setup
 
