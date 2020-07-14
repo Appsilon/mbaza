@@ -76,25 +76,29 @@ function addMarkers(observations: Observation[], map: mapboxgl.Map) {
         .map('pred_1')
         .uniq()
     }));
-  if (markers.isEmpty()) return;
-  const maxSpecies = markers.map(x => x.species.size()).max()!;
-  map.on('load', () => {
-    markers.forEach(marker => {
-      const diameter = circleDiameter(marker.species.size(), maxSpecies);
-      const el = document.createElement('div');
-      el.className = 'marker';
-      el.setAttribute('style', `width: ${diameter}px; height: ${diameter}px;`);
-      new mapboxgl.Marker(el)
-        .setLngLat(marker.coordinates)
-        .setPopup(
-          new mapboxgl.Popup({ offset: diameter / 2 }).setHTML(
-            `<h3>${marker.count} observations</h3>` +
-              `<p><b>Species:</b> ${marker.species.join(', ')}</p>`
+  const maxSpecies = markers.map(x => x.species.size()).max();
+  if (maxSpecies !== undefined) {
+    map.on('load', () => {
+      markers.forEach(marker => {
+        const diameter = circleDiameter(marker.species.size(), maxSpecies);
+        const el = document.createElement('div');
+        el.className = 'marker';
+        el.setAttribute(
+          'style',
+          `width: ${diameter}px; height: ${diameter}px;`
+        );
+        new mapboxgl.Marker(el)
+          .setLngLat(marker.coordinates)
+          .setPopup(
+            new mapboxgl.Popup({ offset: diameter / 2 }).setHTML(
+              `<h3>${marker.count} observations</h3>` +
+                `<p><b>Species:</b> ${marker.species.join(', ')}</p>`
+            )
           )
-        )
-        .addTo(map);
+          .addTo(map);
+      });
     });
-  });
+  }
 }
 
 export default function Map(props: Props) {
