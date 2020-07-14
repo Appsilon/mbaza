@@ -29,9 +29,12 @@ We check for appropriate linting before each commit. You will be able to fix som
 
 ### Running the app
 
-- `yarn` installs dependencies
-- `yarn dev` runs the app
-- `yarn test` tests the app
+- `yarn` installs dependencies.
+- `yarn dev` runs the app in development mode (with developer tools, hot swapping, ...).
+- `yarn start` runs the app in production mode (bundled and optimized).
+
+Prepend `yarn cross-env DEBUG_PROD=true` to a command to enable debugging in production.
+For example: `yarn cross-env DEBUG_PROD=true yarn package`.
 
 ### Packaging for production
 
@@ -39,9 +42,11 @@ We check for appropriate linting before each commit. You will be able to fix som
 Model packaging: go to `models_runner` and follow the README there (both for Windows and Linux).
 
 ## License
+
 AGPLv3
 
 ## Definition of Done:
+
 - Change has been tested (manually or with automated tests). No existing functionality is broken.
 - Continuous integration checks (linter, project build) pass.
 - README is updated with all information related to the change.
