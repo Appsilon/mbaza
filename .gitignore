@@ -51,3 +51,5 @@ npm-debug.log.*
 
 test_data
 models/biomonitoring_stations.csv
+models/runner_win
+models/runner_linux

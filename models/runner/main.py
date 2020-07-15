@@ -53,7 +53,7 @@ def main():
     parser.add_argument(
         "--batch_size",
         type = int,
-        default = 64,
+        default = 1,
         help="Number of images processed in one batch. Set to smaller number if facing memory issues",
     )
 

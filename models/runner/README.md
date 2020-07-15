@@ -15,13 +15,15 @@ conda install -c fastai fastai
 conda install -c conda-forge pyinstaller exifread
 ```
 
-4. build the bundle - Run release*model_win10_x86_64.bat from main repo dir
+4. build the bundle - go to `models/runner` and run `release_model_win10_x86_64.bat`
    REM If you run into issues with loading dependecies, set a shorter $env:PATH with only system paths and conda, and re-activate the environment (Windows has trouble loading packages if $PATH after activating the environment is too long ¯\\*(ツ)\_/¯)
 
-5. Now your model runner is in `runner_win\main\main.exe`. Distribute the entire `runner_win\main` folder.
+5. Now your model runner is in `runner_win\main\main.exe`.
 
 6. Run it for example with: `main.exe --model=..\..\serengeti\trained_model.pkl --input_folder=..\..\serengeti\images_fun_examples --output=output.csv --keep_scores --overwrite --pytorch_num_workers=0`
    (Warning: this needs to be run from `main.exe`'s directory for Pytorch to locate the necessary source files.)
+
+7. Add `stations_grid.csv` to the main `models` directory.  Distribute the entire `models` folder as a zip archive containing `biomonitoring_stations.csv`, `runner_win` and directories with models (e.g. `gabon` and `serengeti`). Do not include the `runner` directory as it contains source code and temporary build files.
 
 ## Building on Linux
 
