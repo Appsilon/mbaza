@@ -32,11 +32,12 @@ a:hover {
 }
 
 .marker {
-  background-image: url('../resources/mapbox-icon.png');
-  background-size: cover;
   width: 50px;
   height: 50px;
   border-radius: 50%;
+  background-color: LightGrey;
+  border: 2px solid Grey;
+  opacity: 0.5;
   cursor: pointer;
 }
 
@@ -45,6 +46,6 @@ a:hover {
 }
 
 .mapboxgl-popup-content {
-  text-align: center;
+  text-align: left;
   font-family: 'Open Sans', sans-serif;
 }

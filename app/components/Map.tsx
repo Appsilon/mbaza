@@ -57,30 +57,57 @@ function getObservationCoordinates(row: Observation): [number, number] {
   return [row.coordinates_long, row.coordinates_lat];
 }
 
-function makeLocationFeature(observations: Observation[]) {
-  // TODO: remove random coordinates from Lope and verify that photos have correct coords in .
-  const coordinates = getObservationCoordinates(observations[0]);
-  const description = _(observations)
-    .map('pred_1')
-    .uniq()
-    .join(', ');
-  return {
-    coordinates,
-    title: `${observations.length} observations`,
-    description
-  };
+function circleDiameter(count: number, total: number): number {
+  const minSize = 20;
+  const maxSize = 100;
+  return minSize + (count / total) * (maxSize - minSize);
+}
+
+function addMarkers(observations: Observation[], map: mapboxgl.Map) {
+  // TODO: Drop observations with missing station and warn the user.
+  const markers = _(observations)
+    .groupBy(x => x.station)
+    .map(group => ({
+      station: group[0].station,
+      // Observations from a single station should have approximately identical
+      // coordinates, so we can pick any.
+      coordinates: getObservationCoordinates(group[0]),
+      count: group.length,
+      species: _(group)
+        .map('pred_1')
+        .uniq()
+    }));
+  const maxSpecies = markers.map(x => x.species.size()).max();
+  if (maxSpecies !== undefined) {
+    map.on('load', () => {
+      markers.forEach(marker => {
+        const diameter = circleDiameter(marker.species.size(), maxSpecies);
+        const el = document.createElement('div');
+        el.className = 'marker';
+        el.setAttribute(
+          'style',
+          `width: ${diameter}px; height: ${diameter}px;`
+        );
+        new mapboxgl.Marker(el)
+          .setLngLat(marker.coordinates)
+          .setPopup(
+            new mapboxgl.Popup({ offset: diameter / 2 }).setHTML(
+              `<h3>Station <b>${marker.station}</b></h3>
+               <p></p>
+               <p><b>${marker.count}</b> observations</p>
+               <p><b>${marker.species.size()} species</b>:
+                  ${marker.species.join(', ')}</p>`
+            )
+          )
+          .addTo(map);
+      });
+    });
+  }
 }
 
 export default function Map(props: Props) {
-  const mapRef = React.createRef<HTMLDivElement>();
-
   const { data } = props;
-
-  // TODO: remove slice and fix performance.
-  const locations = _(data.observations.slice(0, 100)).groupBy(
-    getObservationCoordinates
-  );
-
+  const mapRef = React.createRef<HTMLDivElement>();
   useEffect(() => {
     const map = new mapboxgl.Map({
       container: mapRef.current as HTMLElement,
@@ -88,29 +115,11 @@ export default function Map(props: Props) {
       center: [12, -0.8],
       zoom: 6
     });
-    map.on('load', () => {
-      locations.forEach((observations: Observation[]) => {
-        const marker = makeLocationFeature(observations);
-        // create a HTML element for each feature
-        const el = document.createElement('div');
-        el.className = 'marker';
-        // make a marker for each feature and add to the map
-        new mapboxgl.Marker(el)
-          .setLngLat(marker.coordinates)
-          .setPopup(
-            new mapboxgl.Popup({ offset: 25 }) // add popups
-              .setHTML(
-                `<h3>${marker.title}</h3><p><b>Observed:</b> ${marker.description}</p>`
-              )
-          )
-          .addTo(map);
-      });
-    });
+    addMarkers(data.observations, map);
     return function cleanup() {
       map.remove();
     };
   });
-
   return (
     <div
       style={{
