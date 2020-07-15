@@ -57,9 +57,8 @@ const createWindow = async () => {
     show: false,
     width: 1024,
     height: 728,
-    // Enabling Node integration has potential security implications, but they seem to be irrelevant
-    // to our case (we only load local content).
-    //   https://www.electronjs.org/docs/tutorial/security#2-do-not-enable-nodejs-integration-for-remote-content
+    // TODO: Avoid using Node integration in production, as this has potential
+    // security implications. See issue #84 for details.
     webPreferences: { nodeIntegration: true }
   });
 

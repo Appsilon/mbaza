@@ -289,7 +289,7 @@
     "electron-updater": "^4.2.0",
     "history": "^4.10.1",
     "i18next": "^19.3.3",
-    "mapbox-gl": "^1.10.1",
+    "mapbox-gl": "^1.10.2",
     "plotly.js": "^1.52.3",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
