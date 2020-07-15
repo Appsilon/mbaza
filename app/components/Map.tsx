@@ -68,6 +68,7 @@ function addMarkers(observations: Observation[], map: mapboxgl.Map) {
   const markers = _(observations)
     .groupBy(x => x.station)
     .map(group => ({
+      station: group[0].station,
       // Observations from a single station should have approximately identical
       // coordinates, so we can pick any.
       coordinates: getObservationCoordinates(group[0]),
@@ -91,8 +92,11 @@ function addMarkers(observations: Observation[], map: mapboxgl.Map) {
           .setLngLat(marker.coordinates)
           .setPopup(
             new mapboxgl.Popup({ offset: diameter / 2 }).setHTML(
-              `<h3>${marker.count} observations</h3>` +
-                `<p><b>Species:</b> ${marker.species.join(', ')}</p>`
+              `<h3>Station <b>${marker.station}</b></h3>
+               <p></p>
+               <p><b>${marker.count}</b> observations</p>
+               <p><b>${marker.species.size()} species</b>:
+                  ${marker.species.join(', ')}</p>`
             )
           )
           .addTo(map);
