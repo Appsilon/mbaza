@@ -26,7 +26,7 @@ export default function App(props: Props) {
         <Navbar.Group align={Alignment.LEFT}>
           <Navbar.Heading>
             <img
-              src="../resources/icon.png"
+              src="assets/icon.png"
               style={{ width: '32px', height: '32px' }}
               alt="Mbaza"
             />

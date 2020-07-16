@@ -54,6 +54,7 @@
     "productName": "Mbaza AI",
     "appId": "com.appsilon.mbaza",
     "files": [
+      "assets/",
       "dist/",
       "node_modules/",
       "app.html",
