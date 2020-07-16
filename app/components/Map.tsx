@@ -35,17 +35,17 @@ const changeSources = (jsonObj: any) => {
   });
 };
 
-const mapboxStyle = require('../../resources/map-style.json');
+const mapboxStyle = require('assets/map-style.json');
 
 delete mapboxStyle.sources.mapbox;
 changeSources(mapboxStyle);
-const gabonMap = require('../../resources/map_sources/gabon_parks_map.json');
+const gabonMap = require('assets/map-sources/gabon_parks_map.json');
 
 mapboxStyle.sources.jsonsource = {
   type: 'geojson',
   data: gabonMap
 };
-mapboxStyle.glyphs = '../resources/map_font/{fontstack}/{range}.pbf';
+mapboxStyle.glyphs = 'assets/map-font/{fontstack}/{range}.pbf';
 
 // COMPONENT RENDERING
 
