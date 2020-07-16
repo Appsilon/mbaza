@@ -3,6 +3,9 @@ import mapboxgl from 'mapbox-gl';
 import _ from 'lodash';
 import styles from './Map.css';
 
+// Models can use different name for images without animals.
+const emptyClasses = ['empty', 'blank'];
+
 /*
 To produce a country file please have a look at download_map.sh
 
@@ -66,6 +69,7 @@ function circleDiameter(count: number, total: number): number {
 function addMarkers(observations: Observation[], map: mapboxgl.Map) {
   // TODO: Drop observations with missing station and warn the user.
   const markers = _(observations)
+    .filter(x => !emptyClasses.includes(x.pred_1))
     .groupBy(x => x.station)
     .map(group => ({
       station: group[0].station,
@@ -75,19 +79,26 @@ function addMarkers(observations: Observation[], map: mapboxgl.Map) {
       count: group.length,
       species: _(group)
         .map('pred_1')
-        .uniq()
+        .uniq(),
+      observations: group
     }));
   const maxSpecies = markers.map(x => x.species.size()).max();
   if (maxSpecies !== undefined) {
     map.on('load', () => {
       markers.forEach(marker => {
         const diameter = circleDiameter(marker.species.size(), maxSpecies);
+        const thumbnailSize = diameter / 2;
+        const thumbnailOffset = thumbnailSize / 2;
+
         const el = document.createElement('div');
         el.className = 'marker';
         el.setAttribute(
           'style',
           `width: ${diameter}px; height: ${diameter}px;`
         );
+        el.innerHTML = `<img
+          src="${marker.observations[0].path}"
+          style="width: ${thumbnailSize}px; height: ${thumbnailSize}px; margin-top: -${thumbnailOffset}px; margin-left: -${thumbnailOffset}px;">`;
         new mapboxgl.Marker(el)
           .setLngLat(marker.coordinates)
           .setPopup(
