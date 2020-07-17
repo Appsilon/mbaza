@@ -52,7 +52,6 @@ const computePredictions = (
     directory,
     '--output',
     savePath,
-    '--keep_scores',
     '--overwrite'
   ];
 
