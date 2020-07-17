@@ -83,7 +83,7 @@ def get_top_preds_and_scores(preds, classes):
 
 def parse_path(df):
     """ extract station, check and cam from path column and store. """
-    pattern = "Check\s([^\\/]*).*STATION_([^\\/]*).*CAM([^\\/]*)"
+    pattern = r"Check\s([^\\/]*).*STATION_([^\\/]*).*CAM([^\\/]*)"
     result = df.copy()
     result[["check", "station", "camera"]] = result.path.str.extract(pattern)
     result["station"] = pd.to_numeric(result["station"])
