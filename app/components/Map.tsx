@@ -1,6 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import _ from 'lodash';
+import { Button, Card, Classes, Drawer, Elevation } from '@blueprintjs/core';
+import ReactDOM from 'react-dom';
 import styles from './Map.css';
 
 // Models can use different name for images without animals.
@@ -66,7 +68,11 @@ function circleDiameter(count: number, total: number): number {
   return minSize + (count / total) * (maxSize - minSize);
 }
 
-function addMarkers(observations: Observation[], map: mapboxgl.Map) {
+function addMarkers(
+  observations: Observation[],
+  map: mapboxgl.Map,
+  setInspectedObservations: (observations: Observation[]) => void
+) {
   // TODO: Drop observations with missing station and warn the user.
   const markers = _(observations)
     .filter(x => !emptyClasses.includes(x.pred_1))
@@ -99,15 +105,39 @@ function addMarkers(observations: Observation[], map: mapboxgl.Map) {
         el.innerHTML = `<img
           src="${marker.observations[0].path}"
           style="width: ${thumbnailSize}px; height: ${thumbnailSize}px; margin-top: -${thumbnailOffset}px; margin-left: -${thumbnailOffset}px;">`;
+
+        const popupContentPlaceholder = document.createElement('div');
+        ReactDOM.render(
+          <>
+            <h3>
+              Station&nbsp;
+              <b>{marker.station}</b>
+            </h3>
+            <p>
+              <b>{marker.count}</b>
+              &nbsp;observations
+            </p>
+            <p>
+              <b>
+                {marker.species.size()}
+                &nbsp;species:&nbsp;
+              </b>
+              {marker.species.join(', ')}
+            </p>
+            <Button
+              onClick={() => setInspectedObservations(marker.observations)}
+            >
+              See all photos
+            </Button>
+          </>,
+          popupContentPlaceholder
+        );
+
         new mapboxgl.Marker(el)
           .setLngLat(marker.coordinates)
           .setPopup(
-            new mapboxgl.Popup({ offset: diameter / 2 }).setHTML(
-              `<h3>Station <b>${marker.station}</b></h3>
-               <p></p>
-               <p><b>${marker.count}</b> observations</p>
-               <p><b>${marker.species.size()} species</b>:
-                  ${marker.species.join(', ')}</p>`
+            new mapboxgl.Popup({ offset: diameter / 2 }).setDOMContent(
+              popupContentPlaceholder
             )
           )
           .addTo(map);
@@ -115,10 +145,99 @@ function addMarkers(observations: Observation[], map: mapboxgl.Map) {
     });
   }
 }
+function observationCard(observation: Observation): JSX.Element {
+  return (
+    <Card
+      elevation={Elevation.TWO}
+      key={observation.path}
+      style={{ marginTop: 10 }}
+    >
+      <h3 style={{ marginTop: 0 }}>
+        {observation.pred_1}
+        {' seen at '}
+        {observation.exif_datetime}
+      </h3>
+      <div style={{ display: 'flex' }}>
+        <div>
+          <img src={observation.path} width={400} alt={observation.pred_1} />
+        </div>
+        <div style={{ marginLeft: 24 }}>
+          <table className="bp3-html-table bp3-html-table-condensed">
+            <thead>
+              <tr>
+                <th>Prediction</th>
+                <th>Probability</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[
+                [observation.pred_1, observation.score_1],
+                [observation.pred_2, observation.score_2],
+                [observation.pred_3, observation.score_3]
+              ].map(i => (
+                <tr key={i[0]}>
+                  <td>{i[0]}</td>
+                  <td>
+                    {((i[1] as number) * 100).toFixed(2)}
+                    &nbsp;%
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <div style={{ margin: '20px 10px' }}>
+            <p>
+              <strong>Camera: </strong>
+              {observation.camera}
+            </p>
+            <p>
+              <strong>Check: </strong>
+              {observation.check}
+            </p>
+          </div>
+        </div>
+      </div>
+    </Card>
+  );
+}
+
+function observationsInspector(
+  inspectedObservations: Observation[],
+  setInspectedObservations: React.Dispatch<React.SetStateAction<Observation[]>>
+): React.ReactNode {
+  if (inspectedObservations.length === 0) {
+    return null;
+  }
+  return (
+    <Drawer
+      title={`Observations in station ${inspectedObservations[0].station}`}
+      icon="camera"
+      isOpen={inspectedObservations.length > 0}
+      onClose={() => setInspectedObservations([])}
+      hasBackdrop={false}
+    >
+      <div className={Classes.DRAWER_BODY}>
+        <div className={Classes.DIALOG_BODY}>
+          {inspectedObservations.map(observation =>
+            observationCard(observation)
+          )}
+        </div>
+      </div>
+      <div className={Classes.DRAWER_FOOTER}>
+        {inspectedObservations.length}
+        &nbsp; observations
+      </div>
+    </Drawer>
+  );
+}
 
 export default function Map(props: Props) {
   const { data } = props;
   const mapRef = React.createRef<HTMLDivElement>();
+
+  const [inspectedObservations, setInspectedObservations] = useState<
+    Observation[]
+  >([]);
   useEffect(() => {
     const map = new mapboxgl.Map({
       container: mapRef.current as HTMLElement,
@@ -126,7 +245,7 @@ export default function Map(props: Props) {
       center: [12, -0.8],
       zoom: 6
     });
-    addMarkers(data.observations, map);
+    addMarkers(data.observations, map, setInspectedObservations);
     return function cleanup() {
       map.remove();
     };
@@ -140,6 +259,7 @@ export default function Map(props: Props) {
       }}
     >
       <div ref={mapRef} className={styles.mapContainer} />
+      {observationsInspector(inspectedObservations, setInspectedObservations)}
     </div>
   );
 }
