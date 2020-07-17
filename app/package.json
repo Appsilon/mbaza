@@ -16,7 +16,6 @@
   "license": "AGPL-3.0-or-later",
   "dependencies": {
     "@types/mapbox-gl": "^1.10.2",
-    "mapbox-gl": "^1.10.2",
-    "node-pty": "^0.9.0"
+    "mapbox-gl": "^1.10.2"
   }
 }
