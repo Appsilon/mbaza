@@ -1,7 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import mapboxgl from 'mapbox-gl';
 import _ from 'lodash';
-import { Button, Card, Classes, Drawer, Elevation } from '@blueprintjs/core';
+import {
+  Button,
+  Card,
+  Classes,
+  Drawer,
+  Elevation,
+  Position,
+  Tooltip
+} from '@blueprintjs/core';
 import ReactDOM from 'react-dom';
 import styles from './Map.css';
 
@@ -68,6 +76,96 @@ function circleDiameter(count: number, total: number): number {
   return minSize + (count / total) * (maxSize - minSize);
 }
 
+function makeStationMarker(
+  groupObservations: Observation[],
+  species: _.Collection<string>,
+  maxSpecies: number,
+  setInspectedObservations: (observations: Observation[]) => void
+) {
+  // Observations from a single station should have approximately identical
+  // coordinates, so we can pick any.
+  const firstObservation = groupObservations[0];
+  const coordinates = getObservationCoordinates(firstObservation);
+  const count = groupObservations.length;
+  const { station } = firstObservation;
+
+  const diameter = circleDiameter(species.size(), maxSpecies);
+  const thumbnailSize = diameter / 2;
+  const thumbnailOffset = thumbnailSize / 2;
+  const maxPreviewPhotosCount = 3;
+
+  const el = document.createElement('div');
+  el.className = 'marker';
+  el.setAttribute('style', `width: ${diameter}px; height: ${diameter}px;`);
+  el.innerHTML = `<img
+          src="${firstObservation.path}"
+          style="width: ${thumbnailSize}px; height: ${thumbnailSize}px; margin-top: -${thumbnailOffset}px; margin-left: -${thumbnailOffset}px;">`;
+
+  const popupContentPlaceholder = document.createElement('div');
+  ReactDOM.render(
+    <>
+      <h3>
+        Station&nbsp;
+        <b>{station}</b>
+      </h3>
+      <p>
+        <b>{count}</b>
+        &nbsp; observations
+      </p>
+      <p>
+        <Tooltip
+          content={species.join(', ')}
+          position={Position.BOTTOM}
+          className="speciesTooltip"
+        >
+          <b>
+            {species.size()}
+            &nbsp;species
+          </b>
+        </Tooltip>
+      </p>
+      <p>
+        <div className="photosPreview" style={{ display: 'flex' }}>
+          {groupObservations
+            .slice(0, maxPreviewPhotosCount)
+            .map(observation => (
+              // eslint-disable-next-line
+              <a
+                key={observation.path}
+                className="photosPreviewItem"
+                onClick={() => setInspectedObservations(groupObservations)}
+              >
+                <img
+                  src={observation.path}
+                  alt="Observations preview"
+                  style={{ width: '100%', height: '100%' }}
+                />
+              </a>
+            ))}
+          <div>
+            <Button
+              onClick={() => setInspectedObservations(groupObservations)}
+              className="photosPreviewItem"
+              rightIcon="arrow-right"
+              intent="primary"
+            />
+          </div>
+        </div>
+      </p>
+    </>,
+    popupContentPlaceholder
+  );
+
+  const marker = new mapboxgl.Marker(el)
+    .setLngLat(coordinates)
+    .setPopup(
+      new mapboxgl.Popup({ offset: diameter / 2 }).setDOMContent(
+        popupContentPlaceholder
+      )
+    );
+  return marker;
+}
+
 function addMarkers(
   observations: Observation[],
   map: mapboxgl.Map,
@@ -78,73 +176,28 @@ function addMarkers(
     .filter(x => !emptyClasses.includes(x.pred_1))
     .groupBy(x => x.station)
     .map(group => ({
-      station: group[0].station,
-      // Observations from a single station should have approximately identical
-      // coordinates, so we can pick any.
-      coordinates: getObservationCoordinates(group[0]),
-      count: group.length,
       species: _(group)
         .map('pred_1')
         .uniq(),
       observations: group
     }));
+
   const maxSpecies = markers.map(x => x.species.size()).max();
   if (maxSpecies !== undefined) {
     map.on('load', () => {
-      markers.forEach(marker => {
-        const diameter = circleDiameter(marker.species.size(), maxSpecies);
-        const thumbnailSize = diameter / 2;
-        const thumbnailOffset = thumbnailSize / 2;
-
-        const el = document.createElement('div');
-        el.className = 'marker';
-        el.setAttribute(
-          'style',
-          `width: ${diameter}px; height: ${diameter}px;`
+      markers.forEach(group => {
+        const marker = makeStationMarker(
+          group.observations,
+          group.species,
+          maxSpecies,
+          setInspectedObservations
         );
-        el.innerHTML = `<img
-          src="${marker.observations[0].path}"
-          style="width: ${thumbnailSize}px; height: ${thumbnailSize}px; margin-top: -${thumbnailOffset}px; margin-left: -${thumbnailOffset}px;">`;
-
-        const popupContentPlaceholder = document.createElement('div');
-        ReactDOM.render(
-          <>
-            <h3>
-              Station&nbsp;
-              <b>{marker.station}</b>
-            </h3>
-            <p>
-              <b>{marker.count}</b>
-              &nbsp;observations
-            </p>
-            <p>
-              <b>
-                {marker.species.size()}
-                &nbsp;species:&nbsp;
-              </b>
-              {marker.species.join(', ')}
-            </p>
-            <Button
-              onClick={() => setInspectedObservations(marker.observations)}
-            >
-              See all photos
-            </Button>
-          </>,
-          popupContentPlaceholder
-        );
-
-        new mapboxgl.Marker(el)
-          .setLngLat(marker.coordinates)
-          .setPopup(
-            new mapboxgl.Popup({ offset: diameter / 2 }).setDOMContent(
-              popupContentPlaceholder
-            )
-          )
-          .addTo(map);
+        marker.addTo(map);
       });
     });
   }
 }
+
 function observationCard(observation: Observation): JSX.Element {
   return (
     <Card
