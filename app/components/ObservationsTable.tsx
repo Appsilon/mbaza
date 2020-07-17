@@ -35,7 +35,7 @@ export default function ObservationsTable(props: Props) {
       <Column
         name={t('Date and time')}
         cellRenderer={(rowIndex: number) => (
-          <Cell>{observations[rowIndex].exif_datetime}</Cell>
+          <Cell>{observations[rowIndex].date}</Cell>
         )}
       />
       <Column

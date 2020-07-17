@@ -83,9 +83,9 @@ def get_top_preds_and_scores(preds, classes):
 
 def parse_path(df):
     """ extract station, check and cam from path column and store. """
-    pattern = r"Check\s([^\\/]*).*STATION_([^\\/]*).*CAM([^\\/]*)"
+    pattern = r"Check\s(\d*).*STATION_(\d*).*CAM(\d*).*[\\/](\d{6})[\\/]"
     result = df.copy()
-    result[["check", "station", "camera"]] = result.path.str.extract(pattern)
+    result[["check", "station", "camera", "path_date"]] = result.path.str.extract(pattern)
     result["station"] = pd.to_numeric(result["station"])
     return result
 
@@ -162,6 +162,20 @@ def add_output_coords(df):
         return row
     return df.apply(f, axis=1)
 
+def add_output_date(df):
+    """Add output date determined on best-effort basis"""
+    def f(row):
+        # Prefer date extracted from path.
+        if pd.notnull(row["path_date"]):
+            # print(pd.to_datetime(row["path_date"], format="%m%d%y").shape)
+            row["date"] = pd.to_datetime(row["path_date"], format="%m%d%y").date()
+        elif pd.notnull(row["exif_datetime"]):
+            row["date"] = pd.to_datetime(row["exif_datetime"], format="%Y:%m:%d %H:%M:%S").date()
+        else:
+            row["date"] = None
+        return row
+    return df.apply(f, axis=1)
+
 def order_df(df,var):
     """ make the var list of columns as the first columns, keep rest at the end in df """
     if type(var) is str:
@@ -180,14 +194,16 @@ def infer_to_csv(args):
     df_preds = parse_path(df_preds) # extract station, check, cam where possible from path
     df_preds = parse_exif(df_preds) # extract datetime, gps_long and gps_lat from exif if images
     df_preds = add_station_coords(df_preds, args.grid_file)
+
+    df_preds = add_output_date(df_preds)
     df_preds = add_output_coords(df_preds)
 
-    result = order_df(df_preds, ["path", "station", "check", "camera",\
-                                 "exif_datetime", "coordinates_long", "coordinates_lat",\
+    result = order_df(df_preds, ["path", "station", "check", "camera",
+                                 "date", "coordinates_long", "coordinates_lat",
                                  ] + [f"{prefix}_{i}" for prefix in ["pred", "score"] for i in range(1, N_TOP_RESULTS + 1) ])
     if not args.keep_scores:
-        result = df_preds[["path", "station", "check", "camera",\
-                           "exif_datetime", "exif_gps_long", "exif_gps_lat",\
+        result = df_preds[["path", "station", "check", "camera",
+                           "date", "coordinates_long", "coordinates_lat",
                            "pred_1"]]
 
     result.to_csv(args.output, index=False)
