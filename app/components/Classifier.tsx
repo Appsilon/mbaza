@@ -67,7 +67,8 @@ const computePredictions = (
     changeLogMessage(`${data}`);
   });
   process.stderr.on('data', data => {
-    changeLogMessage(`${data}`);
+    // eslint-disable-next-line no-console
+    console.log(`classifier stderr: ${data}`);
   });
   process.on('exit', exitCode => {
     // eslint-disable-next-line no-console
