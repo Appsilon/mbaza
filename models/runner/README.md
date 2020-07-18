@@ -23,7 +23,7 @@ conda install -c conda-forge pyinstaller exifread
 6. Run it for example with: `main.exe --model=..\..\serengeti\trained_model.pkl --input_folder=..\..\serengeti\images_fun_examples --output=output.csv --overwrite --pytorch_num_workers=0`
    (Warning: this needs to be run from `main.exe`'s directory for Pytorch to locate the necessary source files.)
 
-7. Add `stations_grid.csv` to the main `models` directory. Distribute the entire `models` folder as a zip archive containing `biomonitoring_stations.csv`, `runner_win` and directories with models (e.g. `gabon` and `serengeti`). Do not include the `runner` directory as it contains source code and temporary build files. You can package this with:
+7. Add `biomonitoring_stations.csv` to the main `models` directory. Distribute the entire `models` folder as a zip archive containing `biomonitoring_stations.csv`, `runner_win` and directories with models (e.g. `gabon` and `serengeti`). Do not include the `runner` directory as it contains source code and temporary build files. You can package this with:
 
 ```
 Compress-Archive -Path .\models\runner_win\, .\models\gabon\, .\models\serengeti\, .\models\biomonitoring_stations.csv models_v002.zip
