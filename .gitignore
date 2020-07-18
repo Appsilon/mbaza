@@ -50,8 +50,8 @@ npm-debug.log.*
 *.sass.d.ts
 *.scss.d.ts
 
-data
-test_data
-models/biomonitoring_stations.csv
-models/runner_win
-models/runner_linux
+/data
+/test_data
+/models/biomonitoring_stations.csv
+/models/runner_win
+/models/runner_linux
