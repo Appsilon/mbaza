@@ -43,8 +43,7 @@ const windowLength = 5;
 const millisecondsInDay = 24 * 60 * 60 * 1000;
 
 function getDateFromRow(row: Observation) {
-  const onlyDay = row.exif_datetime.substr(0, row.exif_datetime.indexOf(' '));
-  return new Date(Date.parse(_.replace(onlyDay, /:/g, '-')));
+  return new Date(Date.parse(row.date));
 }
 
 function getKeyFromRow(row: Observation) {
