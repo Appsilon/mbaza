@@ -221,7 +221,7 @@ function observationCard(observation: Observation): JSX.Element {
       <h3 style={{ marginTop: 0 }}>
         {observation.pred_1}
         {' probably seen at '}
-        {observation.exif_datetime}
+        {observation.date}
       </h3>
       <div style={{ display: 'flex' }}>
         <div>

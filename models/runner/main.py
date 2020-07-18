@@ -33,12 +33,6 @@ def main():
         help="Path to a .csv file with the coordinates of monitoring stations",
     )
     parser.add_argument(
-        "--keep_scores",
-        default = False,
-        action = "store_true",
-        help="Use this switch to keep top 3 predictions and all scores per image",
-    )
-    parser.add_argument(
         "--overwrite",
         default = False,
         action = "store_true",

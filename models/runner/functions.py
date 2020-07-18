@@ -83,10 +83,11 @@ def get_top_preds_and_scores(preds, classes):
 
 def parse_path(df):
     """ extract station, check and cam from path column and store. """
-    pattern = "Check\s([^\\/]*).*STATION_([^\\/]*).*CAM([^\\/]*)"
+    pattern = r"Check\s(\d*).*STATION_(\d*).*CAM(\d*).*[\\/](\d{6})[\\/]"
     result = df.copy()
-    result[["check", "station", "camera"]] = result.path.str.extract(pattern)
+    result[["check", "station", "camera", "path_date"]] = result.path.str.extract(pattern)
     result["station"] = pd.to_numeric(result["station"])
+    result["path_date"] = pd.to_datetime(result["path_date"], format="%m%d%y").map(lambda x: x.date())
     return result
 
 def read_exif_coords(tags):
@@ -125,7 +126,9 @@ def parse_exif(df):
             exif_datetime.append(None)
             exif_gps_long.append(None)
             exif_gps_lat.append(None)
-    result["exif_datetime"] = exif_datetime
+    exif_datetime = pd.to_datetime(exif_datetime, format="%Y:%m:%d %H:%M:%S")
+    result["exif_date"] = exif_datetime.map(lambda x: x.date())
+    result["exif_time"] = exif_datetime.map(lambda x: x.time())
     result["exif_gps_long"] = exif_gps_long
     result["exif_gps_lat"] = exif_gps_lat
 
@@ -162,13 +165,28 @@ def add_output_coords(df):
         return row
     return df.apply(f, axis=1)
 
-def order_df(df,var):
-    """ make the var list of columns as the first columns, keep rest at the end in df """
-    if type(var) is str:
-        var = [var] # handling var being a single name not a list
-    varlist =[w for w in df.columns if w not in var]
-    df = df[var+varlist]
-    return df
+def add_output_date(df):
+    """Add output date determined on best-effort basis"""
+    def f(row):
+        # Prefer date extracted from path.
+        if pd.notnull(row["path_date"]):
+            row["date"] = row["path_date"]
+        elif pd.notnull(row["exif_date"]):
+            row["date"] = row["exif_date"]
+        else:
+            row["date"] = None
+        return row
+    return df.apply(f, axis=1)
+
+def arrange_columns(df):
+    metadata_cols = [
+        "path", "station", "check", "camera",
+        "date", "path_date", "exif_date", "exif_time",
+        "coordinates_long", "coordinates_lat", "exif_gps_long", "exif_gps_lat", "grid_file_long", "grid_file_lat",
+    ]
+    score_cols = [f"{prefix}_{i}" for prefix in ("pred", "score") for i in range(1, N_TOP_RESULTS + 1)]
+    other_cols = [col for col in df.columns if col not in set(metadata_cols + score_cols)]
+    return df[metadata_cols + score_cols + other_cols]
 
 def infer_to_csv(args):
     if not args.overwrite:
@@ -180,15 +198,8 @@ def infer_to_csv(args):
     df_preds = parse_path(df_preds) # extract station, check, cam where possible from path
     df_preds = parse_exif(df_preds) # extract datetime, gps_long and gps_lat from exif if images
     df_preds = add_station_coords(df_preds, args.grid_file)
+    df_preds = add_output_date(df_preds)
     df_preds = add_output_coords(df_preds)
-
-    result = order_df(df_preds, ["path", "station", "check", "camera",\
-                                 "exif_datetime", "coordinates_long", "coordinates_lat",\
-                                 ] + [f"{prefix}_{i}" for prefix in ["pred", "score"] for i in range(1, N_TOP_RESULTS + 1) ])
-    if not args.keep_scores:
-        result = df_preds[["path", "station", "check", "camera",\
-                           "exif_datetime", "exif_gps_long", "exif_gps_lat",\
-                           "pred_1"]]
-
-    result.to_csv(args.output, index=False)
+    df_preds = arrange_columns(df_preds)
+    df_preds.to_csv(args.output, index=False)
     print(f"Results stored in {args.output}.")

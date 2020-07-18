@@ -1,15 +1,15 @@
 import React from 'react';
 import { Button } from '@blueprintjs/core';
-import { spawn, IPty } from 'node-pty';
 import { useTranslation } from 'react-i18next';
 import path from 'path';
+import { spawn, ChildProcessWithoutNullStreams } from 'child_process';
 
 import PythonLogViewer from './PythonLogViewer';
 
 type changeLogMessageType = (newChangeLogMessage: string) => {};
 type changePathChoiceType = (newPath: string) => {};
 
-function runModelProcess(baseArgs: string[]): IPty {
+function runModelProcess(baseArgs: string[]): ChildProcessWithoutNullStreams {
   const isDev = process.env.NODE_ENV === 'development';
   const isWin = !isDev && process.platform === 'win32';
   const isLinux = !isDev && process.platform === 'linux';
@@ -23,10 +23,12 @@ function runModelProcess(baseArgs: string[]): IPty {
     program = path.join(workdir, 'venv', 'bin', 'python3');
     args.push('main.py');
   } else if (isWin) {
-    workdir = path.join(root, 'win_runner', 'main');
+    workdir = path.join(root, 'runner_win', 'main');
     program = path.join(workdir, 'main.exe');
+    // TODO: Determine a suitable number of workers in the classifier script.
+    args.push('--pytorch_num_workers=0');
   } else if (isLinux) {
-    workdir = path.join(root, 'linux_runner', 'main');
+    workdir = path.join(root, 'runner_linux', 'main');
     program = path.join(workdir, 'main');
   } else {
     throw new Error(
@@ -52,20 +54,24 @@ const computePredictions = (
     directory,
     '--output',
     savePath,
-    '--keep_scores',
     '--overwrite'
   ];
 
-  const pyProcess = runModelProcess(args);
-
-  pyProcess.on('data', data => {
-    // eslint-disable-next-line no-console
-    changeLogMessage(data);
+  // TODO: Fix and simplify logging:
+  //   * Progress bar is not properly displayed in the output (#89).
+  //   * Is `changeLogMessageType` necessary?
+  //   * Are Redux actions appropriate for this use case?
+  const process = runModelProcess(args);
+  process.stdout.on('data', data => {
+    changeLogMessage(`${data}`);
   });
-
-  pyProcess.on('exit', exitCode => {
+  process.stderr.on('data', data => {
     // eslint-disable-next-line no-console
-    console.log(`Exiting with code ${exitCode}`);
+    console.log(`classifier stderr: ${data}`);
+  });
+  process.on('exit', exitCode => {
+    // eslint-disable-next-line no-console
+    console.log(`Classifier exited with code ${exitCode}`);
   });
 };
 

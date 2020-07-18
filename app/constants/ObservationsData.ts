@@ -1,6 +1,6 @@
 type Observation = {
   path: string;
-  exif_datetime: string;
+  date: string;
   pred_1: string;
   score_1: number;
   pred_2: string;
