@@ -94,12 +94,25 @@ function makeStationMarker(
   const thumbnailOffset = thumbnailSize / 2;
   const maxPreviewPhotosCount = 3;
 
-  const el = document.createElement('div');
-  el.className = 'marker';
-  el.setAttribute('style', `width: ${diameter}px; height: ${diameter}px;`);
-  el.innerHTML = `<img
-          src="${firstObservation.path}"
-          style="width: ${thumbnailSize}px; height: ${thumbnailSize}px; margin-top: -${thumbnailOffset}px; margin-left: -${thumbnailOffset}px;">`;
+  const markerElement = document.createElement('div');
+  markerElement.className = 'marker';
+  markerElement.setAttribute(
+    'style',
+    `width: ${diameter}px; height: ${diameter}px;`
+  );
+  ReactDOM.render(
+    <img
+      src={firstObservation.path}
+      style={{
+        width: thumbnailSize,
+        height: thumbnailSize,
+        marginTop: -thumbnailOffset,
+        marginLeft: -thumbnailOffset
+      }}
+      alt={`Station ${station}`}
+    />,
+    markerElement
+  );
 
   const popupContentPlaceholder = document.createElement('div');
   ReactDOM.render(
@@ -156,7 +169,7 @@ function makeStationMarker(
     popupContentPlaceholder
   );
 
-  const marker = new mapboxgl.Marker(el)
+  const marker = new mapboxgl.Marker(markerElement)
     .setLngLat(coordinates)
     .setPopup(
       new mapboxgl.Popup({ offset: diameter / 2 }).setDOMContent(
@@ -207,7 +220,7 @@ function observationCard(observation: Observation): JSX.Element {
     >
       <h3 style={{ marginTop: 0 }}>
         {observation.pred_1}
-        {' seen at '}
+        {' probably seen at '}
         {observation.exif_datetime}
       </h3>
       <div style={{ display: 'flex' }}>
