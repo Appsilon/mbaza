@@ -44,12 +44,14 @@ main.js
 main.js.map
 
 .idea
+.vscode
 npm-debug.log.*
 *.css.d.ts
 *.sass.d.ts
 *.scss.d.ts
 
-test_data
-models/biomonitoring_stations.csv
-models/runner_win
-models/runner_linux
+/data
+/test_data
+/models/biomonitoring_stations.csv
+/models/runner_win
+/models/runner_linux
