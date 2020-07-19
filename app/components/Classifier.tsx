@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '@blueprintjs/core';
 import { useTranslation } from 'react-i18next';
 import path from 'path';
@@ -47,7 +47,8 @@ function runModelProcess(baseArgs: string[]): ChildProcessWithoutNullStreams {
 const computePredictions = (
   directory: string,
   savePath: string,
-  changeLogMessage: changeLogMessageType
+  changeLogMessage: changeLogMessageType,
+  setIsRunning: (value: boolean) => void
 ) => {
   const args: string[] = [
     '--input_folder',
@@ -62,6 +63,7 @@ const computePredictions = (
   //   * Is `changeLogMessageType` necessary?
   //   * Are Redux actions appropriate for this use case?
   const process = runModelProcess(args);
+  setIsRunning(true);
   process.stdout.on('data', data => {
     changeLogMessage(`${data}`);
   });
@@ -72,6 +74,7 @@ const computePredictions = (
   process.on('exit', exitCode => {
     // eslint-disable-next-line no-console
     console.log(`Classifier exited with code ${exitCode}`);
+    setIsRunning(false);
   });
 };
 
@@ -137,6 +140,7 @@ export default function Classifier(props: Props) {
     changeLogMessage
   } = props;
   const { t } = useTranslation();
+  const [isRunning, setIsRunning] = useState<boolean>(false);
 
   return (
     <div style={{ padding: '30px 30px', width: '60vw' }}>
@@ -187,13 +191,14 @@ export default function Classifier(props: Props) {
           computePredictions(
             props.directoryChoice,
             props.savePath,
-            changeLogMessage
+            changeLogMessage,
+            setIsRunning
           );
         }}
         style={{ marginBottom: '10px', backgroundColor: '#fff' }}
       />
 
-      <PythonLogViewer logMessage={logMessage} />
+      <PythonLogViewer logMessage={logMessage} isRunning={isRunning} />
     </div>
   );
 }
