@@ -1,5 +1,5 @@
-import React from 'react';
-import { Button } from '@blueprintjs/core';
+import React, { useState } from 'react';
+import { Button, Radio, RadioGroup } from '@blueprintjs/core';
 import { useTranslation } from 'react-i18next';
 import path from 'path';
 import { spawn, ChildProcessWithoutNullStreams } from 'child_process';
@@ -35,10 +35,7 @@ function runModelProcess(baseArgs: string[]): ChildProcessWithoutNullStreams {
       `Unsupported operating system for running models: ${process.platform}`
     );
   }
-  // TODO: Allow user to choose model.
-  const modelName = 'serengeti';
-  // TODO: Display a warning to the user if the model or grid file are missing.
-  args.push('--model', path.join(root, modelName, 'trained_model.pkl'));
+  // TODO: Display a warning to the user if the grid file is missing.
   args.push('--grid_file', path.join(root, 'biomonitoring_stations.csv'));
   args.push(...baseArgs);
   return spawn(program, args, { cwd: workdir });
@@ -47,6 +44,7 @@ function runModelProcess(baseArgs: string[]): ChildProcessWithoutNullStreams {
 const computePredictions = (
   directory: string,
   savePath: string,
+  modelName: string,
   changeLogMessage: changeLogMessageType
 ) => {
   const args: string[] = [
@@ -54,6 +52,8 @@ const computePredictions = (
     directory,
     '--output',
     savePath,
+    '--model',
+    path.resolve(path.join('models', modelName, 'trained_model.pkl')),
     '--overwrite'
   ];
 
@@ -137,6 +137,7 @@ export default function Classifier(props: Props) {
     changeLogMessage
   } = props;
   const { t } = useTranslation();
+  const [modelName, setModelName] = useState<string>('serengeti');
 
   return (
     <div style={{ padding: '30px 30px', width: '60vw' }}>
@@ -180,6 +181,18 @@ export default function Classifier(props: Props) {
         />
       </div>
 
+      <div style={{ marginBottom: '5px' }}>AI model:</div>
+      <RadioGroup
+        inline
+        onChange={event => {
+          setModelName(event.currentTarget.value);
+        }}
+        selectedValue={modelName}
+      >
+        <Radio label="Serengeti" value="serengeti" />
+        <Radio label="Gabon" value="gabon" />
+      </RadioGroup>
+
       <Button
         text={t('Find animals!')}
         icon="predictive-analysis"
@@ -187,6 +200,7 @@ export default function Classifier(props: Props) {
           computePredictions(
             props.directoryChoice,
             props.savePath,
+            modelName,
             changeLogMessage
           );
         }}
