@@ -33,7 +33,7 @@ const isConnected = (state: { isConnected: boolean }) => navigator.onLine; //sta
 const offlineStorage = OfflineWeb(isConnected);
 
 const electronTarget = createElectronGoogleAnalyticsTarget({
-  ua: 'UA-234184649'
+  ua: 'UA-167871460-1'
 });
 const gaMiddleware = createMiddleware(
   eventsMapper as EventsMapper,
