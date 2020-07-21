@@ -23,6 +23,7 @@
       "classify": {
         "chooseInput": "Choose directory with photos",
         "chooseOutput": "Choose where to save the classification results",
+        "chooseModel": "Select AI model to use:",
         "find": "Find animals!",
         "output": "Classifier output",
         "inProgress": "Please wait. Animals detection in progress. This may take a long time."

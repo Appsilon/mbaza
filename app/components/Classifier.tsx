@@ -192,7 +192,7 @@ export default function Classifier(props: Props) {
         />
       </div>
 
-      <div style={{ marginBottom: '5px' }}>Select AI model to use:</div>
+      <div style={{ marginBottom: '5px' }}>{t('classify.chooseModel')}</div>
       <RadioGroup
         inline
         onChange={event => {
