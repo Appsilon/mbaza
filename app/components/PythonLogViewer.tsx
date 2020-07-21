@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, Elevation, H5, Spinner } from '@blueprintjs/core';
+import { Card, Elevation, H5, H6, Spinner } from '@blueprintjs/core';
 import { useTranslation } from 'react-i18next';
 
 type Props = {
@@ -17,8 +17,12 @@ export default function PythonLogViewer(props: Props) {
       {/* Code block retains newlines and is more appropriate for terminal output. */}
       <code>{logMessage}</code>
       {isRunning ? (
-        <div style={{ marginTop: '20px' }}>
+        <div style={{ marginTop: '20px', textAlign: 'center' }}>
           <Spinner />
+          <H6 style={{ marginTop: '20px' }}>
+            Please wait. Animals detection in progress. This may take a long
+            time.
+          </H6>
         </div>
       ) : null}
     </Card>
