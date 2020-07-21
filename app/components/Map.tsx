@@ -254,11 +254,17 @@ function observationCard(t: TFunction, observation: Observation): JSX.Element {
           </table>
           <div style={{ margin: '20px 10px' }}>
             <p>
-              <strong>{t('explore.inspect.camera')}:</strong>
+              <strong>
+                {t('explore.inspect.camera')}
+                :&nbsp;
+              </strong>
               {observation.camera}
             </p>
             <p>
-              <strong>{t('explore.inspect.check')}:</strong>
+              <strong>
+                {t('explore.inspect.check')}
+                :&nbsp;
+              </strong>
               {observation.check}
             </p>
           </div>
