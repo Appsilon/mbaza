@@ -1,8 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Card, Elevation, Callout, Icon, Intent } from '@blueprintjs/core';
-import { IconNames } from '@blueprintjs/icons';
+import { Card, Elevation, Callout, Intent } from '@blueprintjs/core';
 
 export default function HomePage() {
   const { t } = useTranslation();
@@ -11,32 +10,6 @@ export default function HomePage() {
   return (
     <>
       <div style={{ flex: 1 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
-          <img
-            style={logoStyle}
-            src="assets/logos/gabon.png"
-            alt="Parcs Gabon"
-          />
-          <img style={logoStyle} src="assets/logos/iret.png" alt="IRET" />
-          <img
-            style={logoStyle}
-            src="assets/logos/panthera.png"
-            alt="Panthera"
-          />
-          <img
-            style={logoStyle}
-            src="assets/logos/stirling.png"
-            alt="University of Stirling"
-          />
-          <div style={{ ...logoStyle, textAlign: 'center' }}>
-            <img
-              style={{ height: '47px', display: 'block', margin: 'auto' }}
-              src="assets/logos/ue.png"
-              alt="European Union"
-            />
-            <span style={{ fontSize: '13px' }}>ECOFAC6</span>
-          </div>
-        </div>
         <div style={{ display: 'flex' }}>
           <div style={{ flex: 1, padding: '20px' }}>
             <Card
@@ -60,29 +33,6 @@ export default function HomePage() {
                 photos dataset. Then you can go to Explore and analyze the
                 results.
               </p>
-              <p style={{ textAlign: 'center' }}>
-                <span style={{ margin: 50 }}>
-                  <Icon
-                    icon={IconNames.PREDICTIVE_ANALYSIS}
-                    iconSize={120}
-                    intent={Intent.PRIMARY}
-                  />
-                </span>
-                <span style={{ margin: 50 }}>
-                  <Icon
-                    icon={IconNames.MAP}
-                    iconSize={120}
-                    intent={Intent.PRIMARY}
-                  />
-                </span>
-                <span style={{ margin: 50 }}>
-                  <Icon
-                    icon={IconNames.SCATTER_PLOT}
-                    iconSize={120}
-                    intent={Intent.PRIMARY}
-                  />
-                </span>
-              </p>
             </Card>
           </div>
           <div style={{ flex: 1, padding: '20px' }}>
@@ -98,6 +48,38 @@ export default function HomePage() {
                 ai4good@appsilon.com.
               </p>
             </Callout>
+          </div>
+        </div>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-evenly',
+            marginTop: 30
+          }}
+        >
+          <img
+            style={logoStyle}
+            src="assets/logos/gabon.png"
+            alt="Parcs Gabon"
+          />
+          <img style={logoStyle} src="assets/logos/iret.png" alt="IRET" />
+          <img
+            style={logoStyle}
+            src="assets/logos/panthera.png"
+            alt="Panthera"
+          />
+          <img
+            style={logoStyle}
+            src="assets/logos/stirling.png"
+            alt="University of Stirling"
+          />
+          <div style={{ ...logoStyle, textAlign: 'center' }}>
+            <img
+              style={{ height: '47px', display: 'block', margin: 'auto' }}
+              src="assets/logos/ue.png"
+              alt="European Union"
+            />
+            <span style={{ fontSize: '13px' }}>ECOFAC6</span>
           </div>
         </div>
       </div>
