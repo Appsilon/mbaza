@@ -18,7 +18,7 @@ import { TFunction } from 'i18next';
 
 import PythonLogViewer from './PythonLogViewer';
 
-type changeLogMessageType = (newChangeLogMessage: string) => {};
+type changeLogMessageType = (newChangeLogMessage: string | null) => {};
 type changePathChoiceType = (newPath: string) => {};
 
 const rootModelsDirectory = path.resolve('models');
@@ -97,6 +97,7 @@ const computePredictions = (
   modelName: string,
   changeLogMessage: changeLogMessageType,
   setIsRunning: (value: boolean) => void,
+  setExitCode: (value: number | null | undefined) => void,
   t: TFunction
 ) => {
   const modelWeightsPath = path.join(
@@ -115,10 +116,10 @@ const computePredictions = (
     '--overwrite'
   ];
 
-  if (!fs.existsSync(modelWeightsPath)) {
-    displayErrorToast(t('classify.modelWeightsNotFound', { modelWeightsPath }));
-    return;
-  }
+  // if (!fs.existsSync(modelWeightsPath)) {
+  //   displayErrorToast(t('classify.modelWeightsNotFound', { modelWeightsPath }));
+  //   return;
+  // }
 
   // TODO: Fix and simplify logging:
   //   * Progress bar is not properly displayed in the output (#89).
@@ -126,6 +127,8 @@ const computePredictions = (
   //   * Are Redux actions appropriate for this use case?
   const process = runModelProcess(args, t);
   if (process !== null) {
+    changeLogMessage(null);
+    setExitCode(undefined);
     setIsRunning(true);
     process.stdout.on('data', data => {
       changeLogMessage(`${data}`);
@@ -133,11 +136,13 @@ const computePredictions = (
     process.stderr.on('data', data => {
       // eslint-disable-next-line no-console
       console.log(`classifier stderr: ${data}`);
+      displayErrorToast(`${data}`);
     });
     process.on('exit', exitCode => {
       // eslint-disable-next-line no-console
       console.log(`Classifier exited with code ${exitCode}`);
       setIsRunning(false);
+      setExitCode(exitCode);
     });
   }
 };
@@ -205,6 +210,7 @@ export default function Classifier(props: Props) {
   } = props;
   const { t } = useTranslation();
   const [isRunning, setIsRunning] = useState<boolean>(false);
+  const [exitCode, setExitCode] = useState<number | null>();
 
   // TODO: Detect available models instead of hardcoding them. Display a warning
   // if there are no models available.
@@ -293,13 +299,21 @@ export default function Classifier(props: Props) {
             modelName,
             changeLogMessage,
             setIsRunning,
+            setExitCode,
             t
           );
         }}
+        disabled={isRunning}
         style={{ marginBottom: '10px', backgroundColor: '#fff' }}
       />
 
-      <PythonLogViewer logMessage={logMessage} isRunning={isRunning} />
+      {exitCode !== undefined || isRunning ? (
+        <PythonLogViewer
+          logMessage={logMessage}
+          isRunning={isRunning}
+          exitCode={exitCode}
+        />
+      ) : null}
     </div>
   );
 

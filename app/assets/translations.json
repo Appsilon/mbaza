@@ -34,7 +34,9 @@
         "modelsDirectoryMissing": {
           "title": "Models directory not found",
           "description": "You need to obtain a zip file containing the AI models and unzip it in the program's main directory. Please make sure that you have a {{rootModelsDirectory}} directory containing the models files."
-        }
+        },
+        "success": "Animals detection completed.",
+        "failure": "Animals detection failed."
       },
       "explore": {
         "chooseFile": "Choose results file to analyze",
