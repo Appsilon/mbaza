@@ -303,7 +303,7 @@ export default function Classifier(props: Props) {
             t
           );
         }}
-        disabled={isRunning}
+        disabled={isRunning || directoryChoice === '' || savePath === ''}
         style={{ marginBottom: '10px', backgroundColor: '#fff' }}
       />
 
