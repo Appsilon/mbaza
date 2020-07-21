@@ -1,5 +1,15 @@
 import React, { useState } from 'react';
-import { Button, Intent, Radio, RadioGroup, Toaster } from '@blueprintjs/core';
+import {
+  Button,
+  Card,
+  Elevation,
+  H1,
+  Intent,
+  NonIdealState,
+  Radio,
+  RadioGroup,
+  Toaster
+} from '@blueprintjs/core';
 import { useTranslation } from 'react-i18next';
 import path from 'path';
 import { spawn, ChildProcessWithoutNullStreams } from 'child_process';
@@ -66,13 +76,13 @@ function runModelProcess(
   }
 
   if (!fs.existsSync(program)) {
-    displayErrorToast(t('modelExecutableNotFound', { program }));
+    displayErrorToast(t('classify.modelExecutableNotFound', { program }));
     return null;
   }
 
   if (!fs.existsSync(gridFilePath)) {
     displayWarningToast(
-      t('biomonitoringStationsFileNotFound', { gridFilePath })
+      t('classify.biomonitoringStationsFileNotFound', { gridFilePath })
     );
   }
 
@@ -106,7 +116,7 @@ const computePredictions = (
   ];
 
   if (!fs.existsSync(modelWeightsPath)) {
-    displayErrorToast(t('modelWeightsNotFound', { modelWeightsPath }));
+    displayErrorToast(t('classify.modelWeightsNotFound', { modelWeightsPath }));
     return;
   }
 
@@ -203,8 +213,22 @@ export default function Classifier(props: Props) {
     { label: 'Serengeti', value: 'serengeti' }
   ];
   const [modelName, setModelName] = useState<string>(models[0].value);
+  const rootModelsDirectoryExists = fs.existsSync(rootModelsDirectory);
 
-  return (
+  const missingModelsDirectoryView = (
+    <NonIdealState
+      icon="search"
+      title={t('classify.modelsDirectoryMissing.title')}
+    >
+      <p>
+        {t('classify.modelsDirectoryMissing.description', {
+          rootModelsDirectory
+        })}
+      </p>
+    </NonIdealState>
+  );
+
+  const classifierFormView = (
     <div style={{ padding: '30px 30px', width: '60vw' }}>
       <div className="bp3-input-group" style={{ marginBottom: '10px' }}>
         <input
@@ -276,6 +300,21 @@ export default function Classifier(props: Props) {
       />
 
       <PythonLogViewer logMessage={logMessage} isRunning={isRunning} />
+    </div>
+  );
+
+  return (
+    <div style={{ flex: 1 }}>
+      <div style={{ display: 'flex' }}>
+        <div style={{ flex: 1, padding: '20px' }}>
+          <Card elevation={Elevation.TWO}>
+            <H1>{t('classify.title')}</H1>
+            {rootModelsDirectoryExists
+              ? classifierFormView
+              : missingModelsDirectoryView}
+          </Card>
+        </div>
+      </div>
     </div>
   );
 }

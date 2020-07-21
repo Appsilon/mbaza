@@ -21,15 +21,20 @@
         }
       },
       "classify": {
+        "title": "Detect animals",
         "chooseInput": "Choose directory with photos",
         "chooseOutput": "Choose where to save the classification results",
         "chooseModel": "Select AI model to use:",
         "find": "Find animals!",
         "output": "Classifier output",
         "inProgress": "Please wait. Animals detection in progress. This may take a long time.",
-        "modelExecutableNotFound": "Could not find the model executable. Please make sure you unpacked the models in the correct directory. It should be in ${program}.",
-        "modelWeightsNotFound": "Could not find the model weights file. Please make sure you unpacked the models in the correct directory. Model weights should be in ${modelWeightsPath}.",
-        "biomonitoringStationsFileNotFound": "Could not find the biomonitoring stations locations file. Locations will not be assigned based on station numbers. Locations will be missing unless they are present in EXIF data in images. The file should be in ${gridFilePath}."
+        "modelExecutableNotFound": "Could not find the model executable. Please make sure you unpacked the models in the correct directory. It should be in {{program}}.",
+        "modelWeightsNotFound": "Could not find the model weights file. Please make sure you unpacked the models in the correct directory. Model weights should be in {{modelWeightsPath}}.",
+        "biomonitoringStationsFileNotFound": "Could not find the biomonitoring stations locations file. Locations will not be assigned based on station numbers. Locations will be missing unless they are present in EXIF data in images. The file should be in {{gridFilePath}}.",
+        "modelsDirectoryMissing": {
+          "title": "Models directory not found",
+          "description": "You need to obtain a zip file containing the AI models and unzip it in the program's main directory. Please make sure that you have a {{rootModelsDirectory}} directory containing the models files."
+        }
       },
       "explore": {
         "chooseFile": "Choose results file to analyze",
