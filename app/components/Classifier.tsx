@@ -137,7 +137,14 @@ export default function Classifier(props: Props) {
     changeLogMessage
   } = props;
   const { t } = useTranslation();
-  const [modelName, setModelName] = useState<string>('serengeti');
+
+  // TODO: Detect available models instead of hardcoding them. Display a warning
+  // if there are no models available.
+  const models = [
+    { label: 'Gabon', value: 'gabon' },
+    { label: 'Serengeti', value: 'serengeti' }
+  ];
+  const [modelName, setModelName] = useState<string>(models[0].value);
 
   return (
     <div style={{ padding: '30px 30px', width: '60vw' }}>
@@ -181,7 +188,7 @@ export default function Classifier(props: Props) {
         />
       </div>
 
-      <div style={{ marginBottom: '5px' }}>AI model:</div>
+      <div style={{ marginBottom: '5px' }}>Select AI model to use:</div>
       <RadioGroup
         inline
         onChange={event => {
@@ -189,8 +196,9 @@ export default function Classifier(props: Props) {
         }}
         selectedValue={modelName}
       >
-        <Radio label="Serengeti" value="serengeti" />
-        <Radio label="Gabon" value="gabon" />
+        {models.map(model => (
+          <Radio label={model.label} value={model.value} key={model.value} />
+        ))}
       </RadioGroup>
 
       <Button
