@@ -24,7 +24,8 @@
         "chooseInput": "Choose directory with photos",
         "chooseOutput": "Choose where to save the classification results",
         "find": "Find animals!",
-        "output": "Classifier output"
+        "output": "Classifier output",
+        "inProgress": "Please wait. Animals detection in progress. This may take a long time."
       },
       "explore": {
         "chooseFile": "Choose results file to analyze",
@@ -39,7 +40,18 @@
         "byStation": "By station",
         "byCamera": "By camera",
         "byCheck": "By check",
-        "plotTitle": "Animals count over time ({{windowLength}} days intervals)"
+        "plotTitle": "Animals count over time ({{windowLength}} days intervals)",
+        "inspect": {
+          "station": "Station {{id}}",
+          "observations": "{{count}} observations",
+          "species": "{{count}} species",
+          "header": "Observations in station {{station}}",
+          "photoHeader": "{{species}} probably seen at {{date}}",
+          "prediction": "Prediction",
+          "probability": "Probability",
+          "camera": "Camera",
+          "check": "Check"
+        }
       }
     }
   },

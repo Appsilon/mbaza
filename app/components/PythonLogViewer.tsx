@@ -19,10 +19,7 @@ export default function PythonLogViewer(props: Props) {
       {isRunning ? (
         <div style={{ marginTop: '20px', textAlign: 'center' }}>
           <Spinner />
-          <H6 style={{ marginTop: '20px' }}>
-            Please wait. Animals detection in progress. This may take a long
-            time.
-          </H6>
+          <H6 style={{ marginTop: '20px' }}>{t('classify.inProgress')}</H6>
         </div>
       ) : null}
     </Card>
