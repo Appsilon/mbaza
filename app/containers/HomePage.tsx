@@ -81,6 +81,11 @@ export default function HomePage() {
             />
             <span style={{ fontSize: '13px' }}>ECOFAC6</span>
           </div>
+          <img
+            style={logoStyle}
+            src="assets/logos/appsilon.png"
+            alt="Appsilon - technology partner"
+          />
         </div>
       </div>
     </>
