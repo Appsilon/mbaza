@@ -116,10 +116,10 @@ const computePredictions = (
     '--overwrite'
   ];
 
-  // if (!fs.existsSync(modelWeightsPath)) {
-  //   displayErrorToast(t('classify.modelWeightsNotFound', { modelWeightsPath }));
-  //   return;
-  // }
+  if (!fs.existsSync(modelWeightsPath)) {
+    displayErrorToast(t('classify.modelWeightsNotFound', { modelWeightsPath }));
+    return;
+  }
 
   // TODO: Fix and simplify logging:
   //   * Progress bar is not properly displayed in the output (#89).
