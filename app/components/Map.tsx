@@ -135,34 +135,30 @@ function makeStationMarker(
           <b>{t('explore.inspect.species', { count: species.size() })}</b>
         </Tooltip>
       </p>
-      <p>
-        <div className="photosPreview" style={{ display: 'flex' }}>
-          {groupObservations
-            .slice(0, maxPreviewPhotosCount)
-            .map(observation => (
-              // eslint-disable-next-line
-              <a
-                key={observation.path}
-                className="photosPreviewItem"
-                onClick={() => setInspectedObservations(groupObservations)}
-              >
-                <img
-                  src={observation.path}
-                  alt="Observations preview"
-                  style={{ width: '100%', height: '100%' }}
-                />
-              </a>
-            ))}
-          <div>
-            <Button
-              onClick={() => setInspectedObservations(groupObservations)}
-              className="photosPreviewItem"
-              rightIcon="arrow-right"
-              intent="primary"
+      <div className="photosPreview" style={{ display: 'flex' }}>
+        {groupObservations.slice(0, maxPreviewPhotosCount).map(observation => (
+          // eslint-disable-next-line
+          <a
+            key={observation.path}
+            className="photosPreviewItem"
+            onClick={() => setInspectedObservations(groupObservations)}
+          >
+            <img
+              src={observation.path}
+              alt="Observations preview"
+              style={{ width: '100%', height: '100%' }}
             />
-          </div>
+          </a>
+        ))}
+        <div>
+          <Button
+            onClick={() => setInspectedObservations(groupObservations)}
+            className="photosPreviewItem"
+            rightIcon="arrow-right"
+            intent="primary"
+          />
         </div>
-      </p>
+      </div>
     </>,
     popupContentPlaceholder
   );
