@@ -13,7 +13,7 @@ export default function PythonLogViewer(props: Props) {
 
   return (
     <Card interactive={false} elevation={Elevation.TWO}>
-      <H5>{t('Classifier output')}</H5>
+      <H5>{t('classify.output')}</H5>
       {/* Code block retains newlines and is more appropriate for terminal output. */}
       <code>{logMessage}</code>
       {isRunning ? (

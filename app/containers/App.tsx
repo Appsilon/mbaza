@@ -35,14 +35,14 @@ export default function App(props: Props) {
             <strong>Mbaza</strong>
           </Navbar.Heading>
           <Navbar.Divider />
-          <span>{t('AI for species discovery')}</span>
+          <span>{t('top.title')}</span>
         </Navbar.Group>
 
         <Navbar.Group align={Alignment.RIGHT}>
           <Button
             className="bp3-minimal"
             icon="projects"
-            text={t('Projects')}
+            text={t('top.projects')}
             style={{ color: '#fff' }}
           />
           <Navbar.Divider />

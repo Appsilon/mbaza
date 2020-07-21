@@ -76,7 +76,7 @@ export default function ExplorerFilter(props: Props) {
       }}
     >
       <div style={{ width: '50%', paddingRight: '5px' }}>
-        <h4 style={{ marginBottom: '5px' }}>{t('By animal')}</h4>
+        <h4 style={{ marginBottom: '5px' }}>{t('explore.byAnimal')}</h4>
         <Select
           onChange={setAnimals}
           closeMenuOnSelect={false}
@@ -85,7 +85,7 @@ export default function ExplorerFilter(props: Props) {
         />
       </div>
       <div style={{ width: '50%', padding: '0 5px' }}>
-        <h4 style={{ marginBottom: '5px' }}>{t('By station')}</h4>
+        <h4 style={{ marginBottom: '5px' }}>{t('explore.byStation')}</h4>
         <Select
           onChange={setStations}
           closeMenuOnSelect={false}
@@ -94,7 +94,7 @@ export default function ExplorerFilter(props: Props) {
         />
       </div>
       <div style={{ width: '50%', padding: '0 5px' }}>
-        <h4 style={{ marginBottom: '5px' }}>{t('By camera')}</h4>
+        <h4 style={{ marginBottom: '5px' }}>{t('explore.byCamera')}</h4>
         <Select
           onChange={setCameras}
           closeMenuOnSelect={false}
@@ -103,7 +103,7 @@ export default function ExplorerFilter(props: Props) {
         />
       </div>
       <div style={{ width: '50%', paddingLeft: '5px' }}>
-        <h4 style={{ marginBottom: '5px' }}>{t('By check')}</h4>
+        <h4 style={{ marginBottom: '5px' }}>{t('explore.byCheck')}</h4>
         <Select
           onChange={setChecks}
           closeMenuOnSelect={false}

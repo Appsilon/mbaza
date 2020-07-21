@@ -87,18 +87,23 @@ export default function ExplorerMetrics(props: Props) {
         flexWrap: 'wrap'
       }}
     >
-      {metricsCard('camera', '#5c7080', t('Images classified'), data.length)}
+      {metricsCard('camera', '#5c7080', t('explore.imagesCount'), data.length)}
       {metricsCard(
         'inbox-search',
         '#5c7080',
-        t('Images with animals'),
+        t('explore.animalsCount'),
         nonEmpty.length
       )}
-      {metricsCard('star', '#5c7080', t('Species found'), uniqueAnimals.length)}
+      {metricsCard(
+        'star',
+        '#5c7080',
+        t('explore.speciesCount'),
+        uniqueAnimals.length
+      )}
       {metricsCard(
         'clean',
         '#ca9f00',
-        t('Rare species found'),
+        t('explore.rareCount'),
         rareAnimals.length
       )}
     </div>
