@@ -11,37 +11,22 @@ import './app.global.css';
 const store = configureStore();
 
 const AppContainer = process.env.PLAIN_HMR ? Fragment : ReactHotAppContainer;
-
-// Todo: move translations to a JSON file and import them
-const resources = {
-  fr: {
-    translation: {
-      'Welcome to Mbaza AI!': 'FR Welcome to Mbaza AI!',
-      'Explore results': 'FR Explore results',
-      'Detect animals': 'FR Detect animals',
-      Home: 'FR Home',
-      Projects: 'FR Projects',
-      'The first offline AI wildlife explorer':
-        'FR The first offline AI wildlife explorer',
-      'AI for species discovery': 'FR AI for species discovery',
-      'Find animals!': 'FR Find animals!',
-      'Choose directory with photos': 'FR Choose directory with photos',
-      'Prediction progress': 'FR Prediction progress',
-      'Choose results file to analyze': 'FR Choose results file to analyze'
-    }
-  }
-};
+const translations = require('assets/translations.json');
 
 i18n
   .use(initReactI18next) // passes i18n down to react-i18next
   .init({
-    resources,
+    resources: translations,
     lng: 'en',
-
-    keySeparator: false, // we do not use keys in form messages.welcome
-
     interpolation: {
       escapeValue: false // react already safes from xss
+    },
+    react: {
+      transSupportBasicHtmlNodes: true,
+      transKeepBasicHtmlNodesFor: [
+        // eslint-disable-next-line
+        'br', 'strong', 'i', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'
+      ]
     }
   });
 

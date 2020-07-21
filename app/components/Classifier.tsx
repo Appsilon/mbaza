@@ -156,7 +156,7 @@ export default function Classifier(props: Props) {
         <input
           type="text"
           className="bp3-input"
-          placeholder={t('Choose directory with photos')}
+          placeholder={t('classify.chooseInput')}
           value={directoryChoice}
           onChange={e => {
             changeDirectoryChoice(e.target.value);
@@ -176,7 +176,7 @@ export default function Classifier(props: Props) {
         <input
           type="text"
           className="bp3-input"
-          placeholder={t('Choose where to save the classification results')}
+          placeholder={t('classify.chooseOutput')}
           value={savePath}
           onChange={e => {
             changeSavePathChoice(e.target.value);
@@ -192,7 +192,7 @@ export default function Classifier(props: Props) {
         />
       </div>
 
-      <div style={{ marginBottom: '5px' }}>Select AI model to use:</div>
+      <div style={{ marginBottom: '5px' }}>{t('classify.chooseModel')}</div>
       <RadioGroup
         inline
         onChange={event => {
@@ -206,7 +206,7 @@ export default function Classifier(props: Props) {
       </RadioGroup>
 
       <Button
-        text={t('Find animals!')}
+        text={t('classify.find')}
         icon="predictive-analysis"
         onClick={() => {
           computePredictions(
