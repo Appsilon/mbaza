@@ -14651,13 +14651,6 @@ reduce-simplicial-complex@^1.0.0:
     compare-cell "^1.0.0"
     compare-oriented-cell "^1.0.1"
 
-redux-beacon-electron@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/redux-beacon-electron/-/redux-beacon-electron-1.0.1.tgz#2e2b0285aabd4f74468820594d4323bcb18429b2"
-  integrity sha512-CkdlJp6e6EJTBF7EQ9pHmF3IzAefHylrAL6KUZ1Tbc6C4mnIAuU8tlzwtOImCADjonRDMv9DuP4uUd5565+ILw==
-  dependencies:
-    electron-ga "^1.0.6"
-
 redux-beacon@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/redux-beacon/-/redux-beacon-2.1.0.tgz#a88ab3c2861f10ebafa0e5e94b78ca3209b537b9"
