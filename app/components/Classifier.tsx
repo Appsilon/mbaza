@@ -45,7 +45,8 @@ const computePredictions = (
   directory: string,
   savePath: string,
   modelName: string,
-  changeLogMessage: changeLogMessageType
+  changeLogMessage: changeLogMessageType,
+  setIsRunning: (value: boolean) => void
 ) => {
   const args: string[] = [
     '--input_folder',
@@ -62,6 +63,7 @@ const computePredictions = (
   //   * Is `changeLogMessageType` necessary?
   //   * Are Redux actions appropriate for this use case?
   const process = runModelProcess(args);
+  setIsRunning(true);
   process.stdout.on('data', data => {
     changeLogMessage(`${data}`);
   });
@@ -72,6 +74,7 @@ const computePredictions = (
   process.on('exit', exitCode => {
     // eslint-disable-next-line no-console
     console.log(`Classifier exited with code ${exitCode}`);
+    setIsRunning(false);
   });
 };
 
@@ -137,6 +140,7 @@ export default function Classifier(props: Props) {
     changeLogMessage
   } = props;
   const { t } = useTranslation();
+  const [isRunning, setIsRunning] = useState<boolean>(false);
 
   // TODO: Detect available models instead of hardcoding them. Display a warning
   // if there are no models available.
@@ -209,13 +213,14 @@ export default function Classifier(props: Props) {
             props.directoryChoice,
             props.savePath,
             modelName,
-            changeLogMessage
+            changeLogMessage,
+            setIsRunning
           );
         }}
         style={{ marginBottom: '10px', backgroundColor: '#fff' }}
       />
 
-      <PythonLogViewer logMessage={logMessage} />
+      <PythonLogViewer logMessage={logMessage} isRunning={isRunning} />
     </div>
   );
 }
