@@ -1,42 +1,82 @@
 import React, { useState } from 'react';
-import { Button, Radio, RadioGroup } from '@blueprintjs/core';
+import { Button, Intent, Radio, RadioGroup, Toaster } from '@blueprintjs/core';
 import { useTranslation } from 'react-i18next';
 import path from 'path';
 import { spawn, ChildProcessWithoutNullStreams } from 'child_process';
+import fs from 'fs';
+import { TFunction } from 'i18next';
 
 import PythonLogViewer from './PythonLogViewer';
 
 type changeLogMessageType = (newChangeLogMessage: string) => {};
 type changePathChoiceType = (newPath: string) => {};
 
-function runModelProcess(baseArgs: string[]): ChildProcessWithoutNullStreams {
+const rootModelsDirectory = path.resolve('models');
+
+const toaster = Toaster.create({});
+
+function displayErrorToast(message: string) {
+  toaster.show({
+    message,
+    intent: Intent.DANGER,
+    icon: 'warning-sign'
+  });
+}
+
+function displayWarningToast(message: string) {
+  toaster.show({
+    message,
+    intent: Intent.WARNING,
+    icon: 'warning-sign'
+  });
+}
+
+function runModelProcess(
+  baseArgs: string[],
+  t: TFunction
+): ChildProcessWithoutNullStreams | null {
   const isDev = process.env.NODE_ENV === 'development';
   const isWin = !isDev && process.platform === 'win32';
   const isLinux = !isDev && process.platform === 'linux';
+  const gridFilePath = path.join(
+    rootModelsDirectory,
+    'biomonitoring_stations.csv'
+  );
 
-  const root = path.resolve('models'); // Resolve to an absolute path.
   let workdir;
   let program;
   const args = [];
+
   if (isDev) {
-    workdir = path.join(root, 'runner');
+    workdir = path.join(rootModelsDirectory, 'runner');
     program = path.join(workdir, 'venv', 'bin', 'python3');
     args.push('main.py');
   } else if (isWin) {
-    workdir = path.join(root, 'runner_win', 'main');
+    workdir = path.join(rootModelsDirectory, 'runner_win', 'main');
     program = path.join(workdir, 'main.exe');
     // TODO: Determine a suitable number of workers in the classifier script.
     args.push('--pytorch_num_workers=0');
   } else if (isLinux) {
-    workdir = path.join(root, 'runner_linux', 'main');
+    workdir = path.join(rootModelsDirectory, 'runner_linux', 'main');
     program = path.join(workdir, 'main');
   } else {
     throw new Error(
       `Unsupported operating system for running models: ${process.platform}`
     );
   }
-  // TODO: Display a warning to the user if the grid file is missing.
-  args.push('--grid_file', path.join(root, 'biomonitoring_stations.csv'));
+
+  if (!fs.existsSync(program)) {
+    displayErrorToast(t('modelExecutableNotFound', { program }));
+    return null;
+  }
+
+  if (!fs.existsSync(gridFilePath)) {
+    displayWarningToast(
+      t('biomonitoringStationsFileNotFound', { gridFilePath })
+    );
+  }
+
+  args.push('--grid_file', gridFilePath);
   args.push(...baseArgs);
   return spawn(program, args, { cwd: workdir });
 }
@@ -46,36 +86,50 @@ const computePredictions = (
   savePath: string,
   modelName: string,
   changeLogMessage: changeLogMessageType,
-  setIsRunning: (value: boolean) => void
+  setIsRunning: (value: boolean) => void,
+  t: TFunction
 ) => {
+  const modelWeightsPath = path.join(
+    rootModelsDirectory,
+    modelName,
+    'trained_model.pkl'
+  );
+
   const args: string[] = [
     '--input_folder',
     directory,
     '--output',
     savePath,
     '--model',
-    path.resolve(path.join('models', modelName, 'trained_model.pkl')),
+    modelWeightsPath,
     '--overwrite'
   ];
+
+  if (!fs.existsSync(modelWeightsPath)) {
+    displayErrorToast(t('modelWeightsNotFound', { modelWeightsPath }));
+    return;
+  }
 
   // TODO: Fix and simplify logging:
   //   * Progress bar is not properly displayed in the output (#89).
   //   * Is `changeLogMessageType` necessary?
   //   * Are Redux actions appropriate for this use case?
-  const process = runModelProcess(args);
-  setIsRunning(true);
-  process.stdout.on('data', data => {
-    changeLogMessage(`${data}`);
-  });
-  process.stderr.on('data', data => {
-    // eslint-disable-next-line no-console
-    console.log(`classifier stderr: ${data}`);
-  });
-  process.on('exit', exitCode => {
-    // eslint-disable-next-line no-console
-    console.log(`Classifier exited with code ${exitCode}`);
-    setIsRunning(false);
-  });
+  const process = runModelProcess(args, t);
+  if (process !== null) {
+    setIsRunning(true);
+    process.stdout.on('data', data => {
+      changeLogMessage(`${data}`);
+    });
+    process.stderr.on('data', data => {
+      // eslint-disable-next-line no-console
+      console.log(`classifier stderr: ${data}`);
+    });
+    process.on('exit', exitCode => {
+      // eslint-disable-next-line no-console
+      console.log(`Classifier exited with code ${exitCode}`);
+      setIsRunning(false);
+    });
+  }
 };
 
 const chooseDirectory = (changeDirectoryChoice: changePathChoiceType) => {
@@ -214,7 +268,8 @@ export default function Classifier(props: Props) {
             props.savePath,
             modelName,
             changeLogMessage,
-            setIsRunning
+            setIsRunning,
+            t
           );
         }}
         style={{ marginBottom: '10px', backgroundColor: '#fff' }}
