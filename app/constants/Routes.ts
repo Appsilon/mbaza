@@ -13,17 +13,17 @@ export type RoutesType = {
 export const routes: RoutesType = {
   HOME: {
     path: '/',
-    name: 'Home',
+    name: 'sidebar.home',
     iconName: 'home'
   },
   CLASSIFY: {
     path: '/classify',
-    name: 'Detect animals',
+    name: 'sidebar.classify',
     iconName: 'send-to-graph'
   },
   EXPLORE: {
     path: '/explore',
-    name: 'Explore results',
+    name: 'sidebar.explore',
     iconName: 'search-template'
   }
 };

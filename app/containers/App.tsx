@@ -35,14 +35,14 @@ export default function App(props: Props) {
             <strong>Mbaza</strong>
           </Navbar.Heading>
           <Navbar.Divider />
-          <span>{t('top.title')}</span>
+          <span>{t('topbar.title')}</span>
         </Navbar.Group>
 
         <Navbar.Group align={Alignment.RIGHT}>
           <Button
             className="bp3-minimal"
             icon="projects"
-            text={t('top.projects')}
+            text={t('topbar.projects')}
             style={{ color: '#fff' }}
           />
           <Navbar.Divider />

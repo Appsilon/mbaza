@@ -1,9 +1,14 @@
 {
   "en": {
     "translation": {
-      "top": {
+      "topbar": {
         "title": "AI for species discovery",
         "projects": "Projects"
+      },
+      "sidebar": {
+        "home": "Home",
+        "classify": "Detect animals",
+        "explore": "Explore results"
       },
       "home": {
         "welcome": {
