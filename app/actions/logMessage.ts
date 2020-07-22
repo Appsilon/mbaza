@@ -5,7 +5,7 @@ export interface ChangeLogMessageAction {
   newLogMessage: string | null;
 }
 
-export function changeLogMessage(newLogMessage: string) {
+export function changeLogMessage(newLogMessage: string | null) {
   return {
     type: CHANGE_LOG_MESSAGE,
     newLogMessage
