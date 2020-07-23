@@ -24,6 +24,7 @@ export const RareAnimalsClasses = [
   'vulture'
 ];
 
+// Models can use different name for images without animals.
 export const EmptyClasses = ['Blank', 'empty'];
 
 export function formatAnimalClassName(className: string) {

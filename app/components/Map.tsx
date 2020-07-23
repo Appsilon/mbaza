@@ -14,9 +14,11 @@ import {
 } from '@blueprintjs/core';
 import ReactDOM from 'react-dom';
 import styles from './Map.css';
-
-// Models can use different name for images without animals.
-const emptyClasses = ['empty', 'blank'];
+import AnimalsListTooltipContent from './AnimalsListTooltipContent';
+import {
+  EmptyClasses,
+  formatAnimalClassName
+} from '../constants/animalsClasses';
 
 /*
 To produce a country file please have a look at download_map.sh
@@ -128,7 +130,7 @@ function makeStationMarker(
       </p>
       <p>
         <Tooltip
-          content={species.join(', ')}
+          content={<AnimalsListTooltipContent entries={species.value()} />}
           position={Position.BOTTOM}
           className="speciesTooltip"
         >
@@ -181,10 +183,10 @@ function addMarkers(
 ) {
   // TODO: Drop observations with missing station and warn the user.
   const markers = _(observations)
-    .filter(x => !emptyClasses.includes(x.pred_1))
     .groupBy(x => x.station)
     .map(group => ({
       species: _(group)
+        .filter(x => !EmptyClasses.includes(x.pred_1))
         .map('pred_1')
         .uniq(),
       observations: group
@@ -208,6 +210,11 @@ function addMarkers(
 }
 
 function observationCard(t: TFunction, observation: Observation): JSX.Element {
+  const predictions = [
+    [formatAnimalClassName(observation.pred_1), observation.score_1],
+    [formatAnimalClassName(observation.pred_2), observation.score_2],
+    [formatAnimalClassName(observation.pred_3), observation.score_3]
+  ];
   return (
     <Card
       elevation={Elevation.TWO}
@@ -216,7 +223,7 @@ function observationCard(t: TFunction, observation: Observation): JSX.Element {
     >
       <h3 style={{ marginTop: 0 }}>
         {t('explore.inspect.photoHeader', {
-          species: observation.pred_1,
+          species: formatAnimalClassName(observation.pred_1),
           date: observation.date
         })}
       </h3>
@@ -233,11 +240,7 @@ function observationCard(t: TFunction, observation: Observation): JSX.Element {
               </tr>
             </thead>
             <tbody>
-              {[
-                [observation.pred_1, observation.score_1],
-                [observation.pred_2, observation.score_2],
-                [observation.pred_3, observation.score_3]
-              ].map(i => (
+              {predictions.map(i => (
                 <tr key={i[0]}>
                   <td>{i[0]}</td>
                   <td>
