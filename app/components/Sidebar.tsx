@@ -1,5 +1,6 @@
 import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
+import { useTranslation } from 'react-i18next';
 import styles from './Sidebar.css';
 
 import SidebarItem from './SidebarItem';
@@ -11,6 +12,7 @@ interface Props extends RouteComponentProps {
 
 function Sidebar(props: Props) {
   const { routes } = props;
+  const { t } = useTranslation();
 
   return (
     <div
@@ -20,7 +22,7 @@ function Sidebar(props: Props) {
       {Object.keys(routes).map((key: string) => (
         <SidebarItem
           key={routes[key].name}
-          text={routes[key].name}
+          text={t(routes[key].name)}
           iconName={routes[key].iconName}
           link={routes[key].path}
           active={props.location.pathname === routes[key].path}

@@ -1,0 +1,62 @@
+{
+  "en": {
+    "translation": {
+      "topbar": {
+        "title": "AI for species discovery",
+        "projects": "Projects"
+      },
+      "sidebar": {
+        "home": "Home",
+        "classify": "Detect animals",
+        "explore": "Explore results"
+      },
+      "home": {
+        "welcome": {
+          "title": "Welcome to Mbaza AI!",
+          "message": "<h4>The first offline AI wildlife explorer</h4> <p>Mbaza AI is a desktop application that allows bioconservation researchers to classify camera trap animal images and analyze the results.</p> <p>It is powered by AI models capable of recognizing over 30 animal species in photos.</p> <p>To use the application, first go to Classify and run AI on your photos dataset. Then you can go to Explore and analyze the results.</p>"
+        },
+        "warning": {
+          "title": "This is an early development version",
+          "message": "<p>You are using a very early version of Mbaza AI.</p> <p>This application is under active development and provides core functionality only. All feedback regarding features and behavior of the application is welcome - please shoot us an email at ai4good@appsilon.com.</p>"
+        }
+      },
+      "classify": {
+        "chooseInput": "Choose directory with photos",
+        "chooseOutput": "Choose where to save the classification results",
+        "chooseModel": "Select AI model to use:",
+        "find": "Find animals!",
+        "output": "Classifier output",
+        "inProgress": "Please wait. Animals detection in progress. This may take a long time."
+      },
+      "explore": {
+        "chooseFile": "Choose results file to analyze",
+        "changeFile": "Change data",
+        "mainView": "Main Information",
+        "tableView": "Observations Table",
+        "imagesCount": "Images classified",
+        "animalsCount": "Images with animals",
+        "speciesCount": "Species found",
+        "rareCount": "Rare species found",
+        "byAnimal": "By animal",
+        "byStation": "By station",
+        "byCamera": "By camera",
+        "byCheck": "By check",
+        "plotTitle": "Animals count over time ({{windowLengthInDays}}-day intervals)",
+        "inspect": {
+          "station": "Station {{id}}",
+          "observations": "{{count}} observations",
+          "species": "{{count}} species",
+          "header": "Observations in station {{station}}",
+          "photoHeader": "{{species}} probably seen at {{date}}",
+          "prediction": "Prediction",
+          "probability": "Probability",
+          "camera": "Camera",
+          "check": "Check"
+        }
+      }
+    }
+  },
+  "fr": {
+    "translation": {}
+  }
+}

@@ -170,7 +170,7 @@ export default function ExplorePage() {
             </span>
           </div>
           <Button
-            text={t('Change data')}
+            text={t('explore.changeFile')}
             icon="arrow-left"
             onClick={() => setData(undefined)}
             style={{
@@ -188,10 +188,10 @@ export default function ExplorePage() {
         />
         <ExplorerFilter data={data} updateFilters={handleFilters} />
         <Tabs renderActiveTabPanelOnly>
-          <Tab id="main" title={t('Main Information')} panel={<MainPanel />} />
+          <Tab id="main" title={t('explore.mainView')} panel={<MainPanel />} />
           <Tab
             id="table"
-            title={t('Observations Table')}
+            title={t('explore.tableView')}
             panel={<TablePanel />}
           />
           <Tabs.Expander />
@@ -203,7 +203,7 @@ export default function ExplorePage() {
           <input
             type="text"
             className="bp3-input"
-            placeholder={t('Choose results file to analyze')}
+            placeholder={t('explore.chooseFile')}
             value={filePath}
             onChange={e => {
               setFilePath(e.target.value);

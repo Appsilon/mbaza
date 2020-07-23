@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { TFunction } from 'i18next';
 import mapboxgl from 'mapbox-gl';
 import _ from 'lodash';
 import {
@@ -77,6 +79,7 @@ function circleDiameter(count: number, total: number): number {
 }
 
 function makeStationMarker(
+  t: TFunction,
   groupObservations: Observation[],
   species: _.Collection<string>,
   maxSpecies: number,
@@ -118,12 +121,10 @@ function makeStationMarker(
   ReactDOM.render(
     <>
       <h3>
-        Station&nbsp;
-        <b>{station}</b>
+        <b>{t('explore.inspect.station', { id: station })}</b>
       </h3>
       <p>
-        <b>{count}</b>
-        &nbsp; observations
+        <b>{t('explore.inspect.observations', { count })}</b>
       </p>
       <p>
         <Tooltip
@@ -131,40 +132,33 @@ function makeStationMarker(
           position={Position.BOTTOM}
           className="speciesTooltip"
         >
-          <b>
-            {species.size()}
-            &nbsp;species
-          </b>
+          <b>{t('explore.inspect.species', { count: species.size() })}</b>
         </Tooltip>
       </p>
-      <p>
-        <div className="photosPreview" style={{ display: 'flex' }}>
-          {groupObservations
-            .slice(0, maxPreviewPhotosCount)
-            .map(observation => (
-              // eslint-disable-next-line
-              <a
-                key={observation.path}
-                className="photosPreviewItem"
-                onClick={() => setInspectedObservations(groupObservations)}
-              >
-                <img
-                  src={observation.path}
-                  alt="Observations preview"
-                  style={{ width: '100%', height: '100%' }}
-                />
-              </a>
-            ))}
-          <div>
-            <Button
-              onClick={() => setInspectedObservations(groupObservations)}
-              className="photosPreviewItem"
-              rightIcon="arrow-right"
-              intent="primary"
+      <div className="photosPreview" style={{ display: 'flex' }}>
+        {groupObservations.slice(0, maxPreviewPhotosCount).map(observation => (
+          // eslint-disable-next-line
+          <a
+            key={observation.path}
+            className="photosPreviewItem"
+            onClick={() => setInspectedObservations(groupObservations)}
+          >
+            <img
+              src={observation.path}
+              alt="Observations preview"
+              style={{ width: '100%', height: '100%' }}
             />
-          </div>
+          </a>
+        ))}
+        <div>
+          <Button
+            onClick={() => setInspectedObservations(groupObservations)}
+            className="photosPreviewItem"
+            rightIcon="arrow-right"
+            intent="primary"
+          />
         </div>
-      </p>
+      </div>
     </>,
     popupContentPlaceholder
   );
@@ -180,6 +174,7 @@ function makeStationMarker(
 }
 
 function addMarkers(
+  t: TFunction,
   observations: Observation[],
   map: mapboxgl.Map,
   setInspectedObservations: (observations: Observation[]) => void
@@ -200,6 +195,7 @@ function addMarkers(
     map.on('load', () => {
       markers.forEach(group => {
         const marker = makeStationMarker(
+          t,
           group.observations,
           group.species,
           maxSpecies,
@@ -211,7 +207,7 @@ function addMarkers(
   }
 }
 
-function observationCard(observation: Observation): JSX.Element {
+function observationCard(t: TFunction, observation: Observation): JSX.Element {
   return (
     <Card
       elevation={Elevation.TWO}
@@ -219,9 +215,10 @@ function observationCard(observation: Observation): JSX.Element {
       style={{ marginTop: 10 }}
     >
       <h3 style={{ marginTop: 0 }}>
-        {observation.pred_1}
-        {' probably seen at '}
-        {observation.date}
+        {t('explore.inspect.photoHeader', {
+          species: observation.pred_1,
+          date: observation.date
+        })}
       </h3>
       <div style={{ display: 'flex' }}>
         <div>
@@ -231,8 +228,8 @@ function observationCard(observation: Observation): JSX.Element {
           <table className="bp3-html-table bp3-html-table-condensed">
             <thead>
               <tr>
-                <th>Prediction</th>
-                <th>Probability</th>
+                <th>{t('explore.inspect.prediction')}</th>
+                <th>{t('explore.inspect.probability')}</th>
               </tr>
             </thead>
             <tbody>
@@ -253,11 +250,17 @@ function observationCard(observation: Observation): JSX.Element {
           </table>
           <div style={{ margin: '20px 10px' }}>
             <p>
-              <strong>Camera: </strong>
+              <strong>
+                {t('explore.inspect.camera')}
+                :&nbsp;
+              </strong>
               {observation.camera}
             </p>
             <p>
-              <strong>Check: </strong>
+              <strong>
+                {t('explore.inspect.check')}
+                :&nbsp;
+              </strong>
               {observation.check}
             </p>
           </div>
@@ -271,12 +274,15 @@ function observationsInspector(
   inspectedObservations: Observation[],
   setInspectedObservations: React.Dispatch<React.SetStateAction<Observation[]>>
 ): React.ReactNode {
+  const { t } = useTranslation();
   if (inspectedObservations.length === 0) {
     return null;
   }
   return (
     <Drawer
-      title={`Observations in station ${inspectedObservations[0].station}`}
+      title={t('explore.inspect.header', {
+        station: inspectedObservations[0].station
+      })}
       icon="camera"
       isOpen={inspectedObservations.length > 0}
       onClose={() => setInspectedObservations([])}
@@ -285,13 +291,14 @@ function observationsInspector(
       <div className={Classes.DRAWER_BODY}>
         <div className={Classes.DIALOG_BODY}>
           {inspectedObservations.map(observation =>
-            observationCard(observation)
+            observationCard(t, observation)
           )}
         </div>
       </div>
       <div className={Classes.DRAWER_FOOTER}>
-        {inspectedObservations.length}
-        &nbsp; observations
+        {t('explore.inspect.observations', {
+          count: inspectedObservations.length
+        })}
       </div>
     </Drawer>
   );
@@ -300,7 +307,7 @@ function observationsInspector(
 export default function Map(props: Props) {
   const { data } = props;
   const mapRef = React.createRef<HTMLDivElement>();
-
+  const { t } = useTranslation();
   const [inspectedObservations, setInspectedObservations] = useState<
     Observation[]
   >([]);
@@ -311,7 +318,7 @@ export default function Map(props: Props) {
       center: [12, -0.8],
       zoom: 6
     });
-    addMarkers(data.observations, map, setInspectedObservations);
+    addMarkers(t, data.observations, map, setInspectedObservations);
     return function cleanup() {
       map.remove();
     };
