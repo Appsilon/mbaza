@@ -31,7 +31,6 @@ export default function PythonLogViewer(props: Props) {
   return (
     <Card interactive={false} elevation={Elevation.TWO}>
       <H5>{t('classify.output')}</H5>
-      {/* Code block retains newlines and is more appropriate for terminal output. */}
       <Pre style={{ whiteSpace: 'pre-wrap' }}>{logMessage}</Pre>
       {isRunning ? (
         <div style={{ marginTop: '20px', textAlign: 'center' }}>
