@@ -1,42 +1,92 @@
 import React, { useState } from 'react';
-import { Button, Radio, RadioGroup } from '@blueprintjs/core';
+import {
+  Button,
+  Card,
+  Elevation,
+  H1,
+  Intent,
+  NonIdealState,
+  Radio,
+  RadioGroup,
+  Toaster
+} from '@blueprintjs/core';
 import { useTranslation } from 'react-i18next';
 import path from 'path';
 import { spawn, ChildProcessWithoutNullStreams } from 'child_process';
+import fs from 'fs';
+import { TFunction } from 'i18next';
 
 import PythonLogViewer from './PythonLogViewer';
 
-type changeLogMessageType = (newChangeLogMessage: string) => {};
+type changeLogMessageType = (newChangeLogMessage: string | null) => {};
 type changePathChoiceType = (newPath: string) => {};
 
-function runModelProcess(baseArgs: string[]): ChildProcessWithoutNullStreams {
+const rootModelsDirectory = path.resolve('models');
+
+const toaster = Toaster.create({});
+
+function displayErrorToast(message: string) {
+  toaster.show({
+    message,
+    intent: Intent.DANGER,
+    icon: 'warning-sign'
+  });
+}
+
+function displayWarningToast(message: string) {
+  toaster.show({
+    message,
+    intent: Intent.WARNING,
+    icon: 'warning-sign'
+  });
+}
+
+function runModelProcess(
+  baseArgs: string[],
+  t: TFunction
+): ChildProcessWithoutNullStreams | null {
   const isDev = process.env.NODE_ENV === 'development';
   const isWin = !isDev && process.platform === 'win32';
   const isLinux = !isDev && process.platform === 'linux';
+  const gridFilePath = path.join(
+    rootModelsDirectory,
+    'biomonitoring_stations.csv'
+  );
 
-  const root = path.resolve('models'); // Resolve to an absolute path.
   let workdir;
   let program;
   const args = [];
+
   if (isDev) {
-    workdir = path.join(root, 'runner');
+    workdir = path.join(rootModelsDirectory, 'runner');
     program = path.join(workdir, 'venv', 'bin', 'python3');
     args.push('main.py');
   } else if (isWin) {
-    workdir = path.join(root, 'runner_win', 'main');
+    workdir = path.join(rootModelsDirectory, 'runner_win', 'main');
     program = path.join(workdir, 'main.exe');
     // TODO: Determine a suitable number of workers in the classifier script.
     args.push('--pytorch_num_workers=0');
   } else if (isLinux) {
-    workdir = path.join(root, 'runner_linux', 'main');
+    workdir = path.join(rootModelsDirectory, 'runner_linux', 'main');
     program = path.join(workdir, 'main');
   } else {
     throw new Error(
       `Unsupported operating system for running models: ${process.platform}`
     );
   }
-  // TODO: Display a warning to the user if the grid file is missing.
-  args.push('--grid_file', path.join(root, 'biomonitoring_stations.csv'));
+
+  if (!fs.existsSync(program)) {
+    displayErrorToast(t('classify.modelExecutableNotFound', { program }));
+    return null;
+  }
+
+  if (!fs.existsSync(gridFilePath)) {
+    displayWarningToast(
+      t('classify.biomonitoringStationsFileNotFound', { gridFilePath })
+    );
+  }
+
+  args.push('--grid_file', gridFilePath);
   args.push(...baseArgs);
   return spawn(program, args, { cwd: workdir });
 }
@@ -46,36 +96,55 @@ const computePredictions = (
   savePath: string,
   modelName: string,
   changeLogMessage: changeLogMessageType,
-  setIsRunning: (value: boolean) => void
+  setIsRunning: (value: boolean) => void,
+  setExitCode: (value: number | null | undefined) => void,
+  t: TFunction
 ) => {
+  const modelWeightsPath = path.join(
+    rootModelsDirectory,
+    modelName,
+    'trained_model.pkl'
+  );
+
   const args: string[] = [
     '--input_folder',
     directory,
     '--output',
     savePath,
     '--model',
-    path.resolve(path.join('models', modelName, 'trained_model.pkl')),
+    modelWeightsPath,
     '--overwrite'
   ];
+
+  if (!fs.existsSync(modelWeightsPath)) {
+    displayErrorToast(t('classify.modelWeightsNotFound', { modelWeightsPath }));
+    return;
+  }
 
   // TODO: Fix and simplify logging:
   //   * Progress bar is not properly displayed in the output (#89).
   //   * Is `changeLogMessageType` necessary?
   //   * Are Redux actions appropriate for this use case?
-  const process = runModelProcess(args);
-  setIsRunning(true);
-  process.stdout.on('data', data => {
-    changeLogMessage(`${data}`);
-  });
-  process.stderr.on('data', data => {
-    // eslint-disable-next-line no-console
-    console.log(`classifier stderr: ${data}`);
-  });
-  process.on('exit', exitCode => {
-    // eslint-disable-next-line no-console
-    console.log(`Classifier exited with code ${exitCode}`);
-    setIsRunning(false);
-  });
+  const process = runModelProcess(args, t);
+  if (process !== null) {
+    changeLogMessage(null);
+    setExitCode(undefined);
+    setIsRunning(true);
+    process.stdout.on('data', data => {
+      changeLogMessage(`${data}`);
+    });
+    process.stderr.on('data', data => {
+      // eslint-disable-next-line no-console
+      console.log(`classifier stderr: ${data}`);
+      displayErrorToast(`${data}`);
+    });
+    process.on('exit', exitCode => {
+      // eslint-disable-next-line no-console
+      console.log(`Classifier exited with code ${exitCode}`);
+      setIsRunning(false);
+      setExitCode(exitCode);
+    });
+  }
 };
 
 const chooseDirectory = (changeDirectoryChoice: changePathChoiceType) => {
@@ -141,6 +210,7 @@ export default function Classifier(props: Props) {
   } = props;
   const { t } = useTranslation();
   const [isRunning, setIsRunning] = useState<boolean>(false);
+  const [exitCode, setExitCode] = useState<number | null>();
 
   // TODO: Detect available models instead of hardcoding them. Display a warning
   // if there are no models available.
@@ -149,8 +219,22 @@ export default function Classifier(props: Props) {
     { label: 'Serengeti', value: 'serengeti' }
   ];
   const [modelName, setModelName] = useState<string>(models[0].value);
+  const rootModelsDirectoryExists = fs.existsSync(rootModelsDirectory);
 
-  return (
+  const missingModelsDirectoryView = (
+    <NonIdealState
+      icon="search"
+      title={t('classify.modelsDirectoryMissing.title')}
+    >
+      <p>
+        {t('classify.modelsDirectoryMissing.description', {
+          rootModelsDirectory
+        })}
+      </p>
+    </NonIdealState>
+  );
+
+  const classifierFormView = (
     <div style={{ padding: '30px 30px', width: '60vw' }}>
       <div className="bp3-input-group" style={{ marginBottom: '10px' }}>
         <input
@@ -214,13 +298,37 @@ export default function Classifier(props: Props) {
             props.savePath,
             modelName,
             changeLogMessage,
-            setIsRunning
+            setIsRunning,
+            setExitCode,
+            t
           );
         }}
+        disabled={isRunning || directoryChoice === '' || savePath === ''}
         style={{ marginBottom: '10px', backgroundColor: '#fff' }}
       />
 
-      <PythonLogViewer logMessage={logMessage} isRunning={isRunning} />
+      {exitCode !== undefined || isRunning ? (
+        <PythonLogViewer
+          logMessage={logMessage}
+          isRunning={isRunning}
+          exitCode={exitCode}
+        />
+      ) : null}
+    </div>
+  );
+
+  return (
+    <div style={{ flex: 1 }}>
+      <div style={{ display: 'flex' }}>
+        <div style={{ flex: 1, padding: '20px' }}>
+          <Card elevation={Elevation.TWO}>
+            <H1>{t('classify.title')}</H1>
+            {rootModelsDirectoryExists
+              ? classifierFormView
+              : missingModelsDirectoryView}
+          </Card>
+        </div>
+      </div>
     </div>
   );
 }
