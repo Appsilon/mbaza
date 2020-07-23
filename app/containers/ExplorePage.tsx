@@ -1,12 +1,22 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { csv } from 'd3-fetch';
-import { Card, Elevation, Button, Tab, Tabs } from '@blueprintjs/core';
+import {
+  Card,
+  Elevation,
+  Button,
+  Tab,
+  Tabs,
+  H1,
+  Intent,
+  Callout
+} from '@blueprintjs/core';
 import Map from '../components/Map';
 import AnimalsPlot from '../components/AnimalsPlot';
 import ObservationsTable from '../components/ObservationsTable';
 import ExplorerFilter from '../components/explorerFilters';
 import ExplorerMetrics from '../components/explorerMetrics';
+import { EmptyClasses, RareAnimalsClasses } from '../constants/animalsClasses';
 
 type Filters = {
   activeAnimals: Entry[];
@@ -97,7 +107,7 @@ export default function ExplorePage() {
     return { observations: filtered };
   };
 
-  const MainPanel: React.SFC = () => (
+  const MainPanel: React.FunctionComponent = () => (
     <div style={{ display: 'flex' }}>
       <div
         style={{
@@ -108,6 +118,7 @@ export default function ExplorePage() {
         }}
       >
         <Card style={{ height: '100%' }} interactive elevation={Elevation.TWO}>
+          <Callout intent={Intent.PRIMARY}>{t('explore.plotHint')}</Callout>
           <AnimalsPlot data={getFilteredData(data)} />
         </Card>
       </div>
@@ -120,6 +131,7 @@ export default function ExplorePage() {
         }}
       >
         <Card style={{ height: '100%' }} interactive elevation={Elevation.TWO}>
+          <Callout intent={Intent.PRIMARY}>{t('explore.mapHint')}</Callout>
           <Map data={getFilteredData(data)} />
         </Card>
       </div>
@@ -132,9 +144,18 @@ export default function ExplorePage() {
   // eslint-disable-next-line
   const filename = (filePath !== undefined) ? filePath.replace(/^.*[\\\/]/, '') : "";
 
-  const contents =
-    data !== undefined ? (
-      <>
+  if (data !== undefined) {
+    return (
+      <div
+        style={{
+          padding: '30px 30px',
+          width: '100%',
+          overflowY: 'scroll',
+          maxHeight: 'calc(100vh - 50px)',
+          display: 'flex',
+          flexDirection: 'column'
+        }}
+      >
         <Card
           style={{
             position: 'absolute',
@@ -184,7 +205,8 @@ export default function ExplorePage() {
         </Card>
         <ExplorerMetrics
           data={getFilteredData(data).observations}
-          rareTargets={['Cat_Golden', 'Duiker_Red', 'Civet_African_Palm']}
+          rareTargets={RareAnimalsClasses}
+          emptyClasses={EmptyClasses}
         />
         <ExplorerFilter data={data} updateFilters={handleFilters} />
         <Tabs renderActiveTabPanelOnly>
@@ -196,43 +218,39 @@ export default function ExplorePage() {
           />
           <Tabs.Expander />
         </Tabs>
-      </>
-    ) : (
-      <>
-        <div className="bp3-input-group" style={{ width: '60%' }}>
-          <input
-            type="text"
-            className="bp3-input"
-            placeholder={t('explore.chooseFile')}
-            value={filePath}
-            onChange={e => {
-              setFilePath(e.target.value);
-            }}
-          />
-          <button
-            aria-label="Search"
-            type="submit"
-            className="bp3-button bp3-minimal bp3-intent-primary bp3-icon-search"
-            onClick={() => {
-              chooseFile(setFilePath, setData);
-            }}
-          />
-        </div>
-      </>
+      </div>
     );
+  }
 
   return (
-    <div
-      style={{
-        padding: '30px 30px',
-        width: '100%',
-        overflowY: 'scroll',
-        maxHeight: 'calc(100vh - 50px)',
-        display: 'flex',
-        flexDirection: 'column'
-      }}
-    >
-      {contents}
+    <div style={{ flex: 1 }}>
+      <div style={{ display: 'flex' }}>
+        <div style={{ flex: 1, padding: '20px' }}>
+          <Card elevation={Elevation.TWO}>
+            <H1>{t('explore.chooseFile')}</H1>
+            <p>{t('explore.selectFileDescription')}</p>
+            <div className="bp3-input-group" style={{ width: '60%' }}>
+              <input
+                type="text"
+                className="bp3-input"
+                placeholder={t('explore.chooseFile')}
+                value={filePath}
+                onChange={e => {
+                  setFilePath(e.target.value);
+                }}
+              />
+              <button
+                aria-label="Search"
+                type="submit"
+                className="bp3-button bp3-minimal bp3-intent-primary bp3-icon-search"
+                onClick={() => {
+                  chooseFile(setFilePath, setData);
+                }}
+              />
+            </div>
+          </Card>
+        </div>
+      </div>
     </div>
   );
 }

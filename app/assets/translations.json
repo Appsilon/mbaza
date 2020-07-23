@@ -39,7 +39,10 @@
         "failure": "Animals detection failed."
       },
       "explore": {
-        "chooseFile": "Choose results file to analyze",
+        "chooseFile": "Choose results file to explore",
+        "selectFileDescription": "Please select a CSV file with detection results to analyze them.",
+        "mapHint": "Size of circle corresponds to the number of detected species. Click on a station to see details.",
+        "plotHint": "To save the plot to disk, hover on the plot and use the button with a camera icon",
         "changeFile": "Change data",
         "mainView": "Main Information",
         "tableView": "Observations Table",
