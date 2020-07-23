@@ -16,6 +16,7 @@ import AnimalsPlot from '../components/AnimalsPlot';
 import ObservationsTable from '../components/ObservationsTable';
 import ExplorerFilter from '../components/explorerFilters';
 import ExplorerMetrics from '../components/explorerMetrics';
+import { EmptyClasses, RareAnimalsClasses } from '../constants/animalsClasses';
 
 type Filters = {
   activeAnimals: Entry[];
@@ -106,7 +107,7 @@ export default function ExplorePage() {
     return { observations: filtered };
   };
 
-  const MainPanel: React.SFC = () => (
+  const MainPanel: React.FunctionComponent = () => (
     <div style={{ display: 'flex' }}>
       <div
         style={{
@@ -204,7 +205,8 @@ export default function ExplorePage() {
         </Card>
         <ExplorerMetrics
           data={getFilteredData(data).observations}
-          rareTargets={['Cat_Golden', 'Duiker_Red', 'Civet_African_Palm']}
+          rareTargets={RareAnimalsClasses}
+          emptyClasses={EmptyClasses}
         />
         <ExplorerFilter data={data} updateFilters={handleFilters} />
         <Tabs renderActiveTabPanelOnly>
