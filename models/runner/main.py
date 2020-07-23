@@ -53,6 +53,7 @@ def main():
 
     args = parser.parse_args()
     infer_to_csv(args)
+    exit(0)
 
 if (__name__ == "__main__"):
     main()

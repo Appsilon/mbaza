@@ -2,15 +2,13 @@ export const CHANGE_LOG_MESSAGE = 'CHANGE_LOG_MESSAGE';
 
 export interface ChangeLogMessageAction {
   type: typeof CHANGE_LOG_MESSAGE;
-  newLogMessage: string;
+  newLogMessage: string | null;
   meta: {
     track: (action: unknown) => unknown;
   };
 }
 
-export function changeLogMessage(
-  newLogMessage: string
-): ChangeLogMessageAction {
+export function changeLogMessage(newLogMessage: string | null) {
   return {
     type: CHANGE_LOG_MESSAGE,
     newLogMessage,
