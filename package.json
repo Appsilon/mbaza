@@ -88,6 +88,11 @@
       ],
       "category": "Development"
     },
+    "nsis": {
+      "runAfterFinish": false,
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
     "directories": {
       "buildResources": "resources",
       "output": "release"
@@ -127,6 +132,11 @@
       "name": "Wojciech Dziwulski",
       "email": "wojciech.dziwulski@gmail.com",
       "url": "https://github.com/wojdziw"
+    },
+    {
+      "name": "Kamil Żyła",
+      "email": "kamil@appsilon.com",
+      "url": "https://github.com/kamilzyla"
     }
   ],
   "license": "AGPL-3.0-or-later",
