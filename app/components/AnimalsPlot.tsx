@@ -39,8 +39,9 @@ const selectorOptions = {
   ]
 };
 
-const windowLength = 5;
+const windowLengthInDays = 5;
 const millisecondsInDay = 24 * 60 * 60 * 1000;
+const windowInMilliseconds = windowLengthInDays * millisecondsInDay;
 
 function getDateFromRow(row: Observation) {
   return new Date(Date.parse(row.date));
@@ -49,8 +50,8 @@ function getDateFromRow(row: Observation) {
 function getKeyFromRow(row: Observation) {
   const date = getDateFromRow(row);
   const utcDate = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
-  const window = Math.round(utcDate / millisecondsInDay / windowLength);
-  const windowStartDate = window * windowLength * millisecondsInDay;
+  const window = Math.round(utcDate / windowInMilliseconds);
+  const windowStartDate = window * windowInMilliseconds;
   return windowStartDate;
 }
 
@@ -58,10 +59,32 @@ function preparePlotTrace(animalData: Observation[]) {
   const observationsGroups = _(_.groupBy(animalData, getKeyFromRow))
     .values()
     .sortBy(rowsGroup => getKeyFromRow(rowsGroup[0]));
-  const x = observationsGroups
-    .map(rowsGroup => new Date(getKeyFromRow(rowsGroup[0])))
-    .value();
-  const y = observationsGroups.map(rowsGroup => rowsGroup.length).value();
+  const x: Date[] = [];
+  const y: number[] = [];
+  let previousDateKey: number | undefined;
+
+  // Observations don't have to cover all consecutive windows,
+  // so for correct plot appearance we need to fill missing dates with 0.
+  // There is no built in option in Plotly for this.
+  // Even for a long time period like 20 years, this produces at most ~1000
+  // data points, which should not be too much to display.
+  observationsGroups.each(rowsGroup => {
+    const currentDateKey = getKeyFromRow(rowsGroup[0]);
+    if (previousDateKey !== undefined) {
+      for (
+        let dateKey = previousDateKey + windowInMilliseconds;
+        dateKey < currentDateKey;
+        dateKey += windowInMilliseconds
+      ) {
+        x.push(new Date(dateKey));
+        y.push(0);
+      }
+    }
+    x.push(new Date(currentDateKey));
+    y.push(rowsGroup.length);
+    previousDateKey = currentDateKey;
+  });
+
   const name = animalData[0].pred_1;
   return { x, y, type: 'scatter', name };
 }
@@ -79,7 +102,7 @@ export default function AnimalsPlot(props: Props) {
 
   const layout = {
     responsive: true,
-    title: t('explore.plotTitle', { windowLength }),
+    title: t('explore.plotTitle', { windowLengthInDays }),
     hovermode: 'closest',
     xaxis: {
       rangeselector: selectorOptions,

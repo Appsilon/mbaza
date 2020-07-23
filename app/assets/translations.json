@@ -51,7 +51,7 @@
         "byStation": "By station",
         "byCamera": "By camera",
         "byCheck": "By check",
-        "plotTitle": "Animals count over time ({{windowLength}} days intervals)",
+        "plotTitle": "Animals count over time ({{windowLengthInDays}}-day intervals)",
         "inspect": {
           "station": "Station {{id}}",
           "observations": "{{count}} observations",
