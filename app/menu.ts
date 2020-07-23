@@ -1,6 +1,5 @@
 /* eslint @typescript-eslint/ban-ts-ignore: off */
 import {
-  app,
   Menu,
   shell,
   BrowserWindow,
@@ -49,63 +48,6 @@ export default class MenuBuilder {
   }
 
   buildDarwinTemplate() {
-    const subMenuAbout: MenuItemConstructorOptions = {
-      label: 'Electron',
-      submenu: [
-        {
-          label: 'About ElectronReact',
-          // @ts-ignore
-          selector: 'orderFrontStandardAboutPanel:'
-        },
-        { type: 'separator' },
-        { label: 'Services', submenu: [] },
-        { type: 'separator' },
-        {
-          label: 'Hide ElectronReact',
-          accelerator: 'Command+H',
-          // @ts-ignore
-          selector: 'hide:'
-        },
-        {
-          label: 'Hide Others',
-          accelerator: 'Command+Shift+H',
-          // @ts-ignore
-          selector: 'hideOtherApplications:'
-        },
-        // @ts-ignore
-        { label: 'Show All', selector: 'unhideAllApplications:' },
-        { type: 'separator' },
-        {
-          label: 'Quit',
-          accelerator: 'Command+Q',
-          click: () => {
-            app.quit();
-          }
-        }
-      ]
-    };
-    const subMenuEdit: MenuItemConstructorOptions = {
-      label: 'Edit',
-      submenu: [
-        // @ts-ignore
-        { label: 'Undo', accelerator: 'Command+Z', selector: 'undo:' },
-        // @ts-ignore
-        { label: 'Redo', accelerator: 'Shift+Command+Z', selector: 'redo:' },
-        { type: 'separator' },
-        // @ts-ignore
-        { label: 'Cut', accelerator: 'Command+X', selector: 'cut:' },
-        // @ts-ignore
-        { label: 'Copy', accelerator: 'Command+C', selector: 'copy:' },
-        // @ts-ignore
-        { label: 'Paste', accelerator: 'Command+V', selector: 'paste:' },
-        {
-          label: 'Select All',
-          accelerator: 'Command+A',
-          // @ts-ignore
-          selector: 'selectAll:'
-        }
-      ]
-    };
     const subMenuViewDev: MenuItemConstructorOptions = {
       label: 'View',
       submenu: [
@@ -144,49 +86,23 @@ export default class MenuBuilder {
         }
       ]
     };
-    const subMenuWindow: MenuItemConstructorOptions = {
-      label: 'Window',
-      submenu: [
-        {
-          label: 'Minimize',
-          accelerator: 'Command+M',
-          // @ts-ignore
-          selector: 'performMiniaturize:'
-        },
-        // @ts-ignore
-        { label: 'Close', accelerator: 'Command+W', selector: 'performClose:' },
-        { type: 'separator' },
-        // @ts-ignore
-        { label: 'Bring All to Front', selector: 'arrangeInFront:' }
-      ]
-    };
     const subMenuHelp: MenuItemConstructorOptions = {
       label: 'Help',
       submenu: [
         {
           label: 'Learn More',
           click() {
-            shell.openExternal('https://electronjs.org');
-          }
-        },
-        {
-          label: 'Documentation',
-          click() {
             shell.openExternal(
-              'https://github.com/electron/electron/tree/master/docs#readme'
+              'https://github.com/Appsilon/wildlife-explorer#readme'
             );
           }
         },
         {
-          label: 'Community Discussions',
+          label: 'Report Issues',
           click() {
-            shell.openExternal('https://www.electronjs.org/community');
-          }
-        },
-        {
-          label: 'Search Issues',
-          click() {
-            shell.openExternal('https://github.com/electron/electron/issues');
+            shell.openExternal(
+              'https://github.com/Appsilon/wildlife-explorer/issues'
+            );
           }
         }
       ]
@@ -198,7 +114,7 @@ export default class MenuBuilder {
         ? subMenuViewDev
         : subMenuViewProd;
 
-    return [subMenuAbout, subMenuEdit, subMenuView, subMenuWindow, subMenuHelp];
+    return [subMenuView, subMenuHelp];
   }
 
   buildDefaultTemplate() {
@@ -206,10 +122,6 @@ export default class MenuBuilder {
       {
         label: '&File',
         submenu: [
-          {
-            label: '&Open',
-            accelerator: 'Ctrl+O'
-          },
           {
             label: '&Close',
             accelerator: 'Ctrl+W',
@@ -267,27 +179,17 @@ export default class MenuBuilder {
           {
             label: 'Learn More',
             click() {
-              shell.openExternal('https://electronjs.org');
-            }
-          },
-          {
-            label: 'Documentation',
-            click() {
               shell.openExternal(
-                'https://github.com/electron/electron/tree/master/docs#readme'
+                'https://github.com/Appsilon/wildlife-explorer#readme'
               );
             }
           },
           {
-            label: 'Community Discussions',
+            label: 'Report Issues',
             click() {
-              shell.openExternal('https://www.electronjs.org/community');
-            }
-          },
-          {
-            label: 'Search Issues',
-            click() {
-              shell.openExternal('https://github.com/electron/electron/issues');
+              shell.openExternal(
+                'https://github.com/Appsilon/wildlife-explorer/issues'
+              );
             }
           }
         ]
