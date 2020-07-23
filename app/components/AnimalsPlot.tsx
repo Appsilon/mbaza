@@ -65,6 +65,9 @@ function preparePlotTrace(animalData: Observation[]) {
 
   // Observations don't have to cover all consecutive windows,
   // so for correct plot appearance we need to fill missing dates with 0.
+  // There is no built in option in Plotly for this.
+  // Even for a long time period like 20 years, this produces at most ~1000
+  // data points, which should not be too much to display.
   observationsGroups.each(rowsGroup => {
     const currentDateKey = getKeyFromRow(rowsGroup[0]);
     if (previousDateKey !== undefined) {
