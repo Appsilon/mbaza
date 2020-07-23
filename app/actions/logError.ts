@@ -7,7 +7,7 @@ export interface RuntimeErrorDescription {
   column: number;
   error: Error;
   state: unknown;
-};
+}
 
 export interface LogErrorAction {
   type: typeof LOG_ERROR;

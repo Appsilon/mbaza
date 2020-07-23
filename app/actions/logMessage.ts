@@ -13,6 +13,7 @@ export function changeLogMessage(newLogMessage: string | null) {
     type: CHANGE_LOG_MESSAGE,
     newLogMessage,
     meta: {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       track: (action: unknown) => {
         return {
           hit: 'event',
