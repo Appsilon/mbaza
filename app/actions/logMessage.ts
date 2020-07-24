@@ -14,7 +14,7 @@ export function changeLogMessage(newLogMessage: string | null) {
     newLogMessage,
     meta: {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      track: (action: unknown) => {
+      track: (_: unknown) => {
         return {
           hit: 'event',
           category: 'interface',

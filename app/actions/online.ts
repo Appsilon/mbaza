@@ -1,6 +1,8 @@
+import { Action } from 'redux';
+
 export const STATUS_ONLINE = 'STATUS_ONLINE';
 
-export interface StatusOnlineAction {
+export interface StatusOnlineAction extends Action {
   type: typeof STATUS_ONLINE;
   status: boolean;
 }

@@ -3,9 +3,9 @@ export const LOG_ERROR = 'LOG_ERROR';
 export interface RuntimeErrorDescription {
   message: string | Event;
   url: string | undefined;
-  line: number;
-  column: number;
-  error: Error;
+  line: number | undefined;
+  column: number | undefined;
+  error: Error | undefined;
   state: unknown;
 }
 

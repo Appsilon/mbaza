@@ -3,6 +3,7 @@ import { render } from 'react-dom';
 import { AppContainer as ReactHotAppContainer } from 'react-hot-loader';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
+import { Action, Dispatch } from 'redux';
 
 import Root from './containers/Root';
 import { configureStore, history } from './store/configureStore';
@@ -45,7 +46,7 @@ i18n
 
 // Detect online/offline events and dispatch to state:
 function dispatchOnlineStatus() {
-  store.dispatch(statusOnline(navigator.onLine));
+  (store.dispatch as Dispatch<Action>)(statusOnline(navigator.onLine));
 }
 window.addEventListener('online', dispatchOnlineStatus);
 window.addEventListener('offline', dispatchOnlineStatus);
@@ -54,11 +55,11 @@ window.addEventListener('offline', dispatchOnlineStatus);
 window.onerror = (
   message: string | Event,
   url: string | undefined,
-  line: number,
-  column: number,
-  error: Error
+  line: number | undefined,
+  column: number | undefined,
+  error: Error | undefined
 ) => {
-  store.dispatch(
+  (store.dispatch as Dispatch<Action>)(
     logError({ message, url, line, column, error, state: store.getState() })
   );
 };

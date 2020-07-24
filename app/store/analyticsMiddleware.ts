@@ -16,8 +16,14 @@ const eventsMap: EventsMap = {
 const HOST = 'electron';
 
 const analytics = new Analytics('UA-167871460-1');
-function analyticsTarget(events) {
-  events.forEach(event => {
+
+type Event = {
+  hitType: string;
+  page: string;
+};
+
+function analyticsTarget(events: unknown[]) {
+  (events as Event[]).forEach(event => {
     if (event.hitType === 'pageview') {
       // TODO: Also send `event.timeSaved` if present (happens when events are
       // retrieved from offline storage).
@@ -38,7 +44,7 @@ const offlineStorage = OfflineWeb(
   // in app state (e.g. `state.isConnected`):
   // https://github.com/rangle/redux-beacon/blob/cad24678a7be400cb0ba2f5e6d57f47945965f50/docs/extensions/offline-web.md
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  (state: { isConnected: boolean }) => navigator.onLine
+  (_: { isConnected: boolean }) => navigator.onLine
 );
 
 const gaMiddleware = createMiddleware(eventsMap, analyticsTarget, {
