@@ -1,5 +1,6 @@
 # This script loads all images in subfolders of a specified folder and a model.
 # Next it runs inference from the model on the images and saves a csv with image path, classification, possibly toop predictions and scores.
+import warnings
 
 import os
 from datetime import datetime
@@ -12,6 +13,8 @@ from fastai import *
 from fastai.vision import *
 
 import exifread
+
+warnings.filterwarnings('ignore')
 
 N_TOP_RESULTS = 3
 

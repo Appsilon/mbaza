@@ -1,6 +1,10 @@
 import argparse, sys
+import warnings
 
 from functions import *
+
+# Avoid flood of warnings from PyTorch
+warnings.filterwarnings('ignore')
 
 def main():
     parser = argparse.ArgumentParser(
@@ -53,7 +57,7 @@ def main():
 
     args = parser.parse_args()
     infer_to_csv(args)
-    exit(0)
+    sys.exit(0)
 
 if (__name__ == "__main__"):
     main()
