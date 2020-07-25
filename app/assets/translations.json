@@ -13,7 +13,7 @@
       "home": {
         "welcome": {
           "title": "Welcome to Mbaza AI!",
-          "message": "<h4>The first offline AI wildlife explorer</h4> <p>Mbaza AI is a desktop application that allows bioconservation researchers to classify camera trap animal images and analyze the results.</p> <p>It is powered by AI models capable of recognizing over 30 animal species in photos.</p> <p>To use the application, first go to Classify and run AI on your photos dataset. Then you can go to Explore and analyze the results.</p>"
+          "message": "A multi-platform, offline application for classifying camera trap images </h4> <p>Mbaza AI allows biodiversity conservation researchers to automatically identify species in camera trap images and analyze the results. </p> <p> It is powered by high performance AI models and currently recognizes more than 30 species of Central African mammals and birds.</p> <p> To use the application, first go to Classify and run the AI on your photo dataset, then click Explore to view and analyze the results.</p>"
         },
         "warning": {
           "title": "This is an early development version",
@@ -23,25 +23,25 @@
       "classify": {
         "title": "Detect animals",
         "chooseInput": "Choose directory with photos",
-        "chooseOutput": "Choose where to save the classification results",
+        "chooseOutput": "Choose directory to save classification results",
         "chooseModel": "Select AI model to use:",
         "find": "Find animals!",
         "output": "Classifier output",
-        "inProgress": "Please wait. Animals detection in progress. This may take a long time.",
+        "inProgress": "Please wait. Animal detection in progress. This may take a long time.",
         "modelExecutableNotFound": "Could not find the model executable. Please make sure you unpacked the models in the correct directory. It should be in {{program}}.",
         "modelWeightsNotFound": "Could not find the model weights file. Please make sure you unpacked the models in the correct directory. Model weights should be in {{modelWeightsPath}}.",
-        "biomonitoringStationsFileNotFound": "Could not find the biomonitoring stations locations file. Locations will not be assigned based on station numbers. Locations will be missing unless they are present in EXIF data in images. The file should be in {{gridFilePath}}.",
+        "biomonitoringStationsFileNotFound": "Could not find the biomonitoring stations file. Locations will not be assigned based on station numbers. Locations will be missing unless they are present in EXIF data in images. The file should be in {{gridFilePath}}.",
         "modelsDirectoryMissing": {
           "title": "Models directory not found",
           "description": "You need to obtain a zip file containing the AI models and unzip it in the program's main directory. Please make sure that you have a {{rootModelsDirectory}} directory containing the models files."
         },
-        "success": "Animals detection completed.",
-        "failure": "Animals detection failed."
+        "success": "Species classification completed.",
+        "failure": "Species classification failed."
       },
       "explore": {
         "chooseFile": "Choose results file to explore",
         "selectFileDescription": "Please select a CSV file with detection results to analyze them.",
-        "mapHint": "Size of circle corresponds to the number of detected species. Click on a station to see details.",
+        "mapHint": "Size of circle corresponds to the number of detected species (species richness). Click on a station to see details.",
         "plotHint": "To save the plot to disk, hover on the plot and use the button with a camera icon",
         "changeFile": "Change data",
         "mainView": "Main Information",
@@ -50,17 +50,17 @@
         "animalsCount": "Images with animals",
         "speciesCount": "Species found",
         "rareCount": "Rare species found",
-        "byAnimal": "By animal",
+        "byAnimal": "By species",
         "byStation": "By station",
-        "byCamera": "By camera",
+        "byCamera": "By camera ID",
         "byCheck": "By check",
-        "plotTitle": "Animals count over time ({{windowLengthInDays}}-day intervals)",
+        "plotTitle": "Image count over time ({{windowLengthInDays}}-day intervals)",
         "inspect": {
           "station": "Station {{id}}",
           "observations": "{{count}} observations",
           "species": "{{count}} species",
-          "header": "Observations in station {{station}}",
-          "photoHeader": "{{species}} probably seen at {{date}}",
+          "header": "Observations by station {{station}}",
+          "photoHeader": "{{species}} {{date}}",
           "prediction": "Prediction",
           "probability": "Probability",
           "camera": "Camera",
@@ -70,6 +70,71 @@
     }
   },
   "fr": {
-    "translation": {}
+    "translation": {
+      "topbar": {
+        "title": "IA pour la découverte des espèces",
+        "projects": "Projets"
+      },
+      "sidebar": {
+        "home": "Accueil",
+        "classify": "Détectez les animaux",
+        "explore": "Explorez les résultats"
+      },
+      "home": {
+        "welcome": {
+          "title": "Bienvenue à Mbaza AI !",
+          "message": "<h4>Un logiciel multi-plateforme et hors ligne pour l'analyze d'images des pièges caméra </h4> <p>Mbaza IA est une application pour les chercheurs de conservation de biodiversité d'identifier automatiquement les espèces dans les images des pièges caméra et d'analyser les résultats.</p> <p>Elle est alimentée par modèles IA de haute performance capables de reconnaître plus de 30 mammifères et oiseaux des forêts d'Afrique centrale.</p> <p>Pour utiliser l'application, allez d'abord dans Detectez et exécutez l'IA sur votre ensemble de données de photos. Cliquez ensuite sur Explorez pour visualiser et analyser les résultats.</p>" },
+        "warning": {
+          "title": "Il s'agit d'une première version de développement",
+          "message":"<p>Vous utilisez une toute première version de Mbaza IA.</p> <p>Cette application est en cours de développement actif et fournit seulement les fonctionnalités de base. Tout commentaire concernant les fonctionnalités et le comportement de l'application est bienvenu - veuillez nous envoyer un courriel à ai4good@appsilon.com.</p>"
+        }
+      },
+      "classify": {
+        "title": "Détectez les animaux",
+        "chooseInput": "Choisissez un dossier avec des photos",
+        "chooseOutput": "Choisissez un dossier pour sauvegarder les résultats de la classification",
+        "chooseModel": "Sélectionnez le modèle d'IA à utiliser :",
+        "find": "Trouver des animaux !",
+        "output": "Sortie du classifieur",
+        "inProgress": "Veuillez patienter. Détection d'animaux en cours. Cela peut prendre beaucoup de temps.",
+        "modelExecutableNotFound": "Le modèle d'exécutable n'a pas été trouver. Veuillez vous assurer que vous avez décompressé les modèles dans le bon dossier. Il devrait être dans {{program}}.",
+        "modelWeightsNotFound": "Le fichier des poids modèles n'a pas été trouvé. Veuillez vous assurer que vous avez décompressé les modèles dans le bon dossier. Les poids des modèles doivent être dans le dossier {{modelWeightsPath}}.",
+        "biomonitoringStationsFileNotFound": "Le fichier des stations de biomonitoring n'a pas été trouvé. Les stations ne seront pas attribuées en fonction de leur numéro. Les localisations seront manquantes à moins qu'elles ne soient présentes dans les données EXIF des images. Le fichier doit être dans {{gridFilePath}}.",
+        "modelsDirectoryMissing": {
+          "title": "Le répertoire des modèles n'a pas été trouvé",
+          "description": "Vous devez obtenir un fichier zip contenant les modèles d'IA et le décompresser dans le dossier principal du programme. Veuillez vous assurer que vous disposez d'un répertoire {{rootModelsDirectory}} contenant les fichiers de modèles."
+        },
+        "success": "La détection des animaux est terminée.",
+        "failure": "La détection des animaux a échoué."
+      },
+      "explore": {
+        "chooseFile": "Choisissez le fichier de résultats à explorer",
+        "selectFileDescription": "Veuillez sélectionnez un fichier CSV avec les résultats de la détection pour les analyser.",
+        "mapHint": "La taille du cercle correspond au nombre d'espèces détectées. Cliquez sur une station pour voir les détails.",
+        "plotHint": "Pour enregistrer le graphique sur le disque, passez le curseur sur le graphique et utilisez le bouton avec l'icône d'un appareil photo.",
+        "changeFile": "Modifier les données",
+        "mainView": "Informations principales",
+        "tableView": "Tableau des observations",
+        "imagesCount": "Images classifiées",
+        "animalsCount": "Images avec des animaux",
+        "speciesCount": "Espèces trouvées",
+        "rareCount": "Espèces rares trouvées",
+        "byAnimal": "Par espèce",
+        "byStation": "Par station",
+        "byCamera": "Par ID d'appareil photo",
+        "byCheck": "Par check",
+        "plotTitle": "Comptage des animaux dans le temps ({{windowLengthInDays}}-intervalles de jours)",
+        "inspect": {
+          "station": "Station {{id}}",
+          "observations": "{{count}} observations",
+          "species": "{{count}} espèces",
+          "header": "Observations par station {{station}}",
+          "photoHeader": "{{species}} {{date}}",
+          "prediction": "Prédiction",
+          "probability": "Probabilité",
+          "camera": "ID de l'appareil photo",
+          "check": "Check"
+        }
+      }}
   }
 }
