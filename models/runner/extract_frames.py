@@ -1,6 +1,7 @@
 # This script extracts image frames from camera trap videos
 # It then copies the images to a new directory (replicating original video dir structure)
 # This new image directory can then be classified
+# Functions are in functions_video.py
 
 # paths for testing
 video_data_folder = '/home/robbie/Documents/MbazaVideoTest/videos/' # user selects video directory
