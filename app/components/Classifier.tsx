@@ -146,7 +146,7 @@ const computePredictions = (
     process.stderr.on('data', data => {
       // eslint-disable-next-line no-console
       console.log(`classifier stderr: ${data}`);
-      displayErrorToast(`${data}`);
+      changeLogMessage(`${data}`);
     });
     process.on('exit', exitCode => {
       // eslint-disable-next-line no-console
