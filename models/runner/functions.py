@@ -130,8 +130,8 @@ def parse_exif(df):
             exif_gps_long.append(None)
             exif_gps_lat.append(None)
     exif_datetime = pd.to_datetime(exif_datetime, format="%Y:%m:%d %H:%M:%S")
-    result["exif_date"] = exif_datetime.map(lambda x: x.date())
-    result["exif_time"] = exif_datetime.map(lambda x: x.time())
+    result["exif_date"] = exif_datetime.map(lambda x: x.date() if pd.notna(x) else x)
+    result["exif_time"] = exif_datetime.map(lambda x: x.time() if pd.notna(x) else x)
     result["exif_gps_long"] = exif_gps_long
     result["exif_gps_lat"] = exif_gps_lat
 
