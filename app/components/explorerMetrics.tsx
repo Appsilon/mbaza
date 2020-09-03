@@ -55,7 +55,8 @@ export default function ExplorerMetrics(props: Props) {
           width: '200px',
           height: '100px',
           marginLeft: '3%',
-          marginBottom: '10px'
+          marginBottom: '10px',
+          padding: '10px'
         }}
       >
         <Tooltip
@@ -74,12 +75,12 @@ export default function ExplorerMetrics(props: Props) {
               color={color}
               iconSize={32}
             />
-            <div style={{ marginLeft: '50px' }}>
+            <div style={{ marginLeft: '50px', marginTop: '10px' }}>
               <div style={{ fontWeight: 500, fontSize: '32px', width: '100%' }}>
                 {value}
               </div>
             </div>
-            <div style={{ lineHeight: '30px' }}>{title}</div>
+            <div style={{ lineHeight: '15px', marginTop: '10px' }}>{title}</div>
           </div>
         </Tooltip>
       </Card>
