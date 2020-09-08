@@ -18,7 +18,6 @@ import { TFunction } from 'i18next';
 
 import PythonLogViewer from '../components/PythonLogViewer';
 
-type changeLogMessageType = (newChangeLogMessage: string | null) => void;
 type changePathChoiceType = (newPath: string) => void;
 
 const isDev = process.env.NODE_ENV === 'development';
@@ -46,96 +45,50 @@ function displayErrorToast(message: string) {
   });
 }
 
-function displayWarningToast(message: string) {
-  toaster.show({
-    message,
-    intent: Intent.WARNING,
-    icon: 'warning-sign'
-  });
-}
-
-function runModelProcess(
+function runExtractProcess(
   baseArgs: string[],
   t: TFunction
 ): ChildProcessWithoutNullStreams | null {
-  const gridFilePath = path.join(
-    rootModelsDirectory,
-    'biomonitoring_stations.csv'
-  );
-
   let workdir;
   let program;
   const args = [];
-
   if (isDev) {
     workdir = path.join(rootModelsDirectory, 'runner');
     program = path.join(workdir, 'venv', 'bin', 'python3');
-    args.push('main.py');
+    args.push('main_process_videos.py');
   } else if (isWin) {
     workdir = path.join(rootModelsDirectory, 'runner_win', 'main');
-    program = path.join(workdir, 'main.exe');
-    // TODO: Determine a suitable number of workers in the classifier script.
-    args.push('--pytorch_num_workers=0');
+    program = path.join(workdir, 'main_process_videos.exe');
   } else if (isLinux) {
     workdir = path.join(rootModelsDirectory, 'runner_linux', 'main');
-    program = path.join(workdir, 'main');
+    program = path.join(workdir, 'main_process_videos');
   } else {
-    throw new Error(
-      `Unsupported operating system for running models: ${process.platform}`
-    );
+    throw new Error(`Unsupported operating system: ${process.platform}`);
   }
+  args.push(...baseArgs);
 
   if (!fs.existsSync(program)) {
     displayErrorToast(t('classify.modelExecutableNotFound', { program }));
     return null;
   }
-
-  if (!fs.existsSync(gridFilePath)) {
-    displayWarningToast(
-      t('classify.biomonitoringStationsFileNotFound', { gridFilePath })
-    );
-  }
-
-  args.push('--grid_file', gridFilePath);
-  args.push(...baseArgs);
   return spawn(program, args, { cwd: workdir });
 }
 
-const computePredictions = (
-  directory: string,
-  savePath: string,
-  modelName: string,
-  changeLogMessage: changeLogMessageType,
-  setIsRunning: (value: boolean) => void,
-  setExitCode: (value: number | null | undefined) => void,
+const extractFrames = (
+  inputPath: string,
+  outputPath: string,
+  changeLogMessage: (message: string | null) => void,
+  setIsRunning: (isRunning: boolean) => void,
+  setExitCode: (exitCode: number | null | undefined) => void,
   t: TFunction
 ) => {
-  const modelWeightsPath = path.join(
-    rootModelsDirectory,
-    modelName,
-    'trained_model.pkl'
-  );
-
   const args: string[] = [
     '--input_folder',
-    directory,
-    '--output',
-    savePath,
-    '--model',
-    modelWeightsPath,
-    '--overwrite'
+    inputPath,
+    '--output_folder',
+    outputPath
   ];
-
-  if (!fs.existsSync(modelWeightsPath)) {
-    displayErrorToast(t('classify.modelWeightsNotFound', { modelWeightsPath }));
-    return;
-  }
-
-  // TODO: Fix and simplify logging:
-  //   * Progress bar is not properly displayed in the output (#89).
-  //   * Is `changeLogMessageType` necessary?
-  //   * Are Redux actions appropriate for this use case?
-  const process = runModelProcess(args, t);
+  const process = runExtractProcess(args, t);
   if (process !== null) {
     changeLogMessage(null);
     setExitCode(undefined);
@@ -145,12 +98,12 @@ const computePredictions = (
     });
     process.stderr.on('data', data => {
       // eslint-disable-next-line no-console
-      console.log(`classifier stderr: ${data}`);
+      console.log(`Extractor stderr: ${data}`);
       changeLogMessage(`${data}`);
     });
     process.on('exit', exitCode => {
       // eslint-disable-next-line no-console
-      console.log(`Classifier exited with code ${exitCode}`);
+      console.log(`Extractor exited with code ${exitCode}`);
       setIsRunning(false);
       setExitCode(exitCode);
     });
@@ -177,36 +130,14 @@ const chooseDirectory = (changeDirectoryChoice: changePathChoiceType) => {
     });
 };
 
-function chooseSavePath(changeSavePathChoice: changePathChoiceType) {
-  // eslint-disable-next-line global-require
-  const { dialog, app } = require('electron').remote;
-  dialog
-    .showSaveDialog({
-      defaultPath: `${app.getPath('documents')}/classification_result.csv`,
-      filters: [
-        { name: 'CSV', extensions: ['csv'] },
-        { name: 'All Files', extensions: ['*'] }
-      ]
-    })
-    .then(result => {
-      if (!result.canceled) {
-        changeSavePathChoice(result.filePath ? result.filePath : '');
-      }
-      return null;
-    })
-    .catch(error => {
-      // eslint-disable-next-line no-alert
-      alert(error);
-    });
-}
-
 export default function ExtractFramesPage() {
   const { t } = useTranslation();
+
   const [inputDir, setInputDir] = useState<string>('');
   const [outputDir, setOutputDir] = useState<string>('');
 
   const [isRunning, setIsRunning] = useState<boolean>(false);
-  const [logMessage, setLogMessage] = useState<string>('');
+  const [logMessage, setLogMessage] = useState<string | null>('');
   const [exitCode, setExitCode] = useState<number | null>();
 
   const extractionForm = (
@@ -246,7 +177,7 @@ export default function ExtractFramesPage() {
           type="submit"
           className="bp3-button bp3-minimal bp3-intent-primary bp3-icon-search"
           onClick={() => {
-            chooseSavePath(setOutputDir);
+            chooseDirectory(setOutputDir);
           }}
         />
       </div>
@@ -255,7 +186,14 @@ export default function ExtractFramesPage() {
         text={t('extract.extract')}
         icon="predictive-analysis"
         onClick={() => {
-          // TODO: Run extraction.
+          extractFrames(
+            inputDir,
+            outputDir,
+            str => setLogMessage(str),
+            setIsRunning,
+            setExitCode,
+            t
+          );
         }}
         disabled={isRunning || inputDir === '' || outputDir === ''}
         style={{ marginBottom: '10px', backgroundColor: '#fff' }}
@@ -263,7 +201,7 @@ export default function ExtractFramesPage() {
 
       {exitCode !== undefined || isRunning ? (
         <PythonLogViewer
-          logMessage={logMessage}
+          logMessage={logMessage || ''}
           isRunning={isRunning}
           exitCode={exitCode}
         />
