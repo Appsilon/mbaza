@@ -19,7 +19,7 @@ export const routes: RoutesType = {
   EXTRACT_FRAMES: {
     path: '/extract-frames',
     name: 'sidebar.extractFrames',
-    iconName: 'send-to-graph' // TODO: Choose icon.
+    iconName: 'mobile-video'
   },
   CLASSIFY: {
     path: '/classify',

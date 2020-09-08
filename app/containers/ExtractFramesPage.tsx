@@ -182,7 +182,6 @@ export default function ExtractFramesPage() {
 
       <Button
         text={t('extract.extractButton')}
-        icon="predictive-analysis"
         onClick={() => {
           extractFrames(
             inputDir,
