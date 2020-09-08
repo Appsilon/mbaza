@@ -29,7 +29,8 @@
         "logTitle": "Extractor output",
         "success": "Frame extraction completed.",
         "failure": "Frame extraction failed.",
-        "inProgress": "Please wait. Frame extraction in progress. This may take a long time."
+        "inProgress": "Please wait. Frame extraction in progress. This may take a long time.",
+        "info": "<p>Here you can extract frames from videos, to later detect animals in them using the Detect animals tab. If you want to detect animals in images only, go directly to that tab.</p> <p>Please select an input directory containing subfolders with videos in .mp4 or .avi format.</p> <p>Please select an output directory where the folder structure from the input directory will be replicated, and the extracted frames from each of the videos stored.</p> <p>To guarantee that the Check, Station, Cam and Date is later properly assigned to the extracted frames, the videos should be stored in folders following the pattern:<br> Check {number} / STATION_{number} / CAM{number} / {date in format: ddmmyy}<br> Mind the space after Check.</p> <p>The frames are extracted at a time interval of 5 seconds.</p>"
       },
       "classify": {
         "title": "Detect animals",
@@ -47,11 +48,12 @@
           "description": "You need to obtain a zip file containing the AI models and unzip it in the program's main directory. Please make sure that you have a {{rootModelsDirectory}} directory containing the models files."
         },
         "success": "Species classification completed.",
-        "failure": "Species classification failed."
+        "failure": "Species classification failed.",
+        "info": "<p>Here you can detect animals in images. If you would like to detect animals in videos, please go to Extract frames tab first.</p> <p>Please select an input directory containing subfolders with images.</p> <p>Please select an output .csv file where the results of the detection will be stored.</p> <p>After the detection is complete, explore the results in the Explore results tab.</p> <p>To guarantee that the Check, Station, Cam and Date is later properly assigned to the extracted frames, the videos should be stored in folders following the pattern: <br> Check {number} / STATION_{number} / CAM{number} / {date in format: ddmmyy} <br> Mind the space after Check.</p> <p>Depending on the number of images to be processed and the power of your machine, the detection may take a while.</p>"
       },
       "explore": {
         "chooseFile": "Choose results file to explore",
-        "selectFileDescription": "Please select a CSV file with detection results to analyze them.",
+        "info": "Please select a CSV file with detection results to analyze them.",
         "mapHint": "Size of circle corresponds to the number of detected species (species richness). Click on a station to see details.",
         "plotHint": "To save the plot to disk, hover on the plot and use the button with a camera icon",
         "changeFile": "Change data",
@@ -110,7 +112,8 @@
         "logTitle": "TODO",
         "success": "TODO",
         "failure": "TODO",
-        "inProgress": "TODO"
+        "inProgress": "TODO",
+        "info": "TODO"
       },
       "classify": {
         "title": "Détectez les animaux",
@@ -128,11 +131,12 @@
           "description": "Vous devez obtenir un fichier zip contenant les modèles d'IA et le décompresser dans le dossier principal du programme. Veuillez vous assurer que vous disposez d'un répertoire {{rootModelsDirectory}} contenant les fichiers de modèles."
         },
         "success": "La détection des animaux est terminée.",
-        "failure": "La détection des animaux a échoué."
+        "failure": "La détection des animaux a échoué.",
+        "info": "TODO"
       },
       "explore": {
         "chooseFile": "Choisissez le fichier de résultats à explorer",
-        "selectFileDescription": "Veuillez sélectionnez un fichier CSV avec les résultats de la détection pour les analyser.",
+        "info": "Veuillez sélectionnez un fichier CSV avec les résultats de la détection pour les analyser.",
         "mapHint": "La taille du cercle correspond au nombre d'espèces détectées. Cliquez sur une station pour voir les détails.",
         "plotHint": "Pour enregistrer le graphique sur le disque, passez le curseur sur le graphique et utilisez le bouton avec l'icône d'un appareil photo.",
         "changeFile": "Modifier les données",

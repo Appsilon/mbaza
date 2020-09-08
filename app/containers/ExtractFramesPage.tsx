@@ -6,9 +6,10 @@ import {
   H1,
   Intent,
   NonIdealState,
-  Toaster
+  Toaster,
+  Callout
 } from '@blueprintjs/core';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import path from 'path';
 import { spawn, ChildProcessWithoutNullStreams } from 'child_process';
 import fs from 'fs';
@@ -218,6 +219,11 @@ export default function ExtractFramesPage() {
             <H1>{t('extract.title')}</H1>
             {extractionForm}
           </Card>
+        </div>
+        <div style={{ flex: 1, padding: '20px' }}>
+          <Callout intent={Intent.PRIMARY}>
+            <Trans i18nKey="extract.info" />
+          </Callout>
         </div>
       </div>
     </div>
