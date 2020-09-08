@@ -25,7 +25,11 @@
         "title": "Extract frames from videos",
         "chooseInput": "Choose directory with videos",
         "chooseOutput": "Choose directory to save extracted frames",
-        "extract": "Extract frames"
+        "extractButton": "Extract frames",
+        "logTitle": "Extractor output",
+        "success": "Frame extraction completed.",
+        "failure": "Frame extraction failed.",
+        "inProgress": "Please wait. Frame extraction in progress. This may take a long time."
       },
       "classify": {
         "title": "Detect animals",
@@ -33,7 +37,7 @@
         "chooseOutput": "Choose directory to save classification results",
         "chooseModel": "Select AI model to use:",
         "find": "Find animals!",
-        "output": "Classifier output",
+        "logTitle": "Classifier output",
         "inProgress": "Please wait. Animal detection in progress. This may take a long time.",
         "modelExecutableNotFound": "Could not find the model executable. Please make sure you unpacked the models in the correct directory. It should be in {{program}}.",
         "modelWeightsNotFound": "Could not find the model weights file. Please make sure you unpacked the models in the correct directory. Model weights should be in {{modelWeightsPath}}.",
@@ -102,7 +106,11 @@
         "title": "TODO",
         "chooseInput": "TODO",
         "chooseOutput": "TODO",
-        "extract": "TODO"
+        "extractButton": "TODO",
+        "logTitle": "TODO",
+        "success": "TODO",
+        "failure": "TODO",
+        "inProgress": "TODO"
       },
       "classify": {
         "title": "Détectez les animaux",
@@ -110,7 +118,7 @@
         "chooseOutput": "Choisissez un dossier pour sauvegarder les résultats de la classification",
         "chooseModel": "Sélectionnez le modèle d'IA à utiliser :",
         "find": "Trouver des animaux !",
-        "output": "Sortie du classifieur",
+        "logTitle": "Sortie du classifieur",
         "inProgress": "Veuillez patienter. Détection d'animaux en cours. Cela peut prendre beaucoup de temps.",
         "modelExecutableNotFound": "Le modèle d'exécutable n'a pas été trouver. Veuillez vous assurer que vous avez décompressé les modèles dans le bon dossier. Il devrait être dans {{program}}.",
         "modelWeightsNotFound": "Le fichier des poids modèles n'a pas été trouvé. Veuillez vous assurer que vous avez décompressé les modèles dans le bon dossier. Les poids des modèles doivent être dans le dossier {{modelWeightsPath}}.",

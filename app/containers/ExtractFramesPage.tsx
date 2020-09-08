@@ -6,8 +6,6 @@ import {
   H1,
   Intent,
   NonIdealState,
-  Radio,
-  RadioGroup,
   Toaster
 } from '@blueprintjs/core';
 import { useTranslation } from 'react-i18next';
@@ -183,7 +181,7 @@ export default function ExtractFramesPage() {
       </div>
 
       <Button
-        text={t('extract.extract')}
+        text={t('extract.extractButton')}
         icon="predictive-analysis"
         onClick={() => {
           extractFrames(
@@ -201,6 +199,10 @@ export default function ExtractFramesPage() {
 
       {exitCode !== undefined || isRunning ? (
         <PythonLogViewer
+          title={t('extract.logTitle')}
+          successMessage={t('extract.success')}
+          failureMessage={t('extract.failure')}
+          progressMessage={t('extract.inProgress')}
           logMessage={logMessage || ''}
           isRunning={isRunning}
           exitCode={exitCode}

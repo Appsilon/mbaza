@@ -319,6 +319,10 @@ export default function Classifier(props: Props) {
 
       {exitCode !== undefined || isRunning ? (
         <PythonLogViewer
+          title={t('classify.logTitle')}
+          successMessage={t('classify.success')}
+          failureMessage={t('classify.failure')}
+          progressMessage={t('classify.inProgress')}
           logMessage={logMessage}
           isRunning={isRunning}
           exitCode={exitCode}
