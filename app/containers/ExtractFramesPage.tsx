@@ -147,6 +147,20 @@ export default function ExtractFramesPage() {
   const [logMessage, setLogMessage] = useState<string | null>('');
   const [exitCode, setExitCode] = useState<number | null>();
 
+  const rootModelsDirectoryExists = fs.existsSync(rootModelsDirectory);
+  const missingModelsDirectoryView = (
+    <NonIdealState
+      icon="search"
+      title={t('classify.modelsDirectoryMissing.title')}
+    >
+      <p>
+        {t('classify.modelsDirectoryMissing.description', {
+          rootModelsDirectory
+        })}
+      </p>
+    </NonIdealState>
+  );
+
   const extractionForm = (
     <div style={{ padding: '30px 30px', width: '60vw' }}>
       <div className="bp3-input-group" style={{ marginBottom: '10px' }}>
@@ -225,7 +239,9 @@ export default function ExtractFramesPage() {
         <div style={{ flex: 1, padding: '20px' }}>
           <Card elevation={Elevation.TWO}>
             <H1>{t('extract.title')}</H1>
-            {extractionForm}
+            {rootModelsDirectoryExists
+              ? extractionForm
+              : missingModelsDirectoryView}
           </Card>
         </div>
         <div style={{ flex: 1, padding: '20px' }}>
