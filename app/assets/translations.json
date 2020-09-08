@@ -77,7 +77,8 @@
           "prediction": "Prediction",
           "probability": "Probability",
           "camera": "Camera",
-          "check": "Check"
+          "check": "Check",
+          "file": "File"
         }
       }
     }
@@ -160,7 +161,8 @@
           "prediction": "Prédiction",
           "probability": "Probabilité",
           "camera": "ID de l'appareil photo",
-          "check": "Check"
+          "check": "Check",
+          "file": "TODO"
         }
       }
     }
