@@ -7,6 +7,7 @@
       },
       "sidebar": {
         "home": "Home",
+        "extractFrames": "Extract frames",
         "classify": "Detect animals",
         "explore": "Explore results"
       },
@@ -19,6 +20,12 @@
           "title": "This is an early development version",
           "message": "<p>You are using a very early version of Mbaza AI.</p> <p>This application is under active development and provides core functionality only. All feedback regarding features and behavior of the application is welcome - please shoot us an email at ai4good@appsilon.com.</p>"
         }
+      },
+      "extract": {
+        "title": "Extract frames from videos",
+        "chooseInput": "Choose directory with videos",
+        "chooseOutput": "Choose directory to save extracted frames",
+        "extract": "Extract frames"
       },
       "classify": {
         "title": "Detect animals",
@@ -77,17 +84,25 @@
       },
       "sidebar": {
         "home": "Accueil",
+        "extractFrames": "TODO",
         "classify": "Détectez les animaux",
         "explore": "Explorez les résultats"
       },
       "home": {
         "welcome": {
           "title": "Bienvenue à Mbaza AI !",
-          "message": "<h4>Un logiciel multi-plateforme et hors ligne pour l'analyze d'images des pièges caméra </h4> <p>Mbaza IA est une application pour les chercheurs de conservation de biodiversité d'identifier automatiquement les espèces dans les images des pièges caméra et d'analyser les résultats.</p> <p>Elle est alimentée par modèles IA de haute performance capables de reconnaître plus de 30 mammifères et oiseaux des forêts d'Afrique centrale.</p> <p>Pour utiliser l'application, allez d'abord dans Detectez et exécutez l'IA sur votre ensemble de données de photos. Cliquez ensuite sur Explorez pour visualiser et analyser les résultats.</p>" },
+          "message": "<h4>Un logiciel multi-plateforme et hors ligne pour l'analyze d'images des pièges caméra </h4> <p>Mbaza IA est une application pour les chercheurs de conservation de biodiversité d'identifier automatiquement les espèces dans les images des pièges caméra et d'analyser les résultats.</p> <p>Elle est alimentée par modèles IA de haute performance capables de reconnaître plus de 30 mammifères et oiseaux des forêts d'Afrique centrale.</p> <p>Pour utiliser l'application, allez d'abord dans Detectez et exécutez l'IA sur votre ensemble de données de photos. Cliquez ensuite sur Explorez pour visualiser et analyser les résultats.</p>"
+        },
         "warning": {
           "title": "Il s'agit d'une première version de développement",
-          "message":"<p>Vous utilisez une toute première version de Mbaza IA.</p> <p>Cette application est en cours de développement actif et fournit seulement les fonctionnalités de base. Tout commentaire concernant les fonctionnalités et le comportement de l'application est bienvenu - veuillez nous envoyer un courriel à ai4good@appsilon.com.</p>"
+          "message": "<p>Vous utilisez une toute première version de Mbaza IA.</p> <p>Cette application est en cours de développement actif et fournit seulement les fonctionnalités de base. Tout commentaire concernant les fonctionnalités et le comportement de l'application est bienvenu - veuillez nous envoyer un courriel à ai4good@appsilon.com.</p>"
         }
+      },
+      "extract": {
+        "title": "TODO",
+        "chooseInput": "TODO",
+        "chooseOutput": "TODO",
+        "extract": "TODO"
       },
       "classify": {
         "title": "Détectez les animaux",
@@ -135,6 +150,7 @@
           "camera": "ID de l'appareil photo",
           "check": "Check"
         }
-      }}
+      }
+    }
   }
 }

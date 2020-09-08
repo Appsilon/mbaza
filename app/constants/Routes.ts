@@ -16,6 +16,11 @@ export const routes: RoutesType = {
     name: 'sidebar.home',
     iconName: 'home'
   },
+  EXTRACT_FRAMES: {
+    path: '/extract-frames',
+    name: 'sidebar.extractFrames',
+    iconName: 'send-to-graph' // TODO: Choose icon.
+  },
   CLASSIFY: {
     path: '/classify',
     name: 'sidebar.classify',
