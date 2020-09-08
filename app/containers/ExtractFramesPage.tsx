@@ -56,10 +56,18 @@ function runExtractProcess(
     program = path.join(workdir, 'venv', 'bin', 'python3');
     args.push('main_process_videos.py');
   } else if (isWin) {
-    workdir = path.join(rootModelsDirectory, 'runner_win', 'main');
+    workdir = path.join(
+      rootModelsDirectory,
+      'runner_win',
+      'main_process_videos'
+    );
     program = path.join(workdir, 'main_process_videos.exe');
   } else if (isLinux) {
-    workdir = path.join(rootModelsDirectory, 'runner_linux', 'main');
+    workdir = path.join(
+      rootModelsDirectory,
+      'runner_linux',
+      'main_process_videos'
+    );
     program = path.join(workdir, 'main_process_videos');
   } else {
     throw new Error(`Unsupported operating system: ${process.platform}`);
