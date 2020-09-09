@@ -153,7 +153,8 @@ export default function ExplorePage() {
           overflowY: 'scroll',
           maxHeight: 'calc(100vh - 50px)',
           display: 'flex',
-          flexDirection: 'column'
+          flexDirection: 'column',
+          position: 'relative'
         }}
       >
         <Card
