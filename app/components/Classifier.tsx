@@ -67,19 +67,22 @@ function runModelProcess(
   let workdir;
   let program;
   const args = [];
+  const command = 'infer_to_csv';
 
   if (isDev) {
     workdir = path.join(rootModelsDirectory, 'runner');
     program = path.join(workdir, 'venv', 'bin', 'python3');
     args.push('main.py');
+    args.push(command);
   } else if (isWin) {
     workdir = path.join(rootModelsDirectory, 'runner_win', 'main');
     program = path.join(workdir, 'main.exe');
-    // TODO: Determine a suitable number of workers in the classifier script.
+    args.push(command);
     args.push('--pytorch_num_workers=0');
   } else if (isLinux) {
     workdir = path.join(rootModelsDirectory, 'runner_linux', 'main');
     program = path.join(workdir, 'main');
+    args.push(command);
   } else {
     throw new Error(
       `Unsupported operating system for running models: ${process.platform}`
@@ -99,6 +102,7 @@ function runModelProcess(
 
   args.push('--grid_file', gridFilePath);
   args.push(...baseArgs);
+  console.log(args);
   return spawn(program, args, { cwd: workdir });
 }
 

@@ -54,21 +54,13 @@ function runExtractProcess(
   if (isDev) {
     workdir = path.join(rootModelsDirectory, 'runner');
     program = path.join(workdir, 'venv', 'bin', 'python3');
-    args.push('main_process_videos.py');
+    args.push('main.py');
   } else if (isWin) {
-    workdir = path.join(
-      rootModelsDirectory,
-      'runner_win',
-      'main_process_videos'
-    );
-    program = path.join(workdir, 'main_process_videos.exe');
+    workdir = path.join(rootModelsDirectory, 'runner_win', 'main');
+    program = path.join(workdir, 'main.exe');
   } else if (isLinux) {
-    workdir = path.join(
-      rootModelsDirectory,
-      'runner_linux',
-      'main_process_videos'
-    );
-    program = path.join(workdir, 'main_process_videos');
+    workdir = path.join(rootModelsDirectory, 'runner_linux', 'main');
+    program = path.join(workdir, 'main');
   } else {
     throw new Error(`Unsupported operating system: ${process.platform}`);
   }
@@ -90,6 +82,7 @@ const extractFrames = (
   t: TFunction
 ) => {
   const args: string[] = [
+    'process_videos',
     '--input_folder',
     inputPath,
     '--output_folder',
