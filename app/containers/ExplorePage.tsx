@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import { csv } from 'd3-fetch';
 import {
   Card,
@@ -229,7 +229,6 @@ export default function ExplorePage() {
         <div style={{ flex: 1, padding: '20px' }}>
           <Card elevation={Elevation.TWO}>
             <H1>{t('explore.chooseFile')}</H1>
-            <p>{t('explore.selectFileDescription')}</p>
             <div className="bp3-input-group" style={{ width: '60%' }}>
               <input
                 type="text"
@@ -250,6 +249,11 @@ export default function ExplorePage() {
               />
             </div>
           </Card>
+        </div>
+        <div style={{ flex: 1, padding: '20px' }}>
+          <Callout intent={Intent.PRIMARY}>
+            <Trans i18nKey="explore.info" />
+          </Callout>
         </div>
       </div>
     </div>

@@ -7,6 +7,7 @@
       },
       "sidebar": {
         "home": "Home",
+        "extractFrames": "Extract frames",
         "classify": "Detect animals",
         "explore": "Explore results"
       },
@@ -20,13 +21,24 @@
           "message": "<p>You are using a very early version of Mbaza AI.</p> <p>This application is under active development and provides core functionality only. All feedback regarding features and behavior of the application is welcome - please shoot us an email at ai4good@appsilon.com.</p>"
         }
       },
+      "extract": {
+        "title": "Extract frames from videos",
+        "chooseInput": "Choose directory with videos",
+        "chooseOutput": "Choose directory to save extracted frames",
+        "extractButton": "Extract frames",
+        "logTitle": "Extractor output",
+        "success": "Frame extraction completed.",
+        "failure": "Frame extraction failed.",
+        "inProgress": "Please wait. Frame extraction in progress. This may take a long time.",
+        "info": "<p>Here you can extract frames from videos, to later detect animals in them using the Detect animals tab. If you want to detect animals in images only, go directly to that tab.</p> <p>Please select an input directory containing subfolders with videos in .mp4 or .avi format.</p> <p>Please select an output directory where the folder structure from the input directory will be replicated, and the extracted frames from each of the videos stored.</p> <p>To guarantee that the Check, Station, Cam and Date is later properly assigned to the extracted frames, the videos should be stored in folders following the pattern:<br> Check {number} / STATION_{number} / CAM{number} / {date in format: ddmmyy}<br> Mind the space after Check.</p> <p>The frames are extracted at a time interval of 5 seconds.</p>"
+      },
       "classify": {
         "title": "Detect animals",
         "chooseInput": "Choose directory with photos",
         "chooseOutput": "Choose directory to save classification results",
         "chooseModel": "Select AI model to use:",
         "find": "Find animals!",
-        "output": "Classifier output",
+        "logTitle": "Classifier output",
         "inProgress": "Please wait. Animal detection in progress. This may take a long time.",
         "modelExecutableNotFound": "Could not find the model executable. Please make sure you unpacked the models in the correct directory. It should be in {{program}}.",
         "modelWeightsNotFound": "Could not find the model weights file. Please make sure you unpacked the models in the correct directory. Model weights should be in {{modelWeightsPath}}.",
@@ -36,11 +48,12 @@
           "description": "You need to obtain a zip file containing the AI models and unzip it in the program's main directory. Please make sure that you have a {{rootModelsDirectory}} directory containing the models files."
         },
         "success": "Species classification completed.",
-        "failure": "Species classification failed."
+        "failure": "Species classification failed.",
+        "info": "<p>Here you can detect animals in images. If you would like to detect animals in videos, please go to Extract frames tab first.</p> <p>Please select an input directory containing subfolders with images.</p> <p>Please select an output .csv file where the results of the detection will be stored.</p> <p>After the detection is complete, explore the results in the Explore results tab.</p> <p>To guarantee that the Check, Station, Cam and Date is later properly assigned to the extracted frames, the videos should be stored in folders following the pattern: <br> Check {number} / STATION_{number} / CAM{number} / {date in format: ddmmyy} <br> Mind the space after Check.</p> <p>Depending on the number of images to be processed and the power of your machine, the detection may take a while.</p>"
       },
       "explore": {
         "chooseFile": "Choose results file to explore",
-        "selectFileDescription": "Please select a CSV file with detection results to analyze them.",
+        "info": "Please select a CSV file with detection results to analyze them.",
         "mapHint": "Size of circle corresponds to the number of detected species (species richness). Click on a station to see details.",
         "plotHint": "To save the plot to disk, hover on the plot and use the button with a camera icon",
         "changeFile": "Change data",
@@ -64,7 +77,8 @@
           "prediction": "Prediction",
           "probability": "Probability",
           "camera": "Camera",
-          "check": "Check"
+          "check": "Check",
+          "file": "File"
         }
       }
     }
@@ -77,17 +91,30 @@
       },
       "sidebar": {
         "home": "Accueil",
+        "extractFrames": "TODO",
         "classify": "Détectez les animaux",
         "explore": "Explorez les résultats"
       },
       "home": {
         "welcome": {
           "title": "Bienvenue à Mbaza AI !",
-          "message": "<h4>Un logiciel multi-plateforme et hors ligne pour l'analyze d'images des pièges caméra </h4> <p>Mbaza IA est une application pour les chercheurs de conservation de biodiversité d'identifier automatiquement les espèces dans les images des pièges caméra et d'analyser les résultats.</p> <p>Elle est alimentée par modèles IA de haute performance capables de reconnaître plus de 30 mammifères et oiseaux des forêts d'Afrique centrale.</p> <p>Pour utiliser l'application, allez d'abord dans Detectez et exécutez l'IA sur votre ensemble de données de photos. Cliquez ensuite sur Explorez pour visualiser et analyser les résultats.</p>" },
+          "message": "<h4>Un logiciel multi-plateforme et hors ligne pour l'analyze d'images des pièges caméra </h4> <p>Mbaza IA est une application pour les chercheurs de conservation de biodiversité d'identifier automatiquement les espèces dans les images des pièges caméra et d'analyser les résultats.</p> <p>Elle est alimentée par modèles IA de haute performance capables de reconnaître plus de 30 mammifères et oiseaux des forêts d'Afrique centrale.</p> <p>Pour utiliser l'application, allez d'abord dans Detectez et exécutez l'IA sur votre ensemble de données de photos. Cliquez ensuite sur Explorez pour visualiser et analyser les résultats.</p>"
+        },
         "warning": {
           "title": "Il s'agit d'une première version de développement",
-          "message":"<p>Vous utilisez une toute première version de Mbaza IA.</p> <p>Cette application est en cours de développement actif et fournit seulement les fonctionnalités de base. Tout commentaire concernant les fonctionnalités et le comportement de l'application est bienvenu - veuillez nous envoyer un courriel à ai4good@appsilon.com.</p>"
+          "message": "<p>Vous utilisez une toute première version de Mbaza IA.</p> <p>Cette application est en cours de développement actif et fournit seulement les fonctionnalités de base. Tout commentaire concernant les fonctionnalités et le comportement de l'application est bienvenu - veuillez nous envoyer un courriel à ai4good@appsilon.com.</p>"
         }
+      },
+      "extract": {
+        "title": "TODO",
+        "chooseInput": "TODO",
+        "chooseOutput": "TODO",
+        "extractButton": "TODO",
+        "logTitle": "TODO",
+        "success": "TODO",
+        "failure": "TODO",
+        "inProgress": "TODO",
+        "info": "TODO"
       },
       "classify": {
         "title": "Détectez les animaux",
@@ -95,7 +122,7 @@
         "chooseOutput": "Choisissez un dossier pour sauvegarder les résultats de la classification",
         "chooseModel": "Sélectionnez le modèle d'IA à utiliser :",
         "find": "Trouver des animaux !",
-        "output": "Sortie du classifieur",
+        "logTitle": "Sortie du classifieur",
         "inProgress": "Veuillez patienter. Détection d'animaux en cours. Cela peut prendre beaucoup de temps.",
         "modelExecutableNotFound": "Le modèle d'exécutable n'a pas été trouver. Veuillez vous assurer que vous avez décompressé les modèles dans le bon dossier. Il devrait être dans {{program}}.",
         "modelWeightsNotFound": "Le fichier des poids modèles n'a pas été trouvé. Veuillez vous assurer que vous avez décompressé les modèles dans le bon dossier. Les poids des modèles doivent être dans le dossier {{modelWeightsPath}}.",
@@ -105,11 +132,12 @@
           "description": "Vous devez obtenir un fichier zip contenant les modèles d'IA et le décompresser dans le dossier principal du programme. Veuillez vous assurer que vous disposez d'un répertoire {{rootModelsDirectory}} contenant les fichiers de modèles."
         },
         "success": "La détection des animaux est terminée.",
-        "failure": "La détection des animaux a échoué."
+        "failure": "La détection des animaux a échoué.",
+        "info": "TODO"
       },
       "explore": {
         "chooseFile": "Choisissez le fichier de résultats à explorer",
-        "selectFileDescription": "Veuillez sélectionnez un fichier CSV avec les résultats de la détection pour les analyser.",
+        "info": "Veuillez sélectionnez un fichier CSV avec les résultats de la détection pour les analyser.",
         "mapHint": "La taille du cercle correspond au nombre d'espèces détectées. Cliquez sur une station pour voir les détails.",
         "plotHint": "Pour enregistrer le graphique sur le disque, passez le curseur sur le graphique et utilisez le bouton avec l'icône d'un appareil photo.",
         "changeFile": "Modifier les données",
@@ -133,8 +161,10 @@
           "prediction": "Prédiction",
           "probability": "Probabilité",
           "camera": "ID de l'appareil photo",
-          "check": "Check"
+          "check": "Check",
+          "file": "TODO"
         }
-      }}
+      }
+    }
   }
 }
