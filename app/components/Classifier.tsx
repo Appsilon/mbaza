@@ -94,13 +94,14 @@ function runModelProcess(
     return null;
   }
 
-  if (!fs.existsSync(gridFilePath)) {
+  if (fs.existsSync(gridFilePath)) {
+      args.push('--grid_file', gridFilePath);
+  } else {
     displayWarningToast(
       t('classify.biomonitoringStationsFileNotFound', { gridFilePath })
     );
   }
 
-  args.push('--grid_file', gridFilePath);
   args.push(...baseArgs);
   console.log(args);
   return spawn(program, args, { cwd: workdir });
