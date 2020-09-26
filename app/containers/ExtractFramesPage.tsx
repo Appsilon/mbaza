@@ -6,8 +6,6 @@ import {
   H1,
   Intent,
   NonIdealState,
-  Radio,
-  RadioGroup,
   Toaster,
   Callout
 } from '@blueprintjs/core';
@@ -17,10 +15,9 @@ import { spawn, ChildProcessWithoutNullStreams } from 'child_process';
 import fs from 'fs';
 import { TFunction } from 'i18next';
 
-import PythonLogViewer from './PythonLogViewer';
+import PythonLogViewer from '../components/PythonLogViewer';
 
-type changeLogMessageType = (newChangeLogMessage: string | null) => {};
-type changePathChoiceType = (newPath: string) => {};
+type changePathChoiceType = (newPath: string) => void;
 
 const isDev = process.env.NODE_ENV === 'development';
 const isWin = !isDev && process.platform === 'win32';
@@ -47,100 +44,51 @@ function displayErrorToast(message: string) {
   });
 }
 
-function displayWarningToast(message: string) {
-  toaster.show({
-    message,
-    intent: Intent.WARNING,
-    icon: 'warning-sign'
-  });
-}
-
-function runModelProcess(
+function runExtractProcess(
   baseArgs: string[],
   t: TFunction
 ): ChildProcessWithoutNullStreams | null {
-  const gridFilePath = path.join(
-    rootModelsDirectory,
-    'biomonitoring_stations.csv'
-  );
-
   let workdir;
   let program;
   const args = [];
-  const command = 'infer_to_csv';
-
   if (isDev) {
     workdir = path.join(rootModelsDirectory, 'runner');
     program = path.join(workdir, 'venv', 'bin', 'python3');
     args.push('main.py');
-    args.push(command);
   } else if (isWin) {
     workdir = path.join(rootModelsDirectory, 'runner_win', 'main');
     program = path.join(workdir, 'main.exe');
-    args.push(command);
-    args.push('--pytorch_num_workers=0');
   } else if (isLinux) {
     workdir = path.join(rootModelsDirectory, 'runner_linux', 'main');
     program = path.join(workdir, 'main');
-    args.push(command);
   } else {
-    throw new Error(
-      `Unsupported operating system for running models: ${process.platform}`
-    );
+    throw new Error(`Unsupported operating system: ${process.platform}`);
   }
+  args.push(...baseArgs);
 
   if (!fs.existsSync(program)) {
     displayErrorToast(t('classify.modelExecutableNotFound', { program }));
     return null;
   }
-
-  if (!fs.existsSync(gridFilePath)) {
-    displayWarningToast(
-      t('classify.biomonitoringStationsFileNotFound', { gridFilePath })
-    );
-  }
-
-  args.push('--grid_file', gridFilePath);
-  args.push(...baseArgs);
-  console.log(args);
   return spawn(program, args, { cwd: workdir });
 }
 
-const computePredictions = (
-  directory: string,
-  savePath: string,
-  modelName: string,
-  changeLogMessage: changeLogMessageType,
-  setIsRunning: (value: boolean) => void,
-  setExitCode: (value: number | null | undefined) => void,
+const extractFrames = (
+  inputPath: string,
+  outputPath: string,
+  changeLogMessage: (message: string | null) => void,
+  setIsRunning: (isRunning: boolean) => void,
+  setExitCode: (exitCode: number | null | undefined) => void,
   t: TFunction
 ) => {
-  const modelWeightsPath = path.join(
-    rootModelsDirectory,
-    modelName,
-    'trained_model.pkl'
-  );
-
   const args: string[] = [
+    'process_videos',
     '--input_folder',
-    directory,
-    '--output',
-    savePath,
-    '--model',
-    modelWeightsPath,
-    '--overwrite'
+    inputPath,
+    '--output_folder',
+    outputPath
   ];
-
-  if (!fs.existsSync(modelWeightsPath)) {
-    displayErrorToast(t('classify.modelWeightsNotFound', { modelWeightsPath }));
-    return;
-  }
-
-  // TODO: Fix and simplify logging:
-  //   * Progress bar is not properly displayed in the output (#89).
-  //   * Is `changeLogMessageType` necessary?
-  //   * Are Redux actions appropriate for this use case?
-  const process = runModelProcess(args, t);
+  const process = runExtractProcess(args, t);
   if (process !== null) {
     changeLogMessage(null);
     setExitCode(undefined);
@@ -150,12 +98,12 @@ const computePredictions = (
     });
     process.stderr.on('data', data => {
       // eslint-disable-next-line no-console
-      console.log(`classifier stderr: ${data}`);
+      console.log(`Extractor stderr: ${data}`);
       changeLogMessage(`${data}`);
     });
     process.on('exit', exitCode => {
       // eslint-disable-next-line no-console
-      console.log(`Classifier exited with code ${exitCode}`);
+      console.log(`Extractor exited with code ${exitCode}`);
       setIsRunning(false);
       setExitCode(exitCode);
     });
@@ -182,60 +130,17 @@ const chooseDirectory = (changeDirectoryChoice: changePathChoiceType) => {
     });
 };
 
-function chooseSavePath(changeSavePathChoice: changePathChoiceType) {
-  // eslint-disable-next-line global-require
-  const { dialog, app } = require('electron').remote;
-  dialog
-    .showSaveDialog({
-      defaultPath: `${app.getPath('documents')}/classification_result.csv`,
-      filters: [
-        { name: 'CSV', extensions: ['csv'] },
-        { name: 'All Files', extensions: ['*'] }
-      ]
-    })
-    .then(result => {
-      if (!result.canceled) {
-        changeSavePathChoice(result.filePath ? result.filePath : '');
-      }
-      return null;
-    })
-    .catch(error => {
-      // eslint-disable-next-line no-alert
-      alert(error);
-    });
-}
-
-type Props = {
-  changeLogMessage: changeLogMessageType;
-  changeDirectoryChoice: changePathChoiceType;
-  changeSavePathChoice: changePathChoiceType;
-  logMessage: string;
-  directoryChoice: string;
-  savePath: string;
-};
-
-export default function Classifier(props: Props) {
-  const {
-    directoryChoice,
-    savePath,
-    logMessage,
-    changeDirectoryChoice,
-    changeSavePathChoice,
-    changeLogMessage
-  } = props;
+export default function ExtractFramesPage() {
   const { t } = useTranslation();
+
+  const [inputDir, setInputDir] = useState<string>('');
+  const [outputDir, setOutputDir] = useState<string>('');
+
   const [isRunning, setIsRunning] = useState<boolean>(false);
+  const [logMessage, setLogMessage] = useState<string | null>('');
   const [exitCode, setExitCode] = useState<number | null>();
 
-  // TODO: Detect available models instead of hardcoding them. Display a warning
-  // if there are no models available.
-  const models = [
-    { label: 'Gabon', value: 'gabon' },
-    { label: 'Serengeti', value: 'serengeti' }
-  ];
-  const [modelName, setModelName] = useState<string>(models[0].value);
   const rootModelsDirectoryExists = fs.existsSync(rootModelsDirectory);
-
   const missingModelsDirectoryView = (
     <NonIdealState
       icon="search"
@@ -249,16 +154,16 @@ export default function Classifier(props: Props) {
     </NonIdealState>
   );
 
-  const classifierFormView = (
+  const extractionForm = (
     <div style={{ padding: '30px 30px', width: '60vw' }}>
       <div className="bp3-input-group" style={{ marginBottom: '10px' }}>
         <input
           type="text"
           className="bp3-input"
-          placeholder={t('classify.chooseInput')}
-          value={directoryChoice}
+          placeholder={t('extract.chooseInput')}
+          value={inputDir}
           onChange={e => {
-            changeDirectoryChoice(e.target.value);
+            setInputDir(e.target.value);
           }}
         />
         <button
@@ -266,7 +171,7 @@ export default function Classifier(props: Props) {
           type="submit"
           className="bp3-button bp3-minimal bp3-intent-primary bp3-icon-search"
           onClick={() => {
-            chooseDirectory(changeDirectoryChoice);
+            chooseDirectory(setInputDir);
           }}
         />
       </div>
@@ -275,10 +180,10 @@ export default function Classifier(props: Props) {
         <input
           type="text"
           className="bp3-input"
-          placeholder={t('classify.chooseOutput')}
-          value={savePath}
+          placeholder={t('extract.chooseOutput')}
+          value={outputDir}
           onChange={e => {
-            changeSavePathChoice(e.target.value);
+            setOutputDir(e.target.value);
           }}
         />
         <button
@@ -286,49 +191,34 @@ export default function Classifier(props: Props) {
           type="submit"
           className="bp3-button bp3-minimal bp3-intent-primary bp3-icon-search"
           onClick={() => {
-            chooseSavePath(changeSavePathChoice);
+            chooseDirectory(setOutputDir);
           }}
         />
       </div>
 
-      <div style={{ marginBottom: '5px' }}>{t('classify.chooseModel')}</div>
-      <RadioGroup
-        inline
-        onChange={event => {
-          setModelName(event.currentTarget.value);
-        }}
-        selectedValue={modelName}
-      >
-        {models.map(model => (
-          <Radio label={model.label} value={model.value} key={model.value} />
-        ))}
-      </RadioGroup>
-
       <Button
-        text={t('classify.find')}
-        icon="predictive-analysis"
+        text={t('extract.extractButton')}
         onClick={() => {
-          computePredictions(
-            props.directoryChoice,
-            props.savePath,
-            modelName,
-            changeLogMessage,
+          extractFrames(
+            inputDir,
+            outputDir,
+            str => setLogMessage(str),
             setIsRunning,
             setExitCode,
             t
           );
         }}
-        disabled={isRunning || directoryChoice === '' || savePath === ''}
+        disabled={isRunning || inputDir === '' || outputDir === ''}
         style={{ marginBottom: '10px', backgroundColor: '#fff' }}
       />
 
       {exitCode !== undefined || isRunning ? (
         <PythonLogViewer
-          title={t('classify.logTitle')}
-          successMessage={t('classify.success')}
-          failureMessage={t('classify.failure')}
-          progressMessage={t('classify.inProgress')}
-          logMessage={logMessage}
+          title={t('extract.logTitle')}
+          successMessage={t('extract.success')}
+          failureMessage={t('extract.failure')}
+          progressMessage={t('extract.inProgress')}
+          logMessage={logMessage || ''}
           isRunning={isRunning}
           exitCode={exitCode}
         />
@@ -341,15 +231,15 @@ export default function Classifier(props: Props) {
       <div style={{ display: 'flex' }}>
         <div style={{ flex: 1, padding: '20px' }}>
           <Card elevation={Elevation.TWO}>
-            <H1>{t('classify.title')}</H1>
+            <H1>{t('extract.title')}</H1>
             {rootModelsDirectoryExists
-              ? classifierFormView
+              ? extractionForm
               : missingModelsDirectoryView}
           </Card>
         </div>
         <div style={{ flex: 1, padding: '20px' }}>
           <Callout intent={Intent.PRIMARY}>
-            <Trans i18nKey="classify.info" />
+            <Trans i18nKey="extract.info" />
           </Callout>
         </div>
       </div>

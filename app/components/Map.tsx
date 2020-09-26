@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { TFunction } from 'i18next';
 import mapboxgl from 'mapbox-gl';
 import _ from 'lodash';
+import path from 'path';
 import {
   Button,
   Card,
@@ -265,6 +266,13 @@ function observationCard(t: TFunction, observation: Observation): JSX.Element {
                 :&nbsp;
               </strong>
               {observation.check}
+            </p>
+            <p>
+              <strong>
+                {t('explore.inspect.file')}
+                :&nbsp;
+              </strong>
+              {path.basename(observation.path)}
             </p>
           </div>
         </div>
