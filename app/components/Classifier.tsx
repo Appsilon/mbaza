@@ -95,7 +95,7 @@ function runModelProcess(
   }
 
   if (fs.existsSync(gridFilePath)) {
-      args.push('--grid_file', gridFilePath);
+    args.push('--grid_file', gridFilePath);
   } else {
     displayWarningToast(
       t('classify.biomonitoringStationsFileNotFound', { gridFilePath })
@@ -103,7 +103,6 @@ function runModelProcess(
   }
 
   args.push(...baseArgs);
-  console.log(args);
   return spawn(program, args, { cwd: workdir });
 }
 
