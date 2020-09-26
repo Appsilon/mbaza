@@ -13,6 +13,7 @@ conda activate serengeti
 conda install pytorch torchvision cpuonly -c pytorch
 conda install -c fastai fastai
 conda install -c conda-forge pyinstaller exifread
+conda install -c conda-forge opencv
 ```
 
 4. build the bundle - go to `models/runner` and run `release_model_win10_x86_64.bat`
