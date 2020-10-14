@@ -30,7 +30,7 @@
         "success": "Frame extraction completed.",
         "failure": "Frame extraction failed.",
         "inProgress": "Please wait. Frame extraction in progress. This may take a long time.",
-        "info": "<p>Here you can extract frames from videos, to later detect animals in them using the Detect animals tab. If you want to detect animals in images only, go directly to that tab.</p> <p>Please select an input directory containing subfolders with videos in .mp4 or .avi format.</p> <p>Please select an output directory where the folder structure from the input directory will be replicated, and the extracted frames from each of the videos stored.</p> <p>To guarantee that the Check, Station, Cam and Date is later properly assigned to the extracted frames, the videos should be stored in folders following the pattern:<br> Check {number} / STATION_{number} / CAM{number} / {date in format: ddmmyy}<br> Mind the space after Check.</p> <p>The frames are extracted at a time interval of 5 seconds.</p>"
+        "info": "<p>Extract image frames from videos to later detect animals using the Detect animals tab. If you are not using videos, go directly to the Detect animals tab.</p> <p>Please select an input directory containing subfolders with videos in .mp4 or .avi format.</p> <p>Please select an output directory where the folder structure from the input directory will be replicated, and the extracted images from each of the videos stored.</p> <p>To guarantee that the Check, Station, Cam and Date is later properly assigned to the extracted images, the videos should be stored in folders following the pattern:<br> Check {number} / STATION_{number} / CAM{number} / {date in format: ddmmyy}<br> Please remember the space after Check.</p> <p>The images are currently extracted at a time interval of 5 seconds.</p>"
       },
       "classify": {
         "title": "Detect animals",
@@ -91,9 +91,9 @@
       },
       "sidebar": {
         "home": "Accueil",
-        "extractFrames": "TODO",
-        "classify": "Détectez les animaux",
-        "explore": "Explorez les résultats"
+        "extractFrames": "Préparez vidéos",
+        "classify": "Détectez animaux",
+        "explore": "Explorez résultats"
       },
       "home": {
         "welcome": {
@@ -106,18 +106,18 @@
         }
       },
       "extract": {
-        "title": "TODO",
-        "chooseInput": "TODO",
-        "chooseOutput": "TODO",
-        "extractButton": "TODO",
-        "logTitle": "TODO",
-        "success": "TODO",
-        "failure": "TODO",
-        "inProgress": "TODO",
-        "info": "TODO"
+        "title": "Extraire des images de vidéos",
+        "chooseInput": "Choisissez un dossier avec des vidéos",
+        "chooseOutput": "Choisissez un dossier pour sauvegarder les images extraites",
+        "extractButton": "Extraire les images des vidéos",
+        "logTitle": "Sortie de traitement vidéo",
+        "success": "Extraction des images réussie",
+        "failure": "L'extraction des images a échoué",
+        "inProgress": "Veuillez patienter. Extraction d'images en cours. Cela peut prendre beaucoup de temps.",
+        "info": "<p>Extrayez les images des vidéos pour détecter plus tard les animaux utilisant l'onglet Détectez les animaux. Si vous n'utilisez pas des vidéos, allez directement à cet onglet. </p> <p>Veuillez sélectionner un répertoire d'entrée contenant des sous-répertoires avec des vidéos au format .mp4 ou .avi. </p> <p>Veuillez sélectionner un répertoire de sortie où la structure des dossiers du répertoire d'entrée sera reproduite, et les images extraites de chacune des vidéos stockées. </p> <p> Pour garantir que le contrôle, la station, la caméra et la date soient correctement attribués ultérieurement aux images extraites, les vidéos doivent être stockées dans des dossiers suivant le modèle suivant:<br> Check {number} / STATION_{number} / CAM{number} / {date au format : jjmmaa}<br> Veuillez vous souvenir de l'espace après Check.</p> <p>Les images sont extraites à un intervalle de temps de 5 secondes.</p>"
       },
       "classify": {
-        "title": "Détectez les animaux",
+        "title": "Détectez animaux",
         "chooseInput": "Choisissez un dossier avec des photos",
         "chooseOutput": "Choisissez un dossier pour sauvegarder les résultats de la classification",
         "chooseModel": "Sélectionnez le modèle d'IA à utiliser :",
@@ -133,7 +133,7 @@
         },
         "success": "La détection des animaux est terminée.",
         "failure": "La détection des animaux a échoué.",
-        "info": "TODO"
+        "info": "<p> Cet onglet vous permetez de détecter les animaux dans les images. Si vous souhaitez détecter des animaux dans des vidéos, veuillez d'abord aller à l'onglet Preparez videos </p> <p>Une fois la détection terminée, explorez les résultats dans l'onglet Explorez résultats.</p> <p>Pour garantir que le contrôle, la station, la caméra et la date sont correctement attribués aux images extraites, les vidéos doivent être stockées dans des dossiers suivant le modèle : <br> Check {number} / STATION_{number} / CAM{number} / {date au format : ddmmyy}<br> Attention à l'espace après Check.</p> <p>Selon le nombre d'images à traiter et la puissance de votre machine, la détection peut prendre beaucoup de temps.</p>"
       },
       "explore": {
         "chooseFile": "Choisissez le fichier de résultats à explorer",
@@ -162,7 +162,7 @@
           "probability": "Probabilité",
           "camera": "ID de l'appareil photo",
           "check": "Check",
-          "file": "TODO"
+          "file": "Fichier"
         }
       }
     }
