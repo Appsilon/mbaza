@@ -4,6 +4,7 @@ import {
   Card,
   Elevation,
   H1,
+  InputGroup,
   Intent,
   NonIdealState,
   Radio,
@@ -110,6 +111,8 @@ const computePredictions = (
   directory: string,
   savePath: string,
   modelName: string,
+  projectId: string,
+  deploymentId: string,
   changeLogMessage: changeLogMessageType,
   setIsRunning: (value: boolean) => void,
   setExitCode: (value: number | null | undefined) => void,
@@ -128,6 +131,10 @@ const computePredictions = (
     savePath,
     '--model',
     modelWeightsPath,
+    '--project_id',
+    projectId,
+    '--deployment_id',
+    deploymentId,
     '--overwrite'
   ];
 
@@ -226,6 +233,8 @@ export default function Classifier(props: Props) {
   const { t } = useTranslation();
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [exitCode, setExitCode] = useState<number | null>();
+  const [projectId, setProjectId] = useState<string>('');
+  const [deploymentId, setDeploymentId] = useState<string>('');
 
   // TODO: Detect available models instead of hardcoding them. Display a warning
   // if there are no models available.
@@ -304,6 +313,19 @@ export default function Classifier(props: Props) {
         ))}
       </RadioGroup>
 
+      <InputGroup
+        value={projectId}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setProjectId(e.target.value)}
+        placeholder={t('classify.projectId')}
+        style={{ marginBottom: '10px' }}
+      />
+      <InputGroup
+        value={deploymentId}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDeploymentId(e.target.value)}
+        placeholder={t('classify.deploymentId')}
+        style={{ marginBottom: '10px' }}
+      />
+
       <Button
         text={t('classify.find')}
         icon="predictive-analysis"
@@ -312,6 +334,8 @@ export default function Classifier(props: Props) {
             props.directoryChoice,
             props.savePath,
             modelName,
+            projectId,
+            deploymentId,
             changeLogMessage,
             setIsRunning,
             setExitCode,
