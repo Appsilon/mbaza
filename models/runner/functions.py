@@ -88,7 +88,7 @@ def parse_path(df):
     """ extract station, check and cam from path column and store. """
     pattern = r"Check\s(\d*).*STATION_(\d*).*CAM(\d*).*[\\/](\d{6})[\\/]"
     result = df.copy()
-    result[["check", "station", "camera", "path_date"]] = result.path.str.extract(pattern)
+    result[["check", "station", "camera", "path_date"]] = result.location.str.extract(pattern)
     result["station"] = pd.to_numeric(result["station"])
     result["path_date"] = pd.to_datetime(result["path_date"], format="%m%d%y").map(lambda x: x.date())
     return result
@@ -114,7 +114,7 @@ def parse_exif(df):
     exif_datetime = []
     exif_gps_long = []
     exif_gps_lat = []
-    for path_name in result.path:
+    for path_name in result.location:
         f = open(path_name, 'rb')
         tags = exifread.process_file(f)
         if tags:
@@ -183,7 +183,7 @@ def add_output_date(df):
 
 def arrange_columns(df):
     metadata_cols = [
-        "path", "station", "check", "camera",
+        "location", "station", "check", "camera",
         "date", "path_date", "exif_date", "exif_time",
         "coordinates_long", "coordinates_lat", "exif_gps_long", "exif_gps_lat", "grid_file_long", "grid_file_lat",
     ]
@@ -197,7 +197,7 @@ def infer_to_csv(args):
     images = get_images(args.input_folder)
     preds, classes = get_predictions(args.model, images, args.pytorch_num_workers, args.batch_size)
     df_preds = get_top_preds_and_scores(preds, classes)
-    df_preds["path"] = images
+    df_preds["location"] = images
     df_preds = parse_path(df_preds) # extract station, check, cam where possible from path
     df_preds = parse_exif(df_preds) # extract datetime, gps_long and gps_lat from exif if images
     df_preds = add_station_coords(df_preds, args.grid_file)
