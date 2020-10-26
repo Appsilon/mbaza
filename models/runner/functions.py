@@ -17,6 +17,7 @@ import exifread
 warnings.filterwarnings('ignore')
 
 N_TOP_RESULTS = 3
+VERSION = '1.0.4'
 
 def is_image(filename):
     return filename.lower().endswith(("jpg", "jpeg", "png"))
@@ -181,15 +182,60 @@ def add_output_date(df):
         return row
     return df.apply(f, axis=1)
 
+def wcs_image_id(path):
+    return os.path.basename(os.path.splitext(path)[0])
+
+def wcs_timestamp(date, time):
+    return date.strftime('%Y-%m-%d') + ' ' + time.strftime('%H:%M:%S')
+
+def add_wcs_taxons(df, taxons_file_path):
+    columns = ["wi_taxon_id", "class", "order", "family", "genus", "species", "common_name"]
+    if taxons_file_path is None:
+        # Use empty data frame - as if the taxons file was empty.
+        taxons = pd.DataFrame(columns=["label"] + columns)
+    else:
+        taxons = pd.read_csv(taxons_file_path)
+    df = df.merge(taxons, how="left", left_on="pred_1", right_on="label")
+    for col in columns:
+        df[col].fillna("Unknown", inplace=True)
+    return df
+
+def add_wcs_columns(df, args):
+    df = df.copy()
+    df["project_id"] = args.project_id
+    df["deployment_id"] = args.deployment_id
+    df["image_id"] = df.apply(lambda row: wcs_image_id(row["location"]), axis=1)
+    df["identified_by"] = f"Mbaza-AI-{VERSION}"
+    df["uncertainty"] = df["score_1"]
+    df["timestamp"] = df.apply(lambda row: wcs_timestamp(row["date"], row["exif_time"]), axis=1)
+    df["number_of_objects"] = 1
+    df["highlighted"] = ""
+    df["age"] = ""
+    df["sex"] = "Unknown"
+    df["animal_recognizable"] = ""
+    df["individual_id"] = ""
+    df["individual_animal_notes"] = ""
+    df["markings"] = ""
+    df = add_wcs_taxons(df, args.taxons_file)
+    return df
+
 def arrange_columns(df):
+    wcs_cols = [
+        "project_id", "deployment_id", "image_id", "location", "identified_by",
+        "wi_taxon_id", "class", "order", "family", "genus", "species", "common_name",
+        "uncertainty", "timestamp", "number_of_objects", "highlighted", "age", "sex",
+        "animal_recognizable", "individual_id", "individual_animal_notes", "markings",
+    ]
     metadata_cols = [
-        "location", "station", "check", "camera",
+        "station", "check", "camera",
         "date", "path_date", "exif_date", "exif_time",
         "coordinates_long", "coordinates_lat", "exif_gps_long", "exif_gps_lat", "grid_file_long", "grid_file_lat",
     ]
     score_cols = [f"{prefix}_{i}" for prefix in ("pred", "score") for i in range(1, N_TOP_RESULTS + 1)]
-    other_cols = [col for col in df.columns if col not in set(metadata_cols + score_cols)]
-    return df[metadata_cols + score_cols + other_cols]
+
+    cols = wcs_cols + metadata_cols + score_cols
+    cols += [col for col in df.columns if col not in set(cols)]  # Include the remaning columns at the back
+    return df[cols]
 
 def infer_to_csv(args):
     if not args.overwrite:
@@ -203,6 +249,7 @@ def infer_to_csv(args):
     df_preds = add_station_coords(df_preds, args.grid_file)
     df_preds = add_output_date(df_preds)
     df_preds = add_output_coords(df_preds)
+    df_preds = add_wcs_columns(df_preds, args)
     df_preds = arrange_columns(df_preds)
     df_preds.to_csv(args.output, index=False)
     print(f"Results stored in {args.output}.")

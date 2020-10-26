@@ -52,6 +52,18 @@ def setup_infer_parser(parser):
         default = 1,
         help="Number of images processed in one batch. Set to smaller number if facing memory issues",
     )
+    parser.add_argument(
+        "--taxons_file",
+        help="Path to a .csv file with a mapping from classification labels to WCS taxon info"
+    )
+    parser.add_argument(
+        "--project_id",
+        help="Project ID to include in the output CSV",
+    )
+    parser.add_argument(
+        "--deployment_id",
+        help="Deployment ID to include in the output CSV",
+    )
 
 def setup_process_videos_parser(parser):
     parser.add_argument(
