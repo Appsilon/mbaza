@@ -82,7 +82,7 @@ const extractFrames = (
   t: TFunction
 ) => {
   const args: string[] = [
-    'process_videos',
+    'extract_images',
     '--input_folder',
     inputPath,
     '--output_folder',

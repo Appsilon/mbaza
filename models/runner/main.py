@@ -1,11 +1,9 @@
-import argparse, sys
-import warnings
+import argparse
+import sys
 
-from functions import infer_to_csv
-from functions_video import extract_images
+from inference import infer_to_csv
+from processing import extract_images
 
-# Avoid flood of warnings from PyTorch
-warnings.filterwarnings('ignore')
 
 def setup_infer_parser(parser):
     parser.add_argument(
@@ -65,7 +63,7 @@ def setup_infer_parser(parser):
         help="Deployment ID to include in the output CSV",
     )
 
-def setup_process_videos_parser(parser):
+def setup_extract_images_parser(parser):
     parser.add_argument(
         "-i",
         "--input_folder",
@@ -98,14 +96,14 @@ subparsers = parser.add_subparsers(help='Choose the task to run', dest='command'
 
 infer_to_csv_parser = subparsers.add_parser('infer_to_csv', help='infer_to_csv.py: classifies images from folder structure with a model, returns csv with image path, predictions, some metadata from EXIF\'s')
 setup_infer_parser(infer_to_csv_parser)
-process_videos_parser = subparsers.add_parser('process_videos', help='process_videos.py: takes videos in a given folder structure and recreates this folder structure, with images being frames extracted at a fixed time interval')
-setup_process_videos_parser(process_videos_parser)
+extract_images_parser = subparsers.add_parser('extract_images', help='extract_images.py: takes videos in a given folder structure and recreates this folder structure, with images being frames extracted at a fixed time interval')
+setup_extract_images_parser(extract_images_parser)
 
 if (__name__ == "__main__"):
     args = parser.parse_args()
     print(args.command)
 
-    if args.command == 'process_videos':
+    if args.command == 'extract_images':
         extract_images(args)
     elif args.command == 'infer_to_csv':
         infer_to_csv(args)

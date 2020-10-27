@@ -1,23 +1,27 @@
 # This script loads all images in subfolders of a specified folder and a model.
 # Next it runs inference from the model on the images and saves a csv with image path, classification, possibly toop predictions and scores.
-import warnings
-
 import os
 from datetime import datetime
-
 from pathlib import Path
 
+import exifread
 import pandas as pd
-
 from fastai import *
 from fastai.vision import *
 
-import exifread
+from file_utils import get_all_files, is_image
 
+
+# Avoid flood of warnings from PyTorch
 warnings.filterwarnings('ignore')
 
 N_TOP_RESULTS = 3
-VERSION = '1.0.4'
+APP_VERSION = '1.0.4'
+
+def get_images(directory):
+    images = [os.path.join(directory, f) for f in get_all_files(directory) if is_image(f)]
+    print(f"Found {len(images)} images")
+    return images
 
 def load_model(model, images, pytorch_num_workers, batch_size):
     model_path = Path(model)
@@ -190,7 +194,7 @@ def add_wcs_columns(df, args):
     df["project_id"] = args.project_id
     df["deployment_id"] = args.deployment_id
     df["image_id"] = df.apply(lambda row: wcs_image_id(row["location"]), axis=1)
-    df["identified_by"] = f"Mbaza-AI-{VERSION}"
+    df["identified_by"] = f"Mbaza-AI-{APP_VERSION}"
     df["uncertainty"] = df["score_1"]
     df["timestamp"] = df.apply(lambda row: wcs_timestamp(row["date"], row["exif_time"]), axis=1)
     df["number_of_objects"] = 1

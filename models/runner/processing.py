@@ -1,12 +1,7 @@
-# This script extracts image frames from camera trap videos
-# It then copies the images to a new directory (replicating original video dir structure)
-# This new image directory can then be classified
-
-import cv2
-
 import os
-from pathlib import Path
 from itertools import count
+
+import cv2 as cv
 
 from file_utils import get_all_files, is_image, is_video, basename_without_ext
 
@@ -21,7 +16,7 @@ def copy_dir_tree(video_data_folder, new_image_data_folder):
 
 class Video:
     def __init__(self, path):
-        self.video = cv2.VideoCapture(path)
+        self.video = cv.VideoCapture(path)
 
     def __enter__(self):
         return self
@@ -30,7 +25,7 @@ class Video:
         self.video.release()
 
     def get_frame(self, position_seconds):
-        self.video.set(cv2.CAP_PROP_POS_MSEC, position_seconds * 1000)
+        self.video.set(cv.CAP_PROP_POS_MSEC, position_seconds * 1000)
         success, frame = self.video.read()
         return frame if success else None
 
@@ -41,7 +36,7 @@ def scale_down_image(image):
 
 def extract_thumbnail(input_file, output_dir):
     if is_image(input_file):
-        thumbnail = cv2.imread(input_file)
+        thumbnail = cv.imread(input_file)
     elif is_video(input_file):
         with Video(input_file) as video:
             thumbnail = video.get_frame(0)
@@ -49,7 +44,7 @@ def extract_thumbnail(input_file, output_dir):
 
     name = basename_without_ext(input_file)
     output_file = os.path.join(output_dir, f"{name}.jpg")
-    cv2.imwrite(output_file, thumbnail)
+    cv.imwrite(output_file, thumbnail)
 
 
 def extract_frames(input_file, output_dir, frame_interval):
@@ -63,7 +58,7 @@ def extract_frames(input_file, output_dir, frame_interval):
             if frame is None:
                 break
             output_file = os.path.join(output_dir, f"{name}_{idx + 1:03d}.jpg")
-            cv2.imwrite(output_file, frame)
+            cv.imwrite(output_file, frame)
     print(f"extracted {idx} frames.")
 
 
