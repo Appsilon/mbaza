@@ -19,21 +19,6 @@ warnings.filterwarnings('ignore')
 N_TOP_RESULTS = 3
 VERSION = '1.0.4'
 
-def is_image(filename):
-    return filename.lower().endswith(("jpg", "jpeg", "png"))
-
-def get_images(data_folder):
-    images = []
-    try:
-        for dirpath, dirnames, filenames in os.walk(data_folder):
-            for filename in [f for f in filenames if is_image(f)]:
-                images.append(os.path.join(dirpath, filename))
-    except Exception as e:
-        print(f"Got exception {e}, double check {data_folder} is a folder")
-    assert images, "No images found in the folder"
-    print(f"Found {len(images)} images.")
-    return images
-
 def load_model(model, images, pytorch_num_workers, batch_size):
     model_path = Path(model)
     print(f"Loading model: {model}.")

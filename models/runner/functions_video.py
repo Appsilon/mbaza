@@ -6,24 +6,10 @@ import cv2
 
 import os
 from pathlib import Path
+from itertools import count
 
-def is_video(filename):
-    """ Check if filename has a supported extension """
-    return filename.lower().endswith(("avi", "mp4"))
+from file_utils import get_all_files, is_image, is_video, basename_without_ext
 
-def get_videos(video_data_folder):
-    """ Find videos in video_data_folder and store their relative paths """
-    videos = []
-    try:
-        for dirpath, dirnames, filenames in os.walk(video_data_folder):
-            for filename in [f for f in filenames if is_video(f)]:
-                relative_dirpath = os.path.relpath(dirpath, video_data_folder)
-                videos.append(os.path.join(relative_dirpath, filename))
-    except Exception as e:
-        print(f"Got exception {e}, double check {video_data_folder} is a folder")
-    assert videos, "No videos found in the folder"
-    print(f"Found {len(videos)} videos.")
-    return videos
 
 def copy_dir_tree(video_data_folder, new_image_data_folder):
     """ Replicate the folder structure from video_data_folder into new_image_data_folder """
@@ -32,32 +18,61 @@ def copy_dir_tree(video_data_folder, new_image_data_folder):
         if not os.path.isdir(structure):
             os.mkdir(structure)
 
-def process_videos(args):
-    # Find videos in the input folder structure
-    videos = get_videos(args.input_folder)
-    # Replicate directory structure
-    copy_dir_tree(args.input_folder, args.output_folder)
 
-    # Loop through videos and extract frames to new image directory
-    for video in videos:
-        print(f"Processing: {os.path.basename(video)}", end=" ... ", flush=True)
-        # Read video
-        vid = cv2.VideoCapture(os.path.join(args.input_folder, video))
+class Video:
+    def __init__(self, path):
+        self.video = cv2.VideoCapture(path)
 
-        frameIndex = 0
-        while(True):
-            # Extract frames every frame_interval seconds
-            vid.set(cv2.CAP_PROP_POS_MSEC, (frameIndex*1000*args.frame_interval))
-            ret, frame = vid.read()
-            # Detect end of video
-            if not ret: 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, e_type, e_val, e_traceback):
+        self.video.release()
+
+    def get_frame(self, position_seconds):
+        self.video.set(cv2.CAP_PROP_POS_MSEC, position_seconds * 1000)
+        success, frame = self.video.read()
+        return frame if success else None
+
+
+def scale_down_image(image):
+    return image  # TODO
+
+
+def extract_thumbnail(input_file, output_dir):
+    if is_image(input_file):
+        thumbnail = cv2.imread(input_file)
+    elif is_video(input_file):
+        with Video(input_file) as video:
+            thumbnail = video.get_frame(0)
+    thumbnail = scale_down_image(thumbnail)
+
+    name = basename_without_ext(input_file)
+    output_file = os.path.join(output_dir, f"{name}.jpg")
+    cv2.imwrite(output_file, thumbnail)
+
+
+def extract_frames(input_file, output_dir, frame_interval):
+    if not is_video(input_file):
+        return
+    print(f"Processing {os.path.basename(input_file)!r}... ", end="", flush=True)
+    name = basename_without_ext(input_file)
+    with Video(input_file) as video:
+        for idx in count():
+            frame = video.get_frame(idx * frame_interval)
+            if frame is None:
                 break
-            # Save extracted frame
-            filename_tuple = os.path.splitext(os.path.basename(video))
-            frame_filename = filename_tuple[0] + "_" + filename_tuple[1][1:] + f"_{frameIndex+1:03d}.jpg"
-            frame_filepath = os.path.join(args.output_folder, os.path.dirname(video), frame_filename)
-            cv2.imwrite(frame_filepath, frame)
+            output_file = os.path.join(output_dir, f"{name}_{idx + 1:03d}.jpg")
+            cv2.imwrite(output_file, frame)
+    print(f"extracted {idx} frames.")
 
-            # Next frame
-            frameIndex += 1
-        print(f"extracted {frameIndex} frames.")
+
+def extract_images(args):
+    copy_dir_tree(args.input_folder, args.output_folder)
+    for path in get_all_files(args.input_folder):
+        input_file = os.path.join(args.input_folder, path)
+        output_dir = os.path.join(args.output_folder, os.path.dirname(path))
+        if args.thumbnails:
+            extract_thumbnail(input_file, output_dir)
+        else:
+            extract_frames(input_file, output_dir, args.frame_interval)

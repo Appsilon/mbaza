@@ -2,7 +2,7 @@ import argparse, sys
 import warnings
 
 from functions import infer_to_csv
-from functions_video import process_videos
+from functions_video import extract_images
 
 # Avoid flood of warnings from PyTorch
 warnings.filterwarnings('ignore')
@@ -86,6 +86,12 @@ def setup_process_videos_parser(parser):
         default = 5.0,
         help="Time interval (in seconds) for extracting frames from videos",
     )
+    parser.add_argument(
+        "--thumbnails",
+        default=False,
+        action="store_true",
+        help="Thumbnail mode (extract a single, scaled down frame from each video / image)"
+    )
 
 parser = argparse.ArgumentParser()
 subparsers = parser.add_subparsers(help='Choose the task to run', dest='command')
@@ -100,7 +106,7 @@ if (__name__ == "__main__"):
     print(args.command)
 
     if args.command == 'process_videos':
-        process_videos(args)
+        extract_images(args)
     elif args.command == 'infer_to_csv':
         infer_to_csv(args)
     else:
