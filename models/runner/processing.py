@@ -1,9 +1,13 @@
 import os
 from itertools import count
+from math import sqrt
 
 import cv2 as cv
 
 from file_utils import get_all_files, is_image, is_video, basename_without_ext
+
+
+MAX_THUMBNAIL_PIXELS = 50_000
 
 
 def copy_dir_tree(video_data_folder, new_image_data_folder):
@@ -31,7 +35,11 @@ class Video:
 
 
 def scale_down_image(image):
-    return image  # TODO
+    pixels = image.shape[0] * image.shape[1]
+    scale = sqrt(MAX_THUMBNAIL_PIXELS / pixels)
+    if scale < 1:
+        image = cv.resize(image, None, fx=scale, fy=scale, interpolation=cv.INTER_AREA)
+    return image
 
 
 def extract_thumbnail(input_file, output_dir):
