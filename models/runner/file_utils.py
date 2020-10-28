@@ -2,6 +2,15 @@ import os
 import os.path
 
 
+RESOURCES_PATH = os.path.realpath(
+    os.path.join(os.path.dirname(__file__), 'resources')
+)
+
+
+def resource_path(resource_name):
+    return os.path.join(RESOURCES_PATH, resource_name)
+
+
 def get_all_files(directory):
     for path, _, filenames in os.walk(directory):
         relpath = os.path.relpath(path, start=directory)

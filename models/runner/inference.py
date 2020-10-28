@@ -9,7 +9,7 @@ import pandas as pd
 from fastai import *
 from fastai.vision import *
 
-from file_utils import get_all_files, is_image
+from file_utils import get_all_files, is_image, resource_path
 
 
 # Avoid flood of warnings from PyTorch
@@ -17,6 +17,7 @@ warnings.filterwarnings('ignore')
 
 N_TOP_RESULTS = 3
 APP_VERSION = '1.0.4'
+TAXONS_FILE = resource_path('taxons.csv')
 
 def get_images(directory):
     images = [os.path.join(directory, f) for f in get_all_files(directory) if is_image(f)]
@@ -177,17 +178,9 @@ def wcs_image_id(path):
 def wcs_timestamp(date, time):
     return date.strftime('%Y-%m-%d') + ' ' + time.strftime('%H:%M:%S')
 
-def add_wcs_taxons(df, taxons_file_path):
-    columns = ["wi_taxon_id", "class", "order", "family", "genus", "species", "common_name"]
-    if taxons_file_path is None:
-        # Use empty data frame - as if the taxons file was empty.
-        taxons = pd.DataFrame(columns=["label"] + columns)
-    else:
-        taxons = pd.read_csv(taxons_file_path)
-    df = df.merge(taxons, how="left", left_on="pred_1", right_on="label")
-    for col in columns:
-        df[col].fillna("Unknown", inplace=True)
-    return df
+def add_wcs_taxons(df):
+    taxons = pd.read_csv(TAXONS_FILE)
+    return df.merge(taxons, how="left", left_on="pred_1", right_on="label")
 
 def add_wcs_columns(df, args):
     df = df.copy()
@@ -205,7 +198,7 @@ def add_wcs_columns(df, args):
     df["individual_id"] = ""
     df["individual_animal_notes"] = ""
     df["markings"] = ""
-    df = add_wcs_taxons(df, args.taxons_file)
+    df = add_wcs_taxons(df)
     return df
 
 def arrange_columns(df):
