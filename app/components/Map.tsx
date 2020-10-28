@@ -108,7 +108,7 @@ function makeStationMarker(
   );
   ReactDOM.render(
     <img
-      src={firstObservation.path}
+      src={firstObservation.location}
       style={{
         width: thumbnailSize,
         height: thumbnailSize,
@@ -142,12 +142,12 @@ function makeStationMarker(
         {groupObservations.slice(0, maxPreviewPhotosCount).map(observation => (
           // eslint-disable-next-line
           <a
-            key={observation.path}
+            key={observation.location}
             className="photosPreviewItem"
             onClick={() => setInspectedObservations(groupObservations)}
           >
             <img
-              src={observation.path}
+              src={observation.location}
               alt="Observations preview"
               style={{ width: '100%', height: '100%' }}
             />
@@ -219,7 +219,7 @@ function observationCard(t: TFunction, observation: Observation): JSX.Element {
   return (
     <Card
       elevation={Elevation.TWO}
-      key={observation.path}
+      key={observation.location}
       style={{ marginTop: 10 }}
     >
       <h3 style={{ marginTop: 0 }}>
@@ -230,7 +230,11 @@ function observationCard(t: TFunction, observation: Observation): JSX.Element {
       </h3>
       <div style={{ display: 'flex' }}>
         <div>
-          <img src={observation.path} width={400} alt={observation.pred_1} />
+          <img
+            src={observation.location}
+            width={400}
+            alt={observation.pred_1}
+          />
         </div>
         <div style={{ marginLeft: 24 }}>
           <table className="bp3-html-table bp3-html-table-condensed">
@@ -272,7 +276,7 @@ function observationCard(t: TFunction, observation: Observation): JSX.Element {
                 {t('explore.inspect.file')}
                 :&nbsp;
               </strong>
-              {path.basename(observation.path)}
+              {path.basename(observation.location)}
             </p>
           </div>
         </div>

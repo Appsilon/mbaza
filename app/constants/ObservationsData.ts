@@ -1,5 +1,5 @@
 type Observation = {
-  path: string;
+  location: string;
   date: string;
   pred_1: string;
   score_1: number;
