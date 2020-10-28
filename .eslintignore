@@ -56,3 +56,6 @@ package.json
 
 # Resources
 resources
+
+# Python
+/models/

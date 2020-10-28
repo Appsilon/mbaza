@@ -230,7 +230,11 @@ function observationCard(t: TFunction, observation: Observation): JSX.Element {
       </h3>
       <div style={{ display: 'flex' }}>
         <div>
-          <img src={observation.location} width={400} alt={observation.pred_1} />
+          <img
+            src={observation.location}
+            width={400}
+            alt={observation.pred_1}
+          />
         </div>
         <div style={{ marginLeft: 24 }}>
           <table className="bp3-html-table bp3-html-table-condensed">

@@ -315,13 +315,17 @@ export default function Classifier(props: Props) {
 
       <InputGroup
         value={projectId}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setProjectId(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+          setProjectId(e.target.value);
+        }}
         placeholder={t('classify.projectId')}
         style={{ marginBottom: '10px' }}
       />
       <InputGroup
         value={deploymentId}
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => setDeploymentId(e.target.value)}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+          setDeploymentId(e.target.value);
+        }}
         placeholder={t('classify.deploymentId')}
         style={{ marginBottom: '10px' }}
       />
