@@ -7,7 +7,8 @@ import {
   Intent,
   NonIdealState,
   Toaster,
-  Callout
+  Callout,
+  Switch
 } from '@blueprintjs/core';
 import { useTranslation, Trans } from 'react-i18next';
 import path from 'path';
@@ -73,21 +74,25 @@ function runExtractProcess(
   return spawn(program, args, { cwd: workdir });
 }
 
-const extractFrames = (
+const extractImages = (
   inputPath: string,
   outputPath: string,
+  thumbnailMode: boolean,
   changeLogMessage: (message: string | null) => void,
   setIsRunning: (isRunning: boolean) => void,
   setExitCode: (exitCode: number | null | undefined) => void,
   t: TFunction
 ) => {
   const args: string[] = [
-    'process_videos',
+    'extract_images',
     '--input_folder',
     inputPath,
     '--output_folder',
     outputPath
   ];
+  if (thumbnailMode) {
+    args.push('--thumbnails');
+  }
   const process = runExtractProcess(args, t);
   if (process !== null) {
     changeLogMessage(null);
@@ -135,6 +140,7 @@ export default function ExtractFramesPage() {
 
   const [inputDir, setInputDir] = useState<string>('');
   const [outputDir, setOutputDir] = useState<string>('');
+  const [thumbnailMode, setThumbnailMode] = useState<boolean>(false);
 
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [logMessage, setLogMessage] = useState<string | null>('');
@@ -196,12 +202,19 @@ export default function ExtractFramesPage() {
         />
       </div>
 
+      <Switch
+        checked={thumbnailMode}
+        onChange={e => setThumbnailMode((e.target as HTMLInputElement).checked)}
+        label={t('extract.thumbnailMode')}
+      />
+
       <Button
         text={t('extract.extractButton')}
         onClick={() => {
-          extractFrames(
+          extractImages(
             inputDir,
             outputDir,
+            thumbnailMode,
             str => setLogMessage(str),
             setIsRunning,
             setExitCode,
