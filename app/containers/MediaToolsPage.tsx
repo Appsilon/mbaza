@@ -135,7 +135,7 @@ const chooseDirectory = (changeDirectoryChoice: changePathChoiceType) => {
     });
 };
 
-export default function ExtractFramesPage() {
+export default function MediaToolsPage() {
   const { t } = useTranslation();
 
   const [inputDir, setInputDir] = useState<string>('');
@@ -166,7 +166,7 @@ export default function ExtractFramesPage() {
         <input
           type="text"
           className="bp3-input"
-          placeholder={t('extract.chooseInput')}
+          placeholder={t('tools.chooseInput')}
           value={inputDir}
           onChange={e => {
             setInputDir(e.target.value);
@@ -186,7 +186,7 @@ export default function ExtractFramesPage() {
         <input
           type="text"
           className="bp3-input"
-          placeholder={t('extract.chooseOutput')}
+          placeholder={t('tools.chooseOutput')}
           value={outputDir}
           onChange={e => {
             setOutputDir(e.target.value);
@@ -205,11 +205,11 @@ export default function ExtractFramesPage() {
       <Switch
         checked={thumbnailMode}
         onChange={e => setThumbnailMode((e.target as HTMLInputElement).checked)}
-        label={t('extract.thumbnailMode')}
+        label={t('tools.thumbnailMode')}
       />
 
       <Button
-        text={t('extract.extractButton')}
+        text={t('tools.extractButton')}
         onClick={() => {
           extractImages(
             inputDir,
@@ -227,10 +227,10 @@ export default function ExtractFramesPage() {
 
       {exitCode !== undefined || isRunning ? (
         <PythonLogViewer
-          title={t('extract.logTitle')}
-          successMessage={t('extract.success')}
-          failureMessage={t('extract.failure')}
-          progressMessage={t('extract.inProgress')}
+          title={t('tools.logTitle')}
+          successMessage={t('tools.success')}
+          failureMessage={t('tools.failure')}
+          progressMessage={t('tools.inProgress')}
           logMessage={logMessage || ''}
           isRunning={isRunning}
           exitCode={exitCode}
@@ -244,7 +244,7 @@ export default function ExtractFramesPage() {
       <div style={{ display: 'flex' }}>
         <div style={{ flex: 1, padding: '20px' }}>
           <Card elevation={Elevation.TWO}>
-            <H1>{t('extract.title')}</H1>
+            <H1>{t('tools.title')}</H1>
             {rootModelsDirectoryExists
               ? extractionForm
               : missingModelsDirectoryView}
@@ -252,7 +252,7 @@ export default function ExtractFramesPage() {
         </div>
         <div style={{ flex: 1, padding: '20px' }}>
           <Callout intent={Intent.PRIMARY}>
-            <Trans i18nKey="extract.info" />
+            <Trans i18nKey="tools.info" />
           </Callout>
         </div>
       </div>

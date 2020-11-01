@@ -18,7 +18,7 @@ export const routes: RoutesType = {
   },
   EXTRACT_FRAMES: {
     path: '/extract-frames',
-    name: 'sidebar.extractFrames',
+    name: 'sidebar.mediaTools',
     iconName: 'mobile-video'
   },
   CLASSIFY: {
