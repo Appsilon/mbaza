@@ -8,7 +8,8 @@ import {
   NonIdealState,
   Toaster,
   Callout,
-  Switch
+  RadioGroup,
+  Radio
 } from '@blueprintjs/core';
 import { useTranslation, Trans } from 'react-i18next';
 import path from 'path';
@@ -135,12 +136,15 @@ const chooseDirectory = (changeDirectoryChoice: changePathChoiceType) => {
     });
 };
 
+const EXTRACT_FRAMES = 'EXTRACT_FRAMES';
+const CREATE_THUMBNAILS = 'CREATE_THUMBNAILS';
+
 export default function MediaToolsPage() {
   const { t } = useTranslation();
 
+  const [currentMode, setCurrentMode] = useState<string>(EXTRACT_FRAMES);
   const [inputDir, setInputDir] = useState<string>('');
   const [outputDir, setOutputDir] = useState<string>('');
-  const [thumbnailMode, setThumbnailMode] = useState<boolean>(false);
 
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [logMessage, setLogMessage] = useState<string | null>('');
@@ -162,6 +166,15 @@ export default function MediaToolsPage() {
 
   const extractionForm = (
     <div style={{ padding: '30px 30px', width: '60vw' }}>
+      <RadioGroup
+        selectedValue={currentMode}
+        onChange={e => setCurrentMode(e.currentTarget.value)}
+        label={t('tools.mode')}
+      >
+        <Radio value={EXTRACT_FRAMES} label={t('tools.extractFramesDetail')} />
+        <Radio value={CREATE_THUMBNAILS} label={t('tools.createThumbnailsDetail')} />
+      </RadioGroup>
+
       <div className="bp3-input-group" style={{ marginBottom: '10px' }}>
         <input
           type="text"
@@ -202,19 +215,15 @@ export default function MediaToolsPage() {
         />
       </div>
 
-      <Switch
-        checked={thumbnailMode}
-        onChange={e => setThumbnailMode((e.target as HTMLInputElement).checked)}
-        label={t('tools.thumbnailMode')}
-      />
-
       <Button
-        text={t('tools.extractButton')}
+        text={currentMode === EXTRACT_FRAMES ?
+          t('tools.extractFrames') : t('tools.createThumbnails')
+        }
         onClick={() => {
           extractImages(
             inputDir,
             outputDir,
-            thumbnailMode,
+            currentMode === CREATE_THUMBNAILS,
             str => setLogMessage(str),
             setIsRunning,
             setExitCode,
