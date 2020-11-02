@@ -172,7 +172,10 @@ export default function MediaToolsPage() {
         label={t('tools.mode')}
       >
         <Radio value={EXTRACT_FRAMES} label={t('tools.extractFramesDetail')} />
-        <Radio value={CREATE_THUMBNAILS} label={t('tools.createThumbnailsDetail')} />
+        <Radio
+          value={CREATE_THUMBNAILS}
+          label={t('tools.createThumbnailsDetail')}
+        />
       </RadioGroup>
 
       <div className="bp3-input-group" style={{ marginBottom: '10px' }}>
@@ -216,8 +219,10 @@ export default function MediaToolsPage() {
       </div>
 
       <Button
-        text={currentMode === EXTRACT_FRAMES ?
-          t('tools.extractFrames') : t('tools.createThumbnails')
+        text={
+          currentMode === EXTRACT_FRAMES
+            ? t('tools.extractFrames')
+            : t('tools.createThumbnails')
         }
         onClick={() => {
           extractImages(

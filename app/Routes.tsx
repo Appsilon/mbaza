@@ -14,10 +14,7 @@ export default function Routes() {
       <Switch>
         <Route path={routes.CLASSIFY.path} component={ClassifyPage} />
         <Route path={routes.EXPLORE.path} component={ExplorePage} />
-        <Route
-          path={routes.EXTRACT_FRAMES.path}
-          component={MediaToolsPage}
-        />
+        <Route path={routes.MEDIA_TOOLS.path} component={MediaToolsPage} />
         <Route path={routes.HOME.path} component={HomePage} />
       </Switch>
     </App>
