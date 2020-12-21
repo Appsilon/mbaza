@@ -1,7 +1,8 @@
 import { NumberRange, RangeSlider } from '@blueprintjs/core';
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import Select from 'react-select';
+import { debounce } from 'lodash';
 
 type Props = {
   data: ObservationsData;
@@ -30,13 +31,11 @@ function CertaintyFilter({ updateFilters }: CertaintyFilterProps) {
   const { t } = useTranslation();
   const [range, setRange] = useState<NumberRange>([0, 100]);
 
-  const handleChange = (newRange: NumberRange) => {
-    setRange(newRange);
-    // TODO: Debounce filter updates:
-    // https://stackoverflow.com/questions/23123138/perform-debounce-in-react-js
+  const updateFilter = (newRange: NumberRange) => {
     const [low, high] = newRange;
     updateFilters({ certaintyRange: [low / 100, high / 100] });
   };
+  const debouncedUpdateFilter = useCallback(debounce(updateFilter, 400), []);
 
   return (
     <>
@@ -47,7 +46,10 @@ function CertaintyFilter({ updateFilters }: CertaintyFilterProps) {
         labelStepSize={10}
         labelRenderer={value => `${value}%`}
         value={range}
-        onChange={handleChange}
+        onChange={(newRange: NumberRange) => {
+          setRange(newRange);
+          debouncedUpdateFilter(newRange);
+        }}
       />
     </>
   );
