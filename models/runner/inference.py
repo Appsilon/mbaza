@@ -1,36 +1,27 @@
 # This script loads all images in subfolders of a specified folder and a model.
 # Next it runs inference from the model on the images and saves a csv with image path, classification, possibly toop predictions and scores.
-import warnings
-
 import os
 from datetime import datetime
-
 from pathlib import Path
 
+import exifread
 import pandas as pd
-
 from fastai import *
 from fastai.vision import *
 
-import exifread
+from file_utils import get_all_files, is_image, resource_path
 
+
+# Avoid flood of warnings from PyTorch
 warnings.filterwarnings('ignore')
 
 N_TOP_RESULTS = 3
+APP_VERSION = '1.0.4'
+TAXONS_FILE = resource_path('taxons.csv')
 
-def is_image(filename):
-    return filename.lower().endswith(("jpg", "jpeg", "png"))
-
-def get_images(data_folder):
-    images = []
-    try:
-        for dirpath, dirnames, filenames in os.walk(data_folder):
-            for filename in [f for f in filenames if is_image(f)]:
-                images.append(os.path.join(dirpath, filename))
-    except Exception as e:
-        print(f"Got exception {e}, double check {data_folder} is a folder")
-    assert images, "No images found in the folder"
-    print(f"Found {len(images)} images.")
+def get_images(directory):
+    images = [os.path.join(directory, f) for f in get_all_files(directory) if is_image(f)]
+    print(f"Found {len(images)} images")
     return images
 
 def load_model(model, images, pytorch_num_workers, batch_size):
@@ -88,7 +79,7 @@ def parse_path(df):
     """ extract station, check and cam from path column and store. """
     pattern = r"Check\s(\d*).*STATION_(\d*).*CAM(\d*).*[\\/](\d{6})[\\/]"
     result = df.copy()
-    result[["check", "station", "camera", "path_date"]] = result.path.str.extract(pattern)
+    result[["check", "station", "camera", "path_date"]] = result.location.str.extract(pattern)
     result["station"] = pd.to_numeric(result["station"])
     result["path_date"] = pd.to_datetime(result["path_date"], format="%m%d%y").map(lambda x: x.date())
     return result
@@ -114,7 +105,7 @@ def parse_exif(df):
     exif_datetime = []
     exif_gps_long = []
     exif_gps_lat = []
-    for path_name in result.path:
+    for path_name in result.location:
         f = open(path_name, 'rb')
         tags = exifread.process_file(f)
         if tags:
@@ -181,15 +172,52 @@ def add_output_date(df):
         return row
     return df.apply(f, axis=1)
 
+def wcs_image_id(path):
+    return os.path.basename(os.path.splitext(path)[0])
+
+def wcs_timestamp(date, time):
+    return date.strftime('%Y-%m-%d') + ' ' + time.strftime('%H:%M:%S')
+
+def add_wcs_taxons(df):
+    taxons = pd.read_csv(TAXONS_FILE)
+    return df.merge(taxons, how="left", left_on="pred_1", right_on="label")
+
+def add_wcs_columns(df, args):
+    df = df.copy()
+    df["project_id"] = args.project_id
+    df["deployment_id"] = args.deployment_id
+    df["image_id"] = df.apply(lambda row: wcs_image_id(row["location"]), axis=1)
+    df["identified_by"] = f"Mbaza-AI-{APP_VERSION}"
+    df["uncertainty"] = df["score_1"]
+    df["timestamp"] = df.apply(lambda row: wcs_timestamp(row["date"], row["exif_time"]), axis=1)
+    df["number_of_objects"] = 1
+    df["highlighted"] = ""
+    df["age"] = ""
+    df["sex"] = "Unknown"
+    df["animal_recognizable"] = ""
+    df["individual_id"] = ""
+    df["individual_animal_notes"] = ""
+    df["markings"] = ""
+    df = add_wcs_taxons(df)
+    return df
+
 def arrange_columns(df):
+    wcs_cols = [
+        "project_id", "deployment_id", "image_id", "location", "identified_by",
+        "wi_taxon_id", "class", "order", "family", "genus", "species", "common_name",
+        "uncertainty", "timestamp", "number_of_objects", "highlighted", "age", "sex",
+        "animal_recognizable", "individual_id", "individual_animal_notes", "markings",
+    ]
     metadata_cols = [
-        "path", "station", "check", "camera",
+        "station", "check", "camera",
         "date", "path_date", "exif_date", "exif_time",
         "coordinates_long", "coordinates_lat", "exif_gps_long", "exif_gps_lat", "grid_file_long", "grid_file_lat",
     ]
     score_cols = [f"{prefix}_{i}" for prefix in ("pred", "score") for i in range(1, N_TOP_RESULTS + 1)]
-    other_cols = [col for col in df.columns if col not in set(metadata_cols + score_cols)]
-    return df[metadata_cols + score_cols + other_cols]
+
+    cols = wcs_cols + metadata_cols + score_cols
+    cols += [col for col in df.columns if col not in set(cols)]  # Include the remaning columns at the back
+    return df[cols]
 
 def infer_to_csv(args):
     if not args.overwrite:
@@ -197,12 +225,13 @@ def infer_to_csv(args):
     images = get_images(args.input_folder)
     preds, classes = get_predictions(args.model, images, args.pytorch_num_workers, args.batch_size)
     df_preds = get_top_preds_and_scores(preds, classes)
-    df_preds["path"] = images
+    df_preds["location"] = images
     df_preds = parse_path(df_preds) # extract station, check, cam where possible from path
     df_preds = parse_exif(df_preds) # extract datetime, gps_long and gps_lat from exif if images
     df_preds = add_station_coords(df_preds, args.grid_file)
     df_preds = add_output_date(df_preds)
     df_preds = add_output_coords(df_preds)
+    df_preds = add_wcs_columns(df_preds, args)
     df_preds = arrange_columns(df_preds)
     df_preds.to_csv(args.output, index=False)
     print(f"Results stored in {args.output}.")

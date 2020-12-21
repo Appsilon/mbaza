@@ -7,7 +7,9 @@ import {
   Intent,
   NonIdealState,
   Toaster,
-  Callout
+  Callout,
+  RadioGroup,
+  Radio
 } from '@blueprintjs/core';
 import { useTranslation, Trans } from 'react-i18next';
 import path from 'path';
@@ -73,24 +75,27 @@ function runExtractProcess(
   return spawn(program, args, { cwd: workdir });
 }
 
-const extractFrames = (
+const extractImages = (
   inputPath: string,
   outputPath: string,
-  changeLogMessage: (message: string | null) => void,
+  thumbnailMode: boolean,
+  changeLogMessage: (message: string) => void,
   setIsRunning: (isRunning: boolean) => void,
   setExitCode: (exitCode: number | null | undefined) => void,
   t: TFunction
 ) => {
   const args: string[] = [
-    'process_videos',
+    'extract_images',
     '--input_folder',
     inputPath,
     '--output_folder',
     outputPath
   ];
+  if (thumbnailMode) {
+    args.push('--thumbnails');
+  }
   const process = runExtractProcess(args, t);
   if (process !== null) {
-    changeLogMessage(null);
     setExitCode(undefined);
     setIsRunning(true);
     process.stdout.on('data', data => {
@@ -130,15 +135,23 @@ const chooseDirectory = (changeDirectoryChoice: changePathChoiceType) => {
     });
 };
 
-export default function ExtractFramesPage() {
+const EXTRACT_FRAMES = 'EXTRACT_FRAMES';
+const CREATE_THUMBNAILS = 'CREATE_THUMBNAILS';
+
+export default function MediaToolsPage() {
   const { t } = useTranslation();
 
+  const [currentMode, setCurrentMode] = useState<string>(EXTRACT_FRAMES);
   const [inputDir, setInputDir] = useState<string>('');
   const [outputDir, setOutputDir] = useState<string>('');
 
   const [isRunning, setIsRunning] = useState<boolean>(false);
-  const [logMessage, setLogMessage] = useState<string | null>('');
+  const [logMessage, setLogMessage] = useState<string>('');
   const [exitCode, setExitCode] = useState<number | null>();
+
+  const appendLogMessage = (newMessage: string) => {
+    setLogMessage(oldMessage => oldMessage + newMessage);
+  };
 
   const rootModelsDirectoryExists = fs.existsSync(rootModelsDirectory);
   const missingModelsDirectoryView = (
@@ -156,11 +169,23 @@ export default function ExtractFramesPage() {
 
   const extractionForm = (
     <div style={{ padding: '30px 30px', width: '60vw' }}>
+      <RadioGroup
+        selectedValue={currentMode}
+        onChange={e => setCurrentMode(e.currentTarget.value)}
+        label={t('tools.mode')}
+      >
+        <Radio value={EXTRACT_FRAMES} label={t('tools.extractFramesDetail')} />
+        <Radio
+          value={CREATE_THUMBNAILS}
+          label={t('tools.createThumbnailsDetail')}
+        />
+      </RadioGroup>
+
       <div className="bp3-input-group" style={{ marginBottom: '10px' }}>
         <input
           type="text"
           className="bp3-input"
-          placeholder={t('extract.chooseInput')}
+          placeholder={t('tools.chooseInput')}
           value={inputDir}
           onChange={e => {
             setInputDir(e.target.value);
@@ -180,7 +205,7 @@ export default function ExtractFramesPage() {
         <input
           type="text"
           className="bp3-input"
-          placeholder={t('extract.chooseOutput')}
+          placeholder={t('tools.chooseOutput')}
           value={outputDir}
           onChange={e => {
             setOutputDir(e.target.value);
@@ -197,12 +222,18 @@ export default function ExtractFramesPage() {
       </div>
 
       <Button
-        text={t('extract.extractButton')}
+        text={
+          currentMode === EXTRACT_FRAMES
+            ? t('tools.extractFrames')
+            : t('tools.createThumbnails')
+        }
         onClick={() => {
-          extractFrames(
+          setLogMessage(''); // Remove any log from previous runs.
+          extractImages(
             inputDir,
             outputDir,
-            str => setLogMessage(str),
+            currentMode === CREATE_THUMBNAILS,
+            appendLogMessage,
             setIsRunning,
             setExitCode,
             t
@@ -214,11 +245,11 @@ export default function ExtractFramesPage() {
 
       {exitCode !== undefined || isRunning ? (
         <PythonLogViewer
-          title={t('extract.logTitle')}
-          successMessage={t('extract.success')}
-          failureMessage={t('extract.failure')}
-          progressMessage={t('extract.inProgress')}
-          logMessage={logMessage || ''}
+          title={t('tools.logTitle')}
+          successMessage={t('tools.success')}
+          failureMessage={t('tools.failure')}
+          progressMessage={t('tools.inProgress')}
+          logMessage={logMessage}
           isRunning={isRunning}
           exitCode={exitCode}
         />
@@ -231,7 +262,7 @@ export default function ExtractFramesPage() {
       <div style={{ display: 'flex' }}>
         <div style={{ flex: 1, padding: '20px' }}>
           <Card elevation={Elevation.TWO}>
-            <H1>{t('extract.title')}</H1>
+            <H1>{t('tools.title')}</H1>
             {rootModelsDirectoryExists
               ? extractionForm
               : missingModelsDirectoryView}
@@ -239,7 +270,7 @@ export default function ExtractFramesPage() {
         </div>
         <div style={{ flex: 1, padding: '20px' }}>
           <Callout intent={Intent.PRIMARY}>
-            <Trans i18nKey="extract.info" />
+            <Trans i18nKey="tools.info" />
           </Callout>
         </div>
       </div>

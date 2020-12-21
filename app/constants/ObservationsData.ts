@@ -1,5 +1,5 @@
 type Observation = {
-  path: string;
+  location: string;
   date: string;
   pred_1: string;
   score_1: number;
@@ -12,6 +12,8 @@ type Observation = {
   camera: string;
   coordinates_lat: number;
   coordinates_long: number;
+  project_id: string;
+  deployment_id: string;
 };
 
 type ObservationsData = {

@@ -15,6 +15,18 @@ export default function ObservationsTable(props: Props) {
   return (
     <Table numRows={observations.length} enableColumnReordering>
       <Column
+        name={t('Project ID')}
+        cellRenderer={(rowIndex: number) => (
+          <Cell>{observations[rowIndex].project_id}</Cell>
+        )}
+      />
+      <Column
+        name={t('Deployment ID')}
+        cellRenderer={(rowIndex: number) => (
+          <Cell>{observations[rowIndex].deployment_id}</Cell>
+        )}
+      />
+      <Column
         name={t('Station')}
         cellRenderer={(rowIndex: number) => (
           <Cell>{observations[rowIndex].station}</Cell>
