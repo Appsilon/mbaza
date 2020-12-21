@@ -43,9 +43,12 @@ def scale_down_image(image):
 
 
 def extract_thumbnail(input_file, output_dir):
+    print(f"Processing {os.path.basename(input_file)!r}... ", end="", flush=True)
     if is_image(input_file):
+        print("scaling image... ", end="", flush=True)
         thumbnail = cv.imread(input_file)
     elif is_video(input_file):
+        print("selecting a frame... ", end="", flush=True)
         with Video(input_file) as video:
             thumbnail = video.get_frame(0)
     thumbnail = scale_down_image(thumbnail)
@@ -53,6 +56,7 @@ def extract_thumbnail(input_file, output_dir):
     name = basename_without_ext(input_file)
     output_file = os.path.join(output_dir, f"{name}.jpg")
     cv.imwrite(output_file, thumbnail)
+    print("thumbnail saved.")
 
 
 def extract_frames(input_file, output_dir, frame_interval):
@@ -79,3 +83,4 @@ def extract_images(args):
             extract_thumbnail(input_file, output_dir)
         else:
             extract_frames(input_file, output_dir, args.frame_interval)
+    print("Processing completed.")

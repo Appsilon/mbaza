@@ -79,7 +79,7 @@ const extractImages = (
   inputPath: string,
   outputPath: string,
   thumbnailMode: boolean,
-  changeLogMessage: (message: string | null) => void,
+  changeLogMessage: (message: string) => void,
   setIsRunning: (isRunning: boolean) => void,
   setExitCode: (exitCode: number | null | undefined) => void,
   t: TFunction
@@ -96,7 +96,6 @@ const extractImages = (
   }
   const process = runExtractProcess(args, t);
   if (process !== null) {
-    changeLogMessage(null);
     setExitCode(undefined);
     setIsRunning(true);
     process.stdout.on('data', data => {
@@ -147,8 +146,12 @@ export default function MediaToolsPage() {
   const [outputDir, setOutputDir] = useState<string>('');
 
   const [isRunning, setIsRunning] = useState<boolean>(false);
-  const [logMessage, setLogMessage] = useState<string | null>('');
+  const [logMessage, setLogMessage] = useState<string>('');
   const [exitCode, setExitCode] = useState<number | null>();
+
+  const appendLogMessage = (newMessage: string) => {
+    setLogMessage(oldMessage => oldMessage + newMessage);
+  };
 
   const rootModelsDirectoryExists = fs.existsSync(rootModelsDirectory);
   const missingModelsDirectoryView = (
@@ -225,11 +228,12 @@ export default function MediaToolsPage() {
             : t('tools.createThumbnails')
         }
         onClick={() => {
+          setLogMessage(''); // Remove any log from previous runs.
           extractImages(
             inputDir,
             outputDir,
             currentMode === CREATE_THUMBNAILS,
-            str => setLogMessage(str),
+            appendLogMessage,
             setIsRunning,
             setExitCode,
             t
@@ -245,7 +249,7 @@ export default function MediaToolsPage() {
           successMessage={t('tools.success')}
           failureMessage={t('tools.failure')}
           progressMessage={t('tools.inProgress')}
-          logMessage={logMessage || ''}
+          logMessage={logMessage}
           isRunning={isRunning}
           exitCode={exitCode}
         />
