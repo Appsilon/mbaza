@@ -12,6 +12,8 @@ type Observation = {
   camera: string;
   coordinates_lat: number;
   coordinates_long: number;
+  project_id: string;
+  deployment_id: string;
 };
 
 type ObservationsData = {
