@@ -37,33 +37,12 @@ https://github.com/klokantech/mapbox-gl-js-offline-example
 /* eslint-disable global-require */
 
 // STYLE FILE PREPROCESSING
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const changeSources = (jsonObj: any) => {
-  Object.entries(jsonObj).forEach(([key, value]) => {
-    if (key === 'source') {
-      jsonObj[key] = 'jsonsource'; // change the source of all elements if it's set incorrectly
-    }
-    if (key === 'text-font') {
-      jsonObj[key] = ['Open Sans Semibold']; // only use one font in the simple version
-    }
-    if (value !== null && typeof value === 'object') {
-      changeSources(value);
-    }
-  });
-};
-
 const mapboxStyle = require('assets/map-style.json');
-
-delete mapboxStyle.sources.mapbox;
-changeSources(mapboxStyle);
-const gabonMap = require('assets/map-sources/gabon_parks_map.json');
 
 mapboxStyle.sources.jsonsource = {
   type: 'geojson',
-  data: gabonMap
+  data: require('assets/map-sources/africa.json')
 };
-mapboxStyle.glyphs = 'assets/map-font/{fontstack}/{range}.pbf';
 
 // COMPONENT RENDERING
 

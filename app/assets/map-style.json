@@ -6,15 +6,8 @@
         "mapbox:autocomposite": true,
         "mapbox:type": "template"
     },
-    "sources":
-    {
-        "mapbox":
-        {
-            "url": "mapbox://mapbox.mapbox-streets-v7",
-            "type": "vector"
-        }
-    },
-    "glyphs": "mapbox://fonts/mapbox/{fontstack}/{range}.pbf",
+    "sources": {},
+    "glyphs": "assets/map-font/{fontstack}/{range}.pbf",
     "layers": [
     {
         "id": "background",
@@ -537,10 +530,7 @@
         {
             "symbol-placement": "line",
             "text-field": "{name}",
-            "text-font": [
-                "Open Sans Semibold",
-                "Arial Unicode MS Bold"
-            ],
+            "text-font": ["Open Sans Semibold"],
             "text-letter-spacing": 0.1,
             "text-offset": [0, 0.5],
             "text-size":
@@ -580,10 +570,7 @@
         {
             "symbol-placement": "line",
             "text-field": "{name}",
-            "text-font": [
-                "Open Sans Semibold",
-                "Arial Unicode MS Bold"
-            ],
+            "text-font": ["Open Sans Semibold"],
             "text-transform": "uppercase",
             "text-letter-spacing": 0.1,
             "text-size":
@@ -635,10 +622,7 @@
         {
             "symbol-placement": "point",
             "text-field": "{name}",
-            "text-font": [
-                "Open Sans Semibold",
-                "Arial Unicode MS Bold"
-            ],
+            "text-font": ["Open Sans Semibold"],
             "text-max-width": 6,
             "text-size":
             {
@@ -682,10 +666,7 @@
         {
             "symbol-placement": "point",
             "text-field": "{name}",
-            "text-font": [
-                "Open Sans Semibold",
-                "Arial Unicode MS Bold"
-            ],
+            "text-font": ["Open Sans Semibold"],
             "text-max-width": 6,
             "text-size":
             {
@@ -710,27 +691,7 @@
         }
     },
     {
-        "id": "national_park",
-        "type": "fill",
-        "source": "jsonsource",
-        "paint": {
-            "fill-color": "#d4e6bb",
-            "fill-opacity": 0.2
-        },
-        "filter": ["==", "boundary", "national_park"]
-    },
-    {
-        "id": "gabon",
-        "type": "fill",
-        "source": "jsonsource",
-        "paint": {
-            "fill-color": "#e9e9d1",
-            "fill-opacity": 0.2
-        },
-        "filter": ["==", "id", "relation/192793"]
-    },
-    {
-        "id": "nation_border",
+        "id": "country_border",
         "type": "line",
         "source": "jsonsource",
         "paint":
@@ -739,46 +700,43 @@
             "line-width":
             {
                 "base": 1.4,
-                "stops": [
-                    [
-                        8,
-                        0.5
-                    ],
-                    [
-                        20,
-                        15
-                    ]
-                ]
+                "stops": [[8, 0.5], [20, 15]]
             }
         },
-        "filter": ["==", "border_type", "nation"]
+        "filter": ["==", "boundary", "administrative"]
     },
     {
-        "id": "place_label_national_park",
+        "id": "park",
+        "type": "fill",
+        "source": "jsonsource",
+        "paint": {
+            "fill-color": "#067800",
+            "fill-opacity": 0.2
+        },
+        "filter": [
+            "any",
+            ["==", "boundary", "national_park"],
+            ["==", "boundary", "protected_area"]
+        ]
+    },
+    {
+        "id": "park_label",
         "type": "symbol",
         "source": "jsonsource",
-        "filter": ["==", "boundary", "national_park"],
+        "filter": [
+            "any",
+            ["==", "boundary", "national_park"],
+            ["==", "boundary", "protected_area"]
+        ],
         "layout":
         {
             "symbol-placement": "point",
             "text-field": "{name}",
-            "text-font": [
-                "Open Sans Semibold",
-                "Arial Unicode MS Bold"
-            ],
+            "text-font": ["Open Sans Semibold"],
             "text-max-width": 14,
             "text-size":
             {
-                "stops": [
-                    [
-                        6,
-                        12
-                    ],
-                    [
-                        12,
-                        16
-                    ]
-                ]
+                "stops": [[6, 12], [12, 16]]
             }
         },
         "paint":
