@@ -65,15 +65,13 @@ function ObservationCard(props: ObservationCardProps) {
               ))}
             </tbody>
           </table>
-          <p>
-            <Tooltip content="You can override the top prediction and export the modified CSV" position={Position.RIGHT}>
-              <InputGroup
-                value={predictionOverride}
-                onChange={handlePredictionOverride}
-                placeholder="Override prediction"
-              />
-            </Tooltip>
-          </p>
+          <Tooltip content="You can override the top prediction and export the modified CSV" position={Position.RIGHT}>
+            <InputGroup
+              value={predictionOverride}
+              onChange={handlePredictionOverride}
+              placeholder="Override prediction"
+            />
+          </Tooltip>
           <div style={{ margin: '20px 10px' }}>
             <p>
               <strong>
@@ -130,6 +128,7 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
         <div className={Classes.DIALOG_BODY}>
           {observations.map(observation => (
             <ObservationCard
+              key={observation.location}
               observation={observation}
               predictionOverride={predictionOverrides[observation.location] || ''}
               onPredictionOverride={onPredictionOverride}

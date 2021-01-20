@@ -260,7 +260,7 @@ export default function ExplorePage() {
                 type="text"
                 className="bp3-input"
                 placeholder={t('explore.chooseFile')}
-                value={filePath}
+                value={filePath || ''}
                 onChange={e => {
                   setFilePath(e.target.value);
                 }}
