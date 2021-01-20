@@ -122,7 +122,7 @@ export default function ExplorePage() {
     return { observations: filtered };
   }, [filters, data])
 
-  const MainPanel: React.FunctionComponent = () => (
+  const mainPanel = (
     <div style={{ display: 'flex' }}>
       <div
         style={{
@@ -165,9 +165,6 @@ export default function ExplorePage() {
         </Card>
       </div>
     </div>
-  );
-  const TablePanel: React.SFC = () => (
-    <ObservationsTable data={filteredData} />
   );
 
   // eslint-disable-next-line
@@ -240,11 +237,11 @@ export default function ExplorePage() {
         />
         <ExplorerFilter data={data} updateFilters={handleFilters} />
         <Tabs renderActiveTabPanelOnly>
-          <Tab id="main" title={t('explore.mainView')} panel={<MainPanel />} />
+          <Tab id="main" title={t('explore.mainView')} panel={mainPanel} />
           <Tab
             id="table"
             title={t('explore.tableView')}
-            panel={<TablePanel />}
+            panel={<ObservationsTable data={filteredData} />}
           />
           <Tabs.Expander />
         </Tabs>
