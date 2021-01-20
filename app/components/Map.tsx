@@ -1,26 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TFunction } from 'i18next';
 import mapboxgl from 'mapbox-gl';
 import _ from 'lodash';
-import path from 'path';
-import {
-  Button,
-  Card,
-  Classes,
-  Drawer,
-  Elevation,
-  InputGroup,
-  Position,
-  Tooltip
-} from '@blueprintjs/core';
+import { Button, Position, Tooltip } from '@blueprintjs/core';
 import ReactDOM from 'react-dom';
 import styles from './Map.css';
 import AnimalsListTooltipContent from './AnimalsListTooltipContent';
-import {
-  EmptyClasses,
-  formatAnimalClassName
-} from '../constants/animalsClasses';
+import { EmptyClasses } from '../constants/animalsClasses';
 
 /*
 To produce a country file please have a look at download_map.sh
@@ -186,160 +173,15 @@ function addMarkers(
   }
 }
 
-type ObservationCardProps = {
-  observation: Observation;
-  predictionOverride: string;
-  onPredictionOverride: (location: string, prediction: string) => void;
-};
-
-function ObservationCard(props: ObservationCardProps) {
-  const { observation, predictionOverride, onPredictionOverride } = props;
-  const { t } = useTranslation();
-
-  const handlePredictionOverride = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onPredictionOverride(observation.location, event.target.value);
-  }
-
-  const predictions = [
-    [formatAnimalClassName(observation.pred_1), observation.score_1],
-    [formatAnimalClassName(observation.pred_2), observation.score_2],
-    [formatAnimalClassName(observation.pred_3), observation.score_3]
-  ];
-
-  return (
-    <Card
-      elevation={Elevation.TWO}
-      key={observation.location}
-      style={{ marginTop: 10 }}
-    >
-      <h3 style={{ marginTop: 0 }}>
-        {t('explore.inspect.photoHeader', {
-          species: formatAnimalClassName(observation.pred_1),
-          date: observation.date
-        })}
-      </h3>
-      <div style={{ display: 'flex' }}>
-        <div>
-          <img
-            src={observation.location}
-            width={400}
-            alt={observation.pred_1}
-          />
-        </div>
-        <div style={{ marginLeft: 24 }}>
-          <table className="bp3-html-table bp3-html-table-condensed">
-            <thead>
-              <tr>
-                <th>{t('explore.inspect.prediction')}</th>
-                <th>{t('explore.inspect.probability')}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {predictions.map(i => (
-                <tr key={i[0]}>
-                  <td>{i[0]}</td>
-                  <td>
-                    {((i[1] as number) * 100).toFixed(2)}
-                    &nbsp;%
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <p>
-            <Tooltip content="You can override the top prediction and export the modified CSV" position={Position.RIGHT}>
-              <InputGroup
-                value={predictionOverride}
-                onChange={handlePredictionOverride}
-                placeholder="Override prediction"
-              />
-            </Tooltip>
-          </p>
-          <div style={{ margin: '20px 10px' }}>
-            <p>
-              <strong>
-                {t('explore.inspect.camera')}
-                :&nbsp;
-              </strong>
-              {observation.camera}
-            </p>
-            <p>
-              <strong>
-                {t('explore.inspect.check')}
-                :&nbsp;
-              </strong>
-              {observation.check}
-            </p>
-            <p>
-              <strong>
-                {t('explore.inspect.file')}
-                :&nbsp;
-              </strong>
-              {path.basename(observation.location)}
-            </p>
-          </div>
-        </div>
-      </div>
-    </Card>
-  );
-}
-
-type ObservationsInspectorProps = {
-  inspectedObservations: Observation[];
-  setInspectedObservations: React.Dispatch<React.SetStateAction<Observation[]>>;
-  predictionOverrides: Record<string, string>;
-  onPredictionOverride: (location: string, prediction: string) => void;
-};
-
-function ObservationsInspector(props: ObservationsInspectorProps) {
-  const {
-      inspectedObservations, setInspectedObservations, predictionOverrides, onPredictionOverride
-  } = props;
-  const { t } = useTranslation();
-  if (inspectedObservations.length === 0) {
-    return null;
-  }
-  return (
-    <Drawer
-      title={t('explore.inspect.header', {
-        station: inspectedObservations[0].station
-      })}
-      icon="camera"
-      isOpen={inspectedObservations.length > 0}
-      onClose={() => setInspectedObservations([])}
-      hasBackdrop={false}
-    >
-      <div className={Classes.DRAWER_BODY}>
-        <div className={Classes.DIALOG_BODY}>
-          {inspectedObservations.map(observation => (
-            <ObservationCard
-              observation={observation}
-              predictionOverride={predictionOverrides[observation.location] || ''}
-              onPredictionOverride={onPredictionOverride}
-            />
-          ))}
-        </div>
-      </div>
-      <div className={Classes.DRAWER_FOOTER}>
-        {t('explore.inspect.observations', {
-          count: inspectedObservations.length
-        })}
-      </div>
-    </Drawer>
-  );
-}
-
 type MapProps = {
   data: ObservationsData;
-  predictionOverrides: Record<string, string>;
-  onPredictionOverride: (location: string, prediction: string) => void;
+  onInspect: (observations: Observation[]) => void;
 };
 
 export default function Map(props: MapProps) {
-  const { data, predictionOverrides, onPredictionOverride } = props;
+  const { data, onInspect } = props;
   const mapRef = React.createRef<HTMLDivElement>();
   const { t } = useTranslation();
-  const [inspectedObservations, setInspectedObservations] = useState<Observation[]>([]);
 
   useEffect(() => {
     const map = new mapboxgl.Map({
@@ -348,27 +190,11 @@ export default function Map(props: MapProps) {
       center: [12, -0.8],
       zoom: 6
     });
-    addMarkers(t, data.observations, map, setInspectedObservations);
+    addMarkers(t, data.observations, map, onInspect);
     return function cleanup() {
       map.remove();
     };
   }, [data.observations]);
 
-  return (
-    <div
-      style={{
-        width: '100%',
-        position: 'relative',
-        overflow: 'hidden'
-      }}
-    >
-      <div ref={mapRef} className={styles.mapContainer} />
-      <ObservationsInspector
-        inspectedObservations={inspectedObservations}
-        setInspectedObservations={setInspectedObservations}
-        predictionOverrides={predictionOverrides}
-        onPredictionOverride={onPredictionOverride}
-      />
-    </div>
-  );
+  return <div ref={mapRef} className={styles.mapContainer} />;
 }
