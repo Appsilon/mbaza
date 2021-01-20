@@ -189,15 +189,15 @@ function addMarkers(
 type ObservationCardProps = {
   observation: Observation;
   predictionOverride: string;
-  onOverrideChange: (prediction: string) => void;
+  onPredictionOverride: (location: string, prediction: string) => void;
 };
 
 function ObservationCard(props: ObservationCardProps) {
-  const { observation, predictionOverride, onOverrideChange } = props;
+  const { observation, predictionOverride, onPredictionOverride } = props;
   const { t } = useTranslation();
 
   const handlePredictionOverride = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onOverrideChange(event.target.value);
+    onPredictionOverride(observation.location, event.target.value);
   }
 
   const predictions = [
@@ -287,10 +287,14 @@ function ObservationCard(props: ObservationCardProps) {
 type ObservationsInspectorProps = {
   inspectedObservations: Observation[];
   setInspectedObservations: React.Dispatch<React.SetStateAction<Observation[]>>;
+  predictionOverrides: Record<string, string>;
+  onPredictionOverride: (location: string, prediction: string) => void;
 };
 
 function ObservationsInspector(props: ObservationsInspectorProps) {
-  const { inspectedObservations, setInspectedObservations } = props;
+  const {
+      inspectedObservations, setInspectedObservations, predictionOverrides, onPredictionOverride
+  } = props;
   const { t } = useTranslation();
   if (inspectedObservations.length === 0) {
     return null;
@@ -310,8 +314,8 @@ function ObservationsInspector(props: ObservationsInspectorProps) {
           {inspectedObservations.map(observation => (
             <ObservationCard
               observation={observation}
-              predictionOverride=""
-              onOverrideChange={() => {}}
+              predictionOverride={predictionOverrides[observation.location] || ''}
+              onPredictionOverride={onPredictionOverride}
             />
           ))}
         </div>
@@ -332,12 +336,11 @@ type MapProps = {
 };
 
 export default function Map(props: MapProps) {
-  const { data } = props;
+  const { data, predictionOverrides, onPredictionOverride } = props;
   const mapRef = React.createRef<HTMLDivElement>();
   const { t } = useTranslation();
-  const [inspectedObservations, setInspectedObservations] = useState<
-    Observation[]
-  >([]);
+  const [inspectedObservations, setInspectedObservations] = useState<Observation[]>([]);
+
   useEffect(() => {
     const map = new mapboxgl.Map({
       container: mapRef.current as HTMLElement,
@@ -349,7 +352,8 @@ export default function Map(props: MapProps) {
     return function cleanup() {
       map.remove();
     };
-  });
+  }, [data.observations]);
+
   return (
     <div
       style={{
@@ -362,6 +366,8 @@ export default function Map(props: MapProps) {
       <ObservationsInspector
         inspectedObservations={inspectedObservations}
         setInspectedObservations={setInspectedObservations}
+        predictionOverrides={predictionOverrides}
+        onPredictionOverride={onPredictionOverride}
       />
     </div>
   );

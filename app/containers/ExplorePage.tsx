@@ -97,7 +97,7 @@ export default function ExplorePage() {
   };
 
   const handlePredictionOverride = (location: string, override: string) => {
-    console.log(location, override);
+    setPredictionOverrides({ ...predictionOverrides, [location]: override })
   }
 
   const filterCondition = (needle: string, haystack: Entry[]) => {
