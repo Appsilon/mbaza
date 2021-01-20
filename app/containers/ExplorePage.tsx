@@ -90,9 +90,15 @@ export default function ExplorePage() {
     certaintyRange: [0, 1]
   });
   const [data, setData] = useState<undefined | ObservationsData>();
+  const [predictionOverrides, setPredictionOverrides] = useState<Record<string, string>>({});
+
   const handleFilters = (val: string[]) => {
     setFilters({ ...filters, ...val });
   };
+
+  const handlePredictionOverride = (location: string, override: string) => {
+    console.log(location, override);
+  }
 
   const filterCondition = (needle: string, haystack: Entry[]) => {
     if (haystack.length === 0) return true;
@@ -140,7 +146,11 @@ export default function ExplorePage() {
       >
         <Card style={{ height: '100%' }} interactive elevation={Elevation.TWO}>
           <Callout intent={Intent.PRIMARY}>{t('explore.mapHint')}</Callout>
-          <Map data={getFilteredData(data)} />
+          <Map
+            data={getFilteredData(data)}
+            predictionOverrides={predictionOverrides}
+            onPredictionOverride={handlePredictionOverride}
+          />
         </Card>
       </div>
     </div>

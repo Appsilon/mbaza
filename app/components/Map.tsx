@@ -10,6 +10,7 @@ import {
   Classes,
   Drawer,
   Elevation,
+  InputGroup,
   Position,
   Tooltip
 } from '@blueprintjs/core';
@@ -45,10 +46,6 @@ mapboxStyle.sources.jsonsource = {
 };
 
 // COMPONENT RENDERING
-
-type Props = {
-  data: ObservationsData;
-};
 
 function getObservationCoordinates(row: Observation): [number, number] {
   return [row.coordinates_long, row.coordinates_lat];
@@ -189,12 +186,26 @@ function addMarkers(
   }
 }
 
-function observationCard(t: TFunction, observation: Observation): JSX.Element {
+type ObservationCardProps = {
+  observation: Observation;
+  predictionOverride: string;
+  onOverrideChange: (prediction: string) => void;
+};
+
+function ObservationCard(props: ObservationCardProps) {
+  const { observation, predictionOverride, onOverrideChange } = props;
+  const { t } = useTranslation();
+
+  const handlePredictionOverride = (event: React.ChangeEvent<HTMLInputElement>) => {
+    onOverrideChange(event.target.value);
+  }
+
   const predictions = [
     [formatAnimalClassName(observation.pred_1), observation.score_1],
     [formatAnimalClassName(observation.pred_2), observation.score_2],
     [formatAnimalClassName(observation.pred_3), observation.score_3]
   ];
+
   return (
     <Card
       elevation={Elevation.TWO}
@@ -235,6 +246,15 @@ function observationCard(t: TFunction, observation: Observation): JSX.Element {
               ))}
             </tbody>
           </table>
+          <p>
+            <Tooltip content="You can override the top prediction and export the modified CSV" position={Position.RIGHT}>
+              <InputGroup
+                value={predictionOverride}
+                onChange={handlePredictionOverride}
+                placeholder="Override prediction"
+              />
+            </Tooltip>
+          </p>
           <div style={{ margin: '20px 10px' }}>
             <p>
               <strong>
@@ -264,10 +284,13 @@ function observationCard(t: TFunction, observation: Observation): JSX.Element {
   );
 }
 
-function observationsInspector(
-  inspectedObservations: Observation[],
-  setInspectedObservations: React.Dispatch<React.SetStateAction<Observation[]>>
-): React.ReactNode {
+type ObservationsInspectorProps = {
+  inspectedObservations: Observation[];
+  setInspectedObservations: React.Dispatch<React.SetStateAction<Observation[]>>;
+};
+
+function ObservationsInspector(props: ObservationsInspectorProps) {
+  const { inspectedObservations, setInspectedObservations } = props;
   const { t } = useTranslation();
   if (inspectedObservations.length === 0) {
     return null;
@@ -284,9 +307,13 @@ function observationsInspector(
     >
       <div className={Classes.DRAWER_BODY}>
         <div className={Classes.DIALOG_BODY}>
-          {inspectedObservations.map(observation =>
-            observationCard(t, observation)
-          )}
+          {inspectedObservations.map(observation => (
+            <ObservationCard
+              observation={observation}
+              predictionOverride=""
+              onOverrideChange={() => {}}
+            />
+          ))}
         </div>
       </div>
       <div className={Classes.DRAWER_FOOTER}>
@@ -298,7 +325,13 @@ function observationsInspector(
   );
 }
 
-export default function Map(props: Props) {
+type MapProps = {
+  data: ObservationsData;
+  predictionOverrides: Record<string, string>;
+  onPredictionOverride: (location: string, prediction: string) => void;
+};
+
+export default function Map(props: MapProps) {
   const { data } = props;
   const mapRef = React.createRef<HTMLDivElement>();
   const { t } = useTranslation();
@@ -326,7 +359,10 @@ export default function Map(props: Props) {
       }}
     >
       <div ref={mapRef} className={styles.mapContainer} />
-      {observationsInspector(inspectedObservations, setInspectedObservations)}
+      <ObservationsInspector
+        inspectedObservations={inspectedObservations}
+        setInspectedObservations={setInspectedObservations}
+      />
     </div>
   );
 }
