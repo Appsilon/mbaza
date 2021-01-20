@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import { csv } from 'd3-fetch';
 import {
@@ -107,10 +107,9 @@ export default function ExplorePage() {
     return haystack.map(entry => entry.value).includes(needle);
   };
 
-  const getFilteredData = (options: undefined | ObservationsData) => {
-    let filtered = typeof options !== 'undefined' ? options.observations : [];
-
-    if (typeof filters !== 'undefined') {
+  const filteredData = useMemo(() => {
+    let filtered = data === undefined ? [] : data.observations;
+    if (filters !== undefined) {
       filtered = filtered.filter(
         (entry: Observation) =>
           filterCondition(entry.pred_1, filters.activeAnimals) &&
@@ -121,7 +120,7 @@ export default function ExplorePage() {
       );
     }
     return { observations: filtered };
-  };
+  }, [filters, data])
 
   const MainPanel: React.FunctionComponent = () => (
     <div style={{ display: 'flex' }}>
@@ -135,7 +134,7 @@ export default function ExplorePage() {
       >
         <Card style={{ height: '100%' }} interactive elevation={Elevation.TWO}>
           <Callout intent={Intent.PRIMARY}>{t('explore.plotHint')}</Callout>
-          <AnimalsPlot data={getFilteredData(data)} />
+          <AnimalsPlot data={filteredData} />
         </Card>
       </div>
       <div
@@ -155,7 +154,7 @@ export default function ExplorePage() {
               overflow: 'hidden'
             }}
           >
-            <Map data={getFilteredData(data)} onInspect={setInspectedObservations}/>
+            <Map data={filteredData} onInspect={setInspectedObservations}/>
             <ObservationsInspector
               observations={inspectedObservations}
               onClose={() => setInspectedObservations([])}
@@ -168,7 +167,7 @@ export default function ExplorePage() {
     </div>
   );
   const TablePanel: React.SFC = () => (
-    <ObservationsTable data={getFilteredData(data)} />
+    <ObservationsTable data={filteredData} />
   );
 
   // eslint-disable-next-line
@@ -235,7 +234,7 @@ export default function ExplorePage() {
           />
         </Card>
         <ExplorerMetrics
-          data={getFilteredData(data).observations}
+          data={filteredData.observations}
           rareTargets={RareAnimalsClasses}
           emptyClasses={EmptyClasses}
         />
