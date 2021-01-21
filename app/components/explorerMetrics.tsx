@@ -93,7 +93,6 @@ export default function ExplorerMetrics(props: Props) {
       style={{
         width: '100%',
         paddingBottom: '10px',
-        paddingLeft: '200px',
         justifyContent: 'flex-end',
         display: 'flex',
         flexWrap: 'wrap'

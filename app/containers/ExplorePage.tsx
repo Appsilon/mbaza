@@ -10,7 +10,8 @@ import {
   H1,
   Intent,
   Callout,
-  NumberRange
+  NumberRange,
+  IconName
 } from '@blueprintjs/core';
 import Map from '../components/Map';
 import AnimalsPlot from '../components/AnimalsPlot';
@@ -80,20 +81,22 @@ function inRange(value: number, [low, high]: NumberRange) {
   return low <= value && value <= high;
 }
 
-type ChangeDataButtonProps = {
-  filename: string;
-  onChangeData: () => void;
+type DataButtonProps = {
+  onClick: () => void;
+  textTop: string;
+  textBottom: string;
+  icon: IconName;
 };
 
-function ChangeDataButton({ filename, onChangeData }: ChangeDataButtonProps) {
-  const { t } = useTranslation();
+function DataButton({ textTop, textBottom, icon, onClick }: DataButtonProps) {
   return (
     <Card
       style={{
-        position: 'absolute',
         padding: '0',
         display: 'inline-flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        height: '100px',
+        marginRight: '20px'
       }}
       interactive
       elevation={Elevation.TWO}
@@ -119,13 +122,13 @@ function ChangeDataButton({ filename, onChangeData }: ChangeDataButtonProps) {
             textAlign: 'center'
           }}
         >
-          {filename}
+          {textTop}
         </span>
       </div>
       <Button
-        text={t('explore.changeFile')}
-        icon="arrow-left"
-        onClick={onChangeData}
+        text={textBottom}
+        icon={icon}
+        onClick={onClick}
         style={{
           backgroundColor: '#fff',
           width: '100%',
@@ -161,7 +164,11 @@ export default function ExplorePage() {
   };
 
   const handlePredictionOverride = (location: string, override: string) => {
-    setPredictionOverrides({ ...predictionOverrides, [location]: override });
+    const overrides = { ...predictionOverrides, [location]: override };
+    if (!override) {
+      delete overrides[location];
+    }
+    setPredictionOverrides(overrides);
   };
 
   const filterCondition = (needle: string, haystack: Entry[]) => {
@@ -245,15 +252,27 @@ export default function ExplorePage() {
           position: 'relative'
         }}
       >
-        <ChangeDataButton
-          filename={filename}
-          onChangeData={() => setData(undefined)}
-        />
-        <ExplorerMetrics
-          data={filteredData.observations}
-          rareTargets={RareAnimalsClasses}
-          emptyClasses={EmptyClasses}
-        />
+        <div style={{ display: 'flex' }}>
+          <DataButton
+            onClick={() => setData(undefined)}
+            textTop={filename}
+            textBottom={t('explore.changeFile')}
+            icon="arrow-left"
+          />
+          <DataButton
+            onClick={() => setData(undefined)}
+            textTop={`${
+              Object.keys(predictionOverrides).length
+            } overriden predictions`}
+            textBottom="Export CSV"
+            icon="export"
+          />
+          <ExplorerMetrics
+            data={filteredData.observations}
+            rareTargets={RareAnimalsClasses}
+            emptyClasses={EmptyClasses}
+          />
+        </div>
         <ExplorerFilter data={data} updateFilters={handleFilters} />
         <Tabs renderActiveTabPanelOnly>
           <Tab id="main" title={t('explore.mainView')} panel={mainPanel} />
