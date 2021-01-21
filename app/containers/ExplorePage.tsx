@@ -20,6 +20,7 @@ import ExplorerFilter from '../components/explorerFilters';
 import ExplorerMetrics from '../components/explorerMetrics';
 import { EmptyClasses, RareAnimalsClasses } from '../constants/animalsClasses';
 import ObservationsInspector from '../components/ObservationsInspector';
+import showSaveCsvDialog from '../utils/showSaveCsvDialog';
 
 type Filters = {
   activeAnimals: Entry[];
@@ -260,7 +261,12 @@ export default function ExplorePage() {
             icon="arrow-left"
           />
           <DataButton
-            onClick={() => setData(undefined)}
+            onClick={() => {
+              showSaveCsvDialog(
+                'classification_result_corrected.csv',
+                console.log
+              );
+            }}
             textTop={`${
               Object.keys(predictionOverrides).length
             } overriden predictions`}

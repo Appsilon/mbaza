@@ -19,6 +19,7 @@ import fs from 'fs';
 import { TFunction } from 'i18next';
 
 import PythonLogViewer from './PythonLogViewer';
+import showSaveCsvDialog from '../utils/showSaveCsvDialog';
 
 type changeLogMessageType = (newChangeLogMessage: string | null) => {};
 type changePathChoiceType = (newPath: string) => {};
@@ -189,29 +190,6 @@ const chooseDirectory = (changeDirectoryChoice: changePathChoiceType) => {
     });
 };
 
-function chooseSavePath(changeSavePathChoice: changePathChoiceType) {
-  // eslint-disable-next-line global-require
-  const { dialog, app } = require('electron').remote;
-  dialog
-    .showSaveDialog({
-      defaultPath: `${app.getPath('documents')}/classification_result.csv`,
-      filters: [
-        { name: 'CSV', extensions: ['csv'] },
-        { name: 'All Files', extensions: ['*'] }
-      ]
-    })
-    .then(result => {
-      if (!result.canceled) {
-        changeSavePathChoice(result.filePath ? result.filePath : '');
-      }
-      return null;
-    })
-    .catch(error => {
-      // eslint-disable-next-line no-alert
-      alert(error);
-    });
-}
-
 type Props = {
   changeLogMessage: changeLogMessageType;
   changeDirectoryChoice: changePathChoiceType;
@@ -295,7 +273,10 @@ export default function Classifier(props: Props) {
           type="submit"
           className="bp3-button bp3-minimal bp3-intent-primary bp3-icon-search"
           onClick={() => {
-            chooseSavePath(changeSavePathChoice);
+            showSaveCsvDialog(
+              'classification_result.csv',
+              changeSavePathChoice
+            );
           }}
         />
       </div>
