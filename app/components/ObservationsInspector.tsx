@@ -1,9 +1,17 @@
 import React from 'react';
-import { Card, Classes, Drawer, Elevation, InputGroup, Position, Tooltip } from "@blueprintjs/core";
-import { useTranslation } from "react-i18next";
+import {
+  Card,
+  Classes,
+  Drawer,
+  Elevation,
+  InputGroup,
+  Position,
+  Tooltip
+} from '@blueprintjs/core';
+import { useTranslation } from 'react-i18next';
 import path from 'path';
 
-import { formatAnimalClassName } from "../constants/animalsClasses";
+import { formatAnimalClassName } from '../constants/animalsClasses';
 
 type ObservationCardProps = {
   observation: Observation;
@@ -15,9 +23,11 @@ function ObservationCard(props: ObservationCardProps) {
   const { observation, predictionOverride, onPredictionOverride } = props;
   const { t } = useTranslation();
 
-  const handlePredictionOverride = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePredictionOverride = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     onPredictionOverride(observation.location, event.target.value);
-  }
+  };
 
   const predictions = [
     [formatAnimalClassName(observation.pred_1), observation.score_1],
@@ -65,7 +75,10 @@ function ObservationCard(props: ObservationCardProps) {
               ))}
             </tbody>
           </table>
-          <Tooltip content="You can override the top prediction and export the modified CSV" position={Position.RIGHT}>
+          <Tooltip
+            content="You can override the top prediction and export the modified CSV"
+            position={Position.RIGHT}
+          >
             <InputGroup
               value={predictionOverride}
               onChange={handlePredictionOverride}
@@ -108,8 +121,15 @@ type ObservationsInspectorProps = {
   onPredictionOverride: (location: string, prediction: string) => void;
 };
 
-export default function ObservationsInspector(props: ObservationsInspectorProps) {
-  const { observations, onClose, predictionOverrides, onPredictionOverride } = props;
+export default function ObservationsInspector(
+  props: ObservationsInspectorProps
+) {
+  const {
+    observations,
+    onClose,
+    predictionOverrides,
+    onPredictionOverride
+  } = props;
   const { t } = useTranslation();
   if (observations.length === 0) {
     return null;
@@ -130,7 +150,9 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
             <ObservationCard
               key={observation.location}
               observation={observation}
-              predictionOverride={predictionOverrides[observation.location] || ''}
+              predictionOverride={
+                predictionOverrides[observation.location] || ''
+              }
               onPredictionOverride={onPredictionOverride}
             />
           ))}

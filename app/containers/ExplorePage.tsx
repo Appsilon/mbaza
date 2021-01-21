@@ -82,13 +82,13 @@ function inRange(value: number, [low, high]: NumberRange) {
 
 type ChangeDataButtonProps = {
   filename: string;
-   onChangeData: () => void;
-}
+  onChangeData: () => void;
+};
 
-function ChangeDataButton({ filename, onChangeData } : ChangeDataButtonProps) {
+function ChangeDataButton({ filename, onChangeData }: ChangeDataButtonProps) {
   const { t } = useTranslation();
-  return  (
-      <Card
+  return (
+    <Card
       style={{
         position: 'absolute',
         padding: '0',
@@ -149,16 +149,20 @@ export default function ExplorePage() {
     certaintyRange: [0, 1]
   });
   const [data, setData] = useState<undefined | ObservationsData>();
-  const [inspectedObservations, setInspectedObservations] = useState<Observation[]>([]);
-  const [predictionOverrides, setPredictionOverrides] = useState<Record<string, string>>({});
+  const [inspectedObservations, setInspectedObservations] = useState<
+    Observation[]
+  >([]);
+  const [predictionOverrides, setPredictionOverrides] = useState<
+    Record<string, string>
+  >({});
 
   const handleFilters = (val: string[]) => {
     setFilters({ ...filters, ...val });
   };
 
   const handlePredictionOverride = (location: string, override: string) => {
-    setPredictionOverrides({ ...predictionOverrides, [location]: override })
-  }
+    setPredictionOverrides({ ...predictionOverrides, [location]: override });
+  };
 
   const filterCondition = (needle: string, haystack: Entry[]) => {
     if (haystack.length === 0) return true;
@@ -178,7 +182,7 @@ export default function ExplorePage() {
       );
     }
     return { observations: filtered };
-  }, [filters, data])
+  }, [filters, data]);
 
   const mainPanel = (
     <div style={{ display: 'flex' }}>
@@ -212,7 +216,7 @@ export default function ExplorePage() {
               overflow: 'hidden'
             }}
           >
-            <Map data={filteredData} onInspect={setInspectedObservations}/>
+            <Map data={filteredData} onInspect={setInspectedObservations} />
             <ObservationsInspector
               observations={inspectedObservations}
               onClose={() => setInspectedObservations([])}
@@ -241,7 +245,10 @@ export default function ExplorePage() {
           position: 'relative'
         }}
       >
-        <ChangeDataButton filename={filename} onChangeData={() => setData(undefined)} />
+        <ChangeDataButton
+          filename={filename}
+          onChangeData={() => setData(undefined)}
+        />
         <ExplorerMetrics
           data={filteredData.observations}
           rareTargets={RareAnimalsClasses}
