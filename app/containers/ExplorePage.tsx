@@ -21,6 +21,7 @@ import ExplorerMetrics from '../components/explorerMetrics';
 import { EmptyClasses, RareAnimalsClasses } from '../constants/animalsClasses';
 import ObservationsInspector from '../components/ObservationsInspector';
 import showSaveCsvDialog from '../utils/showSaveCsvDialog';
+import writeCorrectedCsv from '../utils/writeCorrectedCsv';
 
 type Filters = {
   activeAnimals: Entry[];
@@ -241,6 +242,12 @@ export default function ExplorePage() {
   const filename = (filePath !== undefined) ? filePath.replace(/^.*[\\\/]/, '') : "";
 
   if (data !== undefined) {
+    const handleCsvExport = () => {
+      const callback = (path: string) => {
+        writeCorrectedCsv(path, data.observations, predictionOverrides);
+      };
+      showSaveCsvDialog('classification_result_corrected.csv', callback);
+    };
     return (
       <div
         style={{
@@ -261,12 +268,7 @@ export default function ExplorePage() {
             icon="arrow-left"
           />
           <DataButton
-            onClick={() => {
-              showSaveCsvDialog(
-                'classification_result_corrected.csv',
-                console.log
-              );
-            }}
+            onClick={handleCsvExport}
             textTop={`${
               Object.keys(predictionOverrides).length
             } overriden predictions`}
