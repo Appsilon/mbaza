@@ -10,10 +10,10 @@
 conda create -n mbaza python=3.6
 conda activate mbaza
 
-conda install pytorch==1.5.0 torchvision==0.6.0 cpuonly -c pytorch
-conda install -c fastai fastai==1.0.61
-conda install -c conda-forge pyinstaller==3.6 exifread==2.1.2
-conda install -c conda-forge opencv==4.4.0
+conda install --yes --channel pytorch pytorch==1.5.0 torchvision==0.6.0 cpuonly  
+conda install --yes --channel fastai fastai==1.0.61
+conda install --yes --channel conda-forge pyinstaller==3.6 exifread==2.1.2
+conda install --yes --channel conda-forge opencv==4.4.0
 ```
 
 4. build the bundle - go to `models/runner` and run `release_model_win10_x86_64.bat`
