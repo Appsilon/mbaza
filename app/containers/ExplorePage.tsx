@@ -80,6 +80,64 @@ function inRange(value: number, [low, high]: NumberRange) {
   return low <= value && value <= high;
 }
 
+type ChangeDataButtonProps = {
+  filename: string;
+   onChangeData: () => void;
+}
+
+function ChangeDataButton({ filename, onChangeData } : ChangeDataButtonProps) {
+  const { t } = useTranslation();
+  return  (
+      <Card
+      style={{
+        position: 'absolute',
+        padding: '0',
+        display: 'inline-flex',
+        flexDirection: 'column'
+      }}
+      interactive
+      elevation={Elevation.TWO}
+    >
+      <div
+        style={{
+          padding: '20px',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: '#4e5e6b',
+          color: 'white',
+          minWidth: '150px',
+          maxWidth: '200px',
+          height: '70px',
+          fontWeight: 'bold'
+        }}
+      >
+        <span
+          style={{
+            wordWrap: 'break-word',
+            width: '100%',
+            textAlign: 'center'
+          }}
+        >
+          {filename}
+        </span>
+      </div>
+      <Button
+        text={t('explore.changeFile')}
+        icon="arrow-left"
+        onClick={onChangeData}
+        style={{
+          backgroundColor: '#fff',
+          width: '100%',
+          height: '30px',
+          textAlign: 'center',
+          lineHeight: '1.4'
+        }}
+      />
+    </Card>
+  );
+}
+
 export default function ExplorePage() {
   const { t } = useTranslation();
   const [filePath, setFilePath] = useState<string>();
@@ -183,53 +241,7 @@ export default function ExplorePage() {
           position: 'relative'
         }}
       >
-        <Card
-          style={{
-            position: 'absolute',
-            padding: '0',
-            display: 'inline-flex',
-            flexDirection: 'column'
-          }}
-          interactive
-          elevation={Elevation.TWO}
-        >
-          <div
-            style={{
-              padding: '20px',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: '#4e5e6b',
-              color: 'white',
-              minWidth: '150px',
-              maxWidth: '200px',
-              height: '70px',
-              fontWeight: 'bold'
-            }}
-          >
-            <span
-              style={{
-                wordWrap: 'break-word',
-                width: '100%',
-                textAlign: 'center'
-              }}
-            >
-              {filename}
-            </span>
-          </div>
-          <Button
-            text={t('explore.changeFile')}
-            icon="arrow-left"
-            onClick={() => setData(undefined)}
-            style={{
-              backgroundColor: '#fff',
-              width: '100%',
-              height: '30px',
-              textAlign: 'center',
-              lineHeight: '1.4'
-            }}
-          />
-        </Card>
+        <ChangeDataButton filename={filename} onChangeData={() => setData(undefined)} />
         <ExplorerMetrics
           data={filteredData.observations}
           rareTargets={RareAnimalsClasses}
