@@ -21,7 +21,7 @@ conda install --yes --channel conda-forge opencv==4.4.0
 
 5. Now your model runner is in `runner_win\main\main.exe`.
 
-6. Run it for example with: `main.exe --model=..\..\serengeti\trained_model.pkl --input_folder=..\..\serengeti\images_fun_examples --output=output.csv --overwrite --pytorch_num_workers=0`
+6. Run it for example with: `main.exe infer_to_csv --model=..\..\serengeti\trained_model.pkl --input_folder=..\..\serengeti\images_fun_examples --output=output.csv --overwrite --pytorch_num_workers=0`
    (Warning: this needs to be run from `main.exe`'s directory for Pytorch to locate the necessary source files.)
 
 7. Add `biomonitoring_stations.csv` to the main `models` directory. Distribute the entire `models` folder as a zip archive containing `biomonitoring_stations.csv`, `runner_win` and directories with models (e.g. `gabon` and `serengeti`). Do not include the `runner` directory as it contains source code and temporary build files. You can package this with:
