@@ -7,8 +7,8 @@
 3. Install dependecies:
 
 ```
-conda create -n serengeti python=3.6
-conda activate serengeti
+conda create -n mbaza python=3.6
+conda activate mbaza
 
 conda install pytorch==1.5.0 torchvision==0.6.0 cpuonly -c pytorch
 conda install -c fastai fastai==1.0.61
