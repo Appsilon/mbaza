@@ -1,6 +1,6 @@
 import { writeFile } from "fs";
 
-import taxonMap from "./taxonMap";
+import { taxonMap } from "../constants/taxons";
 
 function emptyTaxon(name: string) {
   return {

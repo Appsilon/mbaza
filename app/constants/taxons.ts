@@ -1,4 +1,4 @@
-import { formatAnimalClassName } from "../constants/animalsClasses";
+import { formatAnimalClassName } from "./animalsClasses";
 
 type Taxon = {
   wi_taxon_id: string;
@@ -13,7 +13,7 @@ type Taxon = {
 type TaxonMap = Record<string, Taxon>;
 
 // Keep in sync with the CSV file in the models directory.
-const taxonMap: TaxonMap = {
+export const taxonMap: TaxonMap = {
   "Bird": {
     wi_taxon_id: "",
     class: "",
@@ -754,8 +754,6 @@ const taxonMap: TaxonMap = {
   }
 }
 
-export const taxonOptions = Object.keys(taxonMap).map(
+export const taxonOptions: CreatableOption[] = Object.keys(taxonMap).map(
   key => ({ label: formatAnimalClassName(key), value: key })
 );
-
-export default taxonMap;

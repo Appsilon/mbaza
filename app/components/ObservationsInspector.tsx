@@ -12,7 +12,7 @@ import path from 'path';
 import CreatableSelect from 'react-select/creatable';
 
 import { formatAnimalClassName } from '../constants/animalsClasses';
-import { taxonOptions } from '../utils/taxonMap';
+import { taxonOptions } from '../constants/taxons';
 
 type ObservationCardProps = {
   observation: Observation;
