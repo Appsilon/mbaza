@@ -9,7 +9,8 @@ import pandas as pd
 from fastai import *
 from fastai.vision import *
 
-from file_utils import get_all_files, is_image, resource_path
+from file_utils import get_all_files, is_image
+from taxons import taxons_df
 
 
 # Avoid flood of warnings from PyTorch
@@ -17,7 +18,6 @@ warnings.filterwarnings('ignore')
 
 N_TOP_RESULTS = 3
 APP_VERSION = '1.0.4'
-TAXONS_FILE = resource_path('taxons.csv')
 
 def get_images(directory):
     images = [os.path.join(directory, f) for f in get_all_files(directory) if is_image(f)]
@@ -179,8 +179,7 @@ def wcs_timestamp(date, time):
     return date.strftime('%Y-%m-%d') + ' ' + time.strftime('%H:%M:%S')
 
 def add_wcs_taxons(df):
-    taxons = pd.read_csv(TAXONS_FILE)
-    return df.merge(taxons, how="left", left_on="pred_1", right_on="label")
+    return df.merge(taxons_df(), how="left", left_on="pred_1", right_on="label")
 
 def add_wcs_columns(df, args):
     df = df.copy()

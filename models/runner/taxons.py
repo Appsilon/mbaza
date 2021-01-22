@@ -1,3 +1,8 @@
+from io import StringIO
+from pandas import read_csv
+
+# Keep in sync with the data in `app/constants/taxons.ts`.
+TAXONS_CSV = '''
 label,wi_taxon_id,class,order,family,genus,species,common_name
 Bird,,,,,,,
 Blank,f1856211-cfb7-4a5b-9158-c0f72fd09ee6,,,,,,Blank
@@ -81,3 +86,7 @@ wildcat,96debe9f-7452-42c9-87ae-2e6b37f78025,Mammalia,Carnivora,Felidae,Felis,si
 wildebeest,09fbf931-bbf0-4959-9df6-1082db578281,Mammalia,Cetartiodactyla,Bovidae,Connochaetes,taurinus,Common Wildebeest
 zebra,dd39bbd5-077c-482e-9d33-bd176116c870,Mammalia,Perissodactyla,Equidae,Equus,quagga,Plains Zebra
 zorilla,dff1abeb-acb4-4ea0-909b-9b4895f7d88d,Mammalia,Carnivora,Mustelidae,Ictonyx,striatus,Zorilla
+'''
+
+def taxons_df():
+    return read_csv(StringIO(TAXONS_CSV))

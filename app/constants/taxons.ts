@@ -12,7 +12,7 @@ type Taxon = {
 
 type TaxonMap = Record<string, Taxon>;
 
-// Keep in sync with the CSV file in the models directory.
+// Keep in sync with the data in `models/runner/taxons.py`.
 export const taxonMap: TaxonMap = {
   Bird: {
     wi_taxon_id: '',
