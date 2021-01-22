@@ -1,21 +1,31 @@
 import { writeFile } from "fs";
 
+import taxonMap from "./taxonMap";
+
+function emptyTaxon(name: string) {
+  return {
+    wi_taxon_id: '',
+    class: '',
+    order: '',
+    family: '',
+    genus: '',
+    species: '',
+    common_name: name,
+  };
+}
+
 function applyPredictionOverrides(
   observations: Observation[],
-  predictionOverrides: Record<string, string>
+  predictionOverrides: Record<string, CreatableOption>
 ) {
   return observations.map((row) => {
-    if (row.location in predictionOverrides) {
+    const override = predictionOverrides[row.location];
+    if (override) {
+      const taxon = override.__isNew__ ? emptyTaxon(override.value) : taxonMap[override.value];
       return {
         ...row,
+        ...taxon,
         identified_by: 'user',
-        wi_taxon_id: '',
-        class: '',
-        order: '',
-        family: '',
-        genus: '',
-        species: '',
-        common_name: predictionOverrides[row.location],
         uncertainty: 1,
       }
     }
@@ -32,7 +42,7 @@ function observationsToCsv(observations: Observation[]) {
 export default function writeCorrectedCsv(
   path: string,
   observations: Observation[],
-  predictionOverrides: Record<string, string>
+  predictionOverrides: Record<string, CreatableOption>
 ) {
   const corrected = applyPredictionOverrides(observations, predictionOverrides)
   const csv = observationsToCsv(corrected);

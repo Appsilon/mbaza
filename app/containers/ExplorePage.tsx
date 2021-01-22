@@ -159,14 +159,17 @@ export default function ExplorePage() {
     Observation[]
   >([]);
   const [predictionOverrides, setPredictionOverrides] = useState<
-    Record<string, string>
+    Record<string, CreatableOption>
   >({});
 
   const handleFilters = (val: string[]) => {
     setFilters({ ...filters, ...val });
   };
 
-  const handlePredictionOverride = (location: string, override: string) => {
+  const handlePredictionOverride = (
+    location: string,
+    override: CreatableOption
+  ) => {
     const overrides = { ...predictionOverrides, [location]: override };
     if (!override) {
       delete overrides[location];

@@ -754,8 +754,8 @@ const taxonMap: TaxonMap = {
   }
 }
 
-export const taxonOptions = Object.entries(taxonMap).map(
-  ([label, value]) => ({ label: formatAnimalClassName(label), value })
+export const taxonOptions = Object.keys(taxonMap).map(
+  key => ({ label: formatAnimalClassName(key), value: key })
 );
 
 export default taxonMap;

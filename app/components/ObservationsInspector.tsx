@@ -16,17 +16,16 @@ import { taxonOptions } from '../utils/taxonMap';
 
 type ObservationCardProps = {
   observation: Observation;
-  predictionOverride: string;
-  onPredictionOverride: (location: string, prediction: string) => void;
+  predictionOverride?: CreatableOption;
+  onPredictionOverride: (location: string, prediction: CreatableOption) => void;
 };
 
 function ObservationCard(props: ObservationCardProps) {
   const { observation, predictionOverride, onPredictionOverride } = props;
   const { t } = useTranslation();
 
-  const handlePredictionOverride = (newValue: any, actionMeta: any) => {
-    console.log(newValue, actionMeta);
-    // onPredictionOverride(observation.location, event.target.value);
+  const handlePredictionOverride = (newValue: CreatableOption) => {
+    onPredictionOverride(observation.location, newValue);
   };
 
   const predictions = [
@@ -81,6 +80,7 @@ function ObservationCard(props: ObservationCardProps) {
           >
             <div style={{ width: 250 }}>
               <CreatableSelect
+                value={predictionOverride}
                 onChange={handlePredictionOverride}
                 isClearable
                 placeholder="Override prediction"
@@ -120,8 +120,8 @@ function ObservationCard(props: ObservationCardProps) {
 type ObservationsInspectorProps = {
   observations: Observation[];
   onClose: () => void;
-  predictionOverrides: Record<string, string>;
-  onPredictionOverride: (location: string, prediction: string) => void;
+  predictionOverrides: Record<string, CreatableOption>;
+  onPredictionOverride: (location: string, prediction: CreatableOption) => void;
 };
 
 export default function ObservationsInspector(
@@ -145,8 +145,8 @@ export default function ObservationsInspector(
       icon="camera"
       isOpen={observations.length > 0}
       onClose={onClose}
-      hasBackdrop={false}
-      canOutsideClickClose={false} // Otherwise clearning prediction override closes the drawer.
+      // Workaround: without this setting, clearning prediction override closes the drawer.
+      canOutsideClickClose={false}
     >
       <div className={Classes.DRAWER_BODY}>
         <div className={Classes.DIALOG_BODY}>
@@ -154,9 +154,7 @@ export default function ObservationsInspector(
             <ObservationCard
               key={observation.location}
               observation={observation}
-              predictionOverride={
-                predictionOverrides[observation.location] || ''
-              }
+              predictionOverride={predictionOverrides[observation.location]}
               onPredictionOverride={onPredictionOverride}
             />
           ))}
