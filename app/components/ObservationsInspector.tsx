@@ -75,15 +75,16 @@ function ObservationCard(props: ObservationCardProps) {
             </tbody>
           </table>
           <Tooltip
-            content="You can override the top prediction and export the modified CSV"
+            content={t('explore.inspect.overrideTooltip')}
             position={Position.RIGHT}
           >
             <div style={{ width: 250 }}>
               <CreatableSelect
+                name={predictionOverride}
                 value={predictionOverride}
                 onChange={handlePredictionOverride}
                 isClearable
-                placeholder="Override prediction"
+                placeholder={t('explore.inspect.overridePlaceholder')}
                 options={taxonOptions}
               />
             </div>

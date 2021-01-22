@@ -11,7 +11,8 @@ import {
   Intent,
   Callout,
   NumberRange,
-  IconName
+  IconName,
+  Tooltip
 } from '@blueprintjs/core';
 
 import Map from '../components/Map';
@@ -271,14 +272,16 @@ export default function ExplorePage() {
             textBottom={t('explore.changeFile')}
             icon="arrow-left"
           />
-          <DataButton
-            onClick={handleCsvExport}
-            textTop={`${
-              Object.keys(predictionOverrides).length
-            } overriden predictions`}
-            textBottom="Export CSV"
-            icon="export"
-          />
+          <Tooltip content={t('explore.overridesTooltip')}>
+            <DataButton
+              onClick={handleCsvExport}
+              textTop={t('explore.overrides', {
+                count: Object.keys(predictionOverrides).length
+              })}
+              textBottom="Export CSV"
+              icon="export"
+            />
+          </Tooltip>
           <ExplorerMetrics
             data={filteredData.observations}
             rareTargets={RareAnimalsClasses}
