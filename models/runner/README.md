@@ -17,7 +17,7 @@ conda install --yes --channel conda-forge opencv==4.4.0
 ```
 
 4. build the bundle - go to `models/runner` and run `release_model_win10_x86_64.bat`
-   If you run into issues with loading dependecies, set a shorter $env:PATH with only system paths and conda (by running something like `$env:PATH="C:\Users\your_username_here\miniconda3\condabin;C:\Windows\system32;C:\Windows"`), and re-activate the environment (Windows has trouble loading packages if $PATH after activating the environment is too long ¯\\\*(ツ)\_/¯)
+   *Note:* If you run into issues with loading dependecies, set a shorter `$env:PATH` with only system paths and conda (by running something like `$env:PATH="C:\Users\your_username_here\miniconda3\condabin;C:\Windows\system32;C:\Windows"`), and re-activate the environment (Windows has trouble loading packages if $PATH after activating the environment is too long ¯\\\*(ツ)\_/¯)
 
 5. Now your model runner is in `runner_win\main\main.exe`.
 
