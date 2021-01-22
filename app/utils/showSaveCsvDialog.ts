@@ -14,8 +14,13 @@ export default function showSaveCsvDialog(
     })
     .then(result => {
       if (!result.canceled) {
+        // eslint-disable-next-line promise/no-callback-in-promise
         callback(result.filePath || '');
       }
       return null;
     })
+    .catch(error => {
+      // eslint-disable-next-line no-alert
+      alert(error);
+    });
 }
