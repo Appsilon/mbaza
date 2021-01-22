@@ -13,6 +13,7 @@ import {
   NumberRange,
   IconName
 } from '@blueprintjs/core';
+
 import Map from '../components/Map';
 import AnimalsPlot from '../components/AnimalsPlot';
 import ObservationsTable from '../components/ObservationsTable';

@@ -1,3 +1,5 @@
+import { formatAnimalClassName } from "../constants/animalsClasses";
+
 type Taxon = {
   wi_taxon_id: string;
   class: string;
@@ -751,5 +753,9 @@ const taxonMap: TaxonMap = {
     common_name: "Zorilla"
   }
 }
+
+export const taxonOptions = Object.entries(taxonMap).map(
+  ([label, value]) => ({ label: formatAnimalClassName(label), value })
+);
 
 export default taxonMap;

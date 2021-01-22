@@ -20,7 +20,12 @@ import { TFunction } from 'i18next';
 
 import PythonLogViewer from './PythonLogViewer';
 import showSaveCsvDialog from '../utils/showSaveCsvDialog';
-import { isDev, isLinux, isWin, rootModelsDirectory } from '../utils/environment';
+import {
+  isDev,
+  isLinux,
+  isWin,
+  rootModelsDirectory
+} from '../utils/environment';
 
 type changeLogMessageType = (newChangeLogMessage: string | null) => {};
 type changePathChoiceType = (newPath: string) => {};

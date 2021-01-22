@@ -4,14 +4,15 @@ import {
   Classes,
   Drawer,
   Elevation,
-  InputGroup,
   Position,
   Tooltip
 } from '@blueprintjs/core';
 import { useTranslation } from 'react-i18next';
 import path from 'path';
+import CreatableSelect from 'react-select/creatable';
 
 import { formatAnimalClassName } from '../constants/animalsClasses';
+import { taxonOptions } from '../utils/taxonMap';
 
 type ObservationCardProps = {
   observation: Observation;
@@ -23,10 +24,9 @@ function ObservationCard(props: ObservationCardProps) {
   const { observation, predictionOverride, onPredictionOverride } = props;
   const { t } = useTranslation();
 
-  const handlePredictionOverride = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    onPredictionOverride(observation.location, event.target.value);
+  const handlePredictionOverride = (newValue: any, actionMeta: any) => {
+    console.log(newValue, actionMeta);
+    // onPredictionOverride(observation.location, event.target.value);
   };
 
   const predictions = [
@@ -79,11 +79,14 @@ function ObservationCard(props: ObservationCardProps) {
             content="You can override the top prediction and export the modified CSV"
             position={Position.RIGHT}
           >
-            <InputGroup
-              value={predictionOverride}
-              onChange={handlePredictionOverride}
-              placeholder="Override prediction"
-            />
+            <div style={{ width: 250 }}>
+              <CreatableSelect
+                onChange={handlePredictionOverride}
+                isClearable
+                placeholder="Override prediction"
+                options={taxonOptions}
+              />
+            </div>
           </Tooltip>
           <div style={{ margin: '20px 10px' }}>
             <p>
@@ -143,6 +146,7 @@ export default function ObservationsInspector(
       isOpen={observations.length > 0}
       onClose={onClose}
       hasBackdrop={false}
+      canOutsideClickClose={false} // Otherwise clearning prediction override closes the drawer.
     >
       <div className={Classes.DRAWER_BODY}>
         <div className={Classes.DIALOG_BODY}>

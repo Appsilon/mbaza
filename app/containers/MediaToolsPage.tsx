@@ -18,7 +18,12 @@ import fs from 'fs';
 import { TFunction } from 'i18next';
 
 import PythonLogViewer from '../components/PythonLogViewer';
-import { isDev, isLinux, isWin, rootModelsDirectory } from '../utils/environment';
+import {
+  isDev,
+  isLinux,
+  isWin,
+  rootModelsDirectory
+} from '../utils/environment';
 
 type changePathChoiceType = (newPath: string) => void;
 
