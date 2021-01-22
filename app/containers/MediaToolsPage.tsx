@@ -18,23 +18,9 @@ import fs from 'fs';
 import { TFunction } from 'i18next';
 
 import PythonLogViewer from '../components/PythonLogViewer';
+import { isDev, isLinux, isWin, rootModelsDirectory } from '../utils/environment';
 
 type changePathChoiceType = (newPath: string) => void;
-
-const isDev = process.env.NODE_ENV === 'development';
-const isWin = !isDev && process.platform === 'win32';
-const isLinux = !isDev && process.platform === 'linux';
-
-function getUserDataPath() {
-  if (isDev) {
-    return path.resolve('.');
-  }
-  // eslint-disable-next-line global-require
-  const { app } = require('electron').remote;
-  return app.getPath('userData');
-}
-
-const rootModelsDirectory = path.join(getUserDataPath(), 'models');
 
 const toaster = Toaster.create({});
 

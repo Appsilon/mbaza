@@ -20,24 +20,10 @@ import { TFunction } from 'i18next';
 
 import PythonLogViewer from './PythonLogViewer';
 import showSaveCsvDialog from '../utils/showSaveCsvDialog';
+import { isDev, isLinux, isWin, rootModelsDirectory } from '../utils/environment';
 
 type changeLogMessageType = (newChangeLogMessage: string | null) => {};
 type changePathChoiceType = (newPath: string) => {};
-
-const isDev = process.env.NODE_ENV === 'development';
-const isWin = !isDev && process.platform === 'win32';
-const isLinux = !isDev && process.platform === 'linux';
-
-function getUserDataPath() {
-  if (isDev) {
-    return path.resolve('.');
-  }
-  // eslint-disable-next-line global-require
-  const { app } = require('electron').remote;
-  return app.getPath('userData');
-}
-
-const rootModelsDirectory = path.join(getUserDataPath(), 'models');
 
 const toaster = Toaster.create({});
 
