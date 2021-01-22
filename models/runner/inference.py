@@ -1,6 +1,7 @@
 # This script loads all images in subfolders of a specified folder and a model.
 # Next it runs inference from the model on the images and saves a csv with image path, classification, possibly toop predictions and scores.
 import os
+import warnings
 from datetime import datetime
 from pathlib import Path
 
