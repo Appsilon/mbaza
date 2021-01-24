@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import { csv } from 'd3-fetch';
 import {
@@ -10,14 +10,20 @@ import {
   H1,
   Intent,
   Callout,
-  NumberRange
+  NumberRange,
+  IconName,
+  Tooltip
 } from '@blueprintjs/core';
+
 import Map from '../components/Map';
 import AnimalsPlot from '../components/AnimalsPlot';
 import ObservationsTable from '../components/ObservationsTable';
 import ExplorerFilter from '../components/explorerFilters';
 import ExplorerMetrics from '../components/explorerMetrics';
 import { EmptyClasses, RareAnimalsClasses } from '../constants/animalsClasses';
+import ObservationsInspector from '../components/ObservationsInspector';
+import showSaveCsvDialog from '../utils/showSaveCsvDialog';
+import writeCorrectedCsv from '../utils/writeCorrectedCsv';
 
 type Filters = {
   activeAnimals: Entry[];
@@ -79,6 +85,66 @@ function inRange(value: number, [low, high]: NumberRange) {
   return low <= value && value <= high;
 }
 
+type DataButtonProps = {
+  onClick: () => void;
+  textTop: string;
+  textBottom: string;
+  icon: IconName;
+};
+
+function DataButton({ textTop, textBottom, icon, onClick }: DataButtonProps) {
+  return (
+    <Card
+      style={{
+        padding: '0',
+        display: 'inline-flex',
+        flexDirection: 'column',
+        height: '100px',
+        marginRight: '20px'
+      }}
+      interactive
+      elevation={Elevation.TWO}
+    >
+      <div
+        style={{
+          padding: '20px',
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: '#4e5e6b',
+          color: 'white',
+          minWidth: '150px',
+          maxWidth: '200px',
+          height: '70px',
+          fontWeight: 'bold'
+        }}
+      >
+        <span
+          style={{
+            wordWrap: 'break-word',
+            width: '100%',
+            textAlign: 'center'
+          }}
+        >
+          {textTop}
+        </span>
+      </div>
+      <Button
+        text={textBottom}
+        icon={icon}
+        onClick={onClick}
+        style={{
+          backgroundColor: '#fff',
+          width: '100%',
+          height: '30px',
+          textAlign: 'center',
+          lineHeight: '1.4'
+        }}
+      />
+    </Card>
+  );
+}
+
 export default function ExplorePage() {
   const { t } = useTranslation();
   const [filePath, setFilePath] = useState<string>();
@@ -90,8 +156,26 @@ export default function ExplorePage() {
     certaintyRange: [0, 1]
   });
   const [data, setData] = useState<undefined | ObservationsData>();
+  const [inspectedObservations, setInspectedObservations] = useState<
+    Observation[]
+  >([]);
+  const [predictionOverrides, setPredictionOverrides] = useState<
+    Record<string, CreatableOption>
+  >({});
+
   const handleFilters = (val: string[]) => {
     setFilters({ ...filters, ...val });
+  };
+
+  const handlePredictionOverride = (
+    location: string,
+    override: CreatableOption
+  ) => {
+    const overrides = { ...predictionOverrides, [location]: override };
+    if (!override) {
+      delete overrides[location];
+    }
+    setPredictionOverrides(overrides);
   };
 
   const filterCondition = (needle: string, haystack: Entry[]) => {
@@ -99,10 +183,9 @@ export default function ExplorePage() {
     return haystack.map(entry => entry.value).includes(needle);
   };
 
-  const getFilteredData = (options: undefined | ObservationsData) => {
-    let filtered = typeof options !== 'undefined' ? options.observations : [];
-
-    if (typeof filters !== 'undefined') {
+  const filteredData = useMemo(() => {
+    let filtered = data === undefined ? [] : data.observations;
+    if (filters !== undefined) {
       filtered = filtered.filter(
         (entry: Observation) =>
           filterCondition(entry.pred_1, filters.activeAnimals) &&
@@ -113,9 +196,9 @@ export default function ExplorePage() {
       );
     }
     return { observations: filtered };
-  };
+  }, [filters, data]);
 
-  const MainPanel: React.FunctionComponent = () => (
+  const mainPanel = (
     <div style={{ display: 'flex' }}>
       <div
         style={{
@@ -127,7 +210,7 @@ export default function ExplorePage() {
       >
         <Card style={{ height: '100%' }} interactive elevation={Elevation.TWO}>
           <Callout intent={Intent.PRIMARY}>{t('explore.plotHint')}</Callout>
-          <AnimalsPlot data={getFilteredData(data)} />
+          <AnimalsPlot data={filteredData} />
         </Card>
       </div>
       <div
@@ -140,19 +223,36 @@ export default function ExplorePage() {
       >
         <Card style={{ height: '100%' }} interactive elevation={Elevation.TWO}>
           <Callout intent={Intent.PRIMARY}>{t('explore.mapHint')}</Callout>
-          <Map data={getFilteredData(data)} />
+          <div
+            style={{
+              width: '100%',
+              position: 'relative',
+              overflow: 'hidden'
+            }}
+          >
+            <Map data={filteredData} onInspect={setInspectedObservations} />
+            <ObservationsInspector
+              observations={inspectedObservations}
+              onClose={() => setInspectedObservations([])}
+              predictionOverrides={predictionOverrides}
+              onPredictionOverride={handlePredictionOverride}
+            />
+          </div>
         </Card>
       </div>
     </div>
-  );
-  const TablePanel: React.SFC = () => (
-    <ObservationsTable data={getFilteredData(data)} />
   );
 
   // eslint-disable-next-line
   const filename = (filePath !== undefined) ? filePath.replace(/^.*[\\\/]/, '') : "";
 
   if (data !== undefined) {
+    const handleCsvExport = () => {
+      const callback = (path: string) => {
+        writeCorrectedCsv(path, data.observations, predictionOverrides);
+      };
+      showSaveCsvDialog('classification_result_corrected.csv', callback);
+    };
     return (
       <div
         style={{
@@ -165,65 +265,36 @@ export default function ExplorePage() {
           position: 'relative'
         }}
       >
-        <Card
-          style={{
-            position: 'absolute',
-            padding: '0',
-            display: 'inline-flex',
-            flexDirection: 'column'
-          }}
-          interactive
-          elevation={Elevation.TWO}
-        >
-          <div
-            style={{
-              padding: '20px',
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: '#4e5e6b',
-              color: 'white',
-              minWidth: '150px',
-              maxWidth: '200px',
-              height: '70px',
-              fontWeight: 'bold'
-            }}
-          >
-            <span
-              style={{
-                wordWrap: 'break-word',
-                width: '100%',
-                textAlign: 'center'
-              }}
-            >
-              {filename}
-            </span>
-          </div>
-          <Button
-            text={t('explore.changeFile')}
-            icon="arrow-left"
+        <div style={{ display: 'flex' }}>
+          <DataButton
             onClick={() => setData(undefined)}
-            style={{
-              backgroundColor: '#fff',
-              width: '100%',
-              height: '30px',
-              textAlign: 'center',
-              lineHeight: '1.4'
-            }}
+            textTop={filename}
+            textBottom={t('explore.changeFile')}
+            icon="arrow-left"
           />
-        </Card>
-        <ExplorerMetrics
-          data={getFilteredData(data).observations}
-          rareTargets={RareAnimalsClasses}
-          emptyClasses={EmptyClasses}
-        />
+          <Tooltip content={t('explore.overridesTooltip')}>
+            <DataButton
+              onClick={handleCsvExport}
+              textTop={t('explore.overrides', {
+                count: Object.keys(predictionOverrides).length
+              })}
+              textBottom="Export CSV"
+              icon="export"
+            />
+          </Tooltip>
+          <ExplorerMetrics
+            data={filteredData.observations}
+            rareTargets={RareAnimalsClasses}
+            emptyClasses={EmptyClasses}
+          />
+        </div>
         <ExplorerFilter data={data} updateFilters={handleFilters} />
         <Tabs renderActiveTabPanelOnly>
-          <Tab id="main" title={t('explore.mainView')} panel={<MainPanel />} />
+          <Tab id="main" title={t('explore.mainView')} panel={mainPanel} />
           <Tab
             id="table"
             title={t('explore.tableView')}
-            panel={<TablePanel />}
+            panel={<ObservationsTable data={filteredData} />}
           />
           <Tabs.Expander />
         </Tabs>
@@ -242,7 +313,7 @@ export default function ExplorePage() {
                 type="text"
                 className="bp3-input"
                 placeholder={t('explore.chooseFile')}
-                value={filePath}
+                value={filePath || ''}
                 onChange={e => {
                   setFilePath(e.target.value);
                 }}
