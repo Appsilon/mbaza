@@ -177,6 +177,8 @@ def wcs_image_id(path):
     return os.path.basename(os.path.splitext(path)[0])
 
 def wcs_timestamp(date, time):
+    if date is None or time is None:
+        return ''
     return date.strftime('%Y-%m-%d') + ' ' + time.strftime('%H:%M:%S')
 
 def add_wcs_taxons(df):

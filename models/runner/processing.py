@@ -46,12 +46,14 @@ def extract_thumbnail(input_file, output_dir):
     print(f"Processing {os.path.basename(input_file)!r}... ", end="", flush=True)
     if is_image(input_file):
         print("scaling image... ", end="", flush=True)
-        thumbnail = cv.imread(input_file)
+        image = cv.imread(input_file)
     elif is_video(input_file):
         print("selecting a frame... ", end="", flush=True)
         with Video(input_file) as video:
-            thumbnail = video.get_frame(0)
-    thumbnail = scale_down_image(thumbnail)
+            image = video.get_frame(0)
+    else:
+        return
+    thumbnail = scale_down_image(image)
 
     name = basename_without_ext(input_file)
     output_file = os.path.join(output_dir, f"{name}.jpg")
