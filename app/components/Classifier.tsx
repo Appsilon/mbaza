@@ -324,7 +324,9 @@ export default function Classifier(props: Props) {
   );
 
   return (
-    <div style={{ flex: 1 }}>
+    <div
+      style={{ flex: 1, overflowY: 'scroll', maxHeight: 'calc(100vh - 50px)' }}
+    >
       <div style={{ display: 'flex' }}>
         <div style={{ flex: 1, padding: '20px' }}>
           <Card elevation={Elevation.TWO}>
