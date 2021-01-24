@@ -278,7 +278,7 @@ export default function ExplorePage() {
               textTop={t('explore.overrides', {
                 count: Object.keys(predictionOverrides).length
               })}
-              textBottom="Export CSV"
+              textBottom={t('explore.overridesExport')}
               icon="export"
             />
           </Tooltip>
