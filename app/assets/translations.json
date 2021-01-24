@@ -51,7 +51,8 @@
         "biomonitoringStationsFileNotFound": "Could not find the biomonitoring stations file. Locations will not be assigned based on station numbers. Locations will be missing unless they are present in EXIF data in images. The file should be in {{gridFilePath}}.",
         "modelsDirectoryMissing": {
           "title": "Models directory not found",
-          "description": "You need to obtain a zip file containing the AI models and unzip it in the program's main directory. Please make sure that you have a {{rootModelsDirectory}} directory containing the models files."
+          "description1": "You need to obtain a zip file containing the AI models and unzip it in the program's main directory. Please make sure that you have a ",
+          "description2": " directory containing the models files."
         },
         "success": "Species classification completed.",
         "failure": "Species classification failed.",
@@ -64,6 +65,7 @@
         "plotHint": "To save the plot to disk, hover on the plot and use the button with a camera icon",
         "changeFile": "Change data",
         "overrides": "{{count}} overriden predictions",
+        "overridesExport": "Export CSV",
         "overridesTooltip": "Inspect images on the map to override predictions",
         "mainView": "Main Information",
         "tableView": "Observations Table",
@@ -102,7 +104,7 @@
       },
       "sidebar": {
         "home": "Accueil",
-        "mediaTools": "TODO",
+        "mediaTools": "Outils médias",
         "classify": "Détectez animaux",
         "explore": "Explorez résultats"
       },
@@ -117,27 +119,27 @@
         }
       },
       "tools": {
-        "title": "TODO",
-        "mode": "TODO",
-        "extractFramesDetail": "TODO",
-        "createThumbnailsDetail": "TODO",
-        "chooseInput": "TODO",
-        "chooseOutput": "TODO",
-        "extractFrames": "Extraire les images des vidéos",
-        "createThumbnails": "TODO",
-        "logTitle": "TODO",
-        "success": "Extraction des images réussie",
-        "failure": "L'extraction des images a échoué",
+       "title": "Outils médias",
+        "mode": "Sélectionnez le mode de fonctionnement :",
+        "extractFramesDetail": "Extraire les images des vidéos à 5 secondes d'intervalle",
+        "createThumbnailsDetail": "Créer une vignette pour chaque image / vidéo",
+        "chooseInput": "Choisissez le dossier d'entrée",
+        "chooseOutput": "Choisissez les dossiers de sortie",
+        "extractFrames": "Extraire les cadres d'image",
+        "createThumbnails": "Créer les vignettes d'images",
+        "logTitle": "Résultats de l'outil",
+        "success": "L'extraction d'images est terminée.",
+        "failure": "L'extraction d'images a échoué.",
         "inProgress": "Veuillez patienter. Extraction d'images en cours. Cela peut prendre beaucoup de temps.",
-        "info": "TODO"
+        "info": "<p>Veuillez sélectionner le mode de fonctionnement. Vous pouvez extraire des images des vidéos pour détecter ultérieurement des animaux en utilisant l'onglet Détecter les animaux (si vous n'utilisez pas de vidéos, allez directement à l'onglet Détecter les animaux) ou créer des vignettes pour toutes les vidéos et images. </p> <p>Veuillez sélectionner un répertoire d'entrée contenant des sous-dossiers avec des médias (formats reconnus : avi, mp4, jpg, png). </p> <p>Veuillez sélectionner un répertoire de sortie où la structure des dossiers du répertoire d'entrée sera répliquée et où les images seront stockées.</p> <p>Pour garantir que la vérification, la station, la caméra et la date seront plus tard correctement attribuées aux images extraites, les vidéos doivent être stockées dans des dossiers suivant le modèle suivant:<br> Check {number} / STATION_{number} / CAM{number} / {date au format : ddmmyy}<br> Veuillez vous souvenir de l'espace après Check.</p>"
       },
       "classify": {
         "title": "Détectez animaux",
         "chooseInput": "Choisissez un dossier avec des photos",
         "chooseOutput": "Choisissez un dossier pour sauvegarder les résultats de la classification",
         "chooseModel": "Sélectionnez le modèle d'IA à utiliser :",
-        "projectId": "TODO",
-        "deploymentId": "TODO",
+        "projectId": "ID du projet",
+        "deploymentId": "ID de déploiement",
         "find": "Trouver des animaux !",
         "logTitle": "Sortie du classifieur",
         "inProgress": "Veuillez patienter. Détection d'animaux en cours. Cela peut prendre beaucoup de temps.",
@@ -146,11 +148,12 @@
         "biomonitoringStationsFileNotFound": "Le fichier des stations de biomonitoring n'a pas été trouvé. Les stations ne seront pas attribuées en fonction de leur numéro. Les localisations seront manquantes à moins qu'elles ne soient présentes dans les données EXIF des images. Le fichier doit être dans {{gridFilePath}}.",
         "modelsDirectoryMissing": {
           "title": "Le répertoire des modèles n'a pas été trouvé",
-          "description": "Vous devez obtenir un fichier zip contenant les modèles d'IA et le décompresser dans le dossier principal du programme. Veuillez vous assurer que vous disposez d'un répertoire {{rootModelsDirectory}} contenant les fichiers de modèles."
+          "description1": "Vous devez obtenir un fichier zip contenant les modèles d'IA et le décompresser dans le dossier principal du programme. Veuillez vous assurer que vous disposez d'un répertoire ",
+          "description2": " contenant les fichiers de modèles."
         },
         "success": "La détection des animaux est terminée.",
         "failure": "La détection des animaux a échoué.",
-        "info": "TODO"
+        "info": "<p>Vous pouvez y détecter des animaux en images. Si vous souhaitez détecter des animaux dans des vidéos, veuillez d'abord aller dans l'onglet Outils médias. </p> <p>Veuillez sélectionner un répertoire d'entrée contenant des sous-dossiers avec des images. </p> <p>Veuillez sélectionner un fichier de sortie .csv où les résultats de la détection seront stockés. </p> <p>Vous pouvez éventuellement fournir des ID de projet et de déploiement qui seront utilisés pour remplir le CSV de sortie. </p> <p>Une fois la détection terminée, explorez les résultats dans l'onglet Explorez les résultats.</p> <p>Pour garantir que la vérification, la station, la caméra et la date seront correctement attribuées aux images extraites, les vidéos doivent être stockées dans des dossiers suivant le modèle : <br> Check {number} / STATION_{number} / CAM{number} / {date au format : ddmmyy} <br> Attention à l'espace après Check.</p> <p>Selon le nombre d'images à traiter et la puissance de votre machine, la détection peut prendre un certain temps.</p>"
       },
       "explore": {
         "chooseFile": "Choisissez le fichier de résultats à explorer",
@@ -158,8 +161,9 @@
         "mapHint": "La taille du cercle correspond au nombre d'espèces détectées. Cliquez sur une station pour voir les détails.",
         "plotHint": "Pour enregistrer le graphique sur le disque, passez le curseur sur le graphique et utilisez le bouton avec l'icône d'un appareil photo.",
         "changeFile": "Modifier les données",
-        "overrides": "TODO",
-        "overridesTooltip": "TODO",
+        "overrides": "{{count}} prédictions modifiées",
+        "overridesExport": "Exporter un CSV",
+        "overridesTooltip": "Inspecter les images sur la carte pour modifier les prédictions",
         "mainView": "Informations principales",
         "tableView": "Tableau des observations",
         "imagesCount": "Images classifiées",
@@ -170,7 +174,7 @@
         "byStation": "Par station",
         "byCamera": "Par ID d'appareil photo",
         "byCheck": "Par check",
-        "certaintyRange": "TODO",
+        "certaintyRange": "Fourchette de certitude",
         "plotTitle": "Comptage des animaux dans le temps ({{windowLengthInDays}}-intervalles de jours)",
         "inspect": {
           "station": "Station {{id}}",
@@ -180,8 +184,8 @@
           "photoHeader": "{{species}} {{date}}",
           "prediction": "Prédiction",
           "probability": "Probabilité",
-          "overrideTooltip": "TODO",
-          "overridePlaceholder": "TODO",
+          "overrideTooltip": "Vous pouvez modifier la prédiction supérieure et exporter un CSV modifié",
+          "overridePlaceholder": "Modifier la prédiction",
           "camera": "ID de l'appareil photo",
           "check": "Check",
           "file": "Fichier"

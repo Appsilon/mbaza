@@ -6,7 +6,6 @@ import {
   H1,
   InputGroup,
   Intent,
-  NonIdealState,
   Radio,
   RadioGroup,
   Toaster,
@@ -26,6 +25,7 @@ import {
   isWin,
   rootModelsDirectory
 } from '../utils/environment';
+import MissingModelsMessage from './MissingModelsMessage';
 
 type changeLogMessageType = (newChangeLogMessage: string | null) => {};
 type changePathChoiceType = (newPath: string) => {};
@@ -214,19 +214,6 @@ export default function Classifier(props: Props) {
   const [modelName, setModelName] = useState<string>(models[0].value);
   const rootModelsDirectoryExists = fs.existsSync(rootModelsDirectory);
 
-  const missingModelsDirectoryView = (
-    <NonIdealState
-      icon="search"
-      title={t('classify.modelsDirectoryMissing.title')}
-    >
-      <p>
-        {t('classify.modelsDirectoryMissing.description', {
-          rootModelsDirectory
-        })}
-      </p>
-    </NonIdealState>
-  );
-
   const classifierFormView = (
     <div style={{ padding: '30px 30px', width: '60vw' }}>
       <div className="bp3-input-group" style={{ marginBottom: '10px' }}>
@@ -337,14 +324,18 @@ export default function Classifier(props: Props) {
   );
 
   return (
-    <div style={{ flex: 1 }}>
+    <div
+      style={{ flex: 1, overflowY: 'scroll', maxHeight: 'calc(100vh - 50px)' }}
+    >
       <div style={{ display: 'flex' }}>
         <div style={{ flex: 1, padding: '20px' }}>
           <Card elevation={Elevation.TWO}>
             <H1>{t('classify.title')}</H1>
-            {rootModelsDirectoryExists
-              ? classifierFormView
-              : missingModelsDirectoryView}
+            {rootModelsDirectoryExists ? (
+              classifierFormView
+            ) : (
+              <MissingModelsMessage />
+            )}
           </Card>
         </div>
         <div style={{ flex: 1, padding: '20px' }}>
