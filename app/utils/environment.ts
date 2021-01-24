@@ -13,4 +13,5 @@ function getUserDataPath() {
   return app.getPath('userData');
 }
 
-export const rootModelsDirectory = path.join(getUserDataPath(), 'models');
+export const userDataPath = getUserDataPath();
+export const rootModelsDirectory = path.join(userDataPath, 'models');

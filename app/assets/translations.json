@@ -51,7 +51,8 @@
         "biomonitoringStationsFileNotFound": "Could not find the biomonitoring stations file. Locations will not be assigned based on station numbers. Locations will be missing unless they are present in EXIF data in images. The file should be in {{gridFilePath}}.",
         "modelsDirectoryMissing": {
           "title": "Models directory not found",
-          "description": "You need to obtain a zip file containing the AI models and unzip it in the program's main directory. Please make sure that you have a {{rootModelsDirectory}} directory containing the models files."
+          "description1": "You need to obtain a zip file containing the AI models and unzip it in the program's main directory. Please make sure that you have a ",
+          "description2": " directory containing the models files."
         },
         "success": "Species classification completed.",
         "failure": "Species classification failed.",
@@ -147,7 +148,8 @@
         "biomonitoringStationsFileNotFound": "Le fichier des stations de biomonitoring n'a pas été trouvé. Les stations ne seront pas attribuées en fonction de leur numéro. Les localisations seront manquantes à moins qu'elles ne soient présentes dans les données EXIF des images. Le fichier doit être dans {{gridFilePath}}.",
         "modelsDirectoryMissing": {
           "title": "Le répertoire des modèles n'a pas été trouvé",
-          "description": "Vous devez obtenir un fichier zip contenant les modèles d'IA et le décompresser dans le dossier principal du programme. Veuillez vous assurer que vous disposez d'un répertoire {{rootModelsDirectory}} contenant les fichiers de modèles."
+          "description1": "Vous devez obtenir un fichier zip contenant les modèles d'IA et le décompresser dans le dossier principal du programme. Veuillez vous assurer que vous disposez d'un répertoire ",
+          "description2": " contenant les fichiers de modèles."
         },
         "success": "La détection des animaux est terminée.",
         "failure": "La détection des animaux a échoué.",

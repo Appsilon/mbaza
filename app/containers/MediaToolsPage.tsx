@@ -5,7 +5,6 @@ import {
   Elevation,
   H1,
   Intent,
-  NonIdealState,
   Toaster,
   Callout,
   RadioGroup,
@@ -24,6 +23,7 @@ import {
   isWin,
   rootModelsDirectory
 } from '../utils/environment';
+import MissingModelsMessage from '../components/MissingModelsMessage';
 
 type changePathChoiceType = (newPath: string) => void;
 
@@ -145,18 +145,6 @@ export default function MediaToolsPage() {
   };
 
   const rootModelsDirectoryExists = fs.existsSync(rootModelsDirectory);
-  const missingModelsDirectoryView = (
-    <NonIdealState
-      icon="search"
-      title={t('classify.modelsDirectoryMissing.title')}
-    >
-      <p>
-        {t('classify.modelsDirectoryMissing.description', {
-          rootModelsDirectory
-        })}
-      </p>
-    </NonIdealState>
-  );
 
   const extractionForm = (
     <div style={{ padding: '30px 30px', width: '60vw' }}>
@@ -254,9 +242,11 @@ export default function MediaToolsPage() {
         <div style={{ flex: 1, padding: '20px' }}>
           <Card elevation={Elevation.TWO}>
             <H1>{t('tools.title')}</H1>
-            {rootModelsDirectoryExists
-              ? extractionForm
-              : missingModelsDirectoryView}
+            {rootModelsDirectoryExists ? (
+              extractionForm
+            ) : (
+              <MissingModelsMessage />
+            )}
           </Card>
         </div>
         <div style={{ flex: 1, padding: '20px' }}>
