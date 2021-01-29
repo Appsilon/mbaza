@@ -14,17 +14,22 @@ import CreatableSelect from 'react-select/creatable';
 import { formatAnimalClassName } from '../constants/animalsClasses';
 import { taxonOptions } from '../constants/taxons';
 
+type PredictionOverrideHandler = (
+  location: string,
+  prediction: CreatableOption | null
+) => void;
+
 type ObservationCardProps = {
   observation: Observation;
   predictionOverride?: CreatableOption;
-  onPredictionOverride: (location: string, prediction: CreatableOption) => void;
+  onPredictionOverride: PredictionOverrideHandler;
 };
 
 function ObservationCard(props: ObservationCardProps) {
   const { observation, predictionOverride, onPredictionOverride } = props;
   const { t } = useTranslation();
 
-  const handlePredictionOverride = (newValue: CreatableOption) => {
+  const handlePredictionOverride = (newValue: CreatableOption | null) => {
     onPredictionOverride(observation.location, newValue);
   };
 
@@ -55,7 +60,7 @@ function ObservationCard(props: ObservationCardProps) {
       </tbody>
     </table>
   );
-  const overrideDropdown = (
+  const predictionOverrideWidget = (
     <Tooltip
       content={t('explore.inspect.overrideTooltip')}
       position={Position.RIGHT}
@@ -120,7 +125,7 @@ function ObservationCard(props: ObservationCardProps) {
         </div>
         <div style={{ marginLeft: 24 }}>
           {predictionsTable}
-          {overrideDropdown}
+          {predictionOverrideWidget}
           {photoDetails}
         </div>
       </div>
@@ -132,7 +137,7 @@ type ObservationsInspectorProps = {
   observations: Observation[];
   onClose: () => void;
   predictionOverrides: Record<string, CreatableOption>;
-  onPredictionOverride: (location: string, prediction: CreatableOption) => void;
+  onPredictionOverride: PredictionOverrideHandler;
 };
 
 export default function ObservationsInspector(

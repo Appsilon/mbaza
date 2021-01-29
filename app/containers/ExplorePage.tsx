@@ -169,11 +169,13 @@ export default function ExplorePage() {
 
   const handlePredictionOverride = (
     location: string,
-    override: CreatableOption
+    override: CreatableOption | null
   ) => {
-    const overrides = { ...predictionOverrides, [location]: override };
-    if (!override) {
+    const overrides = { ...predictionOverrides };
+    if (override === null) {
       delete overrides[location];
+    } else {
+      overrides[location] = override;
     }
     setPredictionOverrides(overrides);
   };
