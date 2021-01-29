@@ -34,6 +34,70 @@ function ObservationCard(props: ObservationCardProps) {
     [formatAnimalClassName(observation.pred_3), observation.score_3]
   ];
 
+  const predictionsTable = (
+    <table className="bp3-html-table bp3-html-table-condensed">
+      <thead>
+        <tr>
+          <th>{t('explore.inspect.prediction')}</th>
+          <th>{t('explore.inspect.probability')}</th>
+        </tr>
+      </thead>
+      <tbody>
+        {predictions.map(i => (
+          <tr key={i[0]}>
+            <td>{i[0]}</td>
+            <td>
+              {((i[1] as number) * 100).toFixed(2)}
+              &nbsp;%
+            </td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+  const overrideDropdown = (
+    <Tooltip
+      content={t('explore.inspect.overrideTooltip')}
+      position={Position.RIGHT}
+    >
+      <div style={{ width: 250 }}>
+        <CreatableSelect
+          name={predictionOverride}
+          value={predictionOverride}
+          onChange={handlePredictionOverride}
+          isClearable
+          placeholder={t('explore.inspect.overridePlaceholder')}
+          options={taxonOptions}
+        />
+      </div>
+    </Tooltip>
+  );
+  const photoDetails = (
+    <div style={{ margin: '20px 10px' }}>
+      <p>
+        <strong>
+          {t('explore.inspect.camera')}
+          :&nbsp;
+        </strong>
+        {observation.camera}
+      </p>
+      <p>
+        <strong>
+          {t('explore.inspect.check')}
+          :&nbsp;
+        </strong>
+        {observation.check}
+      </p>
+      <p>
+        <strong>
+          {t('explore.inspect.file')}
+          :&nbsp;
+        </strong>
+        {path.basename(observation.location)}
+      </p>
+    </div>
+  );
+
   return (
     <Card
       elevation={Elevation.TWO}
@@ -55,63 +119,9 @@ function ObservationCard(props: ObservationCardProps) {
           />
         </div>
         <div style={{ marginLeft: 24 }}>
-          <table className="bp3-html-table bp3-html-table-condensed">
-            <thead>
-              <tr>
-                <th>{t('explore.inspect.prediction')}</th>
-                <th>{t('explore.inspect.probability')}</th>
-              </tr>
-            </thead>
-            <tbody>
-              {predictions.map(i => (
-                <tr key={i[0]}>
-                  <td>{i[0]}</td>
-                  <td>
-                    {((i[1] as number) * 100).toFixed(2)}
-                    &nbsp;%
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <Tooltip
-            content={t('explore.inspect.overrideTooltip')}
-            position={Position.RIGHT}
-          >
-            <div style={{ width: 250 }}>
-              <CreatableSelect
-                name={predictionOverride}
-                value={predictionOverride}
-                onChange={handlePredictionOverride}
-                isClearable
-                placeholder={t('explore.inspect.overridePlaceholder')}
-                options={taxonOptions}
-              />
-            </div>
-          </Tooltip>
-          <div style={{ margin: '20px 10px' }}>
-            <p>
-              <strong>
-                {t('explore.inspect.camera')}
-                :&nbsp;
-              </strong>
-              {observation.camera}
-            </p>
-            <p>
-              <strong>
-                {t('explore.inspect.check')}
-                :&nbsp;
-              </strong>
-              {observation.check}
-            </p>
-            <p>
-              <strong>
-                {t('explore.inspect.file')}
-                :&nbsp;
-              </strong>
-              {path.basename(observation.location)}
-            </p>
-          </div>
+          {predictionsTable}
+          {overrideDropdown}
+          {photoDetails}
         </div>
       </div>
     </Card>
