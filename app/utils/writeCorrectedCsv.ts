@@ -23,9 +23,7 @@ function applyPredictionOverrides(
     if (override) {
       // The __isNew__ name is due to CreatableSelect from react-select.
       // eslint-disable-next-line no-underscore-dangle
-      const taxon = override.__isNew__
-        ? emptyTaxon(override.value)
-        : taxonMap[override.value];
+      const taxon = override.__isNew__ ? emptyTaxon(override.value) : taxonMap[override.value];
       return {
         ...row,
         ...taxon,

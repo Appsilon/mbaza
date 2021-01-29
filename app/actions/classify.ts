@@ -9,9 +9,7 @@ export interface ChangeDirectoryChoiceAction {
   };
 }
 
-export function changeDirectoryChoice(
-  newDirectoryChoice: string
-): ChangeDirectoryChoiceAction {
+export function changeDirectoryChoice(newDirectoryChoice: string): ChangeDirectoryChoiceAction {
   return {
     type: CHANGE_DIRECTORY_CHOICE,
     newDirectoryChoice,
@@ -26,9 +24,7 @@ export interface ChangeSavePathChoiceAction {
   newSavePathChoice: string;
 }
 
-export function changeSavePathChoice(
-  newSavePathChoice: string
-): ChangeSavePathChoiceAction {
+export function changeSavePathChoice(newSavePathChoice: string): ChangeSavePathChoiceAction {
   return {
     type: CHANGE_SAVE_PATH_CHOICE,
     newSavePathChoice

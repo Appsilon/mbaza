@@ -17,10 +17,7 @@ test('should open window and contain expected page title', async t => {
   await t.expect(getPageTitle()).eql('Hello Electron React!');
 });
 
-test(
-  'should not have any logs in console of main window',
-  assertNoConsoleErrors
-);
+test('should not have any logs in console of main window', assertNoConsoleErrors);
 
 test('should back to home if back button clicked', async t => {
   await t

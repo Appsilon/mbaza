@@ -65,10 +65,7 @@ function makeStationMarker(
 
   const markerElement = document.createElement('div');
   markerElement.className = 'marker';
-  markerElement.setAttribute(
-    'style',
-    `width: ${diameter}px; height: ${diameter}px;`
-  );
+  markerElement.setAttribute('style', `width: ${diameter}px; height: ${diameter}px;`);
   ReactDOM.render(
     <img
       src={firstObservation.location}
@@ -131,11 +128,7 @@ function makeStationMarker(
 
   const marker = new mapboxgl.Marker(markerElement)
     .setLngLat(coordinates)
-    .setPopup(
-      new mapboxgl.Popup({ offset: diameter / 2 }).setDOMContent(
-        popupContentPlaceholder
-      )
-    );
+    .setPopup(new mapboxgl.Popup({ offset: diameter / 2 }).setDOMContent(popupContentPlaceholder));
   return marker;
 }
 

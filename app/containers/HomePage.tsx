@@ -12,11 +12,7 @@ export default function HomePage() {
       <div style={{ flex: 1 }}>
         <div style={{ display: 'flex' }}>
           <div style={{ flex: 1, padding: '20px' }}>
-            <Card
-              interactive
-              elevation={Elevation.TWO}
-              className="bp3-running-text"
-            >
+            <Card interactive elevation={Elevation.TWO} className="bp3-running-text">
               <h1 style={{ marginTop: 0 }}>{t('home.welcome.title')}</h1>
               <Trans i18nKey="home.welcome.message" />
             </Card>
@@ -34,22 +30,10 @@ export default function HomePage() {
             marginTop: 30
           }}
         >
-          <img
-            style={logoStyle}
-            src="assets/logos/gabon.png"
-            alt="Parcs Gabon"
-          />
+          <img style={logoStyle} src="assets/logos/gabon.png" alt="Parcs Gabon" />
           <img style={logoStyle} src="assets/logos/iret.png" alt="IRET" />
-          <img
-            style={logoStyle}
-            src="assets/logos/panthera.png"
-            alt="Panthera"
-          />
-          <img
-            style={logoStyle}
-            src="assets/logos/stirling.png"
-            alt="University of Stirling"
-          />
+          <img style={logoStyle} src="assets/logos/panthera.png" alt="Panthera" />
+          <img style={logoStyle} src="assets/logos/stirling.png" alt="University of Stirling" />
           <div style={{ ...logoStyle, textAlign: 'center' }}>
             <img
               style={{ height: '47px', display: 'block', margin: 'auto' }}

@@ -1,13 +1,6 @@
 import React, { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  Navbar,
-  Alignment,
-  Button,
-  Popover,
-  Menu,
-  MenuItem
-} from '@blueprintjs/core';
+import { Navbar, Alignment, Button, Popover, Menu, MenuItem } from '@blueprintjs/core';
 
 import { routes } from '../constants/Routes';
 import Sidebar from '../components/Sidebar';
@@ -25,11 +18,7 @@ export default function App(props: Props) {
       <Navbar className="bp3-dark">
         <Navbar.Group align={Alignment.LEFT}>
           <Navbar.Heading>
-            <img
-              src="assets/icon.png"
-              style={{ width: '32px', height: '32px' }}
-              alt="Mbaza"
-            />
+            <img src="assets/icon.png" style={{ width: '32px', height: '32px' }} alt="Mbaza" />
           </Navbar.Heading>
           <Navbar.Heading>
             <strong>Mbaza</strong>
@@ -51,14 +40,8 @@ export default function App(props: Props) {
           <Popover>
             <Button className="bp3-minimal" icon="globe" />
             <Menu>
-              <MenuItem
-                text="English"
-                onClick={() => i18n.changeLanguage('en')}
-              />
-              <MenuItem
-                text="Français"
-                onClick={() => i18n.changeLanguage('fr')}
-              />
+              <MenuItem text="English" onClick={() => i18n.changeLanguage('en')} />
+              <MenuItem text="Français" onClick={() => i18n.changeLanguage('fr')} />
             </Menu>
           </Popover>
         </Navbar.Group>

@@ -1,10 +1,7 @@
 import { bindActionCreators, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { changeLogMessage } from '../actions/logMessage';
-import {
-  changeDirectoryChoice,
-  changeSavePathChoice
-} from '../actions/classify';
+import { changeDirectoryChoice, changeSavePathChoice } from '../actions/classify';
 import Classifier from '../components/Classifier';
 import { classifierStateType } from '../reducers/types';
 
