@@ -1,23 +1,11 @@
 import React from 'react';
-import {
-  Card,
-  Classes,
-  Drawer,
-  Elevation,
-  Position,
-  Tooltip
-} from '@blueprintjs/core';
+import { Card, Classes, Drawer, Elevation, Position, Tooltip } from '@blueprintjs/core';
 import { useTranslation } from 'react-i18next';
 import path from 'path';
 import CreatableSelect from 'react-select/creatable';
 
 import { formatAnimalClassName } from '../constants/animalsClasses';
 import { taxonOptions } from '../constants/taxons';
-
-type PredictionOverrideHandler = (
-  location: string,
-  prediction: CreatableOption | null
-) => void;
 
 type ObservationCardProps = {
   observation: Observation;
@@ -61,10 +49,7 @@ function ObservationCard(props: ObservationCardProps) {
     </table>
   );
   const predictionOverrideWidget = (
-    <Tooltip
-      content={t('explore.inspect.overrideTooltip')}
-      position={Position.RIGHT}
-    >
+    <Tooltip content={t('explore.inspect.overrideTooltip')} position={Position.RIGHT}>
       <div style={{ width: 250 }}>
         <CreatableSelect
           name={predictionOverride}
@@ -104,11 +89,7 @@ function ObservationCard(props: ObservationCardProps) {
   );
 
   return (
-    <Card
-      elevation={Elevation.TWO}
-      key={observation.location}
-      style={{ marginTop: 10 }}
-    >
+    <Card elevation={Elevation.TWO} key={observation.location} style={{ marginTop: 10 }}>
       <h3 style={{ marginTop: 0 }}>
         {t('explore.inspect.photoHeader', {
           species: formatAnimalClassName(observation.pred_1),
@@ -117,11 +98,7 @@ function ObservationCard(props: ObservationCardProps) {
       </h3>
       <div style={{ display: 'flex' }}>
         <div>
-          <img
-            src={observation.location}
-            width={400}
-            alt={observation.pred_1}
-          />
+          <img src={observation.location} width={400} alt={observation.pred_1} />
         </div>
         <div style={{ marginLeft: 24 }}>
           {predictionsTable}
@@ -136,19 +113,12 @@ function ObservationCard(props: ObservationCardProps) {
 type ObservationsInspectorProps = {
   observations: Observation[];
   onClose: () => void;
-  predictionOverrides: Record<string, CreatableOption>;
+  predictionOverrides: PredictionOverridesMap;
   onPredictionOverride: PredictionOverrideHandler;
 };
 
-export default function ObservationsInspector(
-  props: ObservationsInspectorProps
-) {
-  const {
-    observations,
-    onClose,
-    predictionOverrides,
-    onPredictionOverride
-  } = props;
+export default function ObservationsInspector(props: ObservationsInspectorProps) {
+  const { observations, onClose, predictionOverrides, onPredictionOverride } = props;
   const { t } = useTranslation();
   if (observations.length === 0) {
     return null;
