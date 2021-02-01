@@ -1,5 +1,5 @@
 type Observation = {
-  // WCS columns
+  // WCS attributes
   project_id: string;
   deployment_id: string;
   location: string;
@@ -12,14 +12,14 @@ type Observation = {
   species: string;
   common_name: string;
   uncertainty: number;
-  // Metedata columns
+  // Metadata
   station: string;
   check: string;
   camera: string;
   date: string;
   coordinates_long: number;
   coordinates_lat: number;
-  // Score columns
+  // Scores
   pred_1: string;
   score_1: number;
   pred_2: string;

@@ -19,12 +19,7 @@ import { TFunction } from 'i18next';
 
 import PythonLogViewer from './PythonLogViewer';
 import showSaveCsvDialog from '../utils/showSaveCsvDialog';
-import {
-  isDev,
-  isLinux,
-  isWin,
-  rootModelsDirectory
-} from '../utils/environment';
+import { isDev, isLinux, isWin, rootModelsDirectory } from '../utils/environment';
 import MissingModelsMessage from './MissingModelsMessage';
 
 type changeLogMessageType = (newChangeLogMessage: string | null) => {};
@@ -48,14 +43,8 @@ function displayWarningToast(message: string) {
   });
 }
 
-function runModelProcess(
-  baseArgs: string[],
-  t: TFunction
-): ChildProcessWithoutNullStreams | null {
-  const gridFilePath = path.join(
-    rootModelsDirectory,
-    'biomonitoring_stations.csv'
-  );
+function runModelProcess(baseArgs: string[], t: TFunction): ChildProcessWithoutNullStreams | null {
+  const gridFilePath = path.join(rootModelsDirectory, 'biomonitoring_stations.csv');
 
   let workdir;
   let program;
@@ -77,9 +66,7 @@ function runModelProcess(
     program = path.join(workdir, 'main');
     args.push(command);
   } else {
-    throw new Error(
-      `Unsupported operating system for running models: ${process.platform}`
-    );
+    throw new Error(`Unsupported operating system for running models: ${process.platform}`);
   }
 
   if (!fs.existsSync(program)) {
@@ -90,9 +77,7 @@ function runModelProcess(
   if (fs.existsSync(gridFilePath)) {
     args.push('--grid_file', gridFilePath);
   } else {
-    displayWarningToast(
-      t('classify.biomonitoringStationsFileNotFound', { gridFilePath })
-    );
+    displayWarningToast(t('classify.biomonitoringStationsFileNotFound', { gridFilePath }));
   }
 
   args.push(...baseArgs);
@@ -110,11 +95,7 @@ const computePredictions = (
   setExitCode: (value: number | null | undefined) => void,
   t: TFunction
 ) => {
-  const modelWeightsPath = path.join(
-    rootModelsDirectory,
-    modelName,
-    'trained_model.pkl'
-  );
+  const modelWeightsPath = path.join(rootModelsDirectory, modelName, 'trained_model.pkl');
 
   const args: string[] = [
     '--input_folder',
@@ -251,10 +232,7 @@ export default function Classifier(props: Props) {
           type="submit"
           className="bp3-button bp3-minimal bp3-intent-primary bp3-icon-search"
           onClick={() => {
-            showSaveCsvDialog(
-              'classification_result.csv',
-              changeSavePathChoice
-            );
+            showSaveCsvDialog('classification_result.csv', changeSavePathChoice);
           }}
         />
       </div>
@@ -324,18 +302,12 @@ export default function Classifier(props: Props) {
   );
 
   return (
-    <div
-      style={{ flex: 1, overflowY: 'scroll', maxHeight: 'calc(100vh - 50px)' }}
-    >
+    <div style={{ flex: 1, overflowY: 'scroll', maxHeight: 'calc(100vh - 50px)' }}>
       <div style={{ display: 'flex' }}>
         <div style={{ flex: 1, padding: '20px' }}>
           <Card elevation={Elevation.TWO}>
             <H1>{t('classify.title')}</H1>
-            {rootModelsDirectoryExists ? (
-              classifierFormView
-            ) : (
-              <MissingModelsMessage />
-            )}
+            {rootModelsDirectoryExists ? classifierFormView : <MissingModelsMessage />}
           </Card>
         </div>
         <div style={{ flex: 1, padding: '20px' }}>

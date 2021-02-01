@@ -17,12 +17,7 @@ import fs from 'fs';
 import { TFunction } from 'i18next';
 
 import PythonLogViewer from '../components/PythonLogViewer';
-import {
-  isDev,
-  isLinux,
-  isWin,
-  rootModelsDirectory
-} from '../utils/environment';
+import { isDev, isLinux, isWin, rootModelsDirectory } from '../utils/environment';
 import MissingModelsMessage from '../components/MissingModelsMessage';
 
 type changePathChoiceType = (newPath: string) => void;
@@ -154,10 +149,7 @@ export default function MediaToolsPage() {
         label={t('tools.mode')}
       >
         <Radio value={EXTRACT_FRAMES} label={t('tools.extractFramesDetail')} />
-        <Radio
-          value={CREATE_THUMBNAILS}
-          label={t('tools.createThumbnailsDetail')}
-        />
+        <Radio value={CREATE_THUMBNAILS} label={t('tools.createThumbnailsDetail')} />
       </RadioGroup>
 
       <div className="bp3-input-group" style={{ marginBottom: '10px' }}>
@@ -202,9 +194,7 @@ export default function MediaToolsPage() {
 
       <Button
         text={
-          currentMode === EXTRACT_FRAMES
-            ? t('tools.extractFrames')
-            : t('tools.createThumbnails')
+          currentMode === EXTRACT_FRAMES ? t('tools.extractFrames') : t('tools.createThumbnails')
         }
         onClick={() => {
           setLogMessage(''); // Remove any log from previous runs.
@@ -237,18 +227,12 @@ export default function MediaToolsPage() {
   );
 
   return (
-    <div
-      style={{ flex: 1, overflowY: 'scroll', maxHeight: 'calc(100vh - 50px)' }}
-    >
+    <div style={{ flex: 1, overflowY: 'scroll', maxHeight: 'calc(100vh - 50px)' }}>
       <div style={{ display: 'flex' }}>
         <div style={{ flex: 1, padding: '20px' }}>
           <Card elevation={Elevation.TWO}>
             <H1>{t('tools.title')}</H1>
-            {rootModelsDirectoryExists ? (
-              extractionForm
-            ) : (
-              <MissingModelsMessage />
-            )}
+            {rootModelsDirectoryExists ? extractionForm : <MissingModelsMessage />}
           </Card>
         </div>
         <div style={{ flex: 1, padding: '20px' }}>

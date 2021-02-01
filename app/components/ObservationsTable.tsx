@@ -16,39 +16,27 @@ export default function ObservationsTable(props: Props) {
     <Table numRows={observations.length} enableColumnReordering>
       <Column
         name={t('Project ID')}
-        cellRenderer={(rowIndex: number) => (
-          <Cell>{observations[rowIndex].project_id}</Cell>
-        )}
+        cellRenderer={(rowIndex: number) => <Cell>{observations[rowIndex].project_id}</Cell>}
       />
       <Column
         name={t('Deployment ID')}
-        cellRenderer={(rowIndex: number) => (
-          <Cell>{observations[rowIndex].deployment_id}</Cell>
-        )}
+        cellRenderer={(rowIndex: number) => <Cell>{observations[rowIndex].deployment_id}</Cell>}
       />
       <Column
         name={t('Station')}
-        cellRenderer={(rowIndex: number) => (
-          <Cell>{observations[rowIndex].station}</Cell>
-        )}
+        cellRenderer={(rowIndex: number) => <Cell>{observations[rowIndex].station}</Cell>}
       />
       <Column
         name={t('Check')}
-        cellRenderer={(rowIndex: number) => (
-          <Cell>{observations[rowIndex].check}</Cell>
-        )}
+        cellRenderer={(rowIndex: number) => <Cell>{observations[rowIndex].check}</Cell>}
       />
       <Column
         name={t('Camera')}
-        cellRenderer={(rowIndex: number) => (
-          <Cell>{observations[rowIndex].camera}</Cell>
-        )}
+        cellRenderer={(rowIndex: number) => <Cell>{observations[rowIndex].camera}</Cell>}
       />
       <Column
         name={t('Date and time')}
-        cellRenderer={(rowIndex: number) => (
-          <Cell>{observations[rowIndex].date}</Cell>
-        )}
+        cellRenderer={(rowIndex: number) => <Cell>{observations[rowIndex].date}</Cell>}
       />
       <Column
         name={t('GPS')}
@@ -63,15 +51,11 @@ export default function ObservationsTable(props: Props) {
       />
       <Column
         name={t('Predicted animal')}
-        cellRenderer={(rowIndex: number) => (
-          <Cell>{observations[rowIndex].pred_1}</Cell>
-        )}
+        cellRenderer={(rowIndex: number) => <Cell>{observations[rowIndex].pred_1}</Cell>}
       />
       <Column
         name={t('Certainty')}
-        cellRenderer={(rowIndex: number) => (
-          <Cell>{observations[rowIndex].score_1}</Cell>
-        )}
+        cellRenderer={(rowIndex: number) => <Cell>{observations[rowIndex].score_1}</Cell>}
       />
     </Table>
   );

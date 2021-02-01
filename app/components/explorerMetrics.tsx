@@ -1,14 +1,7 @@
 import * as React from 'react';
 
 import { useTranslation } from 'react-i18next';
-import {
-  Icon,
-  IconName,
-  Card,
-  Elevation,
-  Tooltip,
-  Position
-} from '@blueprintjs/core';
+import { Icon, IconName, Card, Elevation, Tooltip, Position } from '@blueprintjs/core';
 import AnimalsListTooltipContent from './AnimalsListTooltipContent';
 
 type Props = {
@@ -29,12 +22,8 @@ export default function ExplorerMetrics(props: Props) {
     return dataset.filter(entry => rares.includes(entry));
   };
 
-  const nonEmpty = data.filter(
-    (entry: Observation) => !emptyClasses.includes(entry.pred_1)
-  );
-  const uniqueAnimals = getUniqueSet(
-    data.map((entry: Observation) => entry.pred_1)
-  );
+  const nonEmpty = data.filter((entry: Observation) => !emptyClasses.includes(entry.pred_1));
+  const uniqueAnimals = getUniqueSet(data.map((entry: Observation) => entry.pred_1));
   const rareAnimals = getRareAnimals(uniqueAnimals, rareTargets);
 
   function metricsCard(
@@ -59,11 +48,7 @@ export default function ExplorerMetrics(props: Props) {
           padding: '10px'
         }}
       >
-        <Tooltip
-          content={tooltip}
-          position={Position.BOTTOM}
-          disabled={tooltip === ''}
-        >
+        <Tooltip content={tooltip} position={Position.BOTTOM} disabled={tooltip === ''}>
           <div>
             <Icon
               style={{
@@ -76,9 +61,7 @@ export default function ExplorerMetrics(props: Props) {
               iconSize={32}
             />
             <div style={{ marginLeft: '50px', marginTop: '10px' }}>
-              <div style={{ fontWeight: 500, fontSize: '32px', width: '100%' }}>
-                {value}
-              </div>
+              <div style={{ fontWeight: 500, fontSize: '32px', width: '100%' }}>{value}</div>
             </div>
             <div style={{ lineHeight: '15px', marginTop: '10px' }}>{title}</div>
           </div>
@@ -99,12 +82,7 @@ export default function ExplorerMetrics(props: Props) {
       }}
     >
       {metricsCard('camera', '#5c7080', t('explore.imagesCount'), data.length)}
-      {metricsCard(
-        'inbox-search',
-        '#5c7080',
-        t('explore.animalsCount'),
-        nonEmpty.length
-      )}
+      {metricsCard('inbox-search', '#5c7080', t('explore.animalsCount'), nonEmpty.length)}
       {metricsCard(
         'star',
         '#5c7080',

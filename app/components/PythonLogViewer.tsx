@@ -1,14 +1,5 @@
 import React from 'react';
-import {
-  Callout,
-  Card,
-  Elevation,
-  H5,
-  H6,
-  Intent,
-  Pre,
-  Spinner
-} from '@blueprintjs/core';
+import { Callout, Card, Elevation, H5, H6, Intent, Pre, Spinner } from '@blueprintjs/core';
 
 type Props = {
   title: string;

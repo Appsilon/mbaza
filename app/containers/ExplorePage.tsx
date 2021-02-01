@@ -156,24 +156,19 @@ export default function ExplorePage() {
     certaintyRange: [0, 1]
   });
   const [data, setData] = useState<undefined | ObservationsData>();
-  const [inspectedObservations, setInspectedObservations] = useState<
-    Observation[]
-  >([]);
-  const [predictionOverrides, setPredictionOverrides] = useState<
-    Record<string, CreatableOption>
-  >({});
+  const [inspectedObservations, setInspectedObservations] = useState<Observation[]>([]);
+  const [predictionOverrides, setPredictionOverrides] = useState<PredictionOverridesMap>({});
 
   const handleFilters = (val: string[]) => {
     setFilters({ ...filters, ...val });
   };
 
-  const handlePredictionOverride = (
-    location: string,
-    override: CreatableOption
-  ) => {
-    const overrides = { ...predictionOverrides, [location]: override };
-    if (!override) {
+  const handlePredictionOverride = (location: string, override: CreatableOption | null) => {
+    const overrides = { ...predictionOverrides };
+    if (override === null) {
       delete overrides[location];
+    } else {
+      overrides[location] = override;
     }
     setPredictionOverrides(overrides);
   };
