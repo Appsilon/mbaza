@@ -1,7 +1,7 @@
 {
   "name": "mbaza-ai",
   "productName": "Mbaza AI",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "A desktop application that allows bioconservation researchers to classify camera trap animal images and analyze the results.",
   "scripts": {
     "build": "concurrently \"yarn build-main\" \"yarn build-renderer\"",
