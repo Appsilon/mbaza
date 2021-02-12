@@ -8,7 +8,8 @@ import {
   Toaster,
   Callout,
   RadioGroup,
-  Radio
+  Radio,
+  Slider
 } from '@blueprintjs/core';
 import { useTranslation, Trans } from 'react-i18next';
 import path from 'path';
@@ -65,6 +66,7 @@ const extractImages = (
   inputPath: string,
   outputPath: string,
   thumbnailMode: boolean,
+  maxThumbnailPixels: number | null,
   changeLogMessage: (message: string) => void,
   setIsRunning: (isRunning: boolean) => void,
   setExitCode: (exitCode: number | null | undefined) => void,
@@ -79,6 +81,9 @@ const extractImages = (
   ];
   if (thumbnailMode) {
     args.push('--thumbnails');
+    if (maxThumbnailPixels !== null) {
+      args.push('--max_thumbnail_pixels', Math.floor(maxThumbnailPixels).toString());
+    }
   }
   const process = runExtractProcess(args, t);
   if (process !== null) {
@@ -128,6 +133,7 @@ export default function MediaToolsPage() {
   const { t } = useTranslation();
 
   const [currentMode, setCurrentMode] = useState<string>(EXTRACT_FRAMES);
+  const [thumbnailMegapixels, setThumbnailMegapixels] = useState<number>(0.1);
   const [inputDir, setInputDir] = useState<string>('');
   const [outputDir, setOutputDir] = useState<string>('');
 
@@ -151,7 +157,14 @@ export default function MediaToolsPage() {
         <Radio value={EXTRACT_FRAMES} label={t('tools.extractFramesDetail')} />
         <Radio value={CREATE_THUMBNAILS} label={t('tools.createThumbnailsDetail')} />
       </RadioGroup>
-
+      Maximum thumbnail size in megapixels:
+      <Slider
+        value={thumbnailMegapixels}
+        onChange={setThumbnailMegapixels}
+        min={0.01}
+        max={1}
+        stepSize={0.01}
+      />
       <div className="bp3-input-group" style={{ marginBottom: '10px' }}>
         <input
           type="text"
@@ -171,7 +184,6 @@ export default function MediaToolsPage() {
           }}
         />
       </div>
-
       <div className="bp3-input-group" style={{ marginBottom: '10px' }}>
         <input
           type="text"
@@ -191,7 +203,6 @@ export default function MediaToolsPage() {
           }}
         />
       </div>
-
       <Button
         text={
           currentMode === EXTRACT_FRAMES ? t('tools.extractFrames') : t('tools.createThumbnails')
@@ -202,6 +213,7 @@ export default function MediaToolsPage() {
             inputDir,
             outputDir,
             currentMode === CREATE_THUMBNAILS,
+            thumbnailMegapixels * 1_000_000,
             appendLogMessage,
             setIsRunning,
             setExitCode,
@@ -211,7 +223,6 @@ export default function MediaToolsPage() {
         disabled={isRunning || inputDir === '' || outputDir === ''}
         style={{ marginBottom: '10px', backgroundColor: '#fff' }}
       />
-
       {exitCode !== undefined || isRunning ? (
         <PythonLogViewer
           title={t('tools.logTitle')}
