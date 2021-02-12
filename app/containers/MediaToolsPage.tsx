@@ -9,7 +9,8 @@ import {
   Callout,
   RadioGroup,
   Radio,
-  Slider
+  Slider,
+  FormGroup
 } from '@blueprintjs/core';
 import { useTranslation, Trans } from 'react-i18next';
 import path from 'path';
@@ -157,15 +158,20 @@ export default function MediaToolsPage() {
         <Radio value={EXTRACT_FRAMES} label={t('tools.extractFramesDetail')} />
         <Radio value={CREATE_THUMBNAILS} label={t('tools.createThumbnailsDetail')} />
       </RadioGroup>
-      Maximum thumbnail size in megapixels:
-      <Slider
-        value={thumbnailMegapixels}
-        onChange={setThumbnailMegapixels}
-        min={0.01}
-        max={1}
-        stepSize={0.01}
-      />
-      <div className="bp3-input-group" style={{ marginBottom: '10px' }}>
+      <div style={{ marginTop: '30px' }}>
+        <FormGroup label={t('tools.thumbnailSize')}>
+          <Slider
+            value={thumbnailMegapixels}
+            onChange={setThumbnailMegapixels}
+            labelValues={[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]}
+            labelRenderer={(value, { isHandleTooltip }) => value.toFixed(isHandleTooltip ? 2 : 1)}
+            min={0.01}
+            max={1}
+            stepSize={0.01}
+          />
+        </FormGroup>
+      </div>
+      <div className="bp3-input-group" style={{ marginTop: '30px', marginBottom: '10px' }}>
         <input
           type="text"
           className="bp3-input"

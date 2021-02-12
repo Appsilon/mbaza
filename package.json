@@ -286,7 +286,7 @@
     "yarn": "^1.21.1"
   },
   "dependencies": {
-    "@blueprintjs/core": "^3.29.0",
+    "@blueprintjs/core": "^3.38.2",
     "@blueprintjs/table": "^3.8.10",
     "@fortawesome/fontawesome-free": "^5.12.1",
     "@hot-loader/react-dom": "^16.12.0",
