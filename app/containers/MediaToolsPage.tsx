@@ -63,11 +63,18 @@ function runExtractProcess(
   return spawn(program, args, { cwd: workdir });
 }
 
+type ToolMode = 'EXTRACT_FRAMES' | 'CREATE_THUMBNAILS';
+
+type MediaToolOptions = {
+  inputDir: string;
+  outputDir: string;
+  toolMode: ToolMode;
+  frameInterval?: number;
+  maxThumbnailPixels?: number;
+}
+
 const extractImages = (
-  inputPath: string,
-  outputPath: string,
-  thumbnailMode: boolean,
-  maxThumbnailPixels: number | null,
+  options: MediaToolOptions,
   changeLogMessage: (message: string) => void,
   setIsRunning: (isRunning: boolean) => void,
   setExitCode: (exitCode: number | null | undefined) => void,
@@ -76,14 +83,18 @@ const extractImages = (
   const args: string[] = [
     'extract_images',
     '--input_folder',
-    inputPath,
+    options.inputDir,
     '--output_folder',
-    outputPath
+    options.outputDir
   ];
-  if (thumbnailMode) {
+  if (options.toolMode == 'EXTRACT_FRAMES') {
+    if (options.frameInterval !== undefined) {
+      args.push('--frame_interval', options.frameInterval.toFixed());
+    }
+  } else if (options.toolMode == 'CREATE_THUMBNAILS') {
     args.push('--thumbnails');
-    if (maxThumbnailPixels !== null) {
-      args.push('--max_thumbnail_pixels', Math.floor(maxThumbnailPixels).toString());
+    if (options.maxThumbnailPixels !== undefined) {
+      args.push('--max_thumbnail_pixels', options.maxThumbnailPixels.toFixed());
     }
   }
   const process = runExtractProcess(args, t);
@@ -127,13 +138,10 @@ const chooseDirectory = (changeDirectoryChoice: changePathChoiceType) => {
     });
 };
 
-const EXTRACT_FRAMES = 'EXTRACT_FRAMES';
-const CREATE_THUMBNAILS = 'CREATE_THUMBNAILS';
-
 export default function MediaToolsPage() {
   const { t } = useTranslation();
 
-  const [currentMode, setCurrentMode] = useState<string>(EXTRACT_FRAMES);
+  const [toolMode, setToolMode] = useState<ToolMode>('EXTRACT_FRAMES');
   const [thumbnailMegapixels, setThumbnailMegapixels] = useState<number>(0.1);
   const [extractionInterval, setExtractionInterval] = useState<number>(5);
   const [inputDir, setInputDir] = useState<string>('');
@@ -149,8 +157,19 @@ export default function MediaToolsPage() {
 
   const rootModelsDirectoryExists = fs.existsSync(rootModelsDirectory);
 
+  const runTool = () => {
+    const options: MediaToolOptions = { inputDir, outputDir, toolMode };
+    if (toolMode === 'EXTRACT_FRAMES') {
+      options.frameInterval = extractionInterval;
+    } else if (toolMode === 'CREATE_THUMBNAILS') {
+      options.maxThumbnailPixels = thumbnailMegapixels * 1_000_000;
+    }
+    setLogMessage(''); // Remove any log from previous runs.
+    extractImages(options, appendLogMessage, setIsRunning, setExitCode, t);
+  }
+
   let parameterSlider;
-  if (currentMode === EXTRACT_FRAMES) {
+  if (toolMode === 'EXTRACT_FRAMES') {
     parameterSlider = (
       <FormGroup label={t('tools.extractionInterval')}>
         <Slider
@@ -161,7 +180,7 @@ export default function MediaToolsPage() {
         />
       </FormGroup>
     );
-  } else if (currentMode === CREATE_THUMBNAILS) {
+  } else if (toolMode === 'CREATE_THUMBNAILS') {
     const labelRenderer = (value: number, options?: { isHandleTooltip: boolean }) => {
       return value.toFixed(options && options.isHandleTooltip ? 2 : 1)
     };
@@ -183,12 +202,12 @@ export default function MediaToolsPage() {
   const extractionForm = (
     <div style={{ padding: '30px 30px', width: '60vw' }}>
       <RadioGroup
-        selectedValue={currentMode}
-        onChange={e => setCurrentMode(e.currentTarget.value)}
+        selectedValue={toolMode}
+        onChange={e => setToolMode(e.currentTarget.value as ToolMode)}
         label={t('tools.mode')}
       >
-        <Radio value={EXTRACT_FRAMES} label={t('tools.extractFramesDetail')} />
-        <Radio value={CREATE_THUMBNAILS} label={t('tools.createThumbnailsDetail')} />
+        <Radio value={'EXTRACT_FRAMES'} label={t('tools.extractFramesDetail')} />
+        <Radio value={'CREATE_THUMBNAILS'} label={t('tools.createThumbnailsDetail')} />
       </RadioGroup>
       <div style={{ marginTop: '30px' }}>
         {parameterSlider}
@@ -233,21 +252,9 @@ export default function MediaToolsPage() {
       </div>
       <Button
         text={
-          currentMode === EXTRACT_FRAMES ? t('tools.extractFrames') : t('tools.createThumbnails')
+          toolMode === 'EXTRACT_FRAMES' ? t('tools.extractFrames') : t('tools.createThumbnails')
         }
-        onClick={() => {
-          setLogMessage(''); // Remove any log from previous runs.
-          extractImages(
-            inputDir,
-            outputDir,
-            currentMode === CREATE_THUMBNAILS,
-            thumbnailMegapixels * 1_000_000,
-            appendLogMessage,
-            setIsRunning,
-            setExitCode,
-            t
-          );
-        }}
+        onClick={runTool}
         disabled={isRunning || inputDir === '' || outputDir === ''}
         style={{ marginBottom: '10px', backgroundColor: '#fff' }}
       />
