@@ -71,7 +71,7 @@ type MediaToolOptions = {
   toolMode: ToolMode;
   frameInterval?: number;
   maxThumbnailPixels?: number;
-}
+};
 
 const extractImages = (
   options: MediaToolOptions,
@@ -87,11 +87,11 @@ const extractImages = (
     '--output_folder',
     options.outputDir
   ];
-  if (options.toolMode == 'EXTRACT_FRAMES') {
+  if (options.toolMode === 'EXTRACT_FRAMES') {
     if (options.frameInterval !== undefined) {
       args.push('--frame_interval', options.frameInterval.toFixed());
     }
-  } else if (options.toolMode == 'CREATE_THUMBNAILS') {
+  } else if (options.toolMode === 'CREATE_THUMBNAILS') {
     args.push('--thumbnails');
     if (options.maxThumbnailPixels !== undefined) {
       args.push('--max_thumbnail_pixels', options.maxThumbnailPixels.toFixed());
@@ -166,23 +166,18 @@ export default function MediaToolsPage() {
     }
     setLogMessage(''); // Remove any log from previous runs.
     extractImages(options, appendLogMessage, setIsRunning, setExitCode, t);
-  }
+  };
 
   let parameterSlider;
   if (toolMode === 'EXTRACT_FRAMES') {
     parameterSlider = (
       <FormGroup label={t('tools.extractionInterval')}>
-        <Slider
-          value={extractionInterval}
-          onChange={setExtractionInterval}
-          min={1}
-          max={10}
-        />
+        <Slider value={extractionInterval} onChange={setExtractionInterval} min={1} max={10} />
       </FormGroup>
     );
   } else if (toolMode === 'CREATE_THUMBNAILS') {
     const labelRenderer = (value: number, options?: { isHandleTooltip: boolean }) => {
-      return value.toFixed(options && options.isHandleTooltip ? 2 : 1)
+      return value.toFixed(options && options.isHandleTooltip ? 2 : 1);
     };
     parameterSlider = (
       <FormGroup label={t('tools.thumbnailSize')}>
@@ -206,12 +201,10 @@ export default function MediaToolsPage() {
         onChange={e => setToolMode(e.currentTarget.value as ToolMode)}
         label={t('tools.mode')}
       >
-        <Radio value={'EXTRACT_FRAMES'} label={t('tools.extractFramesDetail')} />
-        <Radio value={'CREATE_THUMBNAILS'} label={t('tools.createThumbnailsDetail')} />
+        <Radio value="EXTRACT_FRAMES" label={t('tools.extractFramesDetail')} />
+        <Radio value="CREATE_THUMBNAILS" label={t('tools.createThumbnailsDetail')} />
       </RadioGroup>
-      <div style={{ marginTop: '30px' }}>
-        {parameterSlider}
-      </div>
+      <div style={{ marginTop: '30px' }}>{parameterSlider}</div>
       <div className="bp3-input-group" style={{ marginTop: '30px', marginBottom: '10px' }}>
         <input
           type="text"
