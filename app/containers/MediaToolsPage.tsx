@@ -135,6 +135,7 @@ export default function MediaToolsPage() {
 
   const [currentMode, setCurrentMode] = useState<string>(EXTRACT_FRAMES);
   const [thumbnailMegapixels, setThumbnailMegapixels] = useState<number>(0.1);
+  const [extractionInterval, setExtractionInterval] = useState<number>(5);
   const [inputDir, setInputDir] = useState<string>('');
   const [outputDir, setOutputDir] = useState<string>('');
 
@@ -148,6 +149,37 @@ export default function MediaToolsPage() {
 
   const rootModelsDirectoryExists = fs.existsSync(rootModelsDirectory);
 
+  let parameterSlider;
+  if (currentMode === EXTRACT_FRAMES) {
+    parameterSlider = (
+      <FormGroup label={t('tools.extractionInterval')}>
+        <Slider
+          value={extractionInterval}
+          onChange={setExtractionInterval}
+          min={1}
+          max={10}
+        />
+      </FormGroup>
+    );
+  } else if (currentMode === CREATE_THUMBNAILS) {
+    const labelRenderer = (value: number, options?: { isHandleTooltip: boolean }) => {
+      return value.toFixed(options && options.isHandleTooltip ? 2 : 1)
+    };
+    parameterSlider = (
+      <FormGroup label={t('tools.thumbnailSize')}>
+        <Slider
+          value={thumbnailMegapixels}
+          onChange={setThumbnailMegapixels}
+          labelValues={[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]}
+          labelRenderer={labelRenderer}
+          min={0.01}
+          max={1}
+          stepSize={0.01}
+        />
+      </FormGroup>
+    );
+  }
+
   const extractionForm = (
     <div style={{ padding: '30px 30px', width: '60vw' }}>
       <RadioGroup
@@ -159,17 +191,7 @@ export default function MediaToolsPage() {
         <Radio value={CREATE_THUMBNAILS} label={t('tools.createThumbnailsDetail')} />
       </RadioGroup>
       <div style={{ marginTop: '30px' }}>
-        <FormGroup label={t('tools.thumbnailSize')}>
-          <Slider
-            value={thumbnailMegapixels}
-            onChange={setThumbnailMegapixels}
-            labelValues={[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]}
-            labelRenderer={(value, { isHandleTooltip }) => value.toFixed(isHandleTooltip ? 2 : 1)}
-            min={0.01}
-            max={1}
-            stepSize={0.01}
-          />
-        </FormGroup>
+        {parameterSlider}
       </div>
       <div className="bp3-input-group" style={{ marginTop: '30px', marginBottom: '10px' }}>
         <input
