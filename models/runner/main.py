@@ -87,10 +87,10 @@ def setup_extract_images_parser(parser):
         help="Thumbnail mode (extract a single, scaled down frame from each video / image)"
     )
     parser.add_argument(
-        "--max_thumbnail_pixels",
+        "--max_thumbnail_dimensions",
         type = int,
-        default = 100_000,
-        help="Maximum size of a thumbnail in pixels",
+        default = 350,
+        help="Maximum width/height of a thumbnail in pixels",
     )
 
 parser = argparse.ArgumentParser()

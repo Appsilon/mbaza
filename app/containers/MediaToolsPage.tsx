@@ -70,7 +70,7 @@ type MediaToolOptions = {
   outputDir: string;
   toolMode: ToolMode;
   frameInterval?: number;
-  maxThumbnailPixels?: number;
+  maxThumbnailDimensions?: number;
 };
 
 const extractImages = (
@@ -93,8 +93,8 @@ const extractImages = (
     }
   } else if (options.toolMode === 'CREATE_THUMBNAILS') {
     args.push('--thumbnails');
-    if (options.maxThumbnailPixels !== undefined) {
-      args.push('--max_thumbnail_pixels', options.maxThumbnailPixels.toFixed());
+    if (options.maxThumbnailDimensions !== undefined) {
+      args.push('--max_thumbnail_dimensions', options.maxThumbnailDimensions.toFixed());
     }
   }
   const process = runExtractProcess(args, t);
@@ -138,11 +138,17 @@ const chooseDirectory = (changeDirectoryChoice: changePathChoiceType) => {
     });
 };
 
+const THUMBNAIL_SIZE_LABELS = new Map<number, string>([
+  [200, 'tools.thumbnailSizeSmall'],
+  [500, 'tools.thumbnailSizeMedium'],
+  [800, 'tools.thumbnailSizeLarge']
+]);
+
 export default function MediaToolsPage() {
   const { t } = useTranslation();
 
   const [toolMode, setToolMode] = useState<ToolMode>('EXTRACT_FRAMES');
-  const [thumbnailMegapixels, setThumbnailMegapixels] = useState<number>(0.1);
+  const [thumbnailSize, setThumbnailSize] = useState<number>(350);
   const [extractionInterval, setExtractionInterval] = useState<number>(5);
   const [inputDir, setInputDir] = useState<string>('');
   const [outputDir, setOutputDir] = useState<string>('');
@@ -162,7 +168,7 @@ export default function MediaToolsPage() {
     if (toolMode === 'EXTRACT_FRAMES') {
       options.frameInterval = extractionInterval;
     } else if (toolMode === 'CREATE_THUMBNAILS') {
-      options.maxThumbnailPixels = thumbnailMegapixels * 1_000_000;
+      options.maxThumbnailDimensions = thumbnailSize;
     }
     setLogMessage(''); // Remove any log from previous runs.
     extractImages(options, appendLogMessage, setIsRunning, setExitCode, t);
@@ -177,18 +183,22 @@ export default function MediaToolsPage() {
     );
   } else if (toolMode === 'CREATE_THUMBNAILS') {
     const labelRenderer = (value: number, options?: { isHandleTooltip: boolean }) => {
-      return value.toFixed(options && options.isHandleTooltip ? 2 : 1);
+      if (options && options.isHandleTooltip) {
+        return `${value.toFixed()}\u00a0px`; // Use non-breaking space between number and unit.
+      }
+      const label = THUMBNAIL_SIZE_LABELS.get(value);
+      return label ? t(label) : '';
     };
     parameterSlider = (
       <FormGroup label={t('tools.thumbnailSize')}>
         <Slider
-          value={thumbnailMegapixels}
-          onChange={setThumbnailMegapixels}
-          labelValues={[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]}
+          value={thumbnailSize}
+          onChange={setThumbnailSize}
+          labelValues={[...THUMBNAIL_SIZE_LABELS.keys()]}
           labelRenderer={labelRenderer}
-          min={0.01}
-          max={1}
-          stepSize={0.01}
+          min={200}
+          max={800}
+          stepSize={10}
         />
       </FormGroup>
     );

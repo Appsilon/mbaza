@@ -31,15 +31,14 @@ class Video:
         return frame if success else None
 
 
-def scale_down_image(image, max_pixels):
-    pixels = image.shape[0] * image.shape[1]
-    scale = sqrt(max_pixels / pixels)
+def scale_down_image(image, max_dimensions):
+    scale = max_dimensions / max(image.shape[0], image.shape[1])
     if scale < 1:
         image = cv.resize(image, None, fx=scale, fy=scale, interpolation=cv.INTER_AREA)
     return image
 
 
-def extract_thumbnail(input_file, output_dir, max_pixels):
+def extract_thumbnail(input_file, output_dir, max_dimensions):
     print(f"Processing {os.path.basename(input_file)!r}... ", end="", flush=True)
     if is_image(input_file):
         print("scaling image... ", end="", flush=True)
@@ -50,7 +49,7 @@ def extract_thumbnail(input_file, output_dir, max_pixels):
             image = video.get_frame(0)
     else:
         return
-    thumbnail = scale_down_image(image, max_pixels)
+    thumbnail = scale_down_image(image, max_dimensions)
 
     name = basename_without_ext(input_file)
     output_file = os.path.join(output_dir, f"{name}.jpg")
@@ -79,7 +78,7 @@ def extract_images(args):
         input_file = os.path.join(args.input_folder, path)
         output_dir = os.path.join(args.output_folder, os.path.dirname(path))
         if args.thumbnails:
-            extract_thumbnail(input_file, output_dir, args.max_thumbnail_pixels)
+            extract_thumbnail(input_file, output_dir, args.max_thumbnail_dimensions)
         else:
             extract_frames(input_file, output_dir, args.frame_interval)
     print("Processing completed.")
