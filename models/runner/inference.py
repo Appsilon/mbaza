@@ -18,7 +18,7 @@ from taxons import taxons_df
 warnings.filterwarnings('ignore')
 
 N_TOP_RESULTS = 3
-APP_VERSION = '1.2.0'
+APP_VERSION = '1.2.1'
 
 def get_images(directory):
     images = [os.path.join(directory, f) for f in get_all_files(directory) if is_image(f)]
