@@ -58,6 +58,7 @@ function ObservationCard(props: ObservationCardProps) {
           isClearable
           placeholder={t('explore.inspect.overridePlaceholder')}
           options={taxonOptions}
+          menuShouldScrollIntoView={false}
         />
       </div>
     </Tooltip>
