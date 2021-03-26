@@ -4,6 +4,12 @@ A desktop application that allows bioconservation researchers to classify camera
 
 The application is multi-platform. We support MacOS, Linux and Windows 10. Primary focus is on Windows 10.
 
+## User guide
+
+Mbaza 1.2.1 comes with a user guide, available
+in [english](https://github.com/Appsilon/wildlife-explorer/releases/download/v1.2.1/Mbaza.AI.user.guide.v1-2-1.EN.pdf)
+and [french](https://github.com/Appsilon/wildlife-explorer/releases/download/v1.2.1/Mbaza.AI.user.guide.v1-2-1.FR.pdf).
+
 ## Maintainers
 
 - [Marek Rogala](https://github.com/marekrogala)
