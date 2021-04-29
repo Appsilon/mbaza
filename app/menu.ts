@@ -82,13 +82,13 @@ export default class MenuBuilder {
         {
           label: 'Learn More',
           click() {
-            shell.openExternal('https://github.com/Appsilon/wildlife-explorer#readme');
+            shell.openExternal('https://github.com/Appsilon/mbaza#readme');
           }
         },
         {
           label: 'Report Issues',
           click() {
-            shell.openExternal('https://github.com/Appsilon/wildlife-explorer/issues');
+            shell.openExternal('https://github.com/Appsilon/mbaza/issues');
           }
         }
       ]
@@ -159,13 +159,13 @@ export default class MenuBuilder {
           {
             label: 'Learn More',
             click() {
-              shell.openExternal('https://github.com/Appsilon/wildlife-explorer#readme');
+              shell.openExternal('https://github.com/Appsilon/mbaza#readme');
             }
           },
           {
             label: 'Report Issues',
             click() {
-              shell.openExternal('https://github.com/Appsilon/wildlife-explorer/issues');
+              shell.openExternal('https://github.com/Appsilon/mbaza/issues');
             }
           }
         ]

@@ -100,17 +100,17 @@
     "publish": {
       "provider": "github",
       "owner": "Appsilon",
-      "repo": "wildlife-explorer"
+      "repo": "mbaza"
     }
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Appsilon/wildlife-explorer.git"
+    "url": "git+https://github.com/Appsilon/mbaza.git"
   },
   "author": {
     "name": "Appsilon Data Science",
     "email": "hello@appsilon.com",
-    "url": "https://github.com/Appsilon/wildlife-explorer"
+    "url": "https://github.com/Appsilon/mbaza"
   },
   "contributors": [
     {
@@ -141,7 +141,7 @@
   ],
   "license": "AGPL-3.0-or-later",
   "bugs": {
-    "url": "https://github.com/Appsilon/wildlife-explorer/issues"
+    "url": "https://github.com/Appsilon/mbaza/issues"
   },
   "keywords": [
     "biodiversity",
@@ -150,7 +150,7 @@
     "wildlife",
     "ml"
   ],
-  "homepage": "https://github.com/Appsilon/wildlife-explorer#readme",
+  "homepage": "https://github.com/Appsilon/mbaza#readme",
   "jest": {
     "testURL": "http://localhost/",
     "moduleNameMapper": {

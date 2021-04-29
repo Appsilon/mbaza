@@ -1,14 +1,13 @@
-# Wildlife Explorer
+# Mbaza
 
 A desktop application that allows bioconservation researchers to classify camera trap animal images and analyze the results.
 
-The application is multi-platform. We support MacOS, Linux and Windows 10. Primary focus is on Windows 10.
+### Useful files
 
-## User guide
-
-Mbaza 1.2.1 comes with a user guide, available
-in [english](https://github.com/Appsilon/wildlife-explorer/releases/download/v1.2.1/Mbaza.AI.user.guide.v1-2-1.EN.pdf)
-and [french](https://github.com/Appsilon/wildlife-explorer/releases/download/v1.2.1/Mbaza.AI.user.guide.v1-2-1.FR.pdf).
+* [Windows installer](https://github.com/Appsilon/mbaza/releases/download/v1.2.1/Mbaza.AI.Setup.1.2.1.exe)
+* [Models zip](https://drive.google.com/file/d/1vHGz_ltc35mR5BWAsKrtqDGt6EP6lZ1f/view?usp=sharing)
+* [User Guide](https://github.com/Appsilon/mbaza/releases/download/v1.2.1/Mbaza.AI.user.guide.v1-2-1.EN.pdf)
+  / [Mode d’emploi](https://github.com/Appsilon/mbaza/releases/download/v1.2.1/Mbaza.AI.user.guide.v1-2-1.FR.pdf)
 
 ## Maintainers
 

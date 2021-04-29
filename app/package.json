@@ -7,7 +7,7 @@
   "author": {
     "name": "Appsilon Data Science",
     "email": "hello@appsilon.com",
-    "url": "https://github.com/Appsilon/wildlife-explorer"
+    "url": "https://github.com/Appsilon/mbaza"
   },
   "scripts": {
     "electron-rebuild": "node -r ../internals/scripts/BabelRegister.js ../internals/scripts/ElectronRebuild.js",
