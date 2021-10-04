@@ -51,10 +51,17 @@ Model packaging: go to `models_runner` and follow the README there (both for Win
 
 AGPLv3
 
-## Definition of Done:
+## Definition of Done
 
-- Change has been tested (manually or with automated tests). No existing functionality is broken.
-- Continuous integration checks (linter, project build) pass.
-- README is updated with all information related to the change.
-- All code has been peer-reviewed before merging into any main branch.
-- Change is tested in installed version on Windows and Linux.
+1. All changes are introduced in pull requests,
+which must be peer-reviewed before being merged.
+2. Tasks, design decisions, etc. are described in GitHub issues and pull requests.
+3. README and code comments are updated.
+4. Changes are tested (manually or with automated tests):
+    1. No existing functionality is broken.
+    2. Installed app works well on Windows and Linux.
+    3. The app can handle sample data available on our
+    [Drive](https://drive.google.com/drive/folders/1eQWuf5WCT429xogQ2HiZqapehvweAtxP).
+5. The code adheres to
+[Airbnb style guide](https://github.com/airbnb/javascript) for JavaScript code
+and to [PEP 8](https://www.python.org/dev/peps/pep-0008/) for Python.
