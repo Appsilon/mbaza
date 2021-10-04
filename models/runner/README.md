@@ -10,7 +10,7 @@
 conda create -n mbaza python=3.6
 conda activate mbaza
 
-conda install --yes --channel pytorch pytorch==1.5.0 torchvision==0.6.0 cpuonly  
+conda install --yes --channel pytorch pytorch==1.5.0 torchvision==0.6.0 cpuonly
 conda install --yes --channel fastai fastai==1.0.61
 conda install --yes --channel conda-forge pyinstaller==3.6 exifread==2.1.2
 conda install --yes --channel conda-forge opencv==4.4.0
@@ -46,6 +46,12 @@ Compress-Archive -Path .\models\runner_win\, .\models\gabon\, .\models\serengeti
 
 ## Running in dev mode directly
 
+These instructions were tested on Debian 9.13 with Python 3.6.9.
+You need to install the following system dependencies:
+```sh
+sudo apt install libmkl_rt libtorch-dev
+```
+
 1. Create a virtual environment (`python3 -m venv venv`)
 2. Install requirements from `requirements.txt` (`source venv/bin/activate; pip install -r requirements.txt`).
-3. Run it for example with: `python3 main.py --model=../serengeti/trained_model.pkl --input_folder=../serengeti/images_fun_examples --output=output.csv --overwrite`
+3. Run it for example with: `python3 main.py infer_to_csv --model ../serengeti/trained_model.pkl --input_folder ../serengeti/images_fun_examples --output output.csv --overwrite`
