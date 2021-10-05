@@ -46,14 +46,23 @@ Compress-Archive -Path .\models\runner_win\, .\models\gabon\, .\models\serengeti
 
 ## Running in dev mode directly
 
-These instructions were tested on Debian 9.13 with Python 3.6.9.
-To install custom version of Python independent from the system one,
-you can use [pyenv](https://github.com/pyenv/pyenv).
-You need to install the following system dependencies:
+#### System
+These instructions were tested on Debian 9.13.
+The following system dependencies were needed:
 ```sh
 sudo apt install libmkl-rt libtorch-dev
 ```
 
+#### Python
+Use Python 3.6.9.
+You can install it with [pyenv](https://github.com/pyenv/pyenv).
+The `--enable-shared` option is needed due to
+[issue]((https://github.com/pyenv/pyenv/issues/65)) with pyenv + venv + numpy.
+```
+env PYTHON_CONFIGURE_OPTS="--enable-shared" pyenv install -v 3.6.9
+```
+
+#### Running
 ```sh
 # Create and activate a virtual environment
 python -m venv venv
