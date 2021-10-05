@@ -56,7 +56,7 @@ tornado==6.0.4
 tqdm==4.46.0
 typing==3.6.4
 ujson==2.0.3
-urllib3==1.25.8
+urllib3==1.26.5
 wincertstore==0.2
 wrapt==1.10.1
 opencv-python==4.5.3.56
