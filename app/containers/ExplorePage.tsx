@@ -173,6 +173,11 @@ export default function ExplorePage() {
     setPredictionOverrides(overrides);
   };
 
+  const handleNewDataImport = () => {
+    chooseFile(setFilePath, setData);
+    setPredictionOverrides({});
+  };
+
   const filterCondition = (needle: string, haystack: Entry[]) => {
     if (haystack.length === 0) return true;
     return haystack.map(entry => entry.value).includes(needle);
@@ -317,9 +322,7 @@ export default function ExplorePage() {
                 aria-label="Search"
                 type="submit"
                 className="bp3-button bp3-minimal bp3-intent-primary bp3-icon-search"
-                onClick={() => {
-                  chooseFile(setFilePath, setData);
-                }}
+                onClick={() => handleNewDataImport()}
               />
             </div>
           </Card>
