@@ -47,11 +47,21 @@ Compress-Archive -Path .\models\runner_win\, .\models\gabon\, .\models\serengeti
 ## Running in dev mode directly
 
 These instructions were tested on Debian 9.13 with Python 3.6.9.
+To install custom version of Python independent from the system one,
+you can use [pyenv](https://github.com/pyenv/pyenv).
 You need to install the following system dependencies:
 ```sh
-sudo apt install libmkl_rt libtorch-dev
+sudo apt install libmkl-rt libtorch-dev
 ```
 
-1. Create a virtual environment (`python3 -m venv venv`)
-2. Install requirements from `requirements.txt` (`source venv/bin/activate; pip install -r requirements.txt`).
-3. Run it for example with: `python3 main.py infer_to_csv --model ../serengeti/trained_model.pkl --input_folder ../serengeti/images_fun_examples --output output.csv --overwrite`
+```sh
+# Create and activate a virtual environment
+python -m venv venv
+source venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Test the script
+python main.py infer_to_csv --model ../serengeti/trained_model.pkl --input_folder ../serengeti/images_fun_examples --output output.csv --overwrite`
+```
