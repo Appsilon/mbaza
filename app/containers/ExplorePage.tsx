@@ -42,6 +42,14 @@ type Entry = {
   value: string;
 };
 
+const initialFilters: Filters = {
+  activeAnimals: [],
+  activeCameras: [],
+  activeStations: [],
+  activeChecks: [],
+  certaintyRange: [0, 1]
+};
+
 async function chooseFile(
   changeFileChoice: (path: string) => void,
   setObservations: (observations: Observation[]) => void
@@ -130,13 +138,7 @@ function DataButton({ textTop, textBottom, icon, onClick }: DataButtonProps) {
 export default function ExplorePage() {
   const { t } = useTranslation();
   const [filePath, setFilePath] = useState<string>();
-  const [filters, setFilters] = useState<Filters>({
-    activeAnimals: [],
-    activeCameras: [],
-    activeStations: [],
-    activeChecks: [],
-    certaintyRange: [0, 1]
-  });
+  const [filters, setFilters] = useState<Filters>(initialFilters);
   const [observations, setObservations] = useState<undefined | Observation[]>();
   const [inspectedObservations, setInspectedObservations] = useState<Observation[]>([]);
   const [predictionOverrides, setPredictionOverrides] = useState<PredictionOverridesMap>({});
@@ -184,6 +186,7 @@ export default function ExplorePage() {
     const dataObservations = await chooseFile(setFilePath, setObservations);
     const overrides = await detectOverrides(dataObservations);
     setPredictionOverrides(overrides);
+    setFilters(initialFilters);
   };
 
   const filterCondition = (needle: string, haystack: Entry[]) => {
