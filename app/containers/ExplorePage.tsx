@@ -322,7 +322,7 @@ export default function ExplorePage() {
                 aria-label="Search"
                 type="submit"
                 className="bp3-button bp3-minimal bp3-intent-primary bp3-icon-search"
-                onClick={() => handleNewDataImport()}
+                onClick={handleNewDataImport}
               />
             </div>
           </Card>
