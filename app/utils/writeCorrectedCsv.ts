@@ -28,7 +28,8 @@ function applyPredictionOverrides(
         ...row,
         ...taxon,
         identified_by: 'user',
-        uncertainty: 1
+        uncertainty: 1,
+        label: override.value
       };
     }
     return row;
