@@ -165,12 +165,22 @@ export default function ExplorePage() {
 
   const handlePredictionOverride = (location: string, override: CreatableOption | null) => {
     const overrides = { ...predictionOverrides };
+    const observations: Observation[] = data ? data.observations : [];
+    const observationIndex: number = observations.findIndex(obs => obs.location === location);
+
     if (override === null) {
       delete overrides[location];
     } else {
       overrides[location] = override;
     }
     setPredictionOverrides(overrides);
+
+    observations[observationIndex] = {
+      ...observations[observationIndex],
+      overriden: override !== null
+    };
+
+    setData({ observations });
   };
 
   const handleNewDataImport = () => {

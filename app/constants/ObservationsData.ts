@@ -12,6 +12,7 @@ type Observation = {
   species: string;
   common_name: string;
   uncertainty: number;
+  overriden: boolean;
   label: string;
   // Metadata
   station: string;
