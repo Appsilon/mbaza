@@ -175,7 +175,6 @@ export default function ExplorePage() {
 
   const handleNewDataImport = () => {
     chooseFile(setFilePath, setData);
-    setPredictionOverrides({});
   };
 
   const filterCondition = (needle: string, haystack: Entry[]) => {
