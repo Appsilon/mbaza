@@ -16,7 +16,6 @@ import {
 } from '@blueprintjs/core';
 
 import Map from '../components/Map';
-import AnimalsPlot from '../components/AnimalsPlot';
 import ObservationsTable from '../components/ObservationsTable';
 import ExplorerFilter from '../components/explorerFilters';
 import ExplorerMetrics from '../components/explorerMetrics';
