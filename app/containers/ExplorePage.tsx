@@ -194,48 +194,24 @@ export default function ExplorePage() {
   }, [filters, data]);
 
   const mainPanel = (
-    <div style={{ display: 'flex' }}>
+    <Card style={{ height: '100%' }} interactive elevation={Elevation.TWO}>
+      <Callout intent={Intent.PRIMARY}>{t('explore.mapHint')}</Callout>
       <div
         style={{
-          flex: '1',
-          width: '55%',
-          paddingBottom: '20px',
-          marginRight: '10px'
+          width: '100%',
+          position: 'relative',
+          overflow: 'hidden'
         }}
       >
-        <Card style={{ height: '100%' }} interactive elevation={Elevation.TWO}>
-          <Callout intent={Intent.PRIMARY}>{t('explore.plotHint')}</Callout>
-          <AnimalsPlot data={filteredData} />
-        </Card>
+        <Map data={filteredData} onInspect={setInspectedObservations} />
+        <ObservationsInspector
+          observations={inspectedObservations}
+          onClose={() => setInspectedObservations([])}
+          predictionOverrides={predictionOverrides}
+          onPredictionOverride={handlePredictionOverride}
+        />
       </div>
-      <div
-        style={{
-          flex: '1',
-          width: '45%',
-          paddingBottom: '20px',
-          marginLeft: '10px'
-        }}
-      >
-        <Card style={{ height: '100%' }} interactive elevation={Elevation.TWO}>
-          <Callout intent={Intent.PRIMARY}>{t('explore.mapHint')}</Callout>
-          <div
-            style={{
-              width: '100%',
-              position: 'relative',
-              overflow: 'hidden'
-            }}
-          >
-            <Map data={filteredData} onInspect={setInspectedObservations} />
-            <ObservationsInspector
-              observations={inspectedObservations}
-              onClose={() => setInspectedObservations([])}
-              predictionOverrides={predictionOverrides}
-              onPredictionOverride={handlePredictionOverride}
-            />
-          </div>
-        </Card>
-      </div>
-    </div>
+    </Card>
   );
 
   // eslint-disable-next-line
