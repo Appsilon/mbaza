@@ -54,7 +54,9 @@ async function chooseFile(
     const observations = await readObservationsCsv(path);
     changeFileChoice(path);
     setObservations(observations);
+    return observations;
   }
+  return undefined;
 }
 
 function inRange(value: number, [low, high]: NumberRange) {
@@ -140,47 +142,58 @@ export default function ExplorePage() {
   };
 
   const handlePredictionOverride = (location: string, override: CreatableOption | null) => {
+    if (observations === undefined) return false;
     const overrides = { ...predictionOverrides };
-    // const observations: Observation[] = data ? data.observations : [];
-    // const observationIndex: number = observations.findIndex(obs => obs.location === location);
-    // console.log('override', override);
+    const observationIndex: number = observations.findIndex(obs => obs.location === location);
 
     if (override === null) {
       delete overrides[location];
-
-      // observations[observationIndex] = {
-      //   ...observations[observationIndex],
-      //   label: observations[observationIndex].pred_1
-      // };
+      observations[observationIndex] = {
+        ...observations[observationIndex],
+        label: observations[observationIndex].pred_1
+      };
     } else {
       overrides[location] = override;
-
-      // observations[observationIndex] = {
-      //   ...observations[observationIndex],
-      //   label: override.value
-      // };
+      observations[observationIndex] = {
+        ...observations[observationIndex],
+        label: override.value
+      };
     }
 
-    setPredictionOverrides(overrides);
-    console.log(overrides);
-
-    // observations.map(row => {
-    //   const ov = predictionOverrides[row.location];
-    //   if (ov) {
-    //     return {
-    //       ...row,
-    //       label: ov.value
-    //     };
-    //   }
-    //   return row;
-    // });
-    // setData({ observations });
-    // console.log(data);
+    const overridenObservations = observations.map(row => {
+      const predictionOverride = predictionOverrides[row.location];
+      if (predictionOverride) {
+        return {
+          ...row,
+          label: predictionOverride.value
+        };
+      }
+      return row;
+    });
+    setObservations(overridenObservations);
+    return false;
   };
 
-  const handleNewDataImport = () => {
-    // chooseFile(setFilePath, setData);
-    // setPredictionOverrides(overrides);
+  const detectOverrides = async (dataObservations: Observation[] | undefined) => {
+    if (dataObservations !== undefined) {
+      const override: PredictionOverridesMap = {};
+      dataObservations
+        .filter((observation: Observation) => observation.label !== observation.pred_1)
+        .forEach((observation: Observation) => {
+          override[observation.location] = {
+            label: observation.label,
+            value: observation.label
+          };
+        });
+      return override;
+    }
+    return {};
+  };
+
+  const handleNewDataImport = async () => {
+    const dataObservations = await chooseFile(setFilePath, setObservations);
+    const overrides = await detectOverrides(dataObservations);
+    setPredictionOverrides(overrides);
   };
 
   const filterCondition = (needle: string, haystack: Entry[]) => {
@@ -304,9 +317,7 @@ export default function ExplorePage() {
                 aria-label="Search"
                 type="submit"
                 className="bp3-button bp3-minimal bp3-intent-primary bp3-icon-search"
-                onClick={async () => {
-                  await chooseFile(setFilePath, setObservations);
-                }}
+                onClick={handleNewDataImport}
               />
             </div>
           </Card>
