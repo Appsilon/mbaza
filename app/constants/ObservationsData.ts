@@ -28,7 +28,3 @@ type Observation = {
   pred_3: string;
   score_3: number;
 };
-
-type ObservationsData = {
-  observations: Observation[];
-};

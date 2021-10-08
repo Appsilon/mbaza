@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
-import { csv } from 'd3-fetch';
 import {
   Card,
   Elevation,
@@ -14,9 +13,9 @@ import {
   IconName,
   Tooltip
 } from '@blueprintjs/core';
+import { remote } from 'electron';
 
 import Map from '../components/Map';
-import AnimalsPlot from '../components/AnimalsPlot';
 import ObservationsTable from '../components/ObservationsTable';
 import ExplorerFilter from '../components/explorerFilters';
 import ExplorerMetrics from '../components/explorerMetrics';
@@ -24,6 +23,7 @@ import { EmptyClasses, RareAnimalsClasses } from '../constants/animalsClasses';
 import ObservationsInspector from '../components/ObservationsInspector';
 import showSaveCsvDialog from '../utils/showSaveCsvDialog';
 import writeCorrectedCsv from '../utils/writeCorrectedCsv';
+import readObservationsCsv from '../utils/readObservationsCsv';
 
 type Filters = {
   activeAnimals: Entry[];
@@ -38,47 +38,23 @@ type Entry = {
   value: string;
 };
 
-function chooseFile(
+async function chooseFile(
   changeFileChoice: (path: string) => void,
-  setData: (data: ObservationsData) => void
+  setObservations: (observations: Observation[]) => void
 ) {
-  // eslint-disable-next-line global-require
-  const { dialog } = require('electron').remote;
-  dialog
-    .showOpenDialog({
-      properties: ['openFile'],
-      filters: [
-        { name: 'CSV', extensions: ['csv'] },
-        { name: 'All Files', extensions: ['*'] }
-      ]
-    })
-    .then(result => {
-      if (!result.canceled) {
-        const file = result.filePaths[0];
-        changeFileChoice(file);
-        return file;
-      }
-      return undefined;
-    })
-    .then(file => {
-      if (file !== undefined) {
-        return csv(file);
-      }
-      return undefined;
-    })
-    .then(data => {
-      if (data !== undefined) {
-        setData({ observations: (data as unknown) as Observation[] });
-        return data;
-      }
-      return undefined;
-    })
-    .catch(error => {
-      // eslint-disable-next-line no-console
-      console.log(error);
-      // eslint-disable-next-line no-alert
-      alert(error);
-    });
+  const dialog = await remote.dialog.showOpenDialog({
+    properties: ['openFile'],
+    filters: [
+      { name: 'CSV', extensions: ['csv'] },
+      { name: 'All Files', extensions: ['*'] }
+    ]
+  });
+  if (!dialog.canceled) {
+    const path = dialog.filePaths[0];
+    const observations = await readObservationsCsv(path);
+    changeFileChoice(path);
+    setObservations(observations);
+  }
 }
 
 function inRange(value: number, [low, high]: NumberRange) {
@@ -155,7 +131,7 @@ export default function ExplorePage() {
     activeChecks: [],
     certaintyRange: [0, 1]
   });
-  const [data, setData] = useState<undefined | ObservationsData>();
+  const [observations, setObservations] = useState<undefined | Observation[]>();
   const [inspectedObservations, setInspectedObservations] = useState<Observation[]>([]);
   const [predictionOverrides, setPredictionOverrides] = useState<PredictionOverridesMap>({});
 
@@ -165,24 +141,24 @@ export default function ExplorePage() {
 
   const handlePredictionOverride = (location: string, override: CreatableOption | null) => {
     const overrides = { ...predictionOverrides };
-    const observations: Observation[] = data ? data.observations : [];
-    const observationIndex: number = observations.findIndex(obs => obs.location === location);
-    console.log('override', override);
+    // const observations: Observation[] = data ? data.observations : [];
+    // const observationIndex: number = observations.findIndex(obs => obs.location === location);
+    // console.log('override', override);
 
     if (override === null) {
       delete overrides[location];
 
-      observations[observationIndex] = {
-        ...observations[observationIndex],
-        label: observations[observationIndex].pred_1
-      };
+      // observations[observationIndex] = {
+      //   ...observations[observationIndex],
+      //   label: observations[observationIndex].pred_1
+      // };
     } else {
       overrides[location] = override;
 
-      observations[observationIndex] = {
-        ...observations[observationIndex],
-        label: override.value
-      };
+      // observations[observationIndex] = {
+      //   ...observations[observationIndex],
+      //   label: override.value
+      // };
     }
 
     setPredictionOverrides(overrides);
@@ -198,12 +174,12 @@ export default function ExplorePage() {
     //   }
     //   return row;
     // });
-    setData({ observations });
-    console.log(data);
+    // setData({ observations });
+    // console.log(data);
   };
 
   const handleNewDataImport = () => {
-    chooseFile(setFilePath, setData);
+    // chooseFile(setFilePath, setData);
     // setPredictionOverrides(overrides);
   };
 
@@ -213,7 +189,7 @@ export default function ExplorePage() {
   };
 
   const filteredData = useMemo(() => {
-    let filtered = data === undefined ? [] : data.observations;
+    let filtered = observations === undefined ? [] : observations;
     if (filters !== undefined) {
       filtered = filtered.filter(
         (entry: Observation) =>
@@ -225,63 +201,39 @@ export default function ExplorePage() {
       );
     }
     return { observations: filtered };
-  }, [filters, data]);
+  }, [filters, observations]);
 
   const mainPanel = (
-    <div style={{ display: 'flex' }}>
+    <Card style={{ height: '100%' }} interactive elevation={Elevation.TWO}>
+      <Callout intent={Intent.PRIMARY}>{t('explore.mapHint')}</Callout>
       <div
         style={{
-          flex: '1',
-          width: '55%',
-          paddingBottom: '20px',
-          marginRight: '10px'
+          width: '100%',
+          position: 'relative',
+          overflow: 'hidden'
         }}
       >
-        <Card style={{ height: '100%' }} interactive elevation={Elevation.TWO}>
-          <Callout intent={Intent.PRIMARY}>{t('explore.plotHint')}</Callout>
-          <AnimalsPlot data={filteredData} />
-        </Card>
+        <Map observations={filteredData.observations} onInspect={setInspectedObservations} />
+        <ObservationsInspector
+          observations={inspectedObservations}
+          onClose={() => setInspectedObservations([])}
+          predictionOverrides={predictionOverrides}
+          onPredictionOverride={handlePredictionOverride}
+        />
       </div>
-      <div
-        style={{
-          flex: '1',
-          width: '45%',
-          paddingBottom: '20px',
-          marginLeft: '10px'
-        }}
-      >
-        <Card style={{ height: '100%' }} interactive elevation={Elevation.TWO}>
-          <Callout intent={Intent.PRIMARY}>{t('explore.mapHint')}</Callout>
-          <div
-            style={{
-              width: '100%',
-              position: 'relative',
-              overflow: 'hidden'
-            }}
-          >
-            <Map data={filteredData} onInspect={setInspectedObservations} />
-            <ObservationsInspector
-              observations={inspectedObservations}
-              onClose={() => setInspectedObservations([])}
-              predictionOverrides={predictionOverrides}
-              onPredictionOverride={handlePredictionOverride}
-            />
-          </div>
-        </Card>
-      </div>
-    </div>
+    </Card>
   );
 
   // eslint-disable-next-line
   const filename = (filePath !== undefined) ? filePath.replace(/^.*[\\\/]/, '') : "";
   const overridesCount = t('explore.overrides', {
-    count: data ? data.observations.reduce((a, b) => a + (b.pred_1 !== b.label ? 1 : 0), 0) : 0
+    count: observations ? observations.reduce((a, b) => a + (b.pred_1 !== b.label ? 1 : 0), 0) : 0
   });
 
-  if (data !== undefined) {
+  if (observations !== undefined) {
     const handleCsvExport = () => {
       const callback = (path: string) => {
-        writeCorrectedCsv(path, data.observations, predictionOverrides);
+        writeCorrectedCsv(path, observations, predictionOverrides);
       };
       showSaveCsvDialog('classification_result_corrected.csv', callback);
     };
@@ -299,7 +251,7 @@ export default function ExplorePage() {
       >
         <div style={{ display: 'flex' }}>
           <DataButton
-            onClick={() => setData(undefined)}
+            onClick={() => setObservations(undefined)}
             textTop={filename}
             textBottom={t('explore.changeFile')}
             icon="arrow-left"
@@ -318,13 +270,13 @@ export default function ExplorePage() {
             emptyClasses={EmptyClasses}
           />
         </div>
-        <ExplorerFilter data={data} updateFilters={handleFilters} />
+        <ExplorerFilter observations={observations} updateFilters={handleFilters} />
         <Tabs renderActiveTabPanelOnly>
-          <Tab id="main" title={t('explore.mainView')} panel={mainPanel} />
+          <Tab id="main" title={t('explore.mapView')} panel={mainPanel} />
           <Tab
             id="table"
             title={t('explore.tableView')}
-            panel={<ObservationsTable data={filteredData} />}
+            panel={<ObservationsTable observations={filteredData.observations} />}
           />
           <Tabs.Expander />
         </Tabs>
@@ -352,7 +304,9 @@ export default function ExplorePage() {
                 aria-label="Search"
                 type="submit"
                 className="bp3-button bp3-minimal bp3-intent-primary bp3-icon-search"
-                onClick={handleNewDataImport}
+                onClick={async () => {
+                  await chooseFile(setFilePath, setObservations);
+                }}
               />
             </div>
           </Card>
