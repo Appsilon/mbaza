@@ -5,7 +5,7 @@ import Select from 'react-select';
 import { debounce } from 'lodash';
 
 type Props = {
-  data: ObservationsData;
+  observations: Observation[];
   updateFilters: Function;
 };
 
@@ -57,7 +57,7 @@ function CertaintyFilter({ updateFilters }: CertaintyFilterProps) {
 
 export default function ExplorerFilter(props: Props) {
   const { t } = useTranslation();
-  const { data, updateFilters } = props;
+  const { observations, updateFilters } = props;
 
   const getUniqueSet = (dataset: string[]) => {
     return Array.from(new Set(dataset)).map((entry: string) => {
@@ -65,12 +65,12 @@ export default function ExplorerFilter(props: Props) {
     });
   };
 
-  const animals = getUniqueSet(data.observations.map(entry => entry.pred_1)).sort(orderByName);
-  const cameras = getUniqueSet(data.observations.map(entry => entry.camera)).sort(
+  const animals = getUniqueSet(observations.map(entry => entry.pred_1)).sort(orderByName);
+  const cameras = getUniqueSet(observations.map(entry => entry.camera)).sort(
     (a, b) => parseInt(a.value, 10) - parseInt(b.value, 10)
   );
-  const stations = getUniqueSet(data.observations.map(entry => entry.station)).sort(orderByName);
-  const checks = getUniqueSet(data.observations.map(entry => entry.check)).sort(
+  const stations = getUniqueSet(observations.map(entry => entry.station)).sort(orderByName);
+  const checks = getUniqueSet(observations.map(entry => entry.check)).sort(
     (a, b) => parseInt(b.value, 10) - parseInt(a.value, 10)
   );
 

@@ -3,14 +3,12 @@ import { Column, Table, Cell } from '@blueprintjs/table';
 import { useTranslation } from 'react-i18next';
 
 type Props = {
-  data: ObservationsData;
+  observations: Observation[];
 };
 
 export default function ObservationsTable(props: Props) {
-  const { data } = props;
+  const { observations } = props;
   const { t } = useTranslation();
-
-  const { observations } = data;
 
   return (
     <Table numRows={observations.length} enableColumnReordering>

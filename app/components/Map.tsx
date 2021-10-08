@@ -167,12 +167,12 @@ function addMarkers(
 }
 
 type MapProps = {
-  data: ObservationsData;
+  observations: Observation[];
   onInspect: (observations: Observation[]) => void;
 };
 
 export default function Map(props: MapProps) {
-  const { data, onInspect } = props;
+  const { observations, onInspect } = props;
   const mapRef = React.createRef<HTMLDivElement>();
   const { t } = useTranslation();
 
@@ -183,11 +183,11 @@ export default function Map(props: MapProps) {
       center: [12, -0.8],
       zoom: 6
     });
-    addMarkers(t, data.observations, map, onInspect);
+    addMarkers(t, observations, map, onInspect);
     return function cleanup() {
       map.remove();
     };
-  }, [data.observations]);
+  }, [observations]);
 
   return <div ref={mapRef} className={styles.mapContainer} />;
 }
