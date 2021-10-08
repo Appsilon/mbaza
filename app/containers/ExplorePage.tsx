@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from 'react';
 import { useTranslation, Trans } from 'react-i18next';
-import { csv } from 'd3-fetch';
 import {
   Card,
   Elevation,
@@ -23,6 +22,7 @@ import { EmptyClasses, RareAnimalsClasses } from '../constants/animalsClasses';
 import ObservationsInspector from '../components/ObservationsInspector';
 import showSaveCsvDialog from '../utils/showSaveCsvDialog';
 import writeCorrectedCsv from '../utils/writeCorrectedCsv';
+import readObservationsCsv from '../utils/readObservationsCsv';
 
 type Filters = {
   activeAnimals: Entry[];
@@ -59,16 +59,15 @@ function chooseFile(
       }
       return undefined;
     })
-    .then(file => {
-      if (file !== undefined) {
-        return csv(file);
+    .then(filePath => {
+      if (filePath !== undefined) {
+        return readObservationsCsv(filePath);
       }
       return undefined;
     })
     .then(data => {
       if (data !== undefined) {
-        setData({ observations: (data as unknown) as Observation[] });
-        return data;
+        setData(data);
       }
       return undefined;
     })
