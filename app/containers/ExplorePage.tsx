@@ -167,24 +167,44 @@ export default function ExplorePage() {
     const overrides = { ...predictionOverrides };
     const observations: Observation[] = data ? data.observations : [];
     const observationIndex: number = observations.findIndex(obs => obs.location === location);
+    console.log('override', override);
 
     if (override === null) {
       delete overrides[location];
+
+      observations[observationIndex] = {
+        ...observations[observationIndex],
+        label: observations[observationIndex].pred_1
+      };
     } else {
       overrides[location] = override;
+
+      observations[observationIndex] = {
+        ...observations[observationIndex],
+        label: override.value
+      };
     }
+
     setPredictionOverrides(overrides);
+    console.log(overrides);
 
-    observations[observationIndex] = {
-      ...observations[observationIndex],
-      overriden: override !== null
-    };
-
+    // observations.map(row => {
+    //   const ov = predictionOverrides[row.location];
+    //   if (ov) {
+    //     return {
+    //       ...row,
+    //       label: ov.value
+    //     };
+    //   }
+    //   return row;
+    // });
     setData({ observations });
+    console.log(data);
   };
 
   const handleNewDataImport = () => {
     chooseFile(setFilePath, setData);
+    // setPredictionOverrides(overrides);
   };
 
   const filterCondition = (needle: string, haystack: Entry[]) => {
@@ -254,6 +274,9 @@ export default function ExplorePage() {
 
   // eslint-disable-next-line
   const filename = (filePath !== undefined) ? filePath.replace(/^.*[\\\/]/, '') : "";
+  const overridesCount = t('explore.overrides', {
+    count: data ? data.observations.reduce((a, b) => a + (b.pred_1 !== b.label ? 1 : 0), 0) : 0
+  });
 
   if (data !== undefined) {
     const handleCsvExport = () => {
@@ -284,9 +307,7 @@ export default function ExplorePage() {
           <Tooltip content={t('explore.overridesTooltip')}>
             <DataButton
               onClick={handleCsvExport}
-              textTop={t('explore.overrides', {
-                count: Object.keys(predictionOverrides).length
-              })}
+              textTop={overridesCount}
               textBottom={t('explore.overridesExport')}
               icon="export"
             />

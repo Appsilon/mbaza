@@ -54,6 +54,14 @@ function ObservationCard(props: ObservationCardProps) {
         <CreatableSelect
           name={predictionOverride}
           value={predictionOverride}
+          // value={
+          //   predictionOverride
+          //   ? predictionOverride
+          //   : {
+          //     value: 'test',
+          //     label: observation.label !== observation.pred_1 ? observation.label : null
+          //   }
+          // }
           onChange={handlePredictionOverride}
           isClearable
           placeholder={t('explore.inspect.overridePlaceholder')}
