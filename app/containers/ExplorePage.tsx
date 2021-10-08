@@ -13,6 +13,7 @@ import {
   IconName,
   Tooltip
 } from '@blueprintjs/core';
+import { remote } from 'electron';
 
 import Map from '../components/Map';
 import ObservationsTable from '../components/ObservationsTable';
@@ -37,46 +38,23 @@ type Entry = {
   value: string;
 };
 
-function chooseFile(
+async function chooseFile(
   changeFileChoice: (path: string) => void,
   setObservations: (observations: Observation[]) => void
 ) {
-  // eslint-disable-next-line global-require
-  const { dialog } = require('electron').remote;
-  dialog
-    .showOpenDialog({
-      properties: ['openFile'],
-      filters: [
-        { name: 'CSV', extensions: ['csv'] },
-        { name: 'All Files', extensions: ['*'] }
-      ]
-    })
-    .then(result => {
-      if (!result.canceled) {
-        const file = result.filePaths[0];
-        changeFileChoice(file);
-        return file;
-      }
-      return undefined;
-    })
-    .then(filePath => {
-      if (filePath !== undefined) {
-        return readObservationsCsv(filePath);
-      }
-      return undefined;
-    })
-    .then(observations => {
-      if (observations !== undefined) {
-        setObservations(observations);
-      }
-      return undefined;
-    })
-    .catch(error => {
-      // eslint-disable-next-line no-console
-      console.log(error);
-      // eslint-disable-next-line no-alert
-      alert(error);
-    });
+  const dialog = await remote.dialog.showOpenDialog({
+    properties: ['openFile'],
+    filters: [
+      { name: 'CSV', extensions: ['csv'] },
+      { name: 'All Files', extensions: ['*'] }
+    ]
+  });
+  if (!dialog.canceled) {
+    const path = dialog.filePaths[0];
+    const observations = await readObservationsCsv(path);
+    changeFileChoice(path);
+    setObservations(observations);
+  }
 }
 
 function inRange(value: number, [low, high]: NumberRange) {
@@ -291,8 +269,8 @@ export default function ExplorePage() {
                 aria-label="Search"
                 type="submit"
                 className="bp3-button bp3-minimal bp3-intent-primary bp3-icon-search"
-                onClick={() => {
-                  chooseFile(setFilePath, setObservations);
+                onClick={async () => {
+                  await chooseFile(setFilePath, setObservations);
                 }}
               />
             </div>
