@@ -260,7 +260,7 @@ export default function ExplorePage() {
         </div>
         <ExplorerFilter data={data} updateFilters={handleFilters} />
         <Tabs renderActiveTabPanelOnly>
-          <Tab id="main" title={t('explore.mainView')} panel={mainPanel} />
+          <Tab id="main" title={t('explore.mapView')} panel={mainPanel} />
           <Tab
             id="table"
             title={t('explore.tableView')}
