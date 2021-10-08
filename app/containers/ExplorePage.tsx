@@ -16,7 +16,6 @@ import {
 } from '@blueprintjs/core';
 
 import Map from '../components/Map';
-import AnimalsPlot from '../components/AnimalsPlot';
 import ObservationsTable from '../components/ObservationsTable';
 import ExplorerFilter from '../components/explorerFilters';
 import ExplorerMetrics from '../components/explorerMetrics';
@@ -194,48 +193,24 @@ export default function ExplorePage() {
   }, [filters, data]);
 
   const mainPanel = (
-    <div style={{ display: 'flex' }}>
+    <Card style={{ height: '100%' }} interactive elevation={Elevation.TWO}>
+      <Callout intent={Intent.PRIMARY}>{t('explore.mapHint')}</Callout>
       <div
         style={{
-          flex: '1',
-          width: '55%',
-          paddingBottom: '20px',
-          marginRight: '10px'
+          width: '100%',
+          position: 'relative',
+          overflow: 'hidden'
         }}
       >
-        <Card style={{ height: '100%' }} interactive elevation={Elevation.TWO}>
-          <Callout intent={Intent.PRIMARY}>{t('explore.plotHint')}</Callout>
-          <AnimalsPlot data={filteredData} />
-        </Card>
+        <Map data={filteredData} onInspect={setInspectedObservations} />
+        <ObservationsInspector
+          observations={inspectedObservations}
+          onClose={() => setInspectedObservations([])}
+          predictionOverrides={predictionOverrides}
+          onPredictionOverride={handlePredictionOverride}
+        />
       </div>
-      <div
-        style={{
-          flex: '1',
-          width: '45%',
-          paddingBottom: '20px',
-          marginLeft: '10px'
-        }}
-      >
-        <Card style={{ height: '100%' }} interactive elevation={Elevation.TWO}>
-          <Callout intent={Intent.PRIMARY}>{t('explore.mapHint')}</Callout>
-          <div
-            style={{
-              width: '100%',
-              position: 'relative',
-              overflow: 'hidden'
-            }}
-          >
-            <Map data={filteredData} onInspect={setInspectedObservations} />
-            <ObservationsInspector
-              observations={inspectedObservations}
-              onClose={() => setInspectedObservations([])}
-              predictionOverrides={predictionOverrides}
-              onPredictionOverride={handlePredictionOverride}
-            />
-          </div>
-        </Card>
-      </div>
-    </div>
+    </Card>
   );
 
   // eslint-disable-next-line
@@ -285,7 +260,7 @@ export default function ExplorePage() {
         </div>
         <ExplorerFilter data={data} updateFilters={handleFilters} />
         <Tabs renderActiveTabPanelOnly>
-          <Tab id="main" title={t('explore.mainView')} panel={mainPanel} />
+          <Tab id="main" title={t('explore.mapView')} panel={mainPanel} />
           <Tab
             id="table"
             title={t('explore.tableView')}
