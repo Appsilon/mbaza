@@ -39,7 +39,7 @@ type Entry = {
 
 function chooseFile(
   changeFileChoice: (path: string) => void,
-  setData: (data: ObservationsData) => void
+  setObservations: (observations: Observation[]) => void
 ) {
   // eslint-disable-next-line global-require
   const { dialog } = require('electron').remote;
@@ -65,9 +65,9 @@ function chooseFile(
       }
       return undefined;
     })
-    .then(data => {
-      if (data !== undefined) {
-        setData(data);
+    .then(observations => {
+      if (observations !== undefined) {
+        setObservations(observations);
       }
       return undefined;
     })
@@ -153,7 +153,7 @@ export default function ExplorePage() {
     activeChecks: [],
     certaintyRange: [0, 1]
   });
-  const [data, setData] = useState<undefined | ObservationsData>();
+  const [observations, setObservations] = useState<undefined | Observation[]>();
   const [inspectedObservations, setInspectedObservations] = useState<Observation[]>([]);
   const [predictionOverrides, setPredictionOverrides] = useState<PredictionOverridesMap>({});
 
@@ -177,7 +177,7 @@ export default function ExplorePage() {
   };
 
   const filteredData = useMemo(() => {
-    let filtered = data === undefined ? [] : data.observations;
+    let filtered = observations === undefined ? [] : observations;
     if (filters !== undefined) {
       filtered = filtered.filter(
         (entry: Observation) =>
@@ -189,7 +189,7 @@ export default function ExplorePage() {
       );
     }
     return { observations: filtered };
-  }, [filters, data]);
+  }, [filters, observations]);
 
   const mainPanel = (
     <Card style={{ height: '100%' }} interactive elevation={Elevation.TWO}>
@@ -201,7 +201,7 @@ export default function ExplorePage() {
           overflow: 'hidden'
         }}
       >
-        <Map data={filteredData} onInspect={setInspectedObservations} />
+        <Map observations={filteredData.observations} onInspect={setInspectedObservations} />
         <ObservationsInspector
           observations={inspectedObservations}
           onClose={() => setInspectedObservations([])}
@@ -215,10 +215,10 @@ export default function ExplorePage() {
   // eslint-disable-next-line
   const filename = (filePath !== undefined) ? filePath.replace(/^.*[\\\/]/, '') : "";
 
-  if (data !== undefined) {
+  if (observations !== undefined) {
     const handleCsvExport = () => {
       const callback = (path: string) => {
-        writeCorrectedCsv(path, data.observations, predictionOverrides);
+        writeCorrectedCsv(path, observations, predictionOverrides);
       };
       showSaveCsvDialog('classification_result_corrected.csv', callback);
     };
@@ -236,7 +236,7 @@ export default function ExplorePage() {
       >
         <div style={{ display: 'flex' }}>
           <DataButton
-            onClick={() => setData(undefined)}
+            onClick={() => setObservations(undefined)}
             textTop={filename}
             textBottom={t('explore.changeFile')}
             icon="arrow-left"
@@ -257,13 +257,13 @@ export default function ExplorePage() {
             emptyClasses={EmptyClasses}
           />
         </div>
-        <ExplorerFilter data={data} updateFilters={handleFilters} />
+        <ExplorerFilter observations={observations} updateFilters={handleFilters} />
         <Tabs renderActiveTabPanelOnly>
           <Tab id="main" title={t('explore.mapView')} panel={mainPanel} />
           <Tab
             id="table"
             title={t('explore.tableView')}
-            panel={<ObservationsTable data={filteredData} />}
+            panel={<ObservationsTable observations={filteredData.observations} />}
           />
           <Tabs.Expander />
         </Tabs>
@@ -292,7 +292,7 @@ export default function ExplorePage() {
                 type="submit"
                 className="bp3-button bp3-minimal bp3-intent-primary bp3-icon-search"
                 onClick={() => {
-                  chooseFile(setFilePath, setData);
+                  chooseFile(setFilePath, setObservations);
                 }}
               />
             </div>
