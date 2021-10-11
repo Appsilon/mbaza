@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button, Text } from '@blueprintjs/core';
+import { Button, Text, Popover, NumericInput } from '@blueprintjs/core';
 
 type Props = {
   filePath: string | undefined;
@@ -43,15 +43,30 @@ export default function Databar(props: Props) {
         style={{ marginRight: '15px' }}
         text={t('explore.changeFile')}
       />
-      <Button
-        icon="refresh"
-        intent="primary"
-        large
-        onClick={() => onEventsUpdateClick()}
-        outlined={false}
-        style={{ marginRight: '15px' }}
-        text={t('explore.eventsButtonLabel')}
-      />
+      <Popover>
+        <Button
+          icon="refresh"
+          intent="primary"
+          large
+          outlined={false}
+          style={{ marginRight: '15px' }}
+          text={t('explore.eventsButtonLabel')}
+        />
+        <div style={{ display: 'flex', padding: '20px' }}>
+          <NumericInput
+            intent="primary"
+            leftIcon="stopwatch"
+            placeholder="Event duration"
+            rightElement={<div>minutes</div>}
+          />
+          <Button
+            intent="primary"
+            onClick={() => onEventsUpdateClick()}
+            outlined={false}
+            text="OK"
+          />
+        </div>
+      </Popover>
       <Button
         icon="export"
         intent="primary"
