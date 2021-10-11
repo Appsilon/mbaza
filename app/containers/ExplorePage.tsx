@@ -11,6 +11,7 @@ import {
   Callout,
   NumberRange,
   IconName,
+  Text,
   Tooltip
 } from '@blueprintjs/core';
 import { remote } from 'electron';
@@ -257,6 +258,12 @@ export default function ExplorePage() {
         }}
       >
         <div style={{ display: 'flex' }}>
+          <div style={{ display: 'flex' }}>
+            <Text tagName="h3" title={t('explore.dataFileLoaded')}>
+              {`${t('explore.dataFileLoaded')}: `}
+            </Text>
+            <Text tagName="p">{filename}</Text>
+          </div>
           <DataButton
             onClick={() => setObservations(undefined)}
             textTop={filename}
