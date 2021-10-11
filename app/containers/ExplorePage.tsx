@@ -153,17 +153,13 @@ export default function ExplorePage() {
 
     if (override === null) {
       delete overrides[location];
-      observations[observationIndex] = {
-        ...observation,
-        label: observation.pred_1
-      };
     } else {
       overrides[location] = override;
-      observations[observationIndex] = {
-        ...observation,
-        label: override.value
-      };
     }
+    observations[observationIndex] = {
+      ...observation,
+      label: override === null ? observation.pred_1 : override.value
+    };
     setPredictionOverrides(overrides);
     return false;
   };
