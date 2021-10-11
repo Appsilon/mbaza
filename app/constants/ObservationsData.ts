@@ -14,6 +14,7 @@ type Observation = {
   uncertainty: number;
   label: string;
   // Metadata
+  timestamp: Date;
   station: string;
   check: string;
   camera: string;
