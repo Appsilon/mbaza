@@ -169,6 +169,11 @@ export default function ExplorePage() {
       };
       showSaveCsvDialog('classification_result_corrected.csv', callback);
     };
+    const handleEvents = () => {
+      // TODO (Kamil): implement events handler
+      console.log('events handler triggered');
+    };
+
     return (
       <div
         style={{
@@ -202,6 +207,15 @@ export default function ExplorePage() {
             outlined={false}
             style={{ marginRight: '15px' }}
             text={t('explore.changeFile')}
+          />
+          <Button
+            icon="refresh"
+            intent="primary"
+            large
+            onClick={handleEvents}
+            outlined={false}
+            style={{ marginRight: '15px' }}
+            text={t('explore.eventsButtonLabel')}
           />
           <Button
             icon="export"
