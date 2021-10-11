@@ -93,7 +93,9 @@ function ObservationCard(props: ObservationCardProps) {
     <Card elevation={Elevation.TWO} key={observation.location} style={{ marginTop: 10 }}>
       <h3 style={{ marginTop: 0 }}>
         {t('explore.inspect.photoHeader', {
-          species: formatAnimalClassName(observation.pred_1),
+          species: formatAnimalClassName(
+            predictionOverride ? predictionOverride.value : observation.pred_1
+          ),
           date: observation.date
         })}
       </h3>

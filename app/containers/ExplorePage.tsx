@@ -19,7 +19,11 @@ import Map from '../components/Map';
 import ObservationsTable from '../components/ObservationsTable';
 import ExplorerFilter from '../components/explorerFilters';
 import ExplorerMetrics from '../components/explorerMetrics';
-import { EmptyClasses, RareAnimalsClasses } from '../constants/animalsClasses';
+import {
+  formatAnimalClassName,
+  EmptyClasses,
+  RareAnimalsClasses
+} from '../constants/animalsClasses';
 import ObservationsInspector from '../components/ObservationsInspector';
 import showSaveCsvDialog from '../utils/showSaveCsvDialog';
 import writeCorrectedCsv from '../utils/writeCorrectedCsv';
@@ -54,7 +58,9 @@ async function chooseFile(
     const observations = await readObservationsCsv(path);
     changeFileChoice(path);
     setObservations(observations);
+    return observations;
   }
+  return undefined;
 }
 
 function inRange(value: number, [low, high]: NumberRange) {
@@ -140,12 +146,43 @@ export default function ExplorePage() {
   };
 
   const handlePredictionOverride = (location: string, override: CreatableOption | null) => {
+    if (observations === undefined) return false;
     const overrides = { ...predictionOverrides };
+    const observationIndex: number = observations.findIndex(obs => obs.location === location);
+    const observation = observations[observationIndex];
+
     if (override === null) {
       delete overrides[location];
     } else {
       overrides[location] = override;
     }
+    observations[observationIndex] = {
+      ...observation,
+      label: override === null ? observation.pred_1 : override.value
+    };
+    setPredictionOverrides(overrides);
+    return false;
+  };
+
+  const detectOverrides = (dataObservations: Observation[] | undefined) => {
+    if (dataObservations !== undefined) {
+      const override: PredictionOverridesMap = {};
+      dataObservations
+        .filter((observation: Observation) => observation.label !== observation.pred_1)
+        .forEach((observation: Observation) => {
+          override[observation.location] = {
+            label: formatAnimalClassName(observation.label),
+            value: formatAnimalClassName(observation.label)
+          };
+        });
+      return override;
+    }
+    return {};
+  };
+
+  const handleNewDataImport = async () => {
+    const dataObservations = await chooseFile(setFilePath, setObservations);
+    const overrides = await detectOverrides(dataObservations);
     setPredictionOverrides(overrides);
   };
 
@@ -192,6 +229,12 @@ export default function ExplorePage() {
 
   // eslint-disable-next-line
   const filename = (filePath !== undefined) ? filePath.replace(/^.*[\\\/]/, '') : "";
+  const countOverrides = (obs: Observation[]): number => {
+    return obs.reduce((a, b) => a + (b.pred_1 !== b.label ? 1 : 0), 0);
+  };
+  const overridesCount = t('explore.overrides', {
+    count: observations ? countOverrides(observations) : 0
+  });
 
   if (observations !== undefined) {
     const handleCsvExport = () => {
@@ -222,9 +265,7 @@ export default function ExplorePage() {
           <Tooltip content={t('explore.overridesTooltip')}>
             <DataButton
               onClick={handleCsvExport}
-              textTop={t('explore.overrides', {
-                count: Object.keys(predictionOverrides).length
-              })}
+              textTop={overridesCount}
               textBottom={t('explore.overridesExport')}
               icon="export"
             />
@@ -269,9 +310,7 @@ export default function ExplorePage() {
                 aria-label="Search"
                 type="submit"
                 className="bp3-button bp3-minimal bp3-intent-primary bp3-icon-search"
-                onClick={async () => {
-                  await chooseFile(setFilePath, setObservations);
-                }}
+                onClick={handleNewDataImport}
               />
             </div>
           </Card>
