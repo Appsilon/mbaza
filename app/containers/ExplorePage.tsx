@@ -3,15 +3,12 @@ import { useTranslation, Trans } from 'react-i18next';
 import {
   Card,
   Elevation,
-  Button,
   Tab,
   Tabs,
   H1,
   Intent,
   Callout,
   NumberRange,
-  IconName,
-  Text,
   Divider
 } from '@blueprintjs/core';
 import { remote } from 'electron';
@@ -29,6 +26,7 @@ import ObservationsInspector from '../components/ObservationsInspector';
 import showSaveCsvDialog from '../utils/showSaveCsvDialog';
 import writeCorrectedCsv from '../utils/writeCorrectedCsv';
 import readObservationsCsv from '../utils/readObservationsCsv';
+import Databar from '../components/explorerDatabar';
 
 type Filters = {
   activeAnimals: Entry[];
@@ -155,8 +153,6 @@ export default function ExplorePage() {
     </Card>
   );
 
-  // eslint-disable-next-line
-  const filename = (filePath !== undefined) ? filePath.replace(/^.*[\\\/]/, '') : "";
   const countOverrides = (obs: Observation[]): number => {
     return obs.reduce((a, b) => a + (b.pred_1 !== b.label ? 1 : 0), 0);
   };
@@ -186,46 +182,14 @@ export default function ExplorePage() {
           position: 'relative'
         }}
       >
-        <div
-          className="databar"
-          style={{ alignItems: 'center', display: 'flex', justifyContent: 'space-between' }}
-        >
-          <div
-            className="databar__filename"
-            style={{ alignItems: 'center', display: 'flex', flex: '1' }}
-          >
-            <Text tagName="h4" title={t('explore.dataFileLoaded')}>
-              {`${t('explore.dataFileLoaded')}:`}
-            </Text>
-            <Text tagName="p">{filename}</Text>
-          </div>
-          <Button
-            icon="arrow-left"
-            intent="primary"
-            large
-            onClick={() => setObservations(undefined)}
-            outlined={false}
-            style={{ marginRight: '15px' }}
-            text={t('explore.changeFile')}
-          />
-          <Button
-            icon="refresh"
-            intent="primary"
-            large
-            onClick={handleEvents}
-            outlined={false}
-            style={{ marginRight: '15px' }}
-            text={t('explore.eventsButtonLabel')}
-          />
-          <Button
-            icon="export"
-            intent="primary"
-            large
-            onClick={handleCsvExport}
-            outlined={false}
-            text={t('explore.overridesExport')}
-          />
-        </div>
+        <Databar
+          filePath={filePath}
+          onDataImportClick={() => setObservations(undefined)}
+          onEventsUpdateClick={handleEvents}
+          onDataExportClick={handleCsvExport}
+        />
+        <Divider />
+        <ExplorerFilter observations={observations} updateFilters={handleFilters} />
         <Divider />
         <ExplorerMetrics
           data={filteredData.observations}
@@ -233,7 +197,6 @@ export default function ExplorePage() {
           emptyClasses={EmptyClasses}
           overridesTotal={overridesTotal}
         />
-        <ExplorerFilter observations={observations} updateFilters={handleFilters} />
         <Tabs renderActiveTabPanelOnly>
           <Tab id="main" title={t('explore.mapView')} panel={mainPanel} />
           <Tab
