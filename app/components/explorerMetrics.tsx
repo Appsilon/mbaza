@@ -26,6 +26,7 @@ export default function ExplorerMetrics(props: Props) {
   const nonEmpty = data.filter((entry: Observation) => !emptyClasses.includes(entry.pred_1));
   const uniqueAnimals = getUniqueSet(data.map((entry: Observation) => entry.pred_1));
   const rareAnimals = getRareAnimals(uniqueAnimals, rareTargets);
+  const eventsCount = 0; // TODO (Jakub / Kamil): get value from backend
 
   function metricsCard(
     icon: IconName,
@@ -99,6 +100,7 @@ export default function ExplorerMetrics(props: Props) {
         <AnimalsListTooltipContent entries={rareAnimals} />
       )}
       {metricsCard('updated', '#5c7080', t('explore.overrides'), overridesTotal)}
+      {metricsCard('layers', '#5c7080', t('explore.eventsCount'), eventsCount)}
     </div>
   );
 }
