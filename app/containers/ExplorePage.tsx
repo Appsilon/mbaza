@@ -19,7 +19,11 @@ import Map from '../components/Map';
 import ObservationsTable from '../components/ObservationsTable';
 import ExplorerFilter from '../components/explorerFilters';
 import ExplorerMetrics from '../components/explorerMetrics';
-import { EmptyClasses, RareAnimalsClasses } from '../constants/animalsClasses';
+import {
+  formatAnimalClassName,
+  EmptyClasses,
+  RareAnimalsClasses
+} from '../constants/animalsClasses';
 import ObservationsInspector from '../components/ObservationsInspector';
 import showSaveCsvDialog from '../utils/showSaveCsvDialog';
 import writeCorrectedCsv from '../utils/writeCorrectedCsv';
@@ -145,32 +149,22 @@ export default function ExplorePage() {
     if (observations === undefined) return false;
     const overrides = { ...predictionOverrides };
     const observationIndex: number = observations.findIndex(obs => obs.location === location);
+    const observation = observations[observationIndex];
 
     if (override === null) {
       delete overrides[location];
       observations[observationIndex] = {
-        ...observations[observationIndex],
-        label: observations[observationIndex].pred_1
+        ...observation,
+        label: observation.pred_1
       };
     } else {
       overrides[location] = override;
       observations[observationIndex] = {
-        ...observations[observationIndex],
+        ...observation,
         label: override.value
       };
     }
-
-    const overridenObservations = observations.map(row => {
-      const predictionOverride = predictionOverrides[row.location];
-      if (predictionOverride) {
-        return {
-          ...row,
-          label: predictionOverride.value
-        };
-      }
-      return row;
-    });
-    setObservations(overridenObservations);
+    setPredictionOverrides(overrides);
     return false;
   };
 
@@ -182,7 +176,7 @@ export default function ExplorePage() {
         .forEach((observation: Observation) => {
           override[observation.location] = {
             label: observation.label,
-            value: observation.label
+            value: formatAnimalClassName(observation.label)
           };
         });
       return override;

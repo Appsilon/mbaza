@@ -54,14 +54,6 @@ function ObservationCard(props: ObservationCardProps) {
         <CreatableSelect
           name={predictionOverride}
           value={predictionOverride}
-          // value={
-          //   predictionOverride
-          //   ? predictionOverride
-          //   : {
-          //     value: 'test',
-          //     label: observation.label !== observation.pred_1 ? observation.label : null
-          //   }
-          // }
           onChange={handlePredictionOverride}
           isClearable
           placeholder={t('explore.inspect.overridePlaceholder')}
@@ -101,7 +93,9 @@ function ObservationCard(props: ObservationCardProps) {
     <Card elevation={Elevation.TWO} key={observation.location} style={{ marginTop: 10 }}>
       <h3 style={{ marginTop: 0 }}>
         {t('explore.inspect.photoHeader', {
-          species: formatAnimalClassName(observation.label),
+          species: formatAnimalClassName(
+            predictionOverride ? predictionOverride.value : observation.pred_1
+          ),
           date: observation.date
         })}
       </h3>
