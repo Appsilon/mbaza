@@ -99,7 +99,13 @@ export default function ExplorerMetrics(props: Props) {
         rareAnimals.length,
         <AnimalsListTooltipContent entries={rareAnimals} />
       )}
-      {metricsCard('updated', '#5c7080', t('explore.overrides'), overridesTotal)}
+      {metricsCard(
+        'updated',
+        '#5c7080',
+        t('explore.overrides'),
+        overridesTotal,
+        t('explore.overridesTooltip')
+      )}
       {metricsCard('layers', '#5c7080', t('explore.eventsCount'), eventsCount)}
     </div>
   );

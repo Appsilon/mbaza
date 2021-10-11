@@ -12,7 +12,7 @@ import {
   NumberRange,
   IconName,
   Text,
-  Tooltip
+  Divider
 } from '@blueprintjs/core';
 import { remote } from 'electron';
 
@@ -74,82 +74,6 @@ async function chooseFile(
 
 function inRange(value: number, [low, high]: NumberRange) {
   return low <= value && value <= high;
-}
-
-type DataButtonProps = {
-  onClick: () => void;
-  textTop: string;
-  textBottom: string;
-  icon: IconName;
-};
-
-function DataButton({ textTop, textBottom, icon, onClick }: DataButtonProps) {
-  return (
-    <Card
-      style={{
-        padding: '0',
-        display: 'inline-flex',
-        flexDirection: 'column',
-        height: '100px',
-        marginRight: '20px'
-      }}
-      interactive
-      elevation={Elevation.TWO}
-    >
-      <div
-        style={{
-          padding: '20px',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: '#4e5e6b',
-          color: 'white',
-          minWidth: '150px',
-          maxWidth: '200px',
-          height: '70px',
-          fontWeight: 'bold'
-        }}
-      >
-        <span
-          style={{
-            wordWrap: 'break-word',
-            width: '100%',
-            textAlign: 'center'
-          }}
-        >
-          {textTop}
-        </span>
-      </div>
-      <Button
-        text={textBottom}
-        icon={icon}
-        onClick={onClick}
-        style={{
-          backgroundColor: '#fff',
-          width: '100%',
-          height: '30px',
-          textAlign: 'center',
-          lineHeight: '1.4'
-        }}
-      />
-    </Card>
-  );
-}
-
-function detectOverrides(observations: Observation[] | undefined) {
-  if (observations !== undefined) {
-    const override: PredictionOverridesMap = {};
-    observations
-      .filter((observation: Observation) => observation.label !== observation.pred_1)
-      .forEach((observation: Observation) => {
-        override[observation.location] = {
-          label: formatAnimalClassName(observation.label),
-          value: formatAnimalClassName(observation.label)
-        };
-      });
-    return override;
-  }
-  return {};
 }
 
 export default function ExplorePage() {
@@ -257,34 +181,41 @@ export default function ExplorePage() {
           position: 'relative'
         }}
       >
-        <div style={{ display: 'flex' }}>
-          <div style={{ display: 'flex' }}>
+        <div
+          className="databar"
+          style={{ alignItems: 'center', display: 'flex', justifyContent: 'space-between' }}
+        >
+          <div style={{ alignItems: 'center', display: 'flex', flex: '1' }}>
             <Text tagName="h3" title={t('explore.dataFileLoaded')}>
-              {`${t('explore.dataFileLoaded')}: `}
+              {`${t('explore.dataFileLoaded')}:`}
             </Text>
             <Text tagName="p">{filename}</Text>
           </div>
-          <DataButton
-            onClick={() => setObservations(undefined)}
-            textTop={filename}
-            textBottom={t('explore.changeFile')}
+          <Button
             icon="arrow-left"
+            intent="primary"
+            large
+            onClick={() => setObservations(undefined)}
+            outlined={false}
+            style={{ marginRight: '15px' }}
+            text={t('explore.changeFile')}
           />
-          <Tooltip content={t('explore.overridesTooltip')}>
-            <DataButton
-              onClick={handleCsvExport}
-              textTop=""
-              textBottom={t('explore.overridesExport')}
-              icon="export"
-            />
-          </Tooltip>
-          <ExplorerMetrics
-            data={filteredData.observations}
-            rareTargets={RareAnimalsClasses}
-            emptyClasses={EmptyClasses}
-            overridesTotal={overridesTotal}
+          <Button
+            icon="export"
+            intent="primary"
+            large
+            onClick={handleCsvExport}
+            outlined={false}
+            text={t('explore.overridesExport')}
           />
         </div>
+        <Divider />
+        <ExplorerMetrics
+          data={filteredData.observations}
+          rareTargets={RareAnimalsClasses}
+          emptyClasses={EmptyClasses}
+          overridesTotal={overridesTotal}
+        />
         <ExplorerFilter observations={observations} updateFilters={handleFilters} />
         <Tabs renderActiveTabPanelOnly>
           <Tab id="main" title={t('explore.mapView')} panel={mainPanel} />
