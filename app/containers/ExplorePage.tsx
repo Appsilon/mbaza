@@ -171,7 +171,7 @@ export default function ExplorePage() {
         .filter((observation: Observation) => observation.label !== observation.pred_1)
         .forEach((observation: Observation) => {
           override[observation.location] = {
-            label: observation.label,
+            label: formatAnimalClassName(observation.label),
             value: formatAnimalClassName(observation.label)
           };
         });
