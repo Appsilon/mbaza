@@ -164,7 +164,7 @@ export default function ExplorePage() {
     return false;
   };
 
-  const detectOverrides = async (dataObservations: Observation[] | undefined) => {
+  const detectOverrides = (dataObservations: Observation[] | undefined) => {
     if (dataObservations !== undefined) {
       const override: PredictionOverridesMap = {};
       dataObservations
@@ -229,8 +229,11 @@ export default function ExplorePage() {
 
   // eslint-disable-next-line
   const filename = (filePath !== undefined) ? filePath.replace(/^.*[\\\/]/, '') : "";
+  const countOverrides = (obs: Observation[]): number => {
+    return obs.reduce((a, b) => a + (b.pred_1 !== b.label ? 1 : 0), 0);
+  };
   const overridesCount = t('explore.overrides', {
-    count: observations ? observations.reduce((a, b) => a + (b.pred_1 !== b.label ? 1 : 0), 0) : 0
+    count: observations ? countOverrides(observations) : 0
   });
 
   if (observations !== undefined) {
