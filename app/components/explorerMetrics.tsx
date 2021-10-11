@@ -39,14 +39,11 @@ export default function ExplorerMetrics(props: Props) {
       <Card
         elevation={Elevation.TWO}
         style={{
-          maxWidth: '25%',
-          minWidth: '200px',
+          minWidth: '100px',
           position: 'relative',
           textAlign: 'center',
-          width: '200px',
+          width: '100%',
           height: '100px',
-          marginLeft: '3%',
-          marginBottom: '10px',
           padding: '10px'
         }}
       >
@@ -76,11 +73,11 @@ export default function ExplorerMetrics(props: Props) {
     <div
       className="metrics-wrapper"
       style={{
-        width: '100%',
-        paddingBottom: '10px',
-        justifyContent: 'flex-end',
-        display: 'flex',
-        flexWrap: 'wrap'
+        display: 'grid',
+        gap: '20px',
+        gridTemplateColumns: 'repeat(6, 1fr)',
+        padding: '15px 0',
+        width: '100%'
       }}
     >
       {metricsCard('camera', '#5c7080', t('explore.imagesCount'), data.length)}

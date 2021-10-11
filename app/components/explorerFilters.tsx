@@ -1,8 +1,7 @@
-import { NumberRange, RangeSlider } from '@blueprintjs/core';
-import React, { useState, useCallback } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Select from 'react-select';
-import { debounce } from 'lodash';
+import CertaintyFilter from './explorerSlider';
 
 type Props = {
   observations: Observation[];
@@ -22,38 +21,6 @@ const orderByName = (a: entry, b: entry) => {
   if (nameA > nameB) return 1;
   return 0;
 };
-
-type CertaintyFilterProps = {
-  updateFilters: Function;
-};
-
-function CertaintyFilter({ updateFilters }: CertaintyFilterProps) {
-  const { t } = useTranslation();
-  const [range, setRange] = useState<NumberRange>([0, 100]);
-
-  const updateFilter = (newRange: NumberRange) => {
-    const [low, high] = newRange;
-    updateFilters({ certaintyRange: [low / 100, high / 100] });
-  };
-  const debouncedUpdateFilter = useCallback(debounce(updateFilter, 400), []);
-
-  return (
-    <>
-      <h4 style={{ marginBottom: '5px' }}>{t('explore.certaintyRange')}</h4>
-      <RangeSlider
-        min={0}
-        max={100}
-        labelStepSize={10}
-        labelRenderer={value => `${value}%`}
-        value={range}
-        onChange={(newRange: NumberRange) => {
-          setRange(newRange);
-          debouncedUpdateFilter(newRange);
-        }}
-      />
-    </>
-  );
-}
 
 export default function ExplorerFilter(props: Props) {
   const { t } = useTranslation();
@@ -100,28 +67,30 @@ export default function ExplorerFilter(props: Props) {
       <div
         className="filter-wrapper"
         style={{
-          width: '100%',
-          display: 'inline-flex'
+          display: 'grid',
+          gap: '15px',
+          gridTemplateColumns: 'repeat(5, 1fr)',
+          width: '100%'
         }}
       >
-        <div style={{ width: '50%', paddingRight: '5px' }}>
+        <div>
           <h4 style={{ marginBottom: '5px' }}>{t('explore.byAnimal')}</h4>
           <Select onChange={setAnimals} closeMenuOnSelect={false} options={animals} isMulti />
         </div>
-        <div style={{ width: '50%', padding: '0 5px' }}>
+        <div style={{ width: '100%' }}>
           <h4 style={{ marginBottom: '5px' }}>{t('explore.byStation')}</h4>
           <Select onChange={setStations} closeMenuOnSelect={false} options={stations} isMulti />
         </div>
-        <div style={{ width: '50%', padding: '0 5px' }}>
+        <div style={{ width: '100%' }}>
           <h4 style={{ marginBottom: '5px' }}>{t('explore.byCamera')}</h4>
           <Select onChange={setCameras} closeMenuOnSelect={false} options={cameras} isMulti />
         </div>
-        <div style={{ width: '50%', paddingLeft: '5px' }}>
+        <div style={{ width: '100%' }}>
           <h4 style={{ marginBottom: '5px' }}>{t('explore.byCheck')}</h4>
           <Select onChange={setChecks} closeMenuOnSelect={false} options={checks} isMulti />
         </div>
+        <CertaintyFilter updateFilters={updateFilters} />
       </div>
-      <CertaintyFilter updateFilters={updateFilters} />
     </div>
   );
 }

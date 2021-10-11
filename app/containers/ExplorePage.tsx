@@ -185,8 +185,11 @@ export default function ExplorePage() {
           className="databar"
           style={{ alignItems: 'center', display: 'flex', justifyContent: 'space-between' }}
         >
-          <div style={{ alignItems: 'center', display: 'flex', flex: '1' }}>
-            <Text tagName="h3" title={t('explore.dataFileLoaded')}>
+          <div
+            className="databar__filename"
+            style={{ alignItems: 'center', display: 'flex', flex: '1' }}
+          >
+            <Text tagName="h4" title={t('explore.dataFileLoaded')}>
               {`${t('explore.dataFileLoaded')}:`}
             </Text>
             <Text tagName="p">{filename}</Text>
