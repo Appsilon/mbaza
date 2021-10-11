@@ -235,9 +235,7 @@ export default function ExplorePage() {
   const countOverrides = (obs: Observation[]): number => {
     return obs.reduce((a, b) => a + (b.pred_1 !== b.label ? 1 : 0), 0);
   };
-  const overridesCount = t('explore.overrides', {
-    count: observations ? countOverrides(observations) : 0
-  });
+  const overridesTotal = observations ? countOverrides(observations) : 0;
 
   if (observations !== undefined) {
     const handleCsvExport = () => {
@@ -268,7 +266,7 @@ export default function ExplorePage() {
           <Tooltip content={t('explore.overridesTooltip')}>
             <DataButton
               onClick={handleCsvExport}
-              textTop={overridesCount}
+              textTop=""
               textBottom={t('explore.overridesExport')}
               icon="export"
             />
@@ -277,6 +275,7 @@ export default function ExplorePage() {
             data={filteredData.observations}
             rareTargets={RareAnimalsClasses}
             emptyClasses={EmptyClasses}
+            overridesTotal={overridesTotal}
           />
         </div>
         <ExplorerFilter observations={observations} updateFilters={handleFilters} />

@@ -8,11 +8,12 @@ type Props = {
   data: Observation[];
   rareTargets: string[];
   emptyClasses: string[];
+  overridesTotal: number;
 };
 
 export default function ExplorerMetrics(props: Props) {
   const { t } = useTranslation();
-  const { data, rareTargets, emptyClasses } = props;
+  const { data, rareTargets, emptyClasses, overridesTotal } = props;
 
   const getUniqueSet = (dataset: string[]) => {
     return Array.from(new Set(dataset));
@@ -97,6 +98,7 @@ export default function ExplorerMetrics(props: Props) {
         rareAnimals.length,
         <AnimalsListTooltipContent entries={rareAnimals} />
       )}
+      {metricsCard('updated', '#5c7080', t('explore.overrides'), overridesTotal)}
     </div>
   );
 }
