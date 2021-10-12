@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button, Text, Popover, NumericInput } from '@blueprintjs/core';
-import styles from './Databar.scss';
+import { Button, NumericInput, Popover, H5, H6 } from '@blueprintjs/core';
+import s from './Databar.scss';
 
 type Props = {
   filePath: string | undefined;
@@ -17,14 +17,13 @@ export default function Databar(props: Props) {
   const filename = (filePath !== undefined) ? filePath.replace(/^.*[\\\/]/, '') : "";
 
   return (
-    <div className={styles.container}>
-      <div className={styles.filename}>
-        <Text tagName="h4" title={t('explore.dataFileLoaded')}>
-          {`${t('explore.dataFileLoaded')}:`}
-        </Text>
-        <Text tagName="p">{filename}</Text>
+    <div className={s.container}>
+      <div className={s.textOutput}>
+        <H5 title={t('explore.dataFileLoaded')}>{`${t('explore.dataFileLoaded')}:`}</H5>
+        <H5>{filename}</H5>
       </div>
       <Button
+        className={s.primaryButton}
         icon="arrow-left"
         intent="primary"
         large
@@ -33,8 +32,9 @@ export default function Databar(props: Props) {
         style={{ marginRight: '15px' }}
         text={t('explore.changeFile')}
       />
-      <Popover>
+      <Popover className={s.popover} minimal usePortal={false}>
         <Button
+          className={s.primaryButton}
           icon="refresh"
           intent="primary"
           large
@@ -42,14 +42,18 @@ export default function Databar(props: Props) {
           style={{ marginRight: '15px' }}
           text={t('explore.eventsButtonLabel')}
         />
-        <div style={{ display: 'flex', padding: '20px' }}>
+        <div className={s.popoverContent}>
+          <H6>Event duration</H6>
           <NumericInput
             intent="primary"
+            fill
             leftIcon="stopwatch"
+            max={60}
+            min={0}
             placeholder="Event duration"
-            rightElement={<div>minutes</div>}
           />
           <Button
+            className={s.primaryButton}
             intent="primary"
             onClick={() => onEventsUpdateClick()}
             outlined={false}
@@ -58,6 +62,7 @@ export default function Databar(props: Props) {
         </div>
       </Popover>
       <Button
+        className={s.primaryButton}
         icon="export"
         intent="primary"
         large
