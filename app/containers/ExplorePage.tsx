@@ -26,7 +26,7 @@ import ObservationsInspector from '../components/ObservationsInspector';
 import showSaveCsvDialog from '../utils/showSaveCsvDialog';
 import writeCorrectedCsv from '../utils/writeCorrectedCsv';
 import readObservationsCsv from '../utils/readObservationsCsv';
-import Databar from '../components/explorerDatabar';
+import Databar from '../components/Databar';
 
 type Filters = {
   activeAnimals: Entry[];

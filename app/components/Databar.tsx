@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, Text, Popover, NumericInput } from '@blueprintjs/core';
+import styles from './Databar.scss';
 
 type Props = {
   filePath: string | undefined;
@@ -16,19 +17,8 @@ export default function Databar(props: Props) {
   const filename = (filePath !== undefined) ? filePath.replace(/^.*[\\\/]/, '') : "";
 
   return (
-    <div
-      className="databar"
-      style={{
-        alignItems: 'center',
-        display: 'flex',
-        justifyContent: 'space-between',
-        padding: '10px 0'
-      }}
-    >
-      <div
-        className="databar__filename"
-        style={{ alignItems: 'center', display: 'flex', flex: '1' }}
-      >
+    <div className={styles.container}>
+      <div className={styles.filename}>
         <Text tagName="h4" title={t('explore.dataFileLoaded')}>
           {`${t('explore.dataFileLoaded')}:`}
         </Text>
