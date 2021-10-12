@@ -1,0 +1,14 @@
+.bp3-button.bp3-intent-primary {
+  background-color: $c-green-60;
+  border-radius: 5px;
+  box-shadow: none;
+  color: $c-green-10;
+
+  &:hover,
+  &:focus,
+  &.bp3-active {
+    background-color: $c-green-80;
+    box-shadow: none;
+    outline: none;
+  }
+}

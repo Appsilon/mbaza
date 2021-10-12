@@ -6,30 +6,7 @@
   justify-content: space-between;
   padding: 10px 0;
 
-  button.primaryButton {
-    background-color: $c-green-60;
-    border-radius: 5px;
-    box-shadow: none;
-    color: $c-green-10;
-
-    &:hover,
-    &:focus {
-      background-color: $c-green-80;
-      box-shadow: none;
-      outline: none;
-    }
-  }
-
   .popover {
-    button.primaryButton {
-      background-color: $c-green-60;
-
-      &:hover,
-      &:focus {
-        background-color: $c-green-80;
-      }
-    }
-
     .popoverContent {
       display: grid;
       gap: 10px;

@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { useTranslation, Trans } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import {
   Card,
   Elevation,
@@ -30,7 +30,7 @@ import showSaveCsvDialog from '../utils/showSaveCsvDialog';
 import writeCorrectedCsv from '../utils/writeCorrectedCsv';
 import readObservationsCsv from '../utils/readObservationsCsv';
 import Databar from '../components/Databar';
-import s from './ExplorePage.css';
+import s from './ExplorePage.scss';
 
 type Filters = {
   activeAnimals: Entry[];
@@ -170,8 +170,7 @@ export default function ExplorePage() {
       showSaveCsvDialog('classification_result_corrected.csv', callback);
     };
     const handleEvents = () => {
-      // TODO (Kamil): implement events handler
-      console.log('events handler triggered');
+      // TODO (Kamil / Kuba): implement events handler;
     };
 
     return (
@@ -217,28 +216,21 @@ export default function ExplorePage() {
   return (
     <div className={s.container}>
       <Card className={s.card} elevation={Elevation.TWO}>
-        <H4 className={s.title}>{t('explore.chooseFile')}</H4>
-        <div className={s.inputs}>
-          <div className="bp3-input-group">
-            <input
-              type="text"
-              className="bp3-input"
-              placeholder={t('explore.chooseFile')}
-              value={filePath || ''}
-              onChange={e => setFilePath(e.target.value)}
-            />
-            <Button
-              aria-label="Search"
-              intent="primary"
-              onClick={handleNewDataImport}
-              text="Load"
-              type="submit"
-            />
-          </div>
+        <div className={s.header}>
+          <H4 className={s.title}>{t('explore.chooseFile')}</H4>
           <Tooltip content={t('explore.info')}>
-            <Icon className={s.icon} icon="help" iconSize={24} />
+            <Icon className={s.icon} color="#647f80" icon="help" iconSize={28} />
           </Tooltip>
         </div>
+        <Button
+          aria-label="Search"
+          intent="primary"
+          fill
+          large
+          onClick={handleNewDataImport}
+          text={t('explore.chooseFilePlaceholder')}
+          type="submit"
+        />
       </Card>
     </div>
   );

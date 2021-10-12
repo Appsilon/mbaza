@@ -23,7 +23,6 @@ export default function Databar(props: Props) {
         <H5>{filename}</H5>
       </div>
       <Button
-        className={s.primaryButton}
         icon="arrow-left"
         intent="primary"
         large
@@ -34,7 +33,6 @@ export default function Databar(props: Props) {
       />
       <Popover className={s.popover} minimal usePortal={false}>
         <Button
-          className={s.primaryButton}
           icon="refresh"
           intent="primary"
           large
@@ -53,7 +51,6 @@ export default function Databar(props: Props) {
             placeholder="Event duration"
           />
           <Button
-            className={s.primaryButton}
             intent="primary"
             onClick={() => onEventsUpdateClick()}
             outlined={false}
@@ -62,7 +59,6 @@ export default function Databar(props: Props) {
         </div>
       </Popover>
       <Button
-        className={s.primaryButton}
         icon="export"
         intent="primary"
         large

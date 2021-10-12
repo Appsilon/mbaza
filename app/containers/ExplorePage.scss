@@ -1,0 +1,33 @@
+@import '../styles/app.global.scss';
+
+.container {
+  align-items: center;
+  display: flex;
+  height: calc(100vh - 50px);
+  justify-content: center;
+  width: 100%;
+
+  .card {
+    border-radius: $radius-card;
+    box-shadow: $shadow-card;
+    padding: 40px;
+
+    .header {
+      @include flex-center;
+
+      margin-bottom: 20px;
+
+      .title {
+        font-weight: 500;
+        font-size: 18px;
+        margin: 0;
+      }
+
+      .icon {
+        @include flex-center;
+
+        margin-left: 20px;
+      }
+    }
+  }
+}

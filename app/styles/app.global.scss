@@ -11,9 +11,11 @@
 
 /* Config files */
 @import './config/variables.scss';
+@import './config/mixins.scss';
 
 /* Components overrides files */
 @import './overrides/navbar.scss';
+@import './overrides/buttons.scss';
 
 body {
   position: relative;
