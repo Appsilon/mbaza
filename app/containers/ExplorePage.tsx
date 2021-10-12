@@ -32,6 +32,15 @@ import readObservationsCsv from '../utils/readObservationsCsv';
 import Databar from '../components/Databar';
 import s from './ExplorePage.scss';
 
+import animals1 from '../assets/graphics/SVG_1.svg';
+import animals2 from '../assets/graphics/SVG_2.svg';
+import animals3 from '../assets/graphics/SVG_3.svg';
+import animals4 from '../assets/graphics/SVG_4.svg';
+import animals5 from '../assets/graphics/SVG_5.svg';
+import animals6 from '../assets/graphics/SVG_6.svg';
+
+const animalsBackgrounds = [animals6, animals5, animals4, animals3, animals2, animals1];
+
 type Filters = {
   activeAnimals: Entry[];
   activeCameras: Entry[];
@@ -232,6 +241,11 @@ export default function ExplorePage() {
           type="submit"
         />
       </Card>
+      <div className={s.animals}>
+        {animalsBackgrounds.map((background, index) => (
+          <img src={background} key={background} alt={`animal_${index}`} />
+        ))}
+      </div>
     </div>
   );
 }
