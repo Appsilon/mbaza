@@ -9,6 +9,12 @@
 @import '~@blueprintjs/icons/lib/css/blueprint-icons.css';
 @import '~mapbox-gl/dist/mapbox-gl.css';
 
+/* Config files */
+@import './config/variables.scss';
+
+/* Components overrides files */
+@import './overrides/navbar.scss';
+
 body {
   position: relative;
   background-color: #f8f9fa;
@@ -35,7 +41,7 @@ a:hover {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background-color: rgb(211, 211, 211, 0.5);
+  background-color: rgba(211, 211, 211, 0.5);
   border: 2px solid Grey;
   cursor: pointer;
 }

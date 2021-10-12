@@ -5,11 +5,14 @@ import {
   Elevation,
   Tab,
   Tabs,
-  H1,
+  H4,
   Intent,
   Callout,
   NumberRange,
-  Divider
+  Divider,
+  Button,
+  Tooltip,
+  Icon
 } from '@blueprintjs/core';
 import { remote } from 'electron';
 
@@ -27,6 +30,7 @@ import showSaveCsvDialog from '../utils/showSaveCsvDialog';
 import writeCorrectedCsv from '../utils/writeCorrectedCsv';
 import readObservationsCsv from '../utils/readObservationsCsv';
 import Databar from '../components/Databar';
+import s from './ExplorePage.css';
 
 type Filters = {
   activeAnimals: Entry[];
@@ -211,36 +215,31 @@ export default function ExplorePage() {
   }
 
   return (
-    <div style={{ flex: 1 }}>
-      <div style={{ display: 'flex' }}>
-        <div style={{ flex: 1, padding: '20px' }}>
-          <Card elevation={Elevation.TWO}>
-            <H1>{t('explore.chooseFile')}</H1>
-            <div className="bp3-input-group" style={{ width: '60%' }}>
-              <input
-                type="text"
-                className="bp3-input"
-                placeholder={t('explore.chooseFile')}
-                value={filePath || ''}
-                onChange={e => {
-                  setFilePath(e.target.value);
-                }}
-              />
-              <button
-                aria-label="Search"
-                type="submit"
-                className="bp3-button bp3-minimal bp3-intent-primary bp3-icon-search"
-                onClick={handleNewDataImport}
-              />
-            </div>
-          </Card>
+    <div className={s.container}>
+      <Card className={s.card} elevation={Elevation.TWO}>
+        <H4 className={s.title}>{t('explore.chooseFile')}</H4>
+        <div className={s.inputs}>
+          <div className="bp3-input-group">
+            <input
+              type="text"
+              className="bp3-input"
+              placeholder={t('explore.chooseFile')}
+              value={filePath || ''}
+              onChange={e => setFilePath(e.target.value)}
+            />
+            <Button
+              aria-label="Search"
+              intent="primary"
+              onClick={handleNewDataImport}
+              text="Load"
+              type="submit"
+            />
+          </div>
+          <Tooltip content={t('explore.info')}>
+            <Icon className={s.icon} icon="help" iconSize={24} />
+          </Tooltip>
         </div>
-        <div style={{ flex: 1, padding: '20px' }}>
-          <Callout intent={Intent.PRIMARY}>
-            <Trans i18nKey="explore.info" />
-          </Callout>
-        </div>
-      </div>
+      </Card>
     </div>
   );
 }
