@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button, NumericInput, Popover, H5, H6 } from '@blueprintjs/core';
+import { Button, NumericInput, Popover, H5, H6, Tooltip, Icon } from '@blueprintjs/core';
 import s from './Databar.scss';
 
 type Props = {
@@ -31,7 +31,7 @@ export default function Databar(props: Props) {
         style={{ marginRight: '15px' }}
         text={t('explore.changeFile')}
       />
-      <Popover className={s.popover} minimal usePortal={false}>
+      <Popover className={s.popover} usePortal={false} placement="bottom-start" autoFocus={false}>
         <Button
           icon="refresh"
           intent="primary"
@@ -41,21 +41,30 @@ export default function Databar(props: Props) {
           text={t('explore.eventsButtonLabel')}
         />
         <div className={s.popoverContent}>
-          <H6>Event duration</H6>
-          <NumericInput
-            intent="primary"
-            fill
-            leftIcon="stopwatch"
-            max={60}
-            min={0}
-            placeholder="Event duration"
-          />
-          <Button
-            intent="primary"
-            onClick={() => onEventsUpdateClick()}
-            outlined={false}
-            text="OK"
-          />
+          <div className={s.row}>
+            <H6 className={s.eventTitle}>{t('explore.eventsDurationLabel')}</H6>
+            <Tooltip content={t('explore.eventsDescription')}>
+              <Icon className={s.icon} color="#647f80" icon="help" iconSize={28} />
+            </Tooltip>
+          </div>
+          <div className={s.row}>
+            <NumericInput
+              className={s.eventDurationInput}
+              intent="primary"
+              fill
+              leftIcon="stopwatch"
+              max={60}
+              min={0}
+              placeholder="30 min"
+            />
+            <Button
+              className={s.eventApplyButton}
+              intent="primary"
+              onClick={() => onEventsUpdateClick()}
+              outlined={false}
+              text="OK"
+            />
+          </div>
         </div>
       </Popover>
       <Button
