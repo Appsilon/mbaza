@@ -1,7 +1,10 @@
 import { format } from 'date-fns';
 import _ from 'lodash';
 
-export default function exportDarwinCore(observations: Observation[], exportDate: Date) {
+export default function exportDarwinCore(
+  observations: Observation[],
+  exportDate: Date = new Date()
+) {
   function convertEvent(event: Observation[]) {
     const o = event[0]; // Use one of the observations in the event as the representative.
     return {
