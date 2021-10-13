@@ -1,7 +1,7 @@
 // Rare animals list based on IUCN Red List categories (https://www.iucnredlist.org/).
 // Listed are any species present in models' training data that are Near Threatened or above.
 export const RareAnimalsClasses = [
-  // Gabon dataset
+  // Central African forests (Gabon) dataset
   'Cat_Golden',
   'Chimpanzee',
   'Duiker_Yellow_Backed',
@@ -10,7 +10,7 @@ export const RareAnimalsClasses = [
   'Leopard_African',
   'Mandrillus',
   'Pangolin',
-  // Serengeti dataset
+  // East African Savannas (Serengeti) dataset
   'cheetah',
   'elephant',
   'giraffe',

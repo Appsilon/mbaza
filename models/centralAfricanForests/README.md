@@ -1,4 +1,4 @@
-## Gabon model
+## Central African forests (Gabon) model
 
 This model was developed as part of the research conducted with Robbie Whytock. Details regarding its training [can be found here](https://github.com/Appsilon/gabon_wildlife_training).
 

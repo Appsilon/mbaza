@@ -189,8 +189,8 @@ export default function Classifier(props: Props) {
   // TODO: Detect available models instead of hardcoding them. Display a warning
   // if there are no models available.
   const models = [
-    { label: 'Gabon', value: 'gabon' },
-    { label: 'Serengeti', value: 'serengeti' }
+    { label: 'Central African forests', value: 'centralAfricanForests' },
+    { label: 'East African Savannas', value: 'eastAfricanSavannas' }
   ];
   const [modelName, setModelName] = useState<string>(models[0].value);
   const rootModelsDirectoryExists = fs.existsSync(rootModelsDirectory);
