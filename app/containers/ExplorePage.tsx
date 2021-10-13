@@ -111,7 +111,6 @@ export default function ExplorePage() {
   const [observations, setObservations] = useState<undefined | Observation[]>();
   const [inspectedObservations, setInspectedObservations] = useState<Observation[]>([]);
   const [predictionOverrides, setPredictionOverrides] = useState<PredictionOverridesMap>({});
-  const [eventsTotal, setEventsTotal] = useState<number>(0);
 
   const handleFilters = (val: string[]) => {
     setFilters({ ...filters, ...val });
@@ -134,6 +133,11 @@ export default function ExplorePage() {
     };
     setPredictionOverrides(overrides);
     return false;
+  };
+
+  const getEventsCount = (array: Observation[]): number => {
+    const eventIds: number[] = array.map(o => o.event_id);
+    return eventIds.filter((v, i, a) => a.indexOf(v) === i && v !== undefined).length;
   };
 
   const handleNewDataImport = async () => {
@@ -162,6 +166,8 @@ export default function ExplorePage() {
     }
     return { observations: filtered };
   }, [filters, observations]);
+
+  const eventsTotal = getEventsCount(filteredData.observations);
 
   const mainPanel = (
     <Card style={{ height: '100%' }} interactive elevation={Elevation.TWO}>
@@ -199,7 +205,6 @@ export default function ExplorePage() {
     const handleEvents = (evtMaxDuration: number) => {
       const newObservations = computeEvents({ minutes: evtMaxDuration }, observations);
       setObservations(newObservations);
-      setEventsTotal(Math.max(...newObservations.map(o => o.event_id)));
     };
 
     return (
