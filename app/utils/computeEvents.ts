@@ -6,7 +6,7 @@ export default function computeEvents(
   observations: Observation[]
 ): Observation[] {
   let eventId = 0; // Must uniquely identify the event across the whole data set.
-  function handleGroup(group: Observation[]): Observation[] {
+  function mapGroup(group: Observation[]): Observation[] {
     let eventEnd: Date;
     return _(group)
       .sortBy('timestamp')
@@ -22,9 +22,9 @@ export default function computeEvents(
   }
   const result = _(observations)
     .groupBy(o => [o.station, o.label].join()) // Use comma as separator.
-    .mapValues(handleGroup)
-    .flatMap()
+    .values()
+    .map(mapGroup)
+    .flatten()
     .value();
-  // For some reason, TypeScript believes `result` to be `Observation[][]`.
-  return (result as unknown) as Observation[];
+  return result;
 }
