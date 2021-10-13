@@ -1,4 +1,4 @@
-.bp3-button.bp3-intent-primary {
+.bp3-button.bp3-intent-primary:not(.bp3-minimal) {
   background-color: $c-green-60;
   border-radius: 5px;
   box-shadow: none;

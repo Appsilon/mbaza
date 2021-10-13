@@ -65,7 +65,7 @@ export default function Databar(props: Props) {
               intent="primary"
               onClick={() => onEventsUpdateClick(eventMaxDuration)}
               outlined={false}
-              text="OK"
+              text={t('explore.eventsApplyButton')}
             />
           </div>
         </div>
