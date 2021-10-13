@@ -30,6 +30,7 @@ import showSaveCsvDialog from '../utils/showSaveCsvDialog';
 import writeCorrectedCsv from '../utils/writeCorrectedCsv';
 import readObservationsCsv from '../utils/readObservationsCsv';
 import Databar from '../components/Databar';
+import computeEvents from '../utils/computeEvents';
 import s from './ExplorePage.scss';
 
 import animals1 from '../assets/graphics/SVG_1.svg';
@@ -87,6 +88,22 @@ function inRange(value: number, [low, high]: NumberRange) {
   return low <= value && value <= high;
 }
 
+function detectOverrides(observations: Observation[] | undefined) {
+  if (observations !== undefined) {
+    const override: PredictionOverridesMap = {};
+    observations
+      .filter((observation: Observation) => observation.label !== observation.pred_1)
+      .forEach((observation: Observation) => {
+        override[observation.location] = {
+          label: formatAnimalClassName(observation.label),
+          value: formatAnimalClassName(observation.label)
+        };
+      });
+    return override;
+  }
+  return {};
+}
+
 export default function ExplorePage() {
   const { t } = useTranslation();
   const [filePath, setFilePath] = useState<string>();
@@ -94,6 +111,7 @@ export default function ExplorePage() {
   const [observations, setObservations] = useState<undefined | Observation[]>();
   const [inspectedObservations, setInspectedObservations] = useState<Observation[]>([]);
   const [predictionOverrides, setPredictionOverrides] = useState<PredictionOverridesMap>({});
+  const [eventsTotal, setEventsTotal] = useState<number>(0);
 
   const handleFilters = (val: string[]) => {
     setFilters({ ...filters, ...val });
@@ -178,8 +196,10 @@ export default function ExplorePage() {
       };
       showSaveCsvDialog('classification_result_corrected.csv', callback);
     };
-    const handleEvents = () => {
-      // TODO (Kamil / Kuba): implement events handler;
+    const handleEvents = (evtMaxDuration: number) => {
+      const newObservations = computeEvents({ minutes: evtMaxDuration }, observations);
+      setObservations(newObservations);
+      setEventsTotal(Math.max(...newObservations.map(o => o.event_id)));
     };
 
     return (
@@ -208,6 +228,7 @@ export default function ExplorePage() {
           rareTargets={RareAnimalsClasses}
           emptyClasses={EmptyClasses}
           overridesTotal={overridesTotal}
+          eventsTotal={eventsTotal}
         />
         <Tabs renderActiveTabPanelOnly>
           <Tab id="main" title={t('explore.mapView')} panel={mainPanel} />
@@ -228,7 +249,7 @@ export default function ExplorePage() {
         <div className={s.header}>
           <H4 className={s.title}>{t('explore.chooseFile')}</H4>
           <Tooltip content={t('explore.info')}>
-            <Icon className={s.icon} color="#647f80" icon="help" iconSize={28} />
+            <Icon className={s.icon} color="#647f80" icon="help" iconSize={22} />
           </Tooltip>
         </div>
         <Button

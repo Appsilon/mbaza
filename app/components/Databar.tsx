@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, NumericInput, Popover, H5, H6, Tooltip, Icon } from '@blueprintjs/core';
 import s from './Databar.scss';
@@ -12,6 +12,7 @@ type Props = {
 
 export default function Databar(props: Props) {
   const { t } = useTranslation();
+  const [eventMaxDuration, setEventMaxDuration] = useState<number>();
   const { filePath, onDataImportClick, onEventsUpdateClick, onDataExportClick } = props;
   // eslint-disable-next-line
   const filename = (filePath !== undefined) ? filePath.replace(/^.*[\\\/]/, '') : "";
@@ -44,7 +45,7 @@ export default function Databar(props: Props) {
           <div className={s.row}>
             <H6 className={s.eventTitle}>{t('explore.eventsDurationLabel')}</H6>
             <Tooltip content={t('explore.eventsDescription')}>
-              <Icon className={s.icon} color="#647f80" icon="help" iconSize={28} />
+              <Icon color="#647f80" icon="help" iconSize={22} />
             </Tooltip>
           </div>
           <div className={s.row}>
@@ -55,12 +56,14 @@ export default function Databar(props: Props) {
               leftIcon="stopwatch"
               max={60}
               min={0}
+              onValueChange={setEventMaxDuration}
               placeholder="30 min"
+              value={eventMaxDuration}
             />
             <Button
               className={s.eventApplyButton}
               intent="primary"
-              onClick={() => onEventsUpdateClick()}
+              onClick={() => onEventsUpdateClick(eventMaxDuration)}
               outlined={false}
               text="OK"
             />

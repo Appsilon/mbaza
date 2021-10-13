@@ -9,11 +9,12 @@ type Props = {
   rareTargets: string[];
   emptyClasses: string[];
   overridesTotal: number;
+  eventsTotal: number;
 };
 
 export default function ExplorerMetrics(props: Props) {
   const { t } = useTranslation();
-  const { data, rareTargets, emptyClasses, overridesTotal } = props;
+  const { data, rareTargets, emptyClasses, overridesTotal, eventsTotal } = props;
 
   const getUniqueSet = (dataset: string[]) => {
     return Array.from(new Set(dataset));
@@ -26,7 +27,6 @@ export default function ExplorerMetrics(props: Props) {
   const nonEmpty = data.filter((entry: Observation) => !emptyClasses.includes(entry.pred_1));
   const uniqueAnimals = getUniqueSet(data.map((entry: Observation) => entry.pred_1));
   const rareAnimals = getRareAnimals(uniqueAnimals, rareTargets);
-  const eventsCount = 0; // TODO (Jakub / Kamil): get value from backend
 
   function metricsCard(
     icon: IconName,
@@ -103,7 +103,7 @@ export default function ExplorerMetrics(props: Props) {
         overridesTotal,
         t('explore.overridesTooltip')
       )}
-      {metricsCard('layers', '#5c7080', t('explore.eventsCount'), eventsCount)}
+      {metricsCard('layers', '#5c7080', t('explore.eventsCount'), eventsTotal)}
     </div>
   );
 }
