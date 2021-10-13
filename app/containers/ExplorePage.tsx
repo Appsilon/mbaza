@@ -135,6 +135,22 @@ function DataButton({ textTop, textBottom, icon, onClick }: DataButtonProps) {
   );
 }
 
+function detectOverrides(observations: Observation[] | undefined) {
+  if (observations !== undefined) {
+    const override: PredictionOverridesMap = {};
+    observations
+      .filter((observation: Observation) => observation.label !== observation.pred_1)
+      .forEach((observation: Observation) => {
+        override[observation.location] = {
+          label: formatAnimalClassName(observation.label),
+          value: formatAnimalClassName(observation.label)
+        };
+      });
+    return override;
+  }
+  return {};
+}
+
 export default function ExplorePage() {
   const { t } = useTranslation();
   const [filePath, setFilePath] = useState<string>();
@@ -166,25 +182,9 @@ export default function ExplorePage() {
     return false;
   };
 
-  const detectOverrides = (dataObservations: Observation[] | undefined) => {
-    if (dataObservations !== undefined) {
-      const override: PredictionOverridesMap = {};
-      dataObservations
-        .filter((observation: Observation) => observation.label !== observation.pred_1)
-        .forEach((observation: Observation) => {
-          override[observation.location] = {
-            label: formatAnimalClassName(observation.label),
-            value: formatAnimalClassName(observation.label)
-          };
-        });
-      return override;
-    }
-    return {};
-  };
-
   const handleNewDataImport = async () => {
-    const dataObservations = await chooseFile(setFilePath, setObservations);
-    const overrides = await detectOverrides(dataObservations);
+    const newObservations = await chooseFile(setFilePath, setObservations);
+    const overrides = detectOverrides(newObservations);
     setPredictionOverrides(overrides);
     setFilters(initialFilters);
   };

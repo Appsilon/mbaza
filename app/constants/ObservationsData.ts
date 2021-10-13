@@ -20,6 +20,8 @@ type Observation = {
   date: string;
   coordinates_long: number;
   coordinates_lat: number;
+  timestamp: Date;
+  event_id: number;
   // Scores
   pred_1: string;
   score_1: number;
