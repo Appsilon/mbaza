@@ -32,7 +32,7 @@ export default function Databar(props: Props) {
         style={{ marginRight: '15px' }}
         text={t('explore.changeFile')}
       />
-      <Popover className={s.popover} usePortal={false} placement="bottom-start" autoFocus={false}>
+      <Popover className={s.popover} usePortal={false} autoFocus={false}>
         <Button
           icon="refresh"
           intent="primary"
@@ -57,7 +57,7 @@ export default function Databar(props: Props) {
               max={60}
               min={0}
               onValueChange={setEventMaxDuration}
-              placeholder="30 min"
+              placeholder={t('explore.eventsButtonPlaceholder')}
               value={eventMaxDuration}
             />
             <Button
