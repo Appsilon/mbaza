@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import _ from 'lodash';
 import {
   Card,
   Elevation,
@@ -29,7 +30,7 @@ import ObservationsInspector from '../components/ObservationsInspector';
 import showSaveCsvDialog from '../utils/showSaveCsvDialog';
 import writeCorrectedCsv from '../utils/writeCorrectedCsv';
 import readObservationsCsv from '../utils/readObservationsCsv';
-import Databar from '../components/Databar';
+import ExploreHeader from '../components/ExploreHeader';
 import computeEvents from '../utils/computeEvents';
 import s from './ExplorePage.scss';
 
@@ -135,11 +136,6 @@ export default function ExplorePage() {
     return false;
   };
 
-  const getEventsCount = (array: Observation[]): number => {
-    const eventIds: number[] = array.map(o => o.event_id);
-    return eventIds.filter((v, i, a) => a.indexOf(v) === i && v !== undefined).length;
-  };
-
   const handleNewDataImport = async () => {
     const newObservations = await chooseFile(setFilePath, setObservations);
     const overrides = detectOverrides(newObservations);
@@ -167,7 +163,11 @@ export default function ExplorePage() {
     return { observations: filtered };
   }, [filters, observations]);
 
-  const eventsTotal = getEventsCount(filteredData.observations);
+  const eventsCount = _(filteredData.observations)
+    .map('event_id')
+    .without(undefined)
+    .uniq()
+    .size();
 
   const mainPanel = (
     <Card style={{ height: '100%' }} interactive elevation={Elevation.TWO}>
@@ -202,7 +202,7 @@ export default function ExplorePage() {
       };
       showSaveCsvDialog('classification_result_corrected.csv', callback);
     };
-    const handleEvents = (evtMaxDuration: number) => {
+    const handleEventsUpdate = (evtMaxDuration: number | undefined) => {
       const newObservations = computeEvents({ minutes: evtMaxDuration }, observations);
       setObservations(newObservations);
     };
@@ -219,10 +219,10 @@ export default function ExplorePage() {
           position: 'relative'
         }}
       >
-        <Databar
+        <ExploreHeader
           filePath={filePath}
           onDataImportClick={() => setObservations(undefined)}
-          onEventsUpdateClick={handleEvents}
+          onEventsUpdateClick={handleEventsUpdate}
           onDataExportClick={handleCsvExport}
         />
         <Divider />
@@ -233,7 +233,7 @@ export default function ExplorePage() {
           rareTargets={RareAnimalsClasses}
           emptyClasses={EmptyClasses}
           overridesTotal={overridesTotal}
-          eventsTotal={eventsTotal}
+          eventsTotal={eventsCount}
         />
         <Tabs renderActiveTabPanelOnly>
           <Tab id="main" title={t('explore.mapView')} panel={mainPanel} />

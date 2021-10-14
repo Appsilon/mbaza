@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, NumericInput, Popover, H5, H6, Tooltip, Icon } from '@blueprintjs/core';
-import s from './Databar.scss';
+import s from './ExploreHeader.scss';
 
 type Props = {
   filePath: string | undefined;
@@ -10,7 +10,7 @@ type Props = {
   onDataExportClick: () => void;
 };
 
-export default function Databar(props: Props) {
+export default function ExploreHeader(props: Props) {
   const { t } = useTranslation();
   const [eventMaxDuration, setEventMaxDuration] = useState<number>();
   const { filePath, onDataImportClick, onEventsUpdateClick, onDataExportClick } = props;

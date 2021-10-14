@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Select from 'react-select';
-import CertaintyFilter from './explorerSlider';
+import CertaintyFilter from './CertaintyFilter';
 
 type Props = {
   observations: Observation[];
