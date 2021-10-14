@@ -1,3 +1,5 @@
+import { csvFormat } from 'd3-dsv';
+import format from 'date-fns/format';
 import { writeFile } from 'fs';
 
 import { taxonMap } from '../constants/taxons';
@@ -36,10 +38,13 @@ function applyPredictionOverrides(
   });
 }
 
-function observationsToCsv(observations: Observation[]) {
-  const header = Object.keys(observations[0]).join(',');
-  const rows = observations.map(row => Object.values(row).join(','));
-  return `${[header, ...rows].join('\n')}\n`;
+function observationsToCsv(observations: Observation[]): string {
+  return csvFormat(
+    observations.map(o => ({
+      ...o,
+      timestamp: o.timestamp === undefined ? '' : format(o.timestamp, 'yyyy-MM-dd HH:mm:ss')
+    }))
+  );
 }
 
 export default function writeCorrectedCsv(
