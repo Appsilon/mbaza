@@ -5,9 +5,9 @@ import s from './Databar.scss';
 
 type Props = {
   filePath: string | undefined;
-  onDataImportClick: Function;
-  onEventsUpdateClick: Function;
-  onDataExportClick: Function;
+  onDataImportClick: () => void;
+  onEventsUpdateClick: (eventDuration: number | undefined) => void;
+  onDataExportClick: () => void;
 };
 
 export default function Databar(props: Props) {
@@ -27,7 +27,7 @@ export default function Databar(props: Props) {
         icon="arrow-left"
         intent="primary"
         large
-        onClick={() => onDataImportClick()}
+        onClick={onDataImportClick}
         outlined={false}
         style={{ marginRight: '15px' }}
         text={t('explore.changeFile')}
@@ -74,7 +74,7 @@ export default function Databar(props: Props) {
         icon="export"
         intent="primary"
         large
-        onClick={() => onDataExportClick()}
+        onClick={onDataExportClick}
         outlined={false}
         text={t('explore.overridesExport')}
       />
