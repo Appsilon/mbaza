@@ -182,6 +182,9 @@ export default function ExplorePage() {
       const newObservations = computeEvents({ minutes: evtMaxDuration }, observations);
       setObservations(newObservations);
     };
+    const handleDarwinCoreExport = () => {
+      // TODO
+    };
 
     return (
       <div
@@ -200,6 +203,7 @@ export default function ExplorePage() {
           onDataImportClick={() => setObservations(undefined)}
           onEventsUpdateClick={handleEventsUpdate}
           onDataExportClick={handleCsvExport}
+          onDarwinCoreExportClick={handleDarwinCoreExport}
         />
         <Divider />
         <ExplorerFilter observations={observations} updateFilters={handleFilters} />

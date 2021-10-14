@@ -8,12 +8,19 @@ type Props = {
   onDataImportClick: () => void;
   onEventsUpdateClick: (eventDuration: number | undefined) => void;
   onDataExportClick: () => void;
+  onDarwinCoreExportClick: () => void;
 };
 
 export default function ExploreHeader(props: Props) {
   const { t } = useTranslation();
   const [eventMaxDuration, setEventMaxDuration] = useState<number>();
-  const { filePath, onDataImportClick, onEventsUpdateClick, onDataExportClick } = props;
+  const {
+    filePath,
+    onDataImportClick,
+    onEventsUpdateClick,
+    onDataExportClick,
+    onDarwinCoreExportClick
+  } = props;
   // eslint-disable-next-line
   const filename = (filePath !== undefined) ? filePath.replace(/^.*[\\\/]/, '') : "";
 
@@ -76,7 +83,16 @@ export default function ExploreHeader(props: Props) {
         large
         onClick={onDataExportClick}
         outlined={false}
+        style={{ marginRight: '15px' }}
         text={t('explore.overridesExport')}
+      />
+      <Button
+        icon="export"
+        intent="primary"
+        large
+        onClick={onDarwinCoreExportClick}
+        outlined={false}
+        text={t('explore.darwinCoreExport')}
       />
     </div>
   );
