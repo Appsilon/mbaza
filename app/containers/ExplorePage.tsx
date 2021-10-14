@@ -13,6 +13,7 @@ import {
   Tooltip,
   Icon
 } from '@blueprintjs/core';
+import { promises as fsPromises } from 'fs';
 import { remote } from 'electron';
 
 import Map from '../components/Map';
@@ -37,6 +38,10 @@ import animals3 from '../assets/graphics/SVG_3.svg';
 import animals4 from '../assets/graphics/SVG_4.svg';
 import animals5 from '../assets/graphics/SVG_5.svg';
 import animals6 from '../assets/graphics/SVG_6.svg';
+import exportDarwinCore from '../utils/exportDarwinCore';
+import { csvFormat } from 'd3-dsv';
+
+const { writeFile } = fsPromises;
 
 const animalsBackgrounds = [animals6, animals5, animals4, animals3, animals2, animals1];
 
@@ -182,8 +187,12 @@ export default function ExplorePage() {
       const newObservations = computeEvents({ minutes: evtMaxDuration }, observations);
       setObservations(newObservations);
     };
-    const handleDarwinCoreExport = () => {
-      // TODO
+    const handleDarwinCoreExport = async () => {
+      const path = await showSaveCsvDialog('darwin_core.csv');
+      if (path !== undefined) {
+        const darwinCore = csvFormat(exportDarwinCore(observations));
+        await writeFile(path, darwinCore);
+      }
     };
 
     return (
