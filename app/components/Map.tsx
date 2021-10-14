@@ -59,26 +59,11 @@ function makeStationMarker(
   const { station } = firstObservation;
 
   const diameter = circleDiameter(species.size(), maxSpecies);
-  const thumbnailSize = diameter / 2;
-  const thumbnailOffset = thumbnailSize / 2;
   const maxPreviewPhotosCount = 3;
 
   const markerElement = document.createElement('div');
   markerElement.className = 'marker';
   markerElement.setAttribute('style', `width: ${diameter}px; height: ${diameter}px;`);
-  ReactDOM.render(
-    <img
-      src={firstObservation.location}
-      style={{
-        width: thumbnailSize,
-        height: thumbnailSize,
-        marginTop: -thumbnailOffset,
-        marginLeft: -thumbnailOffset
-      }}
-      alt={`Station ${station}`}
-    />,
-    markerElement
-  );
 
   const popupContentPlaceholder = document.createElement('div');
   ReactDOM.render(
