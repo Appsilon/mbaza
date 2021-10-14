@@ -64,6 +64,18 @@ function makeStationMarker(
   const markerElement = document.createElement('div');
   markerElement.className = 'marker';
   markerElement.setAttribute('style', `width: ${diameter}px; height: ${diameter}px;`);
+  if (markerElement) {
+    markerElement.addEventListener('click', function() {
+      const activeMarkers: NodeListOf<Element> = document.querySelectorAll('.marker');
+      activeMarkers.forEach(marker => {
+        if (marker === this) {
+          marker.classList.add('active');
+        } else {
+          marker.classList.remove('active');
+        }
+      });
+    });
+  }
 
   const popupContentPlaceholder = document.createElement('div');
   ReactDOM.render(
