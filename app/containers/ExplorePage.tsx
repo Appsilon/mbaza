@@ -166,27 +166,6 @@ export default function ExplorePage() {
     .uniq()
     .size();
 
-  const mainPanel = (
-    <Card style={{ height: '100%' }} interactive elevation={Elevation.TWO}>
-      <Callout intent={Intent.PRIMARY}>{t('explore.mapHint')}</Callout>
-      <div
-        style={{
-          width: '100%',
-          position: 'relative',
-          overflow: 'hidden'
-        }}
-      >
-        <Map observations={filteredData.observations} onInspect={setInspectedObservations} />
-        <ObservationsInspector
-          observations={inspectedObservations}
-          onClose={() => setInspectedObservations([])}
-          predictionOverrides={predictionOverrides}
-          onPredictionOverride={handlePredictionOverride}
-        />
-      </div>
-    </Card>
-  );
-
   const countOverrides = (obs: Observation[]): number => {
     return obs.reduce((a, b) => a + (b.pred_1 !== b.label ? 1 : 0), 0);
   };
@@ -224,6 +203,14 @@ export default function ExplorePage() {
         />
         <Divider />
         <ExplorerFilter observations={observations} updateFilters={handleFilters} />
+        <Divider />
+        <ExplorerMetrics
+          data={filteredData.observations}
+          rareTargets={RareAnimalsClasses}
+          emptyClasses={EmptyClasses}
+          overridesTotal={overridesTotal}
+          eventsTotal={eventsCount}
+        />
         <Card style={{ height: '100%' }} interactive elevation={Elevation.TWO}>
           <Callout intent={Intent.PRIMARY}>{t('explore.mapHint')}</Callout>
           <div
