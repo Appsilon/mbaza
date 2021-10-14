@@ -188,6 +188,12 @@ export default function ExplorePage() {
       setObservations(newObservations);
     };
     const handleDarwinCoreExport = async () => {
+      const missingEvents = _(observations).map('event_id').filter(_.isUndefined).size();
+      console.log(missingEvents);
+      if (missingEvents > 0) {
+        alert(t('explore.missingEvents'));
+        return;
+      }
       const path = await showSaveCsvDialog('darwin_core.csv');
       if (path !== undefined) {
         const darwinCore = csvFormat(exportDarwinCore(observations));
