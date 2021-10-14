@@ -11,6 +11,7 @@ import { classifierStateType } from './reducers/types';
 import { statusOnline } from './actions/online';
 import { logError } from './actions/logError';
 import './app.global.css';
+import './styles/app.global.scss';
 
 const initialState: classifierStateType = {
   online: {

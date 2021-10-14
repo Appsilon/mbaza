@@ -1,17 +1,19 @@
 import React, { useMemo, useState } from 'react';
-import { useTranslation, Trans } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
+import _ from 'lodash';
 import {
   Card,
   Elevation,
-  Button,
   Tab,
   Tabs,
-  H1,
+  H4,
   Intent,
   Callout,
   NumberRange,
-  IconName,
-  Tooltip
+  Divider,
+  Button,
+  Tooltip,
+  Icon
 } from '@blueprintjs/core';
 import { remote } from 'electron';
 
@@ -28,6 +30,18 @@ import ObservationsInspector from '../components/ObservationsInspector';
 import showSaveCsvDialog from '../utils/showSaveCsvDialog';
 import writeCorrectedCsv from '../utils/writeCorrectedCsv';
 import readObservationsCsv from '../utils/readObservationsCsv';
+import ExploreHeader from '../components/ExploreHeader';
+import computeEvents from '../utils/computeEvents';
+import s from './ExplorePage.scss';
+
+import animals1 from '../assets/graphics/SVG_1.svg';
+import animals2 from '../assets/graphics/SVG_2.svg';
+import animals3 from '../assets/graphics/SVG_3.svg';
+import animals4 from '../assets/graphics/SVG_4.svg';
+import animals5 from '../assets/graphics/SVG_5.svg';
+import animals6 from '../assets/graphics/SVG_6.svg';
+
+const animalsBackgrounds = [animals6, animals5, animals4, animals3, animals2, animals1];
 
 type Filters = {
   activeAnimals: Entry[];
@@ -73,66 +87,6 @@ async function chooseFile(
 
 function inRange(value: number, [low, high]: NumberRange) {
   return low <= value && value <= high;
-}
-
-type DataButtonProps = {
-  onClick: () => void;
-  textTop: string;
-  textBottom: string;
-  icon: IconName;
-};
-
-function DataButton({ textTop, textBottom, icon, onClick }: DataButtonProps) {
-  return (
-    <Card
-      style={{
-        padding: '0',
-        display: 'inline-flex',
-        flexDirection: 'column',
-        height: '100px',
-        marginRight: '20px'
-      }}
-      interactive
-      elevation={Elevation.TWO}
-    >
-      <div
-        style={{
-          padding: '20px',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-          backgroundColor: '#4e5e6b',
-          color: 'white',
-          minWidth: '150px',
-          maxWidth: '200px',
-          height: '70px',
-          fontWeight: 'bold'
-        }}
-      >
-        <span
-          style={{
-            wordWrap: 'break-word',
-            width: '100%',
-            textAlign: 'center'
-          }}
-        >
-          {textTop}
-        </span>
-      </div>
-      <Button
-        text={textBottom}
-        icon={icon}
-        onClick={onClick}
-        style={{
-          backgroundColor: '#fff',
-          width: '100%',
-          height: '30px',
-          textAlign: 'center',
-          lineHeight: '1.4'
-        }}
-      />
-    </Card>
-  );
 }
 
 function detectOverrides(observations: Observation[] | undefined) {
@@ -209,6 +163,12 @@ export default function ExplorePage() {
     return { observations: filtered };
   }, [filters, observations]);
 
+  const eventsCount = _(filteredData.observations)
+    .map('event_id')
+    .without(undefined)
+    .uniq()
+    .size();
+
   const mainPanel = (
     <Card style={{ height: '100%' }} interactive elevation={Elevation.TWO}>
       <Callout intent={Intent.PRIMARY}>{t('explore.mapHint')}</Callout>
@@ -230,14 +190,10 @@ export default function ExplorePage() {
     </Card>
   );
 
-  // eslint-disable-next-line
-  const filename = (filePath !== undefined) ? filePath.replace(/^.*[\\\/]/, '') : "";
   const countOverrides = (obs: Observation[]): number => {
     return obs.reduce((a, b) => a + (b.pred_1 !== b.label ? 1 : 0), 0);
   };
-  const overridesCount = t('explore.overrides', {
-    count: observations ? countOverrides(observations) : 0
-  });
+  const overridesTotal = observations ? countOverrides(observations) : 0;
 
   if (observations !== undefined) {
     const handleCsvExport = () => {
@@ -246,6 +202,11 @@ export default function ExplorePage() {
       };
       showSaveCsvDialog('classification_result_corrected.csv', callback);
     };
+    const handleEventsUpdate = (evtMaxDuration: number | undefined) => {
+      const newObservations = computeEvents({ minutes: evtMaxDuration }, observations);
+      setObservations(newObservations);
+    };
+
     return (
       <div
         style={{
@@ -258,28 +219,22 @@ export default function ExplorePage() {
           position: 'relative'
         }}
       >
-        <div style={{ display: 'flex' }}>
-          <DataButton
-            onClick={() => setObservations(undefined)}
-            textTop={filename}
-            textBottom={t('explore.changeFile')}
-            icon="arrow-left"
-          />
-          <Tooltip content={t('explore.overridesTooltip')}>
-            <DataButton
-              onClick={handleCsvExport}
-              textTop={overridesCount}
-              textBottom={t('explore.overridesExport')}
-              icon="export"
-            />
-          </Tooltip>
-          <ExplorerMetrics
-            data={filteredData.observations}
-            rareTargets={RareAnimalsClasses}
-            emptyClasses={EmptyClasses}
-          />
-        </div>
+        <ExploreHeader
+          filePath={filePath}
+          onDataImportClick={() => setObservations(undefined)}
+          onEventsUpdateClick={handleEventsUpdate}
+          onDataExportClick={handleCsvExport}
+        />
+        <Divider />
         <ExplorerFilter observations={observations} updateFilters={handleFilters} />
+        <Divider />
+        <ExplorerMetrics
+          data={filteredData.observations}
+          rareTargets={RareAnimalsClasses}
+          emptyClasses={EmptyClasses}
+          overridesTotal={overridesTotal}
+          eventsTotal={eventsCount}
+        />
         <Tabs renderActiveTabPanelOnly>
           <Tab id="main" title={t('explore.mapView')} panel={mainPanel} />
           <Tab
@@ -294,35 +249,28 @@ export default function ExplorePage() {
   }
 
   return (
-    <div style={{ flex: 1 }}>
-      <div style={{ display: 'flex' }}>
-        <div style={{ flex: 1, padding: '20px' }}>
-          <Card elevation={Elevation.TWO}>
-            <H1>{t('explore.chooseFile')}</H1>
-            <div className="bp3-input-group" style={{ width: '60%' }}>
-              <input
-                type="text"
-                className="bp3-input"
-                placeholder={t('explore.chooseFile')}
-                value={filePath || ''}
-                onChange={e => {
-                  setFilePath(e.target.value);
-                }}
-              />
-              <button
-                aria-label="Search"
-                type="submit"
-                className="bp3-button bp3-minimal bp3-intent-primary bp3-icon-search"
-                onClick={handleNewDataImport}
-              />
-            </div>
-          </Card>
+    <div className={s.container}>
+      <Card className={s.card} elevation={Elevation.TWO}>
+        <div className={s.header}>
+          <H4 className={s.title}>{t('explore.chooseFile')}</H4>
+          <Tooltip content={t('explore.info')}>
+            <Icon className={s.icon} color="#647f80" icon="help" iconSize={22} />
+          </Tooltip>
         </div>
-        <div style={{ flex: 1, padding: '20px' }}>
-          <Callout intent={Intent.PRIMARY}>
-            <Trans i18nKey="explore.info" />
-          </Callout>
-        </div>
+        <Button
+          aria-label="Search"
+          intent="primary"
+          fill
+          large
+          onClick={handleNewDataImport}
+          text={t('explore.chooseFilePlaceholder')}
+          type="submit"
+        />
+      </Card>
+      <div className={s.animals}>
+        {animalsBackgrounds.map((background, index) => (
+          <img src={background} key={background} alt={`animal_${index}`} />
+        ))}
       </div>
     </div>
   );

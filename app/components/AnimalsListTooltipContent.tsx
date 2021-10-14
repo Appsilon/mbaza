@@ -10,10 +10,7 @@ export default function AnimalsListTooltipContent(props: Props) {
   return (
     <div>
       {entries.map(x => (
-        <>
-          {formatAnimalClassName(x)}
-          <br />
-        </>
+        <div key={x}>{formatAnimalClassName(x)}</div>
       ))}
     </div>
   );

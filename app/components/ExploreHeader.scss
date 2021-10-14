@@ -1,0 +1,51 @@
+.container {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+
+  .popover {
+    .popoverContent {
+      padding: 30px;
+
+      .row {
+        align-items: center;
+        display: flex;
+        justify-content: space-between;
+
+        &:first-child {
+          margin-bottom: 10px;
+        }
+      }
+
+      .eventTitle {
+        margin: 0;
+      }
+
+      .eventDurationInput {
+        margin-right: 10px;
+        width: 150px;
+      }
+
+      .eventApplyButton {
+        padding-left: 20px;
+        padding-right: 20px;
+        width: 150px;
+      }
+    }
+  }
+}
+
+.textOutput {
+  align-items: center;
+  display: flex;
+  flex: 1;
+
+  & > h5 {
+    margin: 0 10px 0 0;
+
+    &:last-child {
+      font-weight: normal;
+    }
+  }
+}

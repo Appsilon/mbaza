@@ -21,7 +21,7 @@ type Observation = {
   coordinates_long: number;
   coordinates_lat: number;
   timestamp: Date;
-  event_id: number;
+  event_id: number | undefined;
   // Scores
   pred_1: string;
   score_1: number;

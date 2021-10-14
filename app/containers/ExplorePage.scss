@@ -1,0 +1,61 @@
+@import '../styles/config/variables';
+@import '../styles/config/mixins';
+
+.container {
+  align-items: center;
+  display: flex;
+  height: calc(100vh - 50px);
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+
+  .card {
+    border-radius: $radius-card;
+    box-shadow: $shadow-card;
+    padding: 40px;
+
+    .header {
+      @include flex-center;
+
+      margin-bottom: 20px;
+
+      .title {
+        font-weight: 500;
+        font-size: 18px;
+        margin: 0;
+      }
+
+      .icon {
+        @include flex-center;
+
+        margin-left: 20px;
+      }
+    }
+  }
+
+  .animals {
+    bottom: -10px;
+    left: -10px;
+    position: absolute;
+    pointer-events: none;
+    right: -10px;
+    top: 0;
+
+    & > img {
+      bottom: 0;
+      position: absolute;
+      width: 100%;
+
+      &:nth-child(5) {
+        bottom: 1.1vw;
+      }
+      &:nth-child(4) {
+        bottom: 2.3vw;
+      }
+      &:nth-child(3) {
+        bottom: 3.2vw;
+      }
+    }
+  }
+}
