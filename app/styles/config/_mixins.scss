@@ -3,3 +3,21 @@
   display: flex;
   justify-content: center;
 }
+
+@mixin marker-animation-start($color) {
+  box-shadow: 0 0 0 0 rgba($color: $color, $alpha: 0.2), 0 0 0 0 rgba($color: $color, $alpha: 0.4);
+}
+
+@mixin marker-animation-end {
+  box-shadow: 0 0 0 10px transparent, 0 0 0 20px transparent;
+}
+
+@mixin marker($animation, $color, $opacity) {
+  animation: $animation $t-marker-animation infinite ease-out;
+  background-color: rgba($color: $color, $alpha: $opacity);
+  border-color: $color;
+
+  &::before {
+    background-color: $color;
+  }
+}
