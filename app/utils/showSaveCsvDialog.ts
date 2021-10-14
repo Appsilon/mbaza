@@ -1,26 +1,19 @@
-export default function showSaveCsvDialog(
-  defaultFilaneme: string,
-  callback: (path: string) => void
-) {
-  // eslint-disable-next-line global-require
-  const { dialog, app } = require('electron').remote;
-  dialog
-    .showSaveDialog({
-      defaultPath: `${app.getPath('documents')}/${defaultFilaneme}`,
-      filters: [
-        { name: 'CSV', extensions: ['csv'] },
-        { name: 'All Files', extensions: ['*'] }
-      ]
-    })
-    .then(result => {
-      if (!result.canceled) {
-        // eslint-disable-next-line promise/no-callback-in-promise
-        callback(result.filePath || '');
-      }
-      return null;
-    })
-    .catch(error => {
-      // eslint-disable-next-line no-alert
-      alert(error);
-    });
+import { join } from 'path';
+import { remote } from 'electron';
+
+export default async function showSaveCsvDialog(
+  defaultFilaneme: string
+): Promise<string | undefined> {
+  const defaultPath = join(remote.app.getPath('documents'), defaultFilaneme);
+  const dialog = await remote.dialog.showSaveDialog({
+    defaultPath,
+    filters: [
+      { name: 'CSV', extensions: ['csv'] },
+      { name: 'All Files', extensions: ['*'] }
+    ]
+  });
+  if (!dialog.canceled) {
+    return dialog.filePath;
+  }
+  return undefined;
 }

@@ -172,11 +172,11 @@ export default function ExplorePage() {
   const overridesTotal = observations ? countOverrides(observations) : 0;
 
   if (observations !== undefined) {
-    const handleCsvExport = () => {
-      const callback = (path: string) => {
+    const handleCsvExport = async () => {
+      const path = await showSaveCsvDialog('classification_result_corrected.csv');
+      if (path !== undefined) {
         writeCorrectedCsv(path, observations, predictionOverrides);
-      };
-      showSaveCsvDialog('classification_result_corrected.csv', callback);
+      }
     };
     const handleEventsUpdate = (evtMaxDuration: number | undefined) => {
       const newObservations = computeEvents({ minutes: evtMaxDuration }, observations);

@@ -231,8 +231,11 @@ export default function Classifier(props: Props) {
           aria-label="Search"
           type="submit"
           className="bp3-button bp3-minimal bp3-intent-primary bp3-icon-search"
-          onClick={() => {
-            showSaveCsvDialog('classification_result.csv', changeSavePathChoice);
+          onClick={async () => {
+            const newSavePath = await showSaveCsvDialog('classification_result.csv');
+            if (newSavePath !== undefined) {
+              changeSavePathChoice(newSavePath);
+            }
           }}
         />
       </div>
