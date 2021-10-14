@@ -287,7 +287,6 @@
   },
   "dependencies": {
     "@blueprintjs/core": "^3.38.2",
-    "@blueprintjs/table": "^3.8.10",
     "@fortawesome/fontawesome-free": "^5.12.1",
     "@hot-loader/react-dom": "^16.12.0",
     "@redux-beacon/google-analytics": "^1.2.3",

@@ -4,21 +4,18 @@ import _ from 'lodash';
 import {
   Card,
   Elevation,
-  Tab,
-  Tabs,
   H4,
+  Button,
   Intent,
   Callout,
   NumberRange,
   Divider,
-  Button,
   Tooltip,
   Icon
 } from '@blueprintjs/core';
 import { remote } from 'electron';
 
 import Map from '../components/Map';
-import ObservationsTable from '../components/ObservationsTable';
 import ExplorerFilter from '../components/explorerFilters';
 import ExplorerMetrics from '../components/explorerMetrics';
 import {
@@ -169,27 +166,6 @@ export default function ExplorePage() {
     .uniq()
     .size();
 
-  const mainPanel = (
-    <Card style={{ height: '100%' }} interactive elevation={Elevation.TWO}>
-      <Callout intent={Intent.PRIMARY}>{t('explore.mapHint')}</Callout>
-      <div
-        style={{
-          width: '100%',
-          position: 'relative',
-          overflow: 'hidden'
-        }}
-      >
-        <Map observations={filteredData.observations} onInspect={setInspectedObservations} />
-        <ObservationsInspector
-          observations={inspectedObservations}
-          onClose={() => setInspectedObservations([])}
-          predictionOverrides={predictionOverrides}
-          onPredictionOverride={handlePredictionOverride}
-        />
-      </div>
-    </Card>
-  );
-
   const countOverrides = (obs: Observation[]): number => {
     return obs.reduce((a, b) => a + (b.pred_1 !== b.label ? 1 : 0), 0);
   };
@@ -235,15 +211,24 @@ export default function ExplorePage() {
           overridesTotal={overridesTotal}
           eventsTotal={eventsCount}
         />
-        <Tabs renderActiveTabPanelOnly>
-          <Tab id="main" title={t('explore.mapView')} panel={mainPanel} />
-          <Tab
-            id="table"
-            title={t('explore.tableView')}
-            panel={<ObservationsTable observations={filteredData.observations} />}
-          />
-          <Tabs.Expander />
-        </Tabs>
+        <Card style={{ height: '100%' }} interactive elevation={Elevation.TWO}>
+          <Callout intent={Intent.PRIMARY}>{t('explore.mapHint')}</Callout>
+          <div
+            style={{
+              width: '100%',
+              position: 'relative',
+              overflow: 'hidden'
+            }}
+          >
+            <Map observations={filteredData.observations} onInspect={setInspectedObservations} />
+            <ObservationsInspector
+              observations={inspectedObservations}
+              onClose={() => setInspectedObservations([])}
+              predictionOverrides={predictionOverrides}
+              onPredictionOverride={handlePredictionOverride}
+            />
+          </div>
+        </Card>
       </div>
     );
   }
