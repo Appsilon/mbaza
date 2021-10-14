@@ -1,7 +1,7 @@
 /* Config files */
-@import './config/variables.scss';
-@import './config/mixins.scss';
+@import './config/variables';
+@import './config/mixins';
 
 /* Components overrides files */
-@import './overrides/navbar.scss';
-@import './overrides/buttons.scss';
+@import './overrides/navbar';
+@import './overrides/buttons';
