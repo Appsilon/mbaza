@@ -35,17 +35,7 @@ function displayErrorToast(message: string) {
   });
 }
 
-function displayWarningToast(message: string) {
-  toaster.show({
-    message,
-    intent: Intent.WARNING,
-    icon: 'warning-sign'
-  });
-}
-
 function runModelProcess(baseArgs: string[], t: TFunction): ChildProcessWithoutNullStreams | null {
-  const gridFilePath = path.join(rootModelsDirectory, 'biomonitoring_stations.csv');
-
   let workdir;
   let program;
   const args = [];
@@ -74,12 +64,6 @@ function runModelProcess(baseArgs: string[], t: TFunction): ChildProcessWithoutN
     return null;
   }
 
-  if (fs.existsSync(gridFilePath)) {
-    args.push('--grid_file', gridFilePath);
-  } else {
-    displayWarningToast(t('classify.biomonitoringStationsFileNotFound', { gridFilePath }));
-  }
-
   args.push(...baseArgs);
   return spawn(program, args, { cwd: workdir });
 }
@@ -87,6 +71,7 @@ function runModelProcess(baseArgs: string[], t: TFunction): ChildProcessWithoutN
 const computePredictions = (
   directory: string,
   savePath: string,
+  gridFilePath: string,
   modelName: string,
   projectId: string,
   deploymentId: string,
@@ -111,6 +96,9 @@ const computePredictions = (
     '--overwrite'
   ];
 
+  if (gridFilePath) {
+    args.push('--grid_file', gridFilePath);
+  }
   if (!fs.existsSync(modelWeightsPath)) {
     displayErrorToast(t('classify.modelWeightsNotFound', { modelWeightsPath }));
     return;
@@ -194,7 +182,7 @@ export default function Classifier(props: Props) {
   const { t } = useTranslation();
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [exitCode, setExitCode] = useState<number | null>();
-  const [stationsCsvPath, setStationsCsvPath] = useState<string>('');
+  const [stationsCsvPath, setStationsCsvPath] = useState<string>();
   const [projectId, setProjectId] = useState<string>('');
   const [deploymentId, setDeploymentId] = useState<string>('');
 
@@ -265,6 +253,7 @@ export default function Classifier(props: Props) {
           computePredictions(
             props.directoryChoice,
             props.savePath,
+            stationsCsvPath,
             modelName,
             projectId,
             deploymentId,
