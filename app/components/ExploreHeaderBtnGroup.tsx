@@ -15,10 +15,8 @@ export default function ExploreHeaderBtnGroup(props: Props) {
       <Button
         fill
         intent="primary"
-        large
         onClick={onExportBtnClick}
-        outlined
-        style={{ marginRight: '15px' }}
+        style={{ marginRight: '10px' }}
         text={btnLabel}
       />
       <Tooltip content={iconInfo}>

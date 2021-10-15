@@ -89,20 +89,20 @@ export default function ExploreHeader(props: Props) {
           text={t('explore.exportButtonLabel')}
         />
         <div className={s.popoverContent}>
-          <H6 className={s.eventTitle}>{t('explore.eventsDurationLabel')}</H6>
+          <H6 className={s.eventTitle}>{t('explore.exportLabel')}</H6>
           <ExploreHeaderBtnGroup
             btnLabel={t('explore.overridesExport')}
-            iconInfo={t('explore.overridesExport')}
+            iconInfo={t('explore.overridesExportHelp')}
             onExportBtnClick={onDataExportClick}
           />
           <ExploreHeaderBtnGroup
             btnLabel={t('explore.darwinCoreExport')}
-            iconInfo={t('explore.eventsDescription')}
+            iconInfo={t('explore.darwinCoreExportHelp')}
             onExportBtnClick={onDarwinCoreExportClick}
           />
           <ExploreHeaderBtnGroup
             btnLabel={t('explore.photosExport')}
-            iconInfo={t('explore.eventsDescription')}
+            iconInfo={t('explore.photosExportHelp')}
             onExportBtnClick={onPhotosExportClick}
           />
         </div>
