@@ -16,10 +16,9 @@ import path from 'path';
 import { spawn, ChildProcessWithoutNullStreams } from 'child_process';
 import fs from 'fs';
 import { TFunction } from 'i18next';
-import { remote } from 'electron';
 
 import PythonLogViewer from './PythonLogViewer';
-import showSaveCsvDialog from '../utils/showSaveCsvDialog';
+import { openCsvDialog, openDirectoryDialog, saveCsvDialog } from '../utils/fileDialog';
 import { isDev, isLinux, isWin, rootModelsDirectory } from '../utils/environment';
 import MissingModelsMessage from './MissingModelsMessage';
 
@@ -143,16 +142,6 @@ const computePredictions = (
   }
 };
 
-async function chooseDirectory() {
-  const dialog = await remote.dialog.showOpenDialog({
-    properties: ['openDirectory']
-  });
-  if (!dialog.canceled) {
-    return dialog.filePaths[0];
-  }
-  return undefined;
-}
-
 function PathInput(props: {
   placeholder: string;
   value: string;
@@ -205,6 +194,7 @@ export default function Classifier(props: Props) {
   const { t } = useTranslation();
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [exitCode, setExitCode] = useState<number | null>();
+  const [stationsCsvPath, setStationsCsvPath] = useState<string>('');
   const [projectId, setProjectId] = useState<string>('');
   const [deploymentId, setDeploymentId] = useState<string>('');
 
@@ -223,13 +213,19 @@ export default function Classifier(props: Props) {
         placeholder={t('classify.chooseInput')}
         value={directoryChoice}
         onChange={changeDirectoryChoice}
-        showDialog={chooseDirectory}
+        showDialog={openDirectoryDialog}
       />
       <PathInput
         placeholder={t('classify.chooseOutput')}
         value={savePath}
         onChange={changeSavePathChoice}
-        showDialog={() => showSaveCsvDialog('classification_result')}
+        showDialog={() => saveCsvDialog('classification_result')}
+      />
+      <PathInput
+        placeholder={t('classify.chooseStationsCsv')}
+        value={stationsCsvPath}
+        onChange={setStationsCsvPath}
+        showDialog={openCsvDialog}
       />
 
       <div style={{ marginBottom: '5px' }}>{t('classify.chooseModel')}</div>

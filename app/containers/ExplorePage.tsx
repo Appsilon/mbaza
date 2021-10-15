@@ -26,7 +26,7 @@ import {
   RareAnimalsClasses
 } from '../constants/animalsClasses';
 import ObservationsInspector from '../components/ObservationsInspector';
-import showSaveCsvDialog from '../utils/showSaveCsvDialog';
+import { saveCsvDialog } from '../utils/fileDialog';
 import writeCorrectedCsv from '../utils/writeCorrectedCsv';
 import readObservationsCsv from '../utils/readObservationsCsv';
 import ExploreHeader from '../components/ExploreHeader';
@@ -187,7 +187,7 @@ export default function ExplorePage() {
 
   if (observations !== undefined) {
     const handleCsvExport = async () => {
-      const path = await showSaveCsvDialog('classification_result');
+      const path = await saveCsvDialog('classification_result');
       if (path !== undefined) {
         writeCorrectedCsv(path, observations, predictionOverrides);
       }
@@ -202,7 +202,7 @@ export default function ExplorePage() {
         alert(t('explore.missingEvents'));
         return;
       }
-      const path = await showSaveCsvDialog('darwin_core');
+      const path = await saveCsvDialog('darwin_core');
       if (path !== undefined) {
         const darwinCore = csvFormat(exportDarwinCore(observations));
         await writeFile(path, darwinCore);
