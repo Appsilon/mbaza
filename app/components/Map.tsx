@@ -65,15 +65,11 @@ function makeStationMarker(
   markerElement.className = 'marker';
   markerElement.setAttribute('style', `width: ${diameter}px; height: ${diameter}px;`);
   if (markerElement) {
-    markerElement.addEventListener('click', function() {
-      const activeMarkers: NodeListOf<Element> = document.querySelectorAll('.marker');
-      activeMarkers.forEach(marker => {
-        if (marker === this) {
-          marker.classList.add('active');
-        } else {
-          marker.classList.remove('active');
-        }
-      });
+    markerElement.addEventListener('click', (event: Event) => {
+      const activeMarkers: NodeListOf<Element> = document.querySelectorAll('.marker.active');
+      activeMarkers.forEach(marker => marker.classList.remove('active'));
+      const target = event.currentTarget as HTMLTextAreaElement;
+      target.classList.add('active');
     });
   }
 
