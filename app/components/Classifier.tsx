@@ -182,7 +182,7 @@ export default function Classifier(props: Props) {
   const { t } = useTranslation();
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [exitCode, setExitCode] = useState<number | null>();
-  const [stationsCsvPath, setStationsCsvPath] = useState<string>();
+  const [stationsCsvPath, setStationsCsvPath] = useState<string>('');
   const [projectId, setProjectId] = useState<string>('');
   const [deploymentId, setDeploymentId] = useState<string>('');
 
