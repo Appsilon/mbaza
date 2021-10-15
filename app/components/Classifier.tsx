@@ -154,6 +154,37 @@ async function chooseDirectory() {
   return undefined;
 }
 
+function PathInput(props: {
+  placeholder: string;
+  value: string;
+  onChange: (path: string) => void;
+  showDialog: () => Promise<string | undefined>;
+}) {
+  const { placeholder, value, onChange, showDialog } = props;
+  return (
+    <div className="bp3-input-group" style={{ marginBottom: '10px' }}>
+      <input
+        type="text"
+        className="bp3-input"
+        placeholder={placeholder}
+        value={value}
+        onChange={event => {
+          onChange(event.target.value);
+        }}
+      />
+      <button
+        aria-label="Search"
+        type="submit"
+        className="bp3-button bp3-minimal bp3-intent-primary bp3-icon-search"
+        onClick={async () => {
+          const newValue = await showDialog();
+          if (newValue !== undefined) onChange(newValue);
+        }}
+      />
+    </div>
+  );
+}
+
 type Props = {
   changeLogMessage: changeLogMessageType;
   changeDirectoryChoice: changePathChoiceType;
@@ -189,47 +220,18 @@ export default function Classifier(props: Props) {
 
   const classifierFormView = (
     <div style={{ padding: '30px 30px', width: '60vw' }}>
-      <div className="bp3-input-group" style={{ marginBottom: '10px' }}>
-        <input
-          type="text"
-          className="bp3-input"
-          placeholder={t('classify.chooseInput')}
-          value={directoryChoice}
-          onChange={e => {
-            changeDirectoryChoice(e.target.value);
-          }}
-        />
-        <button
-          aria-label="Search"
-          type="submit"
-          className="bp3-button bp3-minimal bp3-intent-primary bp3-icon-search"
-          onClick={async () => {
-            const directory = await chooseDirectory();
-            if (directory !== undefined) changeDirectoryChoice(directory);
-          }}
-        />
-      </div>
-
-      <div className="bp3-input-group" style={{ marginBottom: '10px' }}>
-        <input
-          type="text"
-          className="bp3-input"
-          placeholder={t('classify.chooseOutput')}
-          value={savePath}
-          onChange={e => {
-            changeSavePathChoice(e.target.value);
-          }}
-        />
-        <button
-          aria-label="Search"
-          type="submit"
-          className="bp3-button bp3-minimal bp3-intent-primary bp3-icon-search"
-          onClick={async () => {
-            const newSavePath = await showSaveCsvDialog('classification_result.csv');
-            if (newSavePath !== undefined) changeSavePathChoice(newSavePath);
-          }}
-        />
-      </div>
+      <PathInput
+        placeholder={t('classify.chooseInput')}
+        value={directoryChoice}
+        onChange={changeDirectoryChoice}
+        showDialog={chooseDirectory}
+      />
+      <PathInput
+        placeholder={t('classify.chooseOutput')}
+        value={savePath}
+        onChange={changeSavePathChoice}
+        showDialog={() => showSaveCsvDialog('classification_result')}
+      />
 
       <div style={{ marginBottom: '5px' }}>{t('classify.chooseModel')}</div>
       <RadioGroup
