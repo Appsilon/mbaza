@@ -26,16 +26,16 @@ conda install --yes matplotlib==3.1.3 scipy==1.1.0
 5. Now your model runner is in `runner_win\main\main.exe`.
 
 6. Deactivate the environment (`conda deactivate`) and test the binary, for example with:
-   `main.exe infer_to_csv --model=..\..\eastAfricanSavannas\trained_model.pkl --input_folder=..\..\eastAfricanSavannas\images_fun_examples --output=output.csv --overwrite --pytorch_num_workers=0`
+   `main.exe infer_to_csv --model=..\..\east_african_savannas\trained_model.pkl --input_folder=..\..\east_african_savannas\images_fun_examples --output=output.csv --overwrite --pytorch_num_workers=0`
 
    - Warning: this needs to be run from `main.exe`'s directory for Pytorch to locate the necessary source files.
    - If you get a `PyInstallerImportError`, try to locate the directory with the missing DLL on your system and add it using `--paths` option for pyinstaller,
      e.g. `--paths C:\Users\your_username_here\miniconda3\envs\mbaza\Lib\site-packages\torch\lib`. Rebuild (step 4) and try again.
 
-7. Add `biomonitoring_stations.csv` to the main `models` directory. Distribute the entire `models` folder as a zip archive containing `biomonitoring_stations.csv`, `runner_win` and directories with models (e.g. `centralAfricanForests` and `eastAfricanSavannas`). Do not include the `runner` directory as it contains source code and temporary build files. You can package this with:
+7. Add `biomonitoring_stations.csv` to the main `models` directory. Distribute the entire `models` folder as a zip archive containing `biomonitoring_stations.csv`, `runner_win` and directories with models (e.g. `central_african_forests` and `east_african_savannas`). Do not include the `runner` directory as it contains source code and temporary build files. You can package this with:
 
 ```
-Compress-Archive -Path .\models\runner_win\, .\models\centralAfricanForests\, .\models\eastAfricanSavannas\, .\models\biomonitoring_stations.csv models.zip
+Compress-Archive -Path .\models\runner_win\, .\models\central_african_forests\, .\models\east_african_savannas\, .\models\biomonitoring_stations.csv models.zip
 ```
 
 ## Building on Linux
@@ -43,7 +43,7 @@ Compress-Archive -Path .\models\runner_win\, .\models\centralAfricanForests\, .\
 1. Create a virtual environment (`python3 -m venv venv`)
 2. Install requirements from `requirements.txt` (`source venv/bin/activate; pip install -r requirements.txt`).
 3. Run `release_model_linux_x86_64.sh`
-4. Run it for example with: `./main --model=../../eastAfricanSavannas/trained_model.pkl --input_folder=../../eastAfricanSavannas/images_fun_examples --output=output.csv --overwrite`
+4. Run it for example with: `./main --model=../../east_african_savannas/trained_model.pkl --input_folder=../../east_african_savannas/images_fun_examples --output=output.csv --overwrite`
    (Warning: this needs to be run from `main`'s directory for Pytorch to locate the necessary source files.)
 
 ## Running in dev mode directly
@@ -79,5 +79,5 @@ source venv/bin/activate
 pip install -r requirements.txt
 
 # Test the script
-python main.py infer_to_csv --model ../eastAfricanSavannas/trained_model.pkl --input_folder ../eastAfricanSavannas/images_fun_examples --output output.csv --overwrite`
+python main.py infer_to_csv --model ../east_african_savannas/trained_model.pkl --input_folder ../east_african_savannas/images_fun_examples --output output.csv --overwrite`
 ```

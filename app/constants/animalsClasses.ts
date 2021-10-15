@@ -10,7 +10,7 @@ export const RareAnimalsClasses = [
   'Leopard_African',
   'Mandrillus',
   'Pangolin',
-  // East African Savannas (Serengeti) dataset
+  // East African savannas (Serengeti) dataset
   'cheetah',
   'elephant',
   'giraffe',
