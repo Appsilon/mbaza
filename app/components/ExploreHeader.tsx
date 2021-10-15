@@ -88,28 +88,45 @@ export default function ExploreHeader(props: Props) {
           text={t('explore.exportButtonLabel')}
         />
         <div className={s.popoverContent}>
-          <Button
-            intent="primary"
-            large
-            onClick={onDataExportClick}
-            outlined={false}
-            style={{ marginRight: '15px' }}
-            text={t('explore.overridesExport')}
-          />
-          <Button
-            intent="primary"
-            large
-            onClick={onDarwinCoreExportClick}
-            outlined={false}
-            text={t('explore.darwinCoreExport')}
-          />
-          <Button
-            intent="primary"
-            large
-            onClick={onPhotosExportClick}
-            outlined={false}
-            text={t('explore.photosExport')}
-          />
+          <div className={s.row}>
+            <Button
+              fill
+              intent="primary"
+              large
+              onClick={onDataExportClick}
+              outlined
+              text={t('explore.overridesExport')}
+            />
+            <Tooltip content={t('explore.eventsDescription')}>
+              <Icon color="#647f80" icon="help" iconSize={22} />
+            </Tooltip>
+          </div>
+          <div className={s.row}>
+            <Button
+              fill
+              intent="primary"
+              large
+              onClick={onDarwinCoreExportClick}
+              outlined
+              text={t('explore.darwinCoreExport')}
+            />
+            <Tooltip content={t('explore.eventsDescription')}>
+              <Icon color="#647f80" icon="help" iconSize={22} />
+            </Tooltip>
+          </div>
+          <div className={s.row}>
+            <Button
+              fill
+              intent="primary"
+              large
+              onClick={onPhotosExportClick}
+              outlined
+              text={t('explore.photosExport')}
+            />
+            <Tooltip content={t('explore.eventsDescription')}>
+              <Icon color="#647f80" icon="help" iconSize={22} />
+            </Tooltip>
+          </div>
         </div>
       </Popover>
     </div>
