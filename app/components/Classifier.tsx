@@ -144,7 +144,6 @@ const computePredictions = (
 };
 
 async function chooseDirectory() {
-  // eslint-disable-next-line global-require
   const dialog = await remote.dialog.showOpenDialog({
     properties: ['openDirectory']
   });
