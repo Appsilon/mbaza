@@ -16,6 +16,7 @@ import path from 'path';
 import { spawn, ChildProcessWithoutNullStreams } from 'child_process';
 import fs from 'fs';
 import { TFunction } from 'i18next';
+import { remote } from 'electron';
 
 import PythonLogViewer from './PythonLogViewer';
 import showSaveCsvDialog from '../utils/showSaveCsvDialog';
@@ -142,25 +143,16 @@ const computePredictions = (
   }
 };
 
-const chooseDirectory = (changeDirectoryChoice: changePathChoiceType) => {
+async function chooseDirectory() {
   // eslint-disable-next-line global-require
-  const { dialog } = require('electron').remote;
-  dialog
-    .showOpenDialog({
-      properties: ['openDirectory']
-    })
-    .then(result => {
-      if (!result.canceled) {
-        const directory = result.filePaths[0];
-        changeDirectoryChoice(directory);
-      }
-      return null;
-    })
-    .catch(error => {
-      // eslint-disable-next-line no-alert
-      alert(error);
-    });
-};
+  const dialog = await remote.dialog.showOpenDialog({
+    properties: ['openDirectory']
+  });
+  if (!dialog.canceled) {
+    return dialog.filePaths[0];
+  }
+  return undefined;
+}
 
 type Props = {
   changeLogMessage: changeLogMessageType;
@@ -211,8 +203,9 @@ export default function Classifier(props: Props) {
           aria-label="Search"
           type="submit"
           className="bp3-button bp3-minimal bp3-intent-primary bp3-icon-search"
-          onClick={() => {
-            chooseDirectory(changeDirectoryChoice);
+          onClick={async () => {
+            const directory = await chooseDirectory();
+            if (directory !== undefined) changeDirectoryChoice(directory);
           }}
         />
       </div>
@@ -233,9 +226,7 @@ export default function Classifier(props: Props) {
           className="bp3-button bp3-minimal bp3-intent-primary bp3-icon-search"
           onClick={async () => {
             const newSavePath = await showSaveCsvDialog('classification_result.csv');
-            if (newSavePath !== undefined) {
-              changeSavePathChoice(newSavePath);
-            }
+            if (newSavePath !== undefined) changeSavePathChoice(newSavePath);
           }}
         />
       </div>
