@@ -1,0 +1,34 @@
+.marker {
+  @include marker(marker-normal, $c-green-40, 0.2);
+
+  border: 4px solid $c-green-40;
+  transition: background-color $t-marker, border $t-marker;
+
+  &::before {
+    border-radius: 50%;
+    bottom: 4px;
+    content: '';
+    left: 4px;
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    transition: background-color $t-marker, transform $t-marker;
+    transform: scale(0);
+  }
+
+  &:hover {
+    @include marker(marker-hover, $c-green-60, 0.7);
+
+    &::before {
+      transform: scale(1);
+    }
+  }
+
+  &.active {
+    @include marker(marker-active, $c-orange, 0.5);
+
+    &::before {
+      transform: scale(1);
+    }
+  }
+}

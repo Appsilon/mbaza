@@ -5,7 +5,7 @@ import mapboxgl from 'mapbox-gl';
 import _ from 'lodash';
 import { Button, Position, Tooltip } from '@blueprintjs/core';
 import ReactDOM from 'react-dom';
-import styles from './Map.css';
+import s from './Map.css';
 import AnimalsListTooltipContent from './AnimalsListTooltipContent';
 import { EmptyClasses } from '../constants/animalsClasses';
 
@@ -39,8 +39,8 @@ function getObservationCoordinates(row: Observation): [number, number] {
 }
 
 function circleDiameter(count: number, total: number): number {
-  const minSize = 20;
-  const maxSize = 100;
+  const minSize = 10;
+  const maxSize = 50;
   return minSize + (count / total) * (maxSize - minSize);
 }
 
@@ -64,6 +64,14 @@ function makeStationMarker(
   const markerElement = document.createElement('div');
   markerElement.className = 'marker';
   markerElement.setAttribute('style', `width: ${diameter}px; height: ${diameter}px;`);
+  if (markerElement) {
+    markerElement.addEventListener('click', (event: Event) => {
+      const activeMarkers: NodeListOf<Element> = document.querySelectorAll('.marker.active');
+      activeMarkers.forEach(marker => marker.classList.remove('active'));
+      const target = event.currentTarget as HTMLTextAreaElement;
+      target.classList.add('active');
+    });
+  }
 
   const popupContentPlaceholder = document.createElement('div');
   ReactDOM.render(
@@ -174,5 +182,5 @@ export default function Map(props: MapProps) {
     };
   }, [observations]);
 
-  return <div ref={mapRef} className={styles.mapContainer} />;
+  return <div ref={mapRef} className={s.mapContainer} />;
 }
