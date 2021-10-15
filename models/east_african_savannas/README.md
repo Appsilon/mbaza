@@ -1,4 +1,4 @@
-## Serengeti model
+## East African savannas (Serengeti) model
 
 This model was developed for the purposes of the Hakuna Ma-data competition. Details about how it was trained [can be found here](https://github.com/Appsilon/serengeti). Some wrapper scripts (including Try-It-Yourself Colab notebook) [can be found here](https://github.com/Appsilon/serengeti_try_it_yourself).
 
