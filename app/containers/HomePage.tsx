@@ -33,6 +33,7 @@ export default function HomePage() {
           <img style={logoStyle} src="assets/logos/gabon.png" alt="Parcs Gabon" />
           <img style={logoStyle} src="assets/logos/iret.png" alt="IRET" />
           <img style={logoStyle} src="assets/logos/panthera.png" alt="Panthera" />
+          <img style={logoStyle} src="assets/logos/gbif.png" alt="GBIF" />
           <img style={logoStyle} src="assets/logos/stirling.png" alt="University of Stirling" />
           <div style={{ ...logoStyle, textAlign: 'center' }}>
             <img
