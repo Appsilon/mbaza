@@ -9,6 +9,7 @@ type Props = {
   onEventsUpdateClick: (eventDuration: number | undefined) => void;
   onDataExportClick: () => void;
   onDarwinCoreExportClick: () => void;
+  onPhotosExportClick: () => void;
 };
 
 export default function ExploreHeader(props: Props) {
@@ -19,7 +20,8 @@ export default function ExploreHeader(props: Props) {
     onDataImportClick,
     onEventsUpdateClick,
     onDataExportClick,
-    onDarwinCoreExportClick
+    onDarwinCoreExportClick,
+    onPhotosExportClick
   } = props;
   // eslint-disable-next-line
   const filename = (filePath !== undefined) ? filePath.replace(/^.*[\\\/]/, '') : "";
@@ -77,7 +79,7 @@ export default function ExploreHeader(props: Props) {
           </div>
         </div>
       </Popover>
-      <Popover className={s.popover} usePortal={false} autoFocus={false}>
+      <Popover className={s.popover} placement="bottom-end" usePortal={false} autoFocus={false}>
         <Button
           icon="export"
           intent="primary"
@@ -87,7 +89,6 @@ export default function ExploreHeader(props: Props) {
         />
         <div className={s.popoverContent}>
           <Button
-            icon="export"
             intent="primary"
             large
             onClick={onDataExportClick}
@@ -96,12 +97,18 @@ export default function ExploreHeader(props: Props) {
             text={t('explore.overridesExport')}
           />
           <Button
-            icon="export"
             intent="primary"
             large
             onClick={onDarwinCoreExportClick}
             outlined={false}
             text={t('explore.darwinCoreExport')}
+          />
+          <Button
+            intent="primary"
+            large
+            onClick={onPhotosExportClick}
+            outlined={false}
+            text={t('explore.photosExport')}
           />
         </div>
       </Popover>
