@@ -77,23 +77,34 @@ export default function ExploreHeader(props: Props) {
           </div>
         </div>
       </Popover>
-      <Button
-        icon="export"
-        intent="primary"
-        large
-        onClick={onDataExportClick}
-        outlined={false}
-        style={{ marginRight: '15px' }}
-        text={t('explore.overridesExport')}
-      />
-      <Button
-        icon="export"
-        intent="primary"
-        large
-        onClick={onDarwinCoreExportClick}
-        outlined={false}
-        text={t('explore.darwinCoreExport')}
-      />
+      <Popover className={s.popover} usePortal={false} autoFocus={false}>
+        <Button
+          icon="export"
+          intent="primary"
+          large
+          outlined={false}
+          text={t('explore.exportButtonLabel')}
+        />
+        <div className={s.popoverContent}>
+          <Button
+            icon="export"
+            intent="primary"
+            large
+            onClick={onDataExportClick}
+            outlined={false}
+            style={{ marginRight: '15px' }}
+            text={t('explore.overridesExport')}
+          />
+          <Button
+            icon="export"
+            intent="primary"
+            large
+            onClick={onDarwinCoreExportClick}
+            outlined={false}
+            text={t('explore.darwinCoreExport')}
+          />
+        </div>
+      </Popover>
     </div>
   );
 }
