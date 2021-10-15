@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, NumericInput, Popover, H5, H6, Tooltip, Icon } from '@blueprintjs/core';
+import ExploreHeaderBtnGroup from './ExploreHeaderBtnGroup';
 import s from './ExploreHeader.scss';
 
 type Props = {
@@ -88,45 +89,22 @@ export default function ExploreHeader(props: Props) {
           text={t('explore.exportButtonLabel')}
         />
         <div className={s.popoverContent}>
-          <div className={s.row}>
-            <Button
-              fill
-              intent="primary"
-              large
-              onClick={onDataExportClick}
-              outlined
-              text={t('explore.overridesExport')}
-            />
-            <Tooltip content={t('explore.eventsDescription')}>
-              <Icon color="#647f80" icon="help" iconSize={22} />
-            </Tooltip>
-          </div>
-          <div className={s.row}>
-            <Button
-              fill
-              intent="primary"
-              large
-              onClick={onDarwinCoreExportClick}
-              outlined
-              text={t('explore.darwinCoreExport')}
-            />
-            <Tooltip content={t('explore.eventsDescription')}>
-              <Icon color="#647f80" icon="help" iconSize={22} />
-            </Tooltip>
-          </div>
-          <div className={s.row}>
-            <Button
-              fill
-              intent="primary"
-              large
-              onClick={onPhotosExportClick}
-              outlined
-              text={t('explore.photosExport')}
-            />
-            <Tooltip content={t('explore.eventsDescription')}>
-              <Icon color="#647f80" icon="help" iconSize={22} />
-            </Tooltip>
-          </div>
+          <H6 className={s.eventTitle}>{t('explore.eventsDurationLabel')}</H6>
+          <ExploreHeaderBtnGroup
+            btnLabel={t('explore.overridesExport')}
+            iconInfo={t('explore.overridesExport')}
+            onExportBtnClick={onDataExportClick}
+          />
+          <ExploreHeaderBtnGroup
+            btnLabel={t('explore.darwinCoreExport')}
+            iconInfo={t('explore.eventsDescription')}
+            onExportBtnClick={onDarwinCoreExportClick}
+          />
+          <ExploreHeaderBtnGroup
+            btnLabel={t('explore.photosExport')}
+            iconInfo={t('explore.eventsDescription')}
+            onExportBtnClick={onPhotosExportClick}
+          />
         </div>
       </Popover>
     </div>
