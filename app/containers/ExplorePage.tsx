@@ -13,7 +13,9 @@ import {
   Tooltip,
   Icon
 } from '@blueprintjs/core';
+import { promises as fsPromises } from 'fs';
 import { remote } from 'electron';
+import { csvFormat } from 'd3-dsv';
 
 import Map from '../components/Map';
 import ExplorerFilter from '../components/explorerFilters';
@@ -37,6 +39,9 @@ import animals3 from '../assets/graphics/SVG_3.svg';
 import animals4 from '../assets/graphics/SVG_4.svg';
 import animals5 from '../assets/graphics/SVG_5.svg';
 import animals6 from '../assets/graphics/SVG_6.svg';
+import exportDarwinCore from '../utils/exportDarwinCore';
+
+const { writeFile } = fsPromises;
 
 const animalsBackgrounds = [animals6, animals5, animals4, animals3, animals2, animals1];
 
@@ -102,6 +107,21 @@ function detectOverrides(observations: Observation[] | undefined) {
   return {};
 }
 
+function eventsCount(observations: Observation[]): number {
+  return _(observations)
+    .map('event_id')
+    .without(undefined)
+    .uniq()
+    .size();
+}
+
+function missingEvents(observations: Observation[]): number {
+  return _(observations)
+    .map('event_id')
+    .filter(_.isUndefined)
+    .size();
+}
+
 export default function ExplorePage() {
   const { t } = useTranslation();
   const [filePath, setFilePath] = useState<string>();
@@ -160,27 +180,33 @@ export default function ExplorePage() {
     return { observations: filtered };
   }, [filters, observations]);
 
-  const eventsCount = _(filteredData.observations)
-    .map('event_id')
-    .without(undefined)
-    .uniq()
-    .size();
-
   const countOverrides = (obs: Observation[]): number => {
     return obs.reduce((a, b) => a + (b.pred_1 !== b.label ? 1 : 0), 0);
   };
   const overridesTotal = observations ? countOverrides(observations) : 0;
 
   if (observations !== undefined) {
-    const handleCsvExport = () => {
-      const callback = (path: string) => {
+    const handleCsvExport = async () => {
+      const path = await showSaveCsvDialog('classification_result');
+      if (path !== undefined) {
         writeCorrectedCsv(path, observations, predictionOverrides);
-      };
-      showSaveCsvDialog('classification_result_corrected.csv', callback);
+      }
     };
     const handleEventsUpdate = (evtMaxDuration: number | undefined) => {
       const newObservations = computeEvents({ minutes: evtMaxDuration }, observations);
       setObservations(newObservations);
+    };
+    const handleDarwinCoreExport = async () => {
+      if (missingEvents(observations) > 0) {
+        // eslint-disable-next-line no-alert
+        alert(t('explore.missingEvents'));
+        return;
+      }
+      const path = await showSaveCsvDialog('darwin_core');
+      if (path !== undefined) {
+        const darwinCore = csvFormat(exportDarwinCore(observations));
+        await writeFile(path, darwinCore);
+      }
     };
 
     return (
@@ -200,6 +226,7 @@ export default function ExplorePage() {
           onDataImportClick={() => setObservations(undefined)}
           onEventsUpdateClick={handleEventsUpdate}
           onDataExportClick={handleCsvExport}
+          onDarwinCoreExportClick={handleDarwinCoreExport}
         />
         <Divider />
         <ExplorerFilter observations={observations} updateFilters={handleFilters} />
@@ -209,7 +236,7 @@ export default function ExplorePage() {
           rareTargets={RareAnimalsClasses}
           emptyClasses={EmptyClasses}
           overridesTotal={overridesTotal}
-          eventsTotal={eventsCount}
+          eventsTotal={eventsCount(filteredData.observations)}
         />
         <Card style={{ height: '100%' }} interactive elevation={Elevation.TWO}>
           <Callout intent={Intent.PRIMARY}>{t('explore.mapHint')}</Callout>
