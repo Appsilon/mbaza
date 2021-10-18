@@ -39,7 +39,7 @@
         "success": "Image extraction completed.",
         "failure": "Image extraction failed.",
         "inProgress": "Please wait. Image extraction in progress. This may take a long time.",
-        "info": "<p>Please select mode of operation. You can extract frames from videos to later detect animals using the Detect animals tab (if you are not using videos, go directly to the Detect animals tab) or create thumbnails for all videos and images.</p> <p>Please select an input directory containing subfolders with media (recognized formats: avi, mp4, jpg, png).</p> <p>Please select an output directory where the folder structure from the input directory will be replicated and the images will be stored.</p> <p>To guarantee that the Check, Station, Cam and Date is later properly assigned to the extracted images, the videos should be stored in folders following the pattern:<br> Check {number} / STATION_{number} / CAM{number} / {date in format: ddmmyy}<br> Please remember the space after Check.</p>"
+        "info": "<p>Please select mode of operation. You can extract frames from videos to later detect animals using the Detect animals tab (if you are not using videos, go directly to the Detect animals tab) or create thumbnails for all videos and images.</p> <p>Please select an input directory containing subfolders with media (recognized formats: avi, mp4, jpg, png).</p> <p>Please select an output directory where the folder structure from the input directory will be replicated and the images will be stored.</p>"
       },
       "classify": {
         "title": "Detect animals",
@@ -61,7 +61,7 @@
         },
         "success": "Species classification completed.",
         "failure": "Species classification failed.",
-        "info": "<p>Here you can detect animals in images. If you would like to detect animals in videos, please go to Extract frames tab first.</p> <p>Please select an input directory containing subfolders with images.</p> <p>Please select an output .csv file where the results of the detection will be stored.</p> <p>You can optionally provide project and deployment IDs which will be used to populate the output CSV.</p> <p>After the detection is complete, explore the results in the Explore results tab.</p> <p>To guarantee that the Check, Station, Cam and Date is later properly assigned to the extracted frames, the videos should be stored in folders following the pattern: <br> Check {number} / STATION_{number} / CAM{number} / {date in format: ddmmyy} <br> Mind the space after Check.</p> <p>Depending on the number of images to be processed and the power of your machine, the detection may take a while.</p>"
+        "info": "<p>Here you can detect animals in images. If you would like to detect animals in videos, please go to Extract frames tab first.</p> <p>Please select an input directory containing subfolders with images.</p> <p>Please select an output .csv file where the results of the detection will be stored.</p> <p>You can optionally provide project and deployment IDs which will be used to populate the output CSV.</p> <p>After the detection is complete, explore the results in the Explore results tab.</p> <p>To guarantee that the Station, Cam and Date are properly assigned, the images should be stored in folders following the pattern: <br> {station name} / CAM{number} / {date in yyyy-mm-dd format}</p> <p>Depending on the number of images to be processed and the power of your machine, the detection may take a while.</p>"
       },
       "explore": {
         "chooseFile": "Choose results file to explore",
@@ -154,7 +154,7 @@
         "success": "L'extraction d'images est terminée.",
         "failure": "L'extraction d'images a échoué.",
         "inProgress": "Veuillez patienter. Extraction d'images en cours. Cela peut prendre beaucoup de temps.",
-        "info": "<p>Veuillez sélectionner le mode de fonctionnement. Vous pouvez extraire des images des vidéos pour détecter ultérieurement des animaux en utilisant l'onglet Détecter les animaux (si vous n'utilisez pas de vidéos, allez directement à l'onglet Détecter les animaux) ou créer des vignettes pour toutes les vidéos et images. </p> <p>Veuillez sélectionner un répertoire d'entrée contenant des sous-dossiers avec des médias (formats reconnus : avi, mp4, jpg, png). </p> <p>Veuillez sélectionner un répertoire de sortie où la structure des dossiers du répertoire d'entrée sera répliquée et où les images seront stockées.</p> <p>Pour garantir que la vérification, la station, la caméra et la date seront plus tard correctement attribuées aux images extraites, les vidéos doivent être stockées dans des dossiers suivant le modèle suivant:<br> Check {number} / STATION_{number} / CAM{number} / {date au format : ddmmyy}<br> Veuillez vous souvenir de l'espace après Check.</p>"
+        "info": "<p>Veuillez sélectionner le mode de fonctionnement. Vous pouvez extraire des images des vidéos pour détecter ultérieurement des animaux en utilisant l'onglet Détecter les animaux (si vous n'utilisez pas de vidéos, allez directement à l'onglet Détecter les animaux) ou créer des vignettes pour toutes les vidéos et images. </p> <p>Veuillez sélectionner un répertoire d'entrée contenant des sous-dossiers avec des médias (formats reconnus : avi, mp4, jpg, png). </p> <p>Veuillez sélectionner un répertoire de sortie où la structure des dossiers du répertoire d'entrée sera répliquée et où les images seront stockées.</p>"
       },
       "classify": {
         "title": "Détectez animaux",
@@ -176,7 +176,7 @@
         },
         "success": "La détection des animaux est terminée.",
         "failure": "La détection des animaux a échoué.",
-        "info": "<p>Vous pouvez y détecter des animaux en images. Si vous souhaitez détecter des animaux dans des vidéos, veuillez d'abord aller dans l'onglet Outils médias. </p> <p>Veuillez sélectionner un répertoire d'entrée contenant des sous-dossiers avec des images. </p> <p>Veuillez sélectionner un fichier de sortie .csv où les résultats de la détection seront stockés. </p> <p>Vous pouvez éventuellement fournir des ID de projet et de déploiement qui seront utilisés pour remplir le CSV de sortie. </p> <p>Une fois la détection terminée, explorez les résultats dans l'onglet Explorez les résultats.</p> <p>Pour garantir que la vérification, la station, la caméra et la date seront correctement attribuées aux images extraites, les vidéos doivent être stockées dans des dossiers suivant le modèle : <br> Check {number} / STATION_{number} / CAM{number} / {date au format : ddmmyy} <br> Attention à l'espace après Check.</p> <p>Selon le nombre d'images à traiter et la puissance de votre machine, la détection peut prendre un certain temps.</p>"
+        "info": "TODO"
       },
       "explore": {
         "chooseFile": "Choisissez le fichier de résultats à explorer",
