@@ -165,11 +165,11 @@ def add_station_coords(df, stations):
 def add_output_coords(df):
     """Add output coordinates determined on best-effort basis"""
     def f(row):
-        # Prefer Exif.
-        if pd.notnull(row["exif_gps_long"]) and pd.notnull(row["exif_gps_lat"]):
-            long, lat = row["exif_gps_long"], row["exif_gps_lat"]
-        elif pd.notnull(row["grid_file_long"]) and pd.notnull(row["grid_file_lat"]):
+        # Prefer grid file.
+        if pd.notnull(row["grid_file_long"]) and pd.notnull(row["grid_file_lat"]):
             long, lat = row["grid_file_long"], row["grid_file_lat"]
+        elif pd.notnull(row["exif_gps_long"]) and pd.notnull(row["exif_gps_lat"]):
+            long, lat = row["exif_gps_long"], row["exif_gps_lat"]
         else:
             long, lat = None, None
         row["coordinates_long"] = long
