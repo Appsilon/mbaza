@@ -66,6 +66,21 @@ def get_predictions(model, images, pytorch_num_workers, batch_size):
         )
     return preds, classes
 
+def read_grid_file(path):
+    # Grid file column name --> output column name mapping.
+    columns = {
+        "locationID": "station",
+        "Longitude": "grid_file_long",
+        "Latitude": "grid_file_lat",
+    }
+    if path is None:
+        # Use empty data frame - as if the grid file had no stations.
+        stations = pd.DataFrame(columns=columns.values())
+    else:
+        stations = pd.read_csv(path)
+        stations.rename(columns=columns, inplace=True, errors="raise")
+    return stations
+
 def get_top_preds_and_scores(preds, classes):
     df_preds = preds.copy()
     ranks = df_preds.rank(axis=1,method='dense', ascending=False).astype(int)
@@ -129,20 +144,8 @@ def parse_exif(df):
 
     return result
 
-def add_station_coords(df, grid_file):
+def add_station_coords(df, stations):
     """Add station coordinates matched from the grid file"""
-    # Grid file column name --> output column name mapping.
-    columns = {
-        "locationID": "station",
-        "Longitude": "grid_file_long",
-        "Latitude": "grid_file_lat",
-    }
-    if grid_file is None:
-        # Use empty data frame - as if the grid file had no stations.
-        stations = pd.DataFrame(columns=columns.values())
-    else:
-        stations = pd.read_csv(grid_file)
-        stations.rename(columns=columns, inplace=True, errors="raise")
     return pd.merge(df, stations, how="left", on="station")
 
 def add_output_coords(df):
@@ -226,11 +229,12 @@ def infer_to_csv(args):
         assert not Path(args.output).exists(), f"{args.output} already exists, use the 'overwrite' option to proceed anyway."
     images = get_images(args.input_folder)
     preds, classes = get_predictions(args.model, images, args.pytorch_num_workers, args.batch_size)
+    stations = read_grid_file(args.grid_file)
     df_preds = get_top_preds_and_scores(preds, classes)
     df_preds["location"] = images
     df_preds = parse_path(df_preds) # extract station, check, cam where possible from path
     df_preds = parse_exif(df_preds) # extract datetime, gps_long and gps_lat from exif if images
-    df_preds = add_station_coords(df_preds, args.grid_file)
+    df_preds = add_station_coords(df_preds, stations)
     df_preds = add_output_date(df_preds)
     df_preds = add_output_coords(df_preds)
     df_preds = add_wcs_columns(df_preds, args)
