@@ -208,6 +208,9 @@ export default function ExplorePage() {
         await writeFile(path, darwinCore);
       }
     };
+    const handlePhotosExport = () => {
+      // TODO (Kamil): Implement logic for exporting photo files.
+    };
 
     return (
       <div
@@ -227,6 +230,7 @@ export default function ExplorePage() {
           onEventsUpdateClick={handleEventsUpdate}
           onDataExportClick={handleCsvExport}
           onDarwinCoreExportClick={handleDarwinCoreExport}
+          onPhotosExportClick={handlePhotosExport}
         />
         <Divider />
         <ExplorerFilter observations={observations} updateFilters={handleFilters} />

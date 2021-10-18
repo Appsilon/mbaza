@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, NumericInput, Popover, H5, H6, Tooltip, Icon } from '@blueprintjs/core';
+import ExploreHeaderBtnGroup from './ExploreHeaderBtnGroup';
 import s from './ExploreHeader.scss';
 
 type Props = {
@@ -9,6 +10,7 @@ type Props = {
   onEventsUpdateClick: (eventDuration: number | undefined) => void;
   onDataExportClick: () => void;
   onDarwinCoreExportClick: () => void;
+  onPhotosExportClick: () => void;
 };
 
 export default function ExploreHeader(props: Props) {
@@ -19,7 +21,8 @@ export default function ExploreHeader(props: Props) {
     onDataImportClick,
     onEventsUpdateClick,
     onDataExportClick,
-    onDarwinCoreExportClick
+    onDarwinCoreExportClick,
+    onPhotosExportClick
   } = props;
   // eslint-disable-next-line
   const filename = (filePath !== undefined) ? filePath.replace(/^.*[\\\/]/, '') : "";
@@ -77,23 +80,33 @@ export default function ExploreHeader(props: Props) {
           </div>
         </div>
       </Popover>
-      <Button
-        icon="export"
-        intent="primary"
-        large
-        onClick={onDataExportClick}
-        outlined={false}
-        style={{ marginRight: '15px' }}
-        text={t('explore.overridesExport')}
-      />
-      <Button
-        icon="export"
-        intent="primary"
-        large
-        onClick={onDarwinCoreExportClick}
-        outlined={false}
-        text={t('explore.darwinCoreExport')}
-      />
+      <Popover className={s.popover} placement="bottom-end" usePortal={false} autoFocus={false}>
+        <Button
+          icon="export"
+          intent="primary"
+          large
+          outlined={false}
+          text={t('explore.exportButtonLabel')}
+        />
+        <div className={s.popoverContent}>
+          <H6 className={s.eventTitle}>{t('explore.exportLabel')}</H6>
+          <ExploreHeaderBtnGroup
+            btnLabel={t('explore.overridesExport')}
+            iconInfo={t('explore.overridesExportHelp')}
+            onExportBtnClick={onDataExportClick}
+          />
+          <ExploreHeaderBtnGroup
+            btnLabel={t('explore.darwinCoreExport')}
+            iconInfo={t('explore.darwinCoreExportHelp')}
+            onExportBtnClick={onDarwinCoreExportClick}
+          />
+          <ExploreHeaderBtnGroup
+            btnLabel={t('explore.photosExport')}
+            iconInfo={t('explore.photosExportHelp')}
+            onExportBtnClick={onPhotosExportClick}
+          />
+        </div>
+      </Popover>
     </div>
   );
 }
