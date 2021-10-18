@@ -180,11 +180,11 @@ def add_output_coords(df):
 def add_output_date(df):
     """Add output date determined on best-effort basis"""
     def f(row):
-        # Prefer date extracted from path.
-        if pd.notnull(row["path_date"]):
-            row["date"] = row["path_date"]
-        elif pd.notnull(row["exif_date"]):
+        # Prefer Exif.
+        if pd.notnull(row["exif_date"]):
             row["date"] = row["exif_date"]
+        elif pd.notnull(row["path_date"]):
+            row["date"] = row["path_date"]
         else:
             row["date"] = None
         return row
