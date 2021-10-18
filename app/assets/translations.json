@@ -14,11 +14,11 @@
       "home": {
         "welcome": {
           "title": "Welcome to Mbaza AI!",
-          "message": "A multi-platform, offline application for classifying camera trap images </h4> <p>Mbaza AI allows biodiversity conservation researchers to automatically identify species in camera trap images and analyze the results. </p> <p> It is powered by high performance AI models and currently recognizes more than 30 species of Central African mammals and birds.</p> <p> To use the application, first go to Classify and run the AI on your photo dataset, then click Explore to view and analyze the results.</p>"
+          "message": "A multi-platform, offline application for classifying camera trap images </h4> <p>Mbaza AI allows biodiversity conservation researchers to automatically identify species in camera trap images and analyze the results. </p> <p> It is powered by high performance AI models and currently recognizes more than 25 species of Central African mammals and birds.</p> <p> To use the application, first go to Classify and run the AI on your photo dataset, then click Explore to view and analyze the results.</p>"
         },
         "warning": {
           "title": "This is an early development version",
-          "message": "<p>You are using a very early version of Mbaza AI.</p> <p>This application is under active development and provides core functionality only. All feedback regarding features and behavior of the application is welcome - please shoot us an email at ai4good@appsilon.com.</p>"
+          "message": "<p>You are using an early version of Mbaza AI.</p> <p>This application is under active development and provides core functionality only. All feedback regarding features and behavior of the application is welcome - please shoot us an email at ai4good@appsilon.com.</p>"
         }
       },
       "tools": {
@@ -45,7 +45,7 @@
         "title": "Detect animals",
         "chooseInput": "Choose directory with photos",
         "chooseOutput": "Choose directory to save classification results",
-        "chooseStationsCsv": "Chose file with station coordinates (optional)",
+        "chooseStationsCsv": "Choose file with station coordinates (optional)",
         "chooseModel": "Select AI model to use:",
         "projectId": "Project ID (optional)",
         "deploymentId": "Deployment ID (optional)",
@@ -61,7 +61,7 @@
         },
         "success": "Species classification completed.",
         "failure": "Species classification failed.",
-        "info": "<p>Here you can detect animals in images. If you would like to detect animals in videos, please go to Extract frames tab first.</p> <p>Please select an input directory containing subfolders with images.</p> <p>Please select an output .csv file where the results of the detection will be stored.</p> <p>You can optionally provide project and deployment IDs which will be used to populate the output CSV.</p> <p>After the detection is complete, explore the results in the Explore results tab.</p> <p>To guarantee that the Station, Cam and Date are properly assigned, the images should be stored in folders following the pattern: <br> {station name} / CAM{number} / {date in yyyy-mm-dd format}</p> <p>Depending on the number of images to be processed and the power of your machine, the detection may take a while.</p>"
+        "info": "<p>Here you can detect animals in images. If you would like to detect animals in videos, please go to Extract frames tab first.</p> <p>Please select an input directory containing subfolders with images.</p> <p>Please select an output CSV file where the results of the detection will be stored.</p> <p>You can optionally provide project and deployment IDs which will be used to populate the output CSV.</p> <p> You can also provide a CSV with the latitude and longitude coordinates of camera stations, which will automatically generate a map. </p> <p>After the detection is complete, explore the results in the Explore results tab.</p>"
       },
       "explore": {
         "chooseFile": "Choose results file to explore",
@@ -129,7 +129,7 @@
       "home": {
         "welcome": {
           "title": "Bienvenue à Mbaza AI !",
-          "message": "<h4>Un logiciel multi-plateforme et hors ligne pour l'analyze d'images des pièges caméra </h4> <p>Mbaza IA est une application pour les chercheurs de conservation de biodiversité d'identifier automatiquement les espèces dans les images des pièges caméra et d'analyser les résultats.</p> <p>Elle est alimentée par modèles IA de haute performance capables de reconnaître plus de 30 mammifères et oiseaux des forêts d'Afrique centrale.</p> <p>Pour utiliser l'application, allez d'abord dans Detectez et exécutez l'IA sur votre ensemble de données de photos. Cliquez ensuite sur Explorez pour visualiser et analyser les résultats.</p>"
+          "message": "<h4>Un logiciel multi-plateforme et hors ligne pour l'analyze d'images des pièges caméra </h4> <p>Mbaza IA est une application pour les chercheurs de conservation de biodiversité d'identifier automatiquement les espèces dans les images des pièges caméra et d'analyser les résultats.</p> <p>Elle est alimentée par modèles IA de haute performance capables de reconnaître plus de 25 mammifères et oiseaux des forêts d'Afrique centrale.</p> <p>Pour utiliser l'application, allez d'abord dans Detectez et exécutez l'IA sur votre ensemble de données de photos. Cliquez ensuite sur Explorez pour visualiser et analyser les résultats.</p>"
         },
         "warning": {
           "title": "Il s'agit d'une première version de développement",
@@ -160,7 +160,7 @@
         "title": "Détectez animaux",
         "chooseInput": "Choisissez un dossier avec des photos",
         "chooseOutput": "Choisissez un dossier pour sauvegarder les résultats de la classification",
-        "chooseStationsCsv": "TODO",
+        "chooseStationsCsv": "Choisissez un fichier csv avec les coordonnées des stations de les caméras (facultatif)",
         "chooseModel": "Sélectionnez le modèle d'IA à utiliser :",
         "projectId": "ID du projet",
         "deploymentId": "ID de déploiement",
@@ -176,7 +176,7 @@
         },
         "success": "La détection des animaux est terminée.",
         "failure": "La détection des animaux a échoué.",
-        "info": "TODO"
+        "info": "</p> <p>Vous pouvez ici détecter des animaux dans des images. Si vous souhaitez détecter des animaux dans des vidéos, veuillez d'abord aller dans l'onglet Extraire des images.</p> <p>Veuillez sélectionner un répertoire d'entrée contenant des sous-dossiers avec des images.</p> <p>Veuillez sélectionner un fichier .csv de sortie où seront stockés les résultats de la détection.</p> <p>Vous pouvez éventuellement fournir des identifiants de projet et de déploiement qui seront utilisés pour alimenter le CSV de sortie.</p> <p>Vous pouvez également fournir un CSV avec les coordonnées de latitude et de longitude des stations de caméra, ce qui générera une carte. </p> <p>After the detection is complete, explore the results in the Explore results tab.</p>"
       },
       "explore": {
         "chooseFile": "Choisissez le fichier de résultats à explorer",
@@ -199,7 +199,7 @@
         "darwinCoreExportHelp": "Exporter vers un fichier CSV Darwin Core compatible GBIF",
         "photosExport": "Fichiers photos",
         "photosExportHelp": "Exporter des fichiers photo renommés dans un format spécifique",
-        "missingEvents": "TODO",
+        "missingEvents": "Certaines observations n'ont pas d'ID d'événement - veuillez mettre à jour les événements avant de les exporter.",
         "overridesTooltip": "Inspecter les images sur la carte pour modifier les prédictions",
         "imagesCount": "Images classifiées",
         "animalsCount": "Images avec des animaux",
