@@ -45,6 +45,7 @@
         "title": "Detect animals",
         "chooseInput": "Choose directory with photos",
         "chooseOutput": "Choose directory to save classification results",
+        "chooseStationsCsv": "Chose file with station coordinates (optional)",
         "chooseModel": "Select AI model to use:",
         "projectId": "Project ID (optional)",
         "deploymentId": "Deployment ID (optional)",
@@ -53,7 +54,6 @@
         "inProgress": "Please wait. Animal detection in progress. This may take a long time.",
         "modelExecutableNotFound": "Could not find the model executable. Please make sure you unpacked the models in the correct directory. It should be in {{program}}.",
         "modelWeightsNotFound": "Could not find the model weights file. Please make sure you unpacked the models in the correct directory. Model weights should be in {{modelWeightsPath}}.",
-        "biomonitoringStationsFileNotFound": "Could not find the biomonitoring stations file. Locations will not be assigned based on station numbers. Locations will be missing unless they are present in EXIF data in images. The file should be in {{gridFilePath}}.",
         "modelsDirectoryMissing": {
           "title": "Models directory not found",
           "description1": "You need to obtain a zip file containing the AI models and unzip it in the program's main directory. Please make sure that you have a ",
@@ -154,6 +154,7 @@
         "title": "Détectez animaux",
         "chooseInput": "Choisissez un dossier avec des photos",
         "chooseOutput": "Choisissez un dossier pour sauvegarder les résultats de la classification",
+        "chooseStationsCsv": "TODO",
         "chooseModel": "Sélectionnez le modèle d'IA à utiliser :",
         "projectId": "ID du projet",
         "deploymentId": "ID de déploiement",
@@ -162,7 +163,6 @@
         "inProgress": "Veuillez patienter. Détection d'animaux en cours. Cela peut prendre beaucoup de temps.",
         "modelExecutableNotFound": "Le modèle d'exécutable n'a pas été trouver. Veuillez vous assurer que vous avez décompressé les modèles dans le bon dossier. Il devrait être dans {{program}}.",
         "modelWeightsNotFound": "Le fichier des poids modèles n'a pas été trouvé. Veuillez vous assurer que vous avez décompressé les modèles dans le bon dossier. Les poids des modèles doivent être dans le dossier {{modelWeightsPath}}.",
-        "biomonitoringStationsFileNotFound": "Le fichier des stations de biomonitoring n'a pas été trouvé. Les stations ne seront pas attribuées en fonction de leur numéro. Les localisations seront manquantes à moins qu'elles ne soient présentes dans les données EXIF des images. Le fichier doit être dans {{gridFilePath}}.",
         "modelsDirectoryMissing": {
           "title": "Le répertoire des modèles n'a pas été trouvé",
           "description1": "Vous devez obtenir un fichier zip contenant les modèles d'IA et le décompresser dans le dossier principal du programme. Veuillez vous assurer que vous disposez d'un répertoire ",

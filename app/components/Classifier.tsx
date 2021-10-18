@@ -16,10 +16,9 @@ import path from 'path';
 import { spawn, ChildProcessWithoutNullStreams } from 'child_process';
 import fs from 'fs';
 import { TFunction } from 'i18next';
-import { remote } from 'electron';
 
 import PythonLogViewer from './PythonLogViewer';
-import showSaveCsvDialog from '../utils/showSaveCsvDialog';
+import { openCsvDialog, openDirectoryDialog, saveCsvDialog } from '../utils/fileDialog';
 import { isDev, isLinux, isWin, rootModelsDirectory } from '../utils/environment';
 import MissingModelsMessage from './MissingModelsMessage';
 
@@ -36,17 +35,7 @@ function displayErrorToast(message: string) {
   });
 }
 
-function displayWarningToast(message: string) {
-  toaster.show({
-    message,
-    intent: Intent.WARNING,
-    icon: 'warning-sign'
-  });
-}
-
 function runModelProcess(baseArgs: string[], t: TFunction): ChildProcessWithoutNullStreams | null {
-  const gridFilePath = path.join(rootModelsDirectory, 'biomonitoring_stations.csv');
-
   let workdir;
   let program;
   const args = [];
@@ -75,12 +64,6 @@ function runModelProcess(baseArgs: string[], t: TFunction): ChildProcessWithoutN
     return null;
   }
 
-  if (fs.existsSync(gridFilePath)) {
-    args.push('--grid_file', gridFilePath);
-  } else {
-    displayWarningToast(t('classify.biomonitoringStationsFileNotFound', { gridFilePath }));
-  }
-
   args.push(...baseArgs);
   return spawn(program, args, { cwd: workdir });
 }
@@ -88,6 +71,7 @@ function runModelProcess(baseArgs: string[], t: TFunction): ChildProcessWithoutN
 const computePredictions = (
   directory: string,
   savePath: string,
+  gridFilePath: string,
   modelName: string,
   projectId: string,
   deploymentId: string,
@@ -112,6 +96,9 @@ const computePredictions = (
     '--overwrite'
   ];
 
+  if (gridFilePath) {
+    args.push('--grid_file', gridFilePath);
+  }
   if (!fs.existsSync(modelWeightsPath)) {
     displayErrorToast(t('classify.modelWeightsNotFound', { modelWeightsPath }));
     return;
@@ -142,16 +129,6 @@ const computePredictions = (
     });
   }
 };
-
-async function chooseDirectory() {
-  const dialog = await remote.dialog.showOpenDialog({
-    properties: ['openDirectory']
-  });
-  if (!dialog.canceled) {
-    return dialog.filePaths[0];
-  }
-  return undefined;
-}
 
 function PathInput(props: {
   placeholder: string;
@@ -205,6 +182,7 @@ export default function Classifier(props: Props) {
   const { t } = useTranslation();
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [exitCode, setExitCode] = useState<number | null>();
+  const [stationsCsvPath, setStationsCsvPath] = useState<string>('');
   const [projectId, setProjectId] = useState<string>('');
   const [deploymentId, setDeploymentId] = useState<string>('');
 
@@ -223,13 +201,19 @@ export default function Classifier(props: Props) {
         placeholder={t('classify.chooseInput')}
         value={directoryChoice}
         onChange={changeDirectoryChoice}
-        showDialog={chooseDirectory}
+        showDialog={openDirectoryDialog}
       />
       <PathInput
         placeholder={t('classify.chooseOutput')}
         value={savePath}
         onChange={changeSavePathChoice}
-        showDialog={() => showSaveCsvDialog('classification_result')}
+        showDialog={() => saveCsvDialog('classification_result')}
+      />
+      <PathInput
+        placeholder={t('classify.chooseStationsCsv')}
+        value={stationsCsvPath}
+        onChange={setStationsCsvPath}
+        showDialog={openCsvDialog}
       />
 
       <div style={{ marginBottom: '5px' }}>{t('classify.chooseModel')}</div>
@@ -269,6 +253,7 @@ export default function Classifier(props: Props) {
           computePredictions(
             props.directoryChoice,
             props.savePath,
+            stationsCsvPath,
             modelName,
             projectId,
             deploymentId,
