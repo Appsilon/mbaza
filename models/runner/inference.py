@@ -1,9 +1,10 @@
 # This script loads all images in subfolders of a specified folder and a model.
 # Next it runs inference from the model on the images and saves a csv with image path, classification, possibly toop predictions and scores.
 import os
+import re
 import warnings
 from datetime import datetime
-from pathlib import Path
+from pathlib import Path, PurePath
 
 import exifread
 import pandas as pd
@@ -69,9 +70,9 @@ def get_predictions(model, images, pytorch_num_workers, batch_size):
 def read_grid_file(path):
     # Grid file column name --> output column name mapping.
     columns = {
-        "locationID": "station",
-        "Longitude": "grid_file_long",
-        "Latitude": "grid_file_lat",
+        "camStation": "station",
+        "Lat": "grid_file_lat",
+        "Lon": "grid_file_long",
     }
     if path is None:
         # Use empty data frame - as if the grid file had no stations.
@@ -91,14 +92,27 @@ def get_top_preds_and_scores(preds, classes):
 
     return df_preds
 
-def parse_path(df):
-    """ extract station, check and cam from path column and store. """
-    pattern = r"Check\s(\d*).*STATION_(\d*).*CAM(\d*).*[\\/](\d{6})[\\/]"
+def parse_path(df, stations):
+    """Extract station, camera ID and date from path"""
+    stations = set(stations["station"])
     result = df.copy()
-    result[["check", "station", "camera", "path_date"]] = result.location.str.extract(pattern)
-    result["station"] = pd.to_numeric(result["station"])
-    result["path_date"] = pd.to_datetime(result["path_date"], format="%m%d%y").map(lambda x: x.date())
-    return result
+    result["station"] = None
+    result["camera"] = None
+    result["path_date"] = None
+    def f(row):
+        for component in PurePath(row["location"]).parts:
+            # Interpret as station
+            if component in stations:
+                row["station"] = component
+            # Interpret as camera
+            camera = re.match(r'^CAM(\d+)$', component)
+            if camera:
+                row["camera"] = camera.group(1)
+            # Interpret as date
+            if re.match(r'^\d{4}-\d{2}-\d{2}$', component):
+                row["path_date"] = pd.to_datetime(component, format="%Y-%m-%d").date()
+        return row
+    return result.apply(f, axis=1)
 
 def read_exif_coords(tags):
     """Read GPS coordinates from Exif tags and return longitude, latitude tuple"""
@@ -214,7 +228,7 @@ def arrange_columns(df):
         "animal_recognizable", "individual_id", "individual_animal_notes", "markings",
     ]
     metadata_cols = [
-        "station", "check", "camera",
+        "station", "camera",
         "date", "path_date", "exif_date", "exif_time",
         "coordinates_long", "coordinates_lat", "exif_gps_long", "exif_gps_lat", "grid_file_long", "grid_file_lat",
     ]
@@ -232,8 +246,8 @@ def infer_to_csv(args):
     stations = read_grid_file(args.grid_file)
     df_preds = get_top_preds_and_scores(preds, classes)
     df_preds["location"] = images
-    df_preds = parse_path(df_preds) # extract station, check, cam where possible from path
-    df_preds = parse_exif(df_preds) # extract datetime, gps_long and gps_lat from exif if images
+    df_preds = parse_path(df_preds, stations)
+    df_preds = parse_exif(df_preds)
     df_preds = add_station_coords(df_preds, stations)
     df_preds = add_output_date(df_preds)
     df_preds = add_output_coords(df_preds)
