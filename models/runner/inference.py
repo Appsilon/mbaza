@@ -1,9 +1,10 @@
 # This script loads all images in subfolders of a specified folder and a model.
 # Next it runs inference from the model on the images and saves a csv with image path, classification, possibly toop predictions and scores.
 import os
+import re
 import warnings
 from datetime import datetime
-from pathlib import Path
+from pathlib import Path, PurePath
 
 import exifread
 import pandas as pd
@@ -66,6 +67,21 @@ def get_predictions(model, images, pytorch_num_workers, batch_size):
         )
     return preds, classes
 
+def read_grid_file(path):
+    # Grid file column name --> output column name mapping.
+    columns = {
+        "camStation": "station",
+        "Lat": "grid_file_lat",
+        "Lon": "grid_file_long",
+    }
+    if path is None:
+        # Use empty data frame - as if the grid file had no stations.
+        stations = pd.DataFrame(columns=columns.values())
+    else:
+        stations = pd.read_csv(path)
+        stations.rename(columns=columns, inplace=True, errors="raise")
+    return stations
+
 def get_top_preds_and_scores(preds, classes):
     df_preds = preds.copy()
     ranks = df_preds.rank(axis=1,method='dense', ascending=False).astype(int)
@@ -76,14 +92,27 @@ def get_top_preds_and_scores(preds, classes):
 
     return df_preds
 
-def parse_path(df):
-    """ extract station, check and cam from path column and store. """
-    pattern = r"Check\s(\d*).*STATION_(\d*).*CAM(\d*).*[\\/](\d{6})[\\/]"
+def parse_path(df, stations):
+    """Extract station, camera ID and date from path"""
+    stations = set(stations["station"])
     result = df.copy()
-    result[["check", "station", "camera", "path_date"]] = result.location.str.extract(pattern)
-    result["station"] = pd.to_numeric(result["station"])
-    result["path_date"] = pd.to_datetime(result["path_date"], format="%m%d%y").map(lambda x: x.date())
-    return result
+    result["station"] = None
+    result["camera"] = None
+    result["path_date"] = None
+    def f(row):
+        for component in PurePath(row["location"]).parts:
+            # Interpret as station
+            if component in stations:
+                row["station"] = component
+            # Interpret as camera
+            camera = re.match(r'^CAM(\d+)$', component)
+            if camera:
+                row["camera"] = camera.group(1)
+            # Interpret as date
+            if re.match(r'^\d{4}-\d{2}-\d{2}$', component):
+                row["path_date"] = pd.to_datetime(component, format="%Y-%m-%d").date()
+        return row
+    return result.apply(f, axis=1)
 
 def read_exif_coords(tags):
     """Read GPS coordinates from Exif tags and return longitude, latitude tuple"""
@@ -129,20 +158,8 @@ def parse_exif(df):
 
     return result
 
-def add_station_coords(df, grid_file):
+def add_station_coords(df, stations):
     """Add station coordinates matched from the grid file"""
-    # Grid file column name --> output column name mapping.
-    columns = {
-        "locationID": "station",
-        "Longitude": "grid_file_long",
-        "Latitude": "grid_file_lat",
-    }
-    if grid_file is None:
-        # Use empty data frame - as if the grid file had no stations.
-        stations = pd.DataFrame(columns=columns.values())
-    else:
-        stations = pd.read_csv(grid_file)
-        stations.rename(columns=columns, inplace=True, errors="raise")
     return pd.merge(df, stations, how="left", on="station")
 
 def add_output_coords(df):
@@ -163,11 +180,11 @@ def add_output_coords(df):
 def add_output_date(df):
     """Add output date determined on best-effort basis"""
     def f(row):
-        # Prefer date extracted from path.
-        if pd.notnull(row["path_date"]):
-            row["date"] = row["path_date"]
-        elif pd.notnull(row["exif_date"]):
+        # Prefer Exif.
+        if pd.notnull(row["exif_date"]):
             row["date"] = row["exif_date"]
+        elif pd.notnull(row["path_date"]):
+            row["date"] = row["path_date"]
         else:
             row["date"] = None
         return row
@@ -211,7 +228,7 @@ def arrange_columns(df):
         "animal_recognizable", "individual_id", "individual_animal_notes", "markings",
     ]
     metadata_cols = [
-        "station", "check", "camera",
+        "station", "camera",
         "date", "path_date", "exif_date", "exif_time",
         "coordinates_long", "coordinates_lat", "exif_gps_long", "exif_gps_lat", "grid_file_long", "grid_file_lat",
     ]
@@ -226,11 +243,12 @@ def infer_to_csv(args):
         assert not Path(args.output).exists(), f"{args.output} already exists, use the 'overwrite' option to proceed anyway."
     images = get_images(args.input_folder)
     preds, classes = get_predictions(args.model, images, args.pytorch_num_workers, args.batch_size)
+    stations = read_grid_file(args.grid_file)
     df_preds = get_top_preds_and_scores(preds, classes)
     df_preds["location"] = images
-    df_preds = parse_path(df_preds) # extract station, check, cam where possible from path
-    df_preds = parse_exif(df_preds) # extract datetime, gps_long and gps_lat from exif if images
-    df_preds = add_station_coords(df_preds, args.grid_file)
+    df_preds = parse_path(df_preds, stations)
+    df_preds = parse_exif(df_preds)
+    df_preds = add_station_coords(df_preds, stations)
     df_preds = add_output_date(df_preds)
     df_preds = add_output_coords(df_preds)
     df_preds = add_wcs_columns(df_preds, args)

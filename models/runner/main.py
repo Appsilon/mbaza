@@ -18,7 +18,7 @@ def setup_infer_parser(parser):
         "--input_folder",
         required = True,
         metavar = "/path/to/folder",
-        help="Path to the folder with subfolders with structure: STATION_*/Check*/CAM*/*/*.(jpg|jpeg|png)",
+        help="Path to the folder with images",
     )
     parser.add_argument(
         "-o",
@@ -65,7 +65,7 @@ def setup_extract_images_parser(parser):
         "--input_folder",
         required = True,
         metavar = "/path/to/input/folder",
-        help="Absolute path to the folder with subfolders to be replicated, e.g., with structure: Check */STATION_*/CAM*/<ddmmyy>/*.(avi|mp4)",
+        help="Absolute path to the folder with subfolders to be replicated",
     )
     parser.add_argument(
         "-o",

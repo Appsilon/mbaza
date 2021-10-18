@@ -22,13 +22,18 @@ const orderByName = (a: entry, b: entry) => {
   return 0;
 };
 
+function formatLabel(label: string): string {
+  if (label) return label.replace(/_/g, ' ');
+  return '<?>';
+}
+
 export default function ExplorerFilter(props: Props) {
   const { t } = useTranslation();
   const { observations, updateFilters } = props;
 
   const getUniqueSet = (dataset: string[]) => {
     return Array.from(new Set(dataset)).map((entry: string) => {
-      return { value: entry, label: entry.replace(/_/g, ' ') };
+      return { value: entry, label: formatLabel(entry) };
     });
   };
 
@@ -37,9 +42,6 @@ export default function ExplorerFilter(props: Props) {
     (a, b) => parseInt(a.value, 10) - parseInt(b.value, 10)
   );
   const stations = getUniqueSet(observations.map(entry => entry.station)).sort(orderByName);
-  const checks = getUniqueSet(observations.map(entry => entry.check)).sort(
-    (a, b) => parseInt(b.value, 10) - parseInt(a.value, 10)
-  );
 
   const setAnimals = (options: entry[]) => {
     let result: entry[] = [];
@@ -56,11 +58,6 @@ export default function ExplorerFilter(props: Props) {
     if (Array.isArray(options)) result = options;
     updateFilters({ activeCameras: result });
   };
-  const setChecks = (options: entry[]) => {
-    let result: entry[] = [];
-    if (Array.isArray(options)) result = options;
-    updateFilters({ activeChecks: result });
-  };
 
   return (
     <div style={{ paddingBottom: '10px' }}>
@@ -69,7 +66,7 @@ export default function ExplorerFilter(props: Props) {
         style={{
           display: 'grid',
           gap: '15px',
-          gridTemplateColumns: 'repeat(5, 1fr)',
+          gridTemplateColumns: 'repeat(4, 1fr)',
           width: '100%'
         }}
       >
@@ -84,10 +81,6 @@ export default function ExplorerFilter(props: Props) {
         <div style={{ width: '100%' }}>
           <h4 style={{ marginBottom: '5px' }}>{t('explore.byCamera')}</h4>
           <Select onChange={setCameras} closeMenuOnSelect={false} options={cameras} isMulti />
-        </div>
-        <div style={{ width: '100%' }}>
-          <h4 style={{ marginBottom: '5px' }}>{t('explore.byCheck')}</h4>
-          <Select onChange={setChecks} closeMenuOnSelect={false} options={checks} isMulti />
         </div>
         <CertaintyFilter updateFilters={updateFilters} />
       </div>

@@ -74,13 +74,6 @@ function ObservationCard(props: ObservationCardProps) {
       </p>
       <p>
         <strong>
-          {t('explore.inspect.check')}
-          :&nbsp;
-        </strong>
-        {observation.check}
-      </p>
-      <p>
-        <strong>
           {t('explore.inspect.file')}
           :&nbsp;
         </strong>

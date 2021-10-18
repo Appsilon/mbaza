@@ -15,7 +15,6 @@ type Observation = {
   label: string;
   // Metadata
   station: string;
-  check: string;
   camera: string;
   date: string;
   coordinates_long: number;

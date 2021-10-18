@@ -94,7 +94,6 @@
         "byAnimal": "By species",
         "byStation": "By station",
         "byCamera": "By camera ID",
-        "byCheck": "By check",
         "certaintyRange": "Certainty range",
         "plotTitle": "Image count over time ({{windowLengthInDays}}-day intervals)",
         "inspect": {
@@ -108,7 +107,6 @@
           "overrideTooltip": "You can override the top prediction and export a modified CSV",
           "overridePlaceholder": "Override prediction",
           "camera": "Camera",
-          "check": "Check",
           "file": "File"
         }
       }
@@ -209,7 +207,6 @@
         "byAnimal": "Par espèce",
         "byStation": "Par station",
         "byCamera": "Par ID d'appareil photo",
-        "byCheck": "Par check",
         "certaintyRange": "Fourchette de certitude",
         "plotTitle": "Comptage des animaux dans le temps ({{windowLengthInDays}}-intervalles de jours)",
         "inspect": {
@@ -223,7 +220,6 @@
           "overrideTooltip": "Vous pouvez modifier la prédiction supérieure et exporter un CSV modifié",
           "overridePlaceholder": "Modifier la prédiction",
           "camera": "ID de l'appareil photo",
-          "check": "Check",
           "file": "Fichier"
         }
       }
