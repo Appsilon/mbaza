@@ -22,13 +22,18 @@ const orderByName = (a: entry, b: entry) => {
   return 0;
 };
 
+function formatLabel(label: string): string {
+  if (label) return label.replace(/_/g, ' ');
+  return '<?>';
+}
+
 export default function ExplorerFilter(props: Props) {
   const { t } = useTranslation();
   const { observations, updateFilters } = props;
 
   const getUniqueSet = (dataset: string[]) => {
     return Array.from(new Set(dataset)).map((entry: string) => {
-      return { value: entry, label: entry.replace(/_/g, ' ') };
+      return { value: entry, label: formatLabel(entry) };
     });
   };
 
