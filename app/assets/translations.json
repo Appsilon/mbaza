@@ -14,7 +14,7 @@
       "home": {
         "welcome": {
           "title": "Welcome to Mbaza AI!",
-          "message": "A multi-platform, offline application for classifying camera trap images </h4> <p>Mbaza AI allows biodiversity conservation researchers to automatically identify species in camera trap images and analyze the results. </p> <p> It is powered by high performance AI models and currently recognizes more than 25 species of Central African mammals and birds.</p> <p> To use the application, first go to Classify and run the AI on your photo dataset, then click Explore to view and analyze the results.</p>"
+          "message": "<h4>A multi-platform, offline application for classifying camera trap images </h4> <p>Mbaza AI allows biodiversity conservation researchers to automatically identify species in camera trap images and analyze the results. </p> <p> It is powered by high performance AI models and currently recognizes more than 25 species of Central African mammals and birds.</p> <p> To use the application, first go to Classify and run the AI on your photo dataset, then click Explore to view and analyze the results.</p>"
         },
         "warning": {
           "title": "This is an early development version",
