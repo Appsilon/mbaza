@@ -174,7 +174,7 @@
         },
         "success": "La détection des animaux est terminée.",
         "failure": "La détection des animaux a échoué.",
-        "info": "</p> <p>Vous pouvez ici détecter des animaux dans des images. Si vous souhaitez détecter des animaux dans des vidéos, veuillez d'abord aller dans l'onglet Extraire des images.</p> <p>Veuillez sélectionner un répertoire d'entrée contenant des sous-dossiers avec des images.</p> <p>Veuillez sélectionner un fichier .csv de sortie où seront stockés les résultats de la détection.</p> <p>Vous pouvez éventuellement fournir des identifiants de projet et de déploiement qui seront utilisés pour alimenter le CSV de sortie.</p> <p>Vous pouvez également fournir un CSV avec les coordonnées de latitude et de longitude des stations de caméra, ce qui générera une carte. </p> <p>After the detection is complete, explore the results in the Explore results tab.</p>"
+        "info": "<p>Vous pouvez ici détecter des animaux dans des images. Si vous souhaitez détecter des animaux dans des vidéos, veuillez d'abord aller dans l'onglet Extraire des images.</p> <p>Veuillez sélectionner un répertoire d'entrée contenant des sous-dossiers avec des images.</p> <p>Veuillez sélectionner un fichier .csv de sortie où seront stockés les résultats de la détection.</p> <p>Vous pouvez éventuellement fournir des identifiants de projet et de déploiement qui seront utilisés pour alimenter le CSV de sortie.</p> <p>Vous pouvez également fournir un CSV avec les coordonnées de latitude et de longitude des stations de caméra, ce qui générera une carte. </p> <p>After the detection is complete, explore the results in the Explore results tab.</p>"
       },
       "explore": {
         "chooseFile": "Choisissez le fichier de résultats à explorer",
