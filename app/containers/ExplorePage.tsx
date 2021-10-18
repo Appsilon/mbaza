@@ -49,7 +49,6 @@ type Filters = {
   activeAnimals: Entry[];
   activeCameras: Entry[];
   activeStations: Entry[];
-  activeChecks: Entry[];
   certaintyRange: NumberRange;
 };
 
@@ -62,7 +61,6 @@ const initialFilters: Filters = {
   activeAnimals: [],
   activeCameras: [],
   activeStations: [],
-  activeChecks: [],
   certaintyRange: [0, 1]
 };
 
@@ -173,7 +171,6 @@ export default function ExplorePage() {
           filterCondition(entry.pred_1, filters.activeAnimals) &&
           filterCondition(entry.camera, filters.activeCameras) &&
           filterCondition(entry.station, filters.activeStations) &&
-          filterCondition(entry.check, filters.activeChecks) &&
           inRange(entry.score_1, filters.certaintyRange)
       );
     }
