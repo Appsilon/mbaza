@@ -4,10 +4,7 @@ import { join } from 'path';
 
 const { copyFile } = fsPromises;
 
-let seq = 0;
-
 function filename(o: Observation) {
-  seq += 1;
   const name = [
     o.project_id || 'UnknownProject',
     o.station || 'UnknownStation',
@@ -15,8 +12,8 @@ function filename(o: Observation) {
     `CAM${o.camera}`,
     format(o.timestamp, 'yyyy-MM-dd'),
     format(o.timestamp, 'HH-mm-ss'),
-    o.event_id || 'UnknownEvent',
-    seq
+    o.event_id || 'UnknownEventId',
+    o.event_photo || 'UnknownEventPhoto'
   ].join('__');
   const extension = o.location.split('.').pop();
   return `${name}.${extension}`;
