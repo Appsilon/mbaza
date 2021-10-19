@@ -148,6 +148,8 @@ export default function ExplorePage() {
     } else {
       overrides[location] = override;
     }
+    // TODO: Observations should only be modified with `setObservations()`.
+    // Mutating state in any other way easily leads to incorrect behavior.
     observations[observationIndex] = {
       ...observation,
       label: override === null ? observation.pred_1 : override.value
@@ -180,7 +182,9 @@ export default function ExplorePage() {
       );
     }
     return filtered;
-  }, [filters, observations]);
+    // TODO: Remove `predictionOverrides` from the dependencies once `observations` are updated
+    // correctly in the `handlePredictionOverride()` function.
+  }, [filters, observations, predictionOverrides]);
 
   if (observations !== undefined) {
     const handleCsvExport = async () => {
