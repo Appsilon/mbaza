@@ -123,7 +123,7 @@ function missingEvents(observations: Observation[]): number {
 
 function overridesCount(observations: Observation[]): number {
   return observations.reduce((a, b) => a + (b.pred_1 !== b.label ? 1 : 0), 0);
-};
+}
 
 export default function ExplorePage() {
   const { t } = useTranslation();
