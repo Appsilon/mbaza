@@ -169,10 +169,10 @@ export default function ExplorePage() {
     if (filters !== undefined) {
       filtered = filtered.filter(
         (entry: Observation) =>
-          filterCondition(entry.pred_1, filters.activeAnimals) &&
+          filterCondition(entry.label, filters.activeAnimals) &&
           filterCondition(entry.camera, filters.activeCameras) &&
           filterCondition(entry.station, filters.activeStations) &&
-          inRange(entry.score_1, filters.certaintyRange)
+          inRange(entry.uncertainty, filters.certaintyRange)
       );
     }
     return { observations: filtered };

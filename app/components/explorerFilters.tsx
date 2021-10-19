@@ -37,7 +37,7 @@ export default function ExplorerFilter(props: Props) {
     });
   };
 
-  const animals = getUniqueSet(observations.map(entry => entry.pred_1)).sort(orderByName);
+  const animals = getUniqueSet(observations.map(entry => entry.label)).sort(orderByName);
   const cameras = getUniqueSet(observations.map(entry => entry.camera)).sort(
     (a, b) => parseInt(a.value, 10) - parseInt(b.value, 10)
   );
