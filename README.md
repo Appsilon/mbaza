@@ -4,10 +4,10 @@ A desktop application that allows bioconservation researchers to classify camera
 
 ### Useful files
 
-* [Windows installer](https://github.com/Appsilon/mbaza/releases/download/v1.2.1/Mbaza.AI.Setup.1.2.1.exe)
-* [Models zip](https://drive.google.com/file/d/1vHGz_ltc35mR5BWAsKrtqDGt6EP6lZ1f/view?usp=sharing)
+* [Windows installer](https://github.com/Appsilon/mbaza/releases/download/v1.3.0/Mbaza.AI.Setup.1.3.0.exe) (v1.3.0)
+* [Models zip](https://drive.google.com/file/d/14piQssz64jlgS31FtMy9x0L3soJAiZ5T/view?usp=sharing) (v1.3.0)
 * [User Guide](https://github.com/Appsilon/mbaza/releases/download/v1.2.1/Mbaza.AI.user.guide.v1-2-1.EN.pdf)
-  / [Mode d’emploi](https://github.com/Appsilon/mbaza/releases/download/v1.2.1/Mbaza.AI.user.guide.v1-2-1.FR.pdf)
+  / [Mode d’emploi](https://github.com/Appsilon/mbaza/releases/download/v1.2.1/Mbaza.AI.user.guide.v1-2-1.FR.pdf) (v1.2.1)
 
 ## Maintainers
 
