@@ -121,6 +121,10 @@ function missingEvents(observations: Observation[]): number {
     .size();
 }
 
+function overridesCount(observations: Observation[]): number {
+  return observations.reduce((a, b) => a + (b.pred_1 !== b.label ? 1 : 0), 0);
+}
+
 export default function ExplorePage() {
   const { t } = useTranslation();
   const [filePath, setFilePath] = useState<string>();
@@ -144,6 +148,8 @@ export default function ExplorePage() {
     } else {
       overrides[location] = override;
     }
+    // TODO: Observations should only be modified with `setObservations()`.
+    // Mutating state in any other way easily leads to incorrect behavior.
     observations[observationIndex] = {
       ...observation,
       label: override === null ? observation.pred_1 : override.value
@@ -164,24 +170,21 @@ export default function ExplorePage() {
     return haystack.map(entry => entry.value).includes(needle);
   };
 
-  const filteredData = useMemo(() => {
+  const filteredObservations = useMemo(() => {
     let filtered = observations === undefined ? [] : observations;
     if (filters !== undefined) {
       filtered = filtered.filter(
         (entry: Observation) =>
-          filterCondition(entry.pred_1, filters.activeAnimals) &&
+          filterCondition(entry.label, filters.activeAnimals) &&
           filterCondition(entry.camera, filters.activeCameras) &&
           filterCondition(entry.station, filters.activeStations) &&
-          inRange(entry.score_1, filters.certaintyRange)
+          inRange(entry.uncertainty, filters.certaintyRange)
       );
     }
-    return { observations: filtered };
-  }, [filters, observations]);
-
-  const countOverrides = (obs: Observation[]): number => {
-    return obs.reduce((a, b) => a + (b.pred_1 !== b.label ? 1 : 0), 0);
-  };
-  const overridesTotal = observations ? countOverrides(observations) : 0;
+    return filtered;
+    // TODO: Remove `predictionOverrides` from the dependencies once `observations` are updated
+    // correctly in the `handlePredictionOverride()` function.
+  }, [filters, observations, predictionOverrides]);
 
   if (observations !== undefined) {
     const handleCsvExport = async () => {
@@ -208,7 +211,7 @@ export default function ExplorePage() {
     };
     const handlePhotosExport = async () => {
       const path = await openDirectoryDialog();
-      if (path !== undefined) await exportPhotos(path, filteredData.observations);
+      if (path !== undefined) await exportPhotos(path, filteredObservations);
     };
 
     return (
@@ -235,11 +238,11 @@ export default function ExplorePage() {
         <ExplorerFilter observations={observations} updateFilters={handleFilters} />
         <Divider />
         <ExplorerMetrics
-          data={filteredData.observations}
+          data={filteredObservations}
           rareTargets={RareAnimalsClasses}
           emptyClasses={EmptyClasses}
-          overridesTotal={overridesTotal}
-          eventsTotal={eventsCount(filteredData.observations)}
+          overridesTotal={overridesCount(filteredObservations)}
+          eventsTotal={eventsCount(filteredObservations)}
         />
         <Card style={{ height: '100%' }} interactive elevation={Elevation.TWO}>
           <Callout intent={Intent.PRIMARY}>{t('explore.mapHint')}</Callout>
@@ -250,7 +253,7 @@ export default function ExplorePage() {
               overflow: 'hidden'
             }}
           >
-            <Map observations={filteredData.observations} onInspect={setInspectedObservations} />
+            <Map observations={filteredObservations} onInspect={setInspectedObservations} />
             <ObservationsInspector
               observations={inspectedObservations}
               onClose={() => setInspectedObservations([])}

@@ -104,8 +104,8 @@
           "photoHeader": "{{species}} {{date}}",
           "prediction": "Prediction",
           "probability": "Probability",
+          "override": "Override prediction",
           "overrideTooltip": "You can override the top prediction and export a modified CSV",
-          "overridePlaceholder": "Override prediction",
           "camera": "Camera",
           "file": "File"
         }
@@ -217,8 +217,8 @@
           "photoHeader": "{{species}} {{date}}",
           "prediction": "Prédiction",
           "probability": "Probabilité",
+          "override": "Modifier la prédiction",
           "overrideTooltip": "Vous pouvez modifier la prédiction supérieure et exporter un CSV modifié",
-          "overridePlaceholder": "Modifier la prédiction",
           "camera": "ID de l'appareil photo",
           "file": "Fichier"
         }

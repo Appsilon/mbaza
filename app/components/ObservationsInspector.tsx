@@ -50,13 +50,13 @@ function ObservationCard(props: ObservationCardProps) {
   );
   const predictionOverrideWidget = (
     <Tooltip content={t('explore.inspect.overrideTooltip')} position={Position.RIGHT}>
-      <div style={{ width: 250 }}>
+      <div style={{ width: 250, marginLeft: 10 }}>
+        <h4 style={{ marginBottom: 5 }}>{t('explore.inspect.override')}</h4>
         <CreatableSelect
           name={predictionOverride}
           value={predictionOverride}
           onChange={handlePredictionOverride}
           isClearable
-          placeholder={t('explore.inspect.overridePlaceholder')}
           options={taxonOptions}
           menuShouldScrollIntoView={false}
         />
