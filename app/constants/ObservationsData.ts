@@ -21,6 +21,7 @@ type Observation = {
   coordinates_lat: number;
   timestamp: Date;
   event_id: number | undefined;
+  event_photo: number | undefined;
   // Scores
   pred_1: string;
   score_1: number;

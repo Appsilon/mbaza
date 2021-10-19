@@ -26,12 +26,14 @@ import {
   RareAnimalsClasses
 } from '../constants/animalsClasses';
 import ObservationsInspector from '../components/ObservationsInspector';
-import { saveCsvDialog } from '../utils/fileDialog';
+import { openDirectoryDialog, saveCsvDialog } from '../utils/fileDialog';
 import writeCorrectedCsv from '../utils/writeCorrectedCsv';
 import readObservationsCsv from '../utils/readObservationsCsv';
 import ExploreHeader from '../components/ExploreHeader';
 import computeEvents from '../utils/computeEvents';
 import s from './ExplorePage.scss';
+import exportDarwinCore from '../utils/exportDarwinCore';
+import exportPhotos from '../utils/exportPhotos';
 
 import animals1 from '../assets/graphics/SVG_1.svg';
 import animals2 from '../assets/graphics/SVG_2.svg';
@@ -39,7 +41,6 @@ import animals3 from '../assets/graphics/SVG_3.svg';
 import animals4 from '../assets/graphics/SVG_4.svg';
 import animals5 from '../assets/graphics/SVG_5.svg';
 import animals6 from '../assets/graphics/SVG_6.svg';
-import exportDarwinCore from '../utils/exportDarwinCore';
 
 const { writeFile } = fsPromises;
 
@@ -205,8 +206,9 @@ export default function ExplorePage() {
         await writeFile(path, darwinCore);
       }
     };
-    const handlePhotosExport = () => {
-      // TODO (Kamil): Implement logic for exporting photo files.
+    const handlePhotosExport = async () => {
+      const path = await openDirectoryDialog();
+      if (path !== undefined) await exportPhotos(path, filteredData.observations);
     };
 
     return (

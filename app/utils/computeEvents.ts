@@ -6,6 +6,7 @@ export default function computeEvents(
   observations: Observation[]
 ): Observation[] {
   let eventId = 0; // Must uniquely identify the event across the whole data set.
+  let eventPhoto = 0; // The photo number withing the event.
   function mapGroup(group: Observation[]): Observation[] {
     let eventEnd: Date;
     return _(group)
@@ -14,9 +15,11 @@ export default function computeEvents(
         if (eventEnd === undefined || observation.timestamp > eventEnd) {
           // Start a new event.
           eventId += 1;
+          eventPhoto = 0;
           eventEnd = add(observation.timestamp, eventDuration);
         }
-        return { ...observation, event_id: eventId };
+        eventPhoto += 1;
+        return { ...observation, event_id: eventId, event_photo: eventPhoto };
       })
       .value();
   }
