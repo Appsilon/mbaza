@@ -8,7 +8,7 @@ function filename(o: Observation) {
   const name = [
     o.project_id || 'UnknownProject',
     o.station || 'UnknownStation',
-    'UnknownCamera',
+    'Camera1',
     `CAM${o.camera}`,
     format(o.timestamp, 'yyyy-MM-dd'),
     format(o.timestamp, 'HH-mm-ss'),
