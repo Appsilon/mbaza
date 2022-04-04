@@ -1,5 +1,7 @@
 # Mbaza
 
+[![DOI:10.1101/2020.09.12.294538](https://zenodo.org/badge/DOI/10.1101/2020.09.12.294538.svg)](https://doi.org/10.1101/2020.09.12.294538)
+
 A desktop application that allows bioconservation researchers to classify camera trap animal images and analyze the results.
 
 ### Useful files
