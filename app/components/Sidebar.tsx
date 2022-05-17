@@ -10,6 +10,21 @@ interface Props extends RouteComponentProps {
   routes: RoutesType;
 }
 
+function DevelopedBy() {
+  return (
+    <div style={{ position: 'absolute', bottom: 0 }}>
+      Developed with
+      <span role="img" aria-label="love" style={{ color: '#0099f9' }}>
+        {' 💙 '}
+      </span>
+      by
+      <a href="https://appsilon.com/" target="_blank" rel="noreferrer">
+        <img src="assets/logos/appsilon-white.png" alt="Appsilon" style={{ width: '100%' }} />
+      </a>
+    </div>
+  );
+}
+
 function Sidebar(props: Props) {
   const { routes } = props;
   const { t } = useTranslation();
@@ -25,16 +40,7 @@ function Sidebar(props: Props) {
           active={props.location.pathname === routes[key].path}
         />
       ))}
-      <div style={{ position: 'absolute', bottom: 0 }}>
-        Developed with <span style={{ color: '#0099f9' }}>💙</span> by
-        <a href="https://appsilon.com/" target="_blank">
-          <img
-            src="assets/logos/appsilon-white.png"
-            alt="Appsilon"
-            style={{ width: '100%' }}
-          />
-        </a>
-      </div>
+      <DevelopedBy />
     </div>
   );
 }

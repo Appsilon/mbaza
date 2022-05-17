@@ -73,7 +73,7 @@ const createWindow = async () => {
   });
 
   // Open links in a new browser window.
-  mainWindow.webContents.on('new-window', function(e, url) {
+  mainWindow.webContents.on('new-window', (e, url) => {
     e.preventDefault();
     shell.openExternal(url);
   });
