@@ -27,12 +27,13 @@ function Sidebar(props: Props) {
       ))}
       <div style={{ position: 'absolute', bottom: 0 }}>
         Developed with <span style={{ color: '#0099f9' }}>💙</span> by
-        <img
-            // style={logoStyle}
+        <a href="https://appsilon.com/" target="_blank">
+          <img
             src="assets/logos/appsilon-white.png"
             alt="Appsilon"
             style={{ width: '100%' }}
           />
+        </a>
       </div>
     </div>
   );
