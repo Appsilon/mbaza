@@ -15,10 +15,7 @@ function Sidebar(props: Props) {
   const { t } = useTranslation();
 
   return (
-    <div
-      className={styles.container}
-      style={{ display: 'flex', flexDirection: 'column', textAlign: 'center' }}
-    >
+    <div className={styles.container}>
       {Object.keys(routes).map((key: string) => (
         <SidebarItem
           key={routes[key].name}
@@ -28,6 +25,15 @@ function Sidebar(props: Props) {
           active={props.location.pathname === routes[key].path}
         />
       ))}
+      <div style={{ position: 'absolute', bottom: 0 }}>
+        Developed with <span style={{ color: '#0099f9' }}>💙</span> by
+        <img
+            // style={logoStyle}
+            src="assets/logos/appsilon-white.png"
+            alt="Appsilon"
+            style={{ width: '100%' }}
+          />
+      </div>
     </div>
   );
 }

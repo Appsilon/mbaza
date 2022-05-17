@@ -1,8 +1,12 @@
 @import '../styles/config/variables';
 
 .container {
-  width: 190px;
-  height: 100vw;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 190px;
+  height: calc(100vh - 50px);
   background-color: $c-green-80;
+  text-align: center;
   color: #fff;
 }

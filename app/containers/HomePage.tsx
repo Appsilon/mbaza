@@ -45,7 +45,7 @@ export default function HomePage() {
           </div>
           <img
             style={logoStyle}
-            src="assets/logos/appsilon.png"
+            src="assets/logos/appsilon-color.png"
             alt="Appsilon - technology partner"
           />
         </div>
