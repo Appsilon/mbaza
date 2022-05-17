@@ -19,7 +19,8 @@
         "warning": {
           "title": "This is an early development version",
           "message": "<p>You are using an early version of Mbaza AI.</p> <p>This application is under active development and provides core functionality only. All feedback regarding features and behavior of the application is welcome - please shoot us an email at ai4good@appsilon.com.</p>"
-        }
+        },
+        "dataForGood": "<p>Our team has gathered significant expertise in interactive data visualization, machine learning, and developing artificial intelligence solutions. We've decided to put these technologies to work in resolving the world's most pressing challenges.</p> <p>In our Data for Good initiative, we focus primarily on climate change and environmental protection projects, because we believe these issues will become the primary challenges to humanity in the decades to come.</p>"
       },
       "tools": {
         "title": "Media tools",
@@ -132,7 +133,8 @@
         "warning": {
           "title": "Il s'agit d'une première version de développement",
           "message": "<p>Vous utilisez une toute première version de Mbaza IA.</p> <p>Cette application est en cours de développement actif et fournit seulement les fonctionnalités de base. Tout commentaire concernant les fonctionnalités et le comportement de l'application est bienvenu - veuillez nous envoyer un courriel à ai4good@appsilon.com.</p>"
-        }
+        },
+        "dataForGood": "<p>Our team has gathered significant expertise in interactive data visualization, machine learning, and developing artificial intelligence solutions. We've decided to put these technologies to work in resolving the world's most pressing challenges.</p> <p>In our Data for Good initiative, we focus primarily on climate change and environmental protection projects, because we believe these issues will become the primary challenges to humanity in the decades to come.</p>"
       },
       "tools": {
         "title": "Outils médias",

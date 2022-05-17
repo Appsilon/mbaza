@@ -21,6 +21,9 @@ export default function HomePage() {
             <Callout title={t('home.warning.title')} intent={Intent.PRIMARY}>
               <Trans i18nKey="home.warning.message" />
             </Callout>
+            <Callout intent={Intent.PRIMARY} style={{ marginTop: 20 }}>
+              <Trans i18nKey="home.dataForGood" />
+            </Callout>
           </div>
         </div>
         <div
