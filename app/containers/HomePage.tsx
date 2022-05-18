@@ -21,6 +21,9 @@ export default function HomePage() {
             <Callout title={t('home.warning.title')} intent={Intent.PRIMARY}>
               <Trans i18nKey="home.warning.message" />
             </Callout>
+            <Callout intent={Intent.PRIMARY} style={{ marginTop: 20 }}>
+              <Trans i18nKey="home.dataForGood" />
+            </Callout>
           </div>
         </div>
         <div
@@ -45,9 +48,17 @@ export default function HomePage() {
           </div>
           <img
             style={logoStyle}
-            src="assets/logos/appsilon.png"
+            src="assets/logos/appsilon-color.png"
             alt="Appsilon - technology partner"
           />
+          <a
+            href="https://appsilon.com/data-for-good/"
+            target="_blank"
+            rel="noreferrer"
+            style={{ opacity: 1 }}
+          >
+            <img style={logoStyle} src="assets/logos/data-for-good.png" alt="Data for Good" />
+          </a>
         </div>
       </div>
     </>

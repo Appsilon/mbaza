@@ -28,15 +28,6 @@ export default function App(props: Props) {
         </Navbar.Group>
 
         <Navbar.Group align={Alignment.RIGHT}>
-          <Button
-            className="bp3-minimal"
-            icon="projects"
-            text={t('topbar.projects')}
-            style={{ color: '#fff' }}
-          />
-          <Navbar.Divider />
-          <Button className="bp3-minimal" icon="user" />
-          <Button className="bp3-minimal" icon="notifications" />
           <Popover>
             <Button className="bp3-minimal" icon="globe" />
             <Menu>
