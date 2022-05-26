@@ -55,7 +55,7 @@ torchvision==0.6.0
 tornado==6.0.4
 tqdm==4.46.0
 typing==3.6.4
-ujson==2.0.3
+ujson==5.2.0
 urllib3==1.26.5
 wincertstore==0.2
 wrapt==1.10.1
