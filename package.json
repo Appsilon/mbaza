@@ -306,7 +306,6 @@
     "i18next": "^19.3.3",
     "lodash": "^4.17.21",
     "mapbox-gl": "^1.10.2",
-    "plotly.js": "^1.52.3",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-hot-loader": "^4.12.19",
