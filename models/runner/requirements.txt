@@ -62,4 +62,4 @@ wrapt==1.10.1
 opencv-python==4.5.3.56
 intel-numpy==1.15.1
 msgpack-numpy==0.4.3.2
-numpy==1.19.2
+numpy==1.22.0
