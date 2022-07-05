@@ -101,7 +101,8 @@
       "url": "http://localhost/"
     },
     "testPathIgnorePatterns": [
-      "release/app/dist"
+      "release/app/dist",
+      "legacy"
     ],
     "transform": {
       "\\.(ts|tsx|js|jsx)$": "ts-jest"
