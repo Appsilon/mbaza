@@ -4,6 +4,7 @@ import { trackPageView } from '@redux-beacon/google-analytics';
 import OfflineWeb from '@redux-beacon/offline-web';
 import logger from '@redux-beacon/logger';
 import Analytics from 'universal-analytics';
+import { machineIdSync } from 'node-machine-id';
 
 const eventsMap: EventsMap = {
   [LOCATION_CHANGE]: trackPageView(action => ({
@@ -15,7 +16,7 @@ const eventsMap: EventsMap = {
 // https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#dh
 const HOST = 'electron';
 
-const analytics = Analytics('UA-167871460-1');
+const analytics = Analytics('UA-167871460-1', machineIdSync());
 
 type Event = {
   hitType: string;
