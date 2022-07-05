@@ -3,7 +3,7 @@ import { createMiddleware, EventsMap } from 'redux-beacon';
 import { trackPageView } from '@redux-beacon/google-analytics';
 import OfflineWeb from '@redux-beacon/offline-web';
 import logger from '@redux-beacon/logger';
-import Analytics from 'electron-ga';
+import Analytics from 'universal-analytics';
 
 const eventsMap: EventsMap = {
   [LOCATION_CHANGE]: trackPageView(action => ({
@@ -15,7 +15,7 @@ const eventsMap: EventsMap = {
 // https://developers.google.com/analytics/devguides/collection/protocol/v1/parameters#dh
 const HOST = 'electron';
 
-const analytics = new Analytics('UA-167871460-1');
+const analytics = Analytics('UA-167871460-1');
 
 type Event = {
   hitType: string;
@@ -27,7 +27,7 @@ function analyticsTarget(events: unknown[]) {
     if (event.hitType === 'pageview') {
       // TODO: Also send `event.timeSaved` if present (happens when events are
       // retrieved from offline storage).
-      analytics.send('pageview', { dh: HOST, dp: event.page });
+      analytics.pageview({ dh: HOST, dp: event.page }).send();
     } else {
       // TODO: Globally disable `no-console` warnings in eslint (this warning
       // probably makes no sense for us) and remove one-line disablers:
