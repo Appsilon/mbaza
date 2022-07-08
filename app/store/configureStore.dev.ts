@@ -5,7 +5,6 @@ import { routerMiddleware, routerActions } from 'connected-react-router';
 import { createLogger } from 'redux-logger';
 import createRootReducer from '../reducers';
 import { classifierStateType } from '../reducers/types';
-import gaMiddleware from './analyticsMiddleware';
 
 declare global {
   interface Window {
@@ -47,9 +46,6 @@ const configureStore = (initialState?: classifierStateType) => {
   // Router Middleware
   const router = routerMiddleware(history);
   middleware.push(router);
-
-  // Google analytics
-  middleware.push(gaMiddleware);
 
   // Redux DevTools Configuration
   const actionCreators = {
