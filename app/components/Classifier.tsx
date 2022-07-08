@@ -22,9 +22,6 @@ import { openCsvDialog, openDirectoryDialog, saveCsvDialog } from '../utils/file
 import { isDev, isLinux, isWin, rootModelsDirectory } from '../utils/environment';
 import MissingModelsMessage from './MissingModelsMessage';
 
-type changeLogMessageType = (newChangeLogMessage: string | null) => {};
-type changePathChoiceType = (newPath: string) => {};
-
 const toaster = Toaster.create({});
 
 function displayErrorToast(message: string) {
@@ -160,15 +157,6 @@ function PathInput(props: {
     </div>
   );
 }
-
-type Props = {
-  changeLogMessage: changeLogMessageType;
-  changeDirectoryChoice: changePathChoiceType;
-  changeSavePathChoice: changePathChoiceType;
-  logMessage: string;
-  directoryChoice: string;
-  savePath: string;
-};
 
 export default function Classifier() {
   const { t } = useTranslation();

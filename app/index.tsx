@@ -16,11 +16,6 @@ import './styles/app.global.scss';
 const initialState: classifierStateType = {
   online: {
     isConnected: navigator.onLine
-  },
-  logMessage: '',
-  classify: {
-    directoryChoice: '',
-    savePath: ''
   }
 };
 const store = configureStore(initialState);

@@ -4,11 +4,6 @@ export type classifierStateType = {
   online: {
     isConnected: boolean;
   };
-  logMessage: string;
-  classify: {
-    directoryChoice: string;
-    savePath: string;
-  };
 };
 
 export type GetState = () => classifierStateType;
