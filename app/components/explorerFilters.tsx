@@ -2,6 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Select from 'react-select';
 import CertaintyFilter from './CertaintyFilter';
+import styles from './ExplorerFilters.scss';
 
 type Props = {
   observations: Observation[];
@@ -60,30 +61,20 @@ export default function ExplorerFilter(props: Props) {
   };
 
   return (
-    <div style={{ paddingBottom: '10px' }}>
-      <div
-        className="filter-wrapper"
-        style={{
-          display: 'grid',
-          gap: '15px',
-          gridTemplateColumns: 'repeat(4, 1fr)',
-          width: '100%'
-        }}
-      >
-        <div>
-          <h4 style={{ marginBottom: '5px' }}>{t('explore.byAnimal')}</h4>
-          <Select onChange={setAnimals} closeMenuOnSelect={false} options={animals} isMulti />
-        </div>
-        <div style={{ width: '100%' }}>
-          <h4 style={{ marginBottom: '5px' }}>{t('explore.byStation')}</h4>
-          <Select onChange={setStations} closeMenuOnSelect={false} options={stations} isMulti />
-        </div>
-        <div style={{ width: '100%' }}>
-          <h4 style={{ marginBottom: '5px' }}>{t('explore.byCamera')}</h4>
-          <Select onChange={setCameras} closeMenuOnSelect={false} options={cameras} isMulti />
-        </div>
-        <CertaintyFilter updateFilters={updateFilters} />
+    <div className={styles.container}>
+      <div className={styles.inputGroup}>
+        <h4 className={styles.label}>{t('explore.byAnimal')}</h4>
+        <Select onChange={setAnimals} closeMenuOnSelect={false} options={animals} isMulti />
       </div>
+      <div className={styles.inputGroup}>
+        <h4 className={styles.label}>{t('explore.byStation')}</h4>
+        <Select onChange={setStations} closeMenuOnSelect={false} options={stations} isMulti />
+      </div>
+      <div className={styles.inputGroup}>
+        <h4 className={styles.label}>{t('explore.byCamera')}</h4>
+        <Select onChange={setCameras} closeMenuOnSelect={false} options={cameras} isMulti />
+      </div>
+      <CertaintyFilter updateFilters={updateFilters} />
     </div>
   );
 }

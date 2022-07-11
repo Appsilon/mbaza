@@ -3,6 +3,7 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Icon, IconName, Card, Elevation, Tooltip, Position } from '@blueprintjs/core';
 import AnimalsListTooltipContent from './AnimalsListTooltipContent';
+import styles from './ExplorerMetrics.scss';
 
 type Props = {
   data: Observation[];
@@ -70,16 +71,7 @@ export default function ExplorerMetrics(props: Props) {
   }
 
   return (
-    <div
-      className="metrics-wrapper"
-      style={{
-        display: 'grid',
-        gap: '20px',
-        gridTemplateColumns: 'repeat(6, 1fr)',
-        padding: '15px 0',
-        width: '100%'
-      }}
-    >
+    <div className={styles.container}>
       {metricsCard('camera', '#5c7080', t('explore.imagesCount'), data.length)}
       {metricsCard('inbox-search', '#5c7080', t('explore.animalsCount'), nonEmpty.length)}
       {metricsCard(

@@ -1,0 +1,11 @@
+@import '../styles/config/variables';
+@import '../styles/config/mixins';
+
+.container {
+  display: grid;
+  gap: 20px;
+  grid-area: metrics;
+  grid-template-columns: repeat(6, 1fr);
+  padding: 15px 0;
+  width: 100%;
+}
