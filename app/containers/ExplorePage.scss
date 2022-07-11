@@ -59,3 +59,13 @@
     }
   }
 }
+
+.containerLoaded {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - 50px);
+  overflow-y: scroll;
+  padding: 30px 30px;
+  position: relative;
+  width: 100%;
+}

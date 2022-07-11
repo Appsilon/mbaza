@@ -215,17 +215,7 @@ export default function ExplorePage() {
     };
 
     return (
-      <div
-        style={{
-          padding: '30px 30px',
-          width: '100%',
-          overflowY: 'scroll',
-          maxHeight: 'calc(100vh - 50px)',
-          display: 'flex',
-          flexDirection: 'column',
-          position: 'relative'
-        }}
-      >
+      <div className={s.containerLoaded}>
         <ExploreHeader
           filePath={filePath}
           onDataImportClick={() => setObservations(undefined)}
