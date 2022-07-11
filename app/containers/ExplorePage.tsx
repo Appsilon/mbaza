@@ -226,7 +226,6 @@ export default function ExplorePage() {
         />
         <Divider />
         <ExplorerFilter observations={observations} updateFilters={handleFilters} />
-        <Divider />
         <ExplorerMetrics
           data={filteredObservations}
           rareTargets={RareAnimalsClasses}
@@ -234,7 +233,7 @@ export default function ExplorePage() {
           overridesTotal={overridesCount(filteredObservations)}
           eventsTotal={eventsCount(filteredObservations)}
         />
-        <Card style={{ height: '100%' }} interactive elevation={Elevation.TWO}>
+        <Card style={{ gridArea: 'map', height: '100%' }} interactive elevation={Elevation.TWO}>
           <Callout intent={Intent.PRIMARY}>{t('explore.mapHint')}</Callout>
           <div
             style={{
