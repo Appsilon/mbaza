@@ -7,8 +7,10 @@ import HomePage from './containers/HomePage';
 import ExplorePage from './containers/ExplorePage';
 import ClassifyPage from './containers/ClassifyPage';
 import MediaToolsPage from './containers/MediaToolsPage';
+import useAnalytics from './utils/useAnalytics';
 
 export default function Routes() {
+  useAnalytics();
   return (
     <App>
       <Switch>

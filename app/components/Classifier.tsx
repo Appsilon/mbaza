@@ -22,9 +22,6 @@ import { openCsvDialog, openDirectoryDialog, saveCsvDialog } from '../utils/file
 import { isDev, isLinux, isWin, rootModelsDirectory } from '../utils/environment';
 import MissingModelsMessage from './MissingModelsMessage';
 
-type changeLogMessageType = (newChangeLogMessage: string | null) => {};
-type changePathChoiceType = (newPath: string) => {};
-
 const toaster = Toaster.create({});
 
 function displayErrorToast(message: string) {
@@ -69,13 +66,13 @@ function runModelProcess(baseArgs: string[], t: TFunction): ChildProcessWithoutN
 }
 
 const computePredictions = (
-  directory: string,
-  savePath: string,
+  inputPath: string,
+  outputPath: string,
   gridFilePath: string,
   modelName: string,
   projectId: string,
   deploymentId: string,
-  changeLogMessage: changeLogMessageType,
+  setLogMessage: (value: string) => void,
   setIsRunning: (value: boolean) => void,
   setExitCode: (value: number | null | undefined) => void,
   t: TFunction
@@ -84,9 +81,9 @@ const computePredictions = (
 
   const args: string[] = [
     '--input_folder',
-    directory,
+    inputPath,
     '--output',
-    savePath,
+    outputPath,
     '--model',
     modelWeightsPath,
     '--project_id',
@@ -110,16 +107,16 @@ const computePredictions = (
   //   * Are Redux actions appropriate for this use case?
   const process = runModelProcess(args, t);
   if (process !== null) {
-    changeLogMessage(null);
+    setLogMessage('');
     setExitCode(undefined);
     setIsRunning(true);
     process.stdout.on('data', data => {
-      changeLogMessage(`${data}`);
+      setLogMessage(`${data}`);
     });
     process.stderr.on('data', data => {
       // eslint-disable-next-line no-console
       console.log(`classifier stderr: ${data}`);
-      changeLogMessage(`${data}`);
+      setLogMessage(`${data}`);
     });
     process.on('exit', exitCode => {
       // eslint-disable-next-line no-console
@@ -161,30 +158,17 @@ function PathInput(props: {
   );
 }
 
-type Props = {
-  changeLogMessage: changeLogMessageType;
-  changeDirectoryChoice: changePathChoiceType;
-  changeSavePathChoice: changePathChoiceType;
-  logMessage: string;
-  directoryChoice: string;
-  savePath: string;
-};
-
-export default function Classifier(props: Props) {
-  const {
-    directoryChoice,
-    savePath,
-    logMessage,
-    changeDirectoryChoice,
-    changeSavePathChoice,
-    changeLogMessage
-  } = props;
+export default function Classifier() {
   const { t } = useTranslation();
   const [isRunning, setIsRunning] = useState<boolean>(false);
   const [exitCode, setExitCode] = useState<number | null>();
+
+  const [inputPath, setInputPath] = useState<string>('');
+  const [outputPath, setOutputPath] = useState<string>('');
   const [stationsCsvPath, setStationsCsvPath] = useState<string>('');
   const [projectId, setProjectId] = useState<string>('');
   const [deploymentId, setDeploymentId] = useState<string>('');
+  const [logMessage, setLogMessage] = useState<string>('');
 
   // TODO: Detect available models instead of hardcoding them. Display a warning
   // if there are no models available.
@@ -199,14 +183,14 @@ export default function Classifier(props: Props) {
     <div style={{ padding: '30px 30px', width: '60vw' }}>
       <PathInput
         placeholder={t('classify.chooseInput')}
-        value={directoryChoice}
-        onChange={changeDirectoryChoice}
+        value={inputPath}
+        onChange={setInputPath}
         showDialog={openDirectoryDialog}
       />
       <PathInput
         placeholder={t('classify.chooseOutput')}
-        value={savePath}
-        onChange={changeSavePathChoice}
+        value={outputPath}
+        onChange={setOutputPath}
         showDialog={() => saveCsvDialog('classification_result')}
       />
       <PathInput
@@ -251,19 +235,19 @@ export default function Classifier(props: Props) {
         icon="predictive-analysis"
         onClick={() => {
           computePredictions(
-            props.directoryChoice,
-            props.savePath,
+            inputPath,
+            outputPath,
             stationsCsvPath,
             modelName,
             projectId,
             deploymentId,
-            changeLogMessage,
+            setLogMessage,
             setIsRunning,
             setExitCode,
             t
           );
         }}
-        disabled={isRunning || directoryChoice === '' || savePath === ''}
+        disabled={isRunning || inputPath === '' || outputPath === ''}
         style={{ marginBottom: '10px', backgroundColor: '#fff' }}
       />
 
