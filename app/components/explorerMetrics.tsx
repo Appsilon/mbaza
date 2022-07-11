@@ -37,33 +37,14 @@ export default function ExplorerMetrics(props: Props) {
     tooltip: JSX.Element | string = ''
   ) {
     return (
-      <Card
-        elevation={Elevation.TWO}
-        style={{
-          minWidth: '100px',
-          position: 'relative',
-          textAlign: 'center',
-          width: '100%',
-          height: '100px',
-          padding: '10px'
-        }}
-      >
+      <Card className={styles.card} elevation={Elevation.TWO}>
         <Tooltip content={tooltip} position={Position.BOTTOM} disabled={tooltip === ''}>
           <div>
-            <Icon
-              style={{
-                position: 'absolute',
-                left: '25px',
-                top: '25px'
-              }}
-              icon={icon}
-              color={color}
-              iconSize={32}
-            />
-            <div style={{ marginLeft: '50px', marginTop: '10px' }}>
-              <div style={{ fontWeight: 500, fontSize: '32px', width: '100%' }}>{value}</div>
+            <Icon className={styles.icon} icon={icon} color={color} iconSize={32} />
+            <div className={styles.valueWrapper}>
+              <div className={styles.value}>{value}</div>
             </div>
-            <div style={{ lineHeight: '15px', marginTop: '10px' }}>{title}</div>
+            <div className={styles.title}>{title}</div>
           </div>
         </Tooltip>
       </Card>

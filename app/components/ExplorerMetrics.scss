@@ -8,4 +8,37 @@
   grid-area: metrics;
   grid-template-columns: repeat(2, 1fr);
   width: 100%;
+
+  .card {
+    border-radius: $radius-card;
+    box-shadow: $shadow-card;
+    height: 100px;
+    min-width: 100px;
+    padding: 10px;
+    position: relative;
+    text-align: center;
+    width: 100%;
+  }
+
+  .icon {
+    position: absolute;
+    left: 25px;
+    top: 25px;
+  }
+
+  .valueWrapper {
+    margin-left: 50px;
+    margin-top: 10px;
+  }
+
+  .value {
+    font-size: 32px;
+    font-weight: 500;
+    width: 100%;
+  }
+
+  .title {
+    line-height: 15px;
+    margin-top: 10px;
+  }
 }
