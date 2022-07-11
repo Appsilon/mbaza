@@ -224,7 +224,6 @@ export default function ExplorePage() {
           onDarwinCoreExportClick={handleDarwinCoreExport}
           onPhotosExportClick={handlePhotosExport}
         />
-        <Divider />
         <ExplorerFilter observations={observations} updateFilters={handleFilters} />
         <ExplorerMetrics
           data={filteredObservations}

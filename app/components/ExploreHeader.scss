@@ -1,7 +1,9 @@
 .container {
   align-items: center;
-  display: flex;
+  display: grid;
+  gap: 15px;
   grid-area: header;
+  grid-template-columns: repeat(2, auto) 1fr;
   justify-content: space-between;
   padding: 10px 0;
 
@@ -42,6 +44,7 @@
 .textOutput {
   align-items: center;
   display: flex;
+  grid-column: 1 / 4;
   flex: 1;
 
   & > h5 {

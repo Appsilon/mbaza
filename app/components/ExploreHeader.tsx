@@ -39,7 +39,6 @@ export default function ExploreHeader(props: Props) {
         large
         onClick={onDataImportClick}
         outlined={false}
-        style={{ marginRight: '15px' }}
         text={t('explore.changeFile')}
       />
       <Popover className={s.popover} usePortal={false} autoFocus={false}>
@@ -48,7 +47,6 @@ export default function ExploreHeader(props: Props) {
           intent="primary"
           large
           outlined={false}
-          style={{ marginRight: '15px' }}
           text={t('explore.eventsButtonLabel')}
         />
         <div className={s.popoverContent}>

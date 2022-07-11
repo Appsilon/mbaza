@@ -2,10 +2,10 @@
 @import '../styles/config/mixins';
 
 .container {
+  align-content: start;
   display: grid;
   gap: 20px;
   grid-area: metrics;
-  grid-template-columns: repeat(6, 1fr);
-  padding: 15px 0;
+  grid-template-columns: repeat(2, 1fr);
   width: 100%;
 }
