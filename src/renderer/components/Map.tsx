@@ -80,17 +80,17 @@ function makeStationMarker(
   ReactDOM.render(
     <>
       <h3>
-        <b>{t('explore.inspect.station', { id: station })}</b>
+        <b>{t('explore.inspect.station', { id: station }) as string}</b>
       </h3>
       <p>
-        <b>{t('explore.inspect.observations', { count })}</b>
+        <b>{t('explore.inspect.observations', { count }) as string}</b>
       </p>
       <p>
         <Tooltip
           content={<AnimalsListTooltipContent entries={species.value()} />}
           position={Position.BOTTOM}
         >
-          <b>{t('explore.inspect.species', { count: species.size() })}</b>
+          <b>{t('explore.inspect.species', { count: species.size() }) as string}</b>
         </Tooltip>
       </p>
       <div className={styles.photosPreview}>
