@@ -232,20 +232,9 @@ export default function ExplorePage() {
           overridesTotal={overridesCount(filteredObservations)}
           eventsTotal={eventsCount(filteredObservations)}
         />
-        <Card
-          style={{ gridArea: 'map', height: '100%', display: 'flex', flexDirection: 'column' }}
-          interactive
-          elevation={Elevation.TWO}
-        >
+        <Card className={s.card} interactive elevation={Elevation.TWO}>
           <Callout intent={Intent.PRIMARY}>{t('explore.mapHint')}</Callout>
-          <div
-            style={{
-              width: '100%',
-              position: 'relative',
-              overflow: 'hidden',
-              height: '100%'
-            }}
-          >
+          <div className={s.cardBody}>
             <Map observations={filteredObservations} onInspect={setInspectedObservations} />
             <ObservationsInspector
               observations={inspectedObservations}

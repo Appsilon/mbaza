@@ -73,7 +73,21 @@
   grid-template-rows: repeat(2, auto) 1fr;
   max-height: calc(100vh - 50px);
   overflow-y: scroll;
-  padding: 30px 30px;
+  padding: 30px;
   position: relative;
   width: 100%;
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    grid-area: map;
+    height: 100%;
+  }
+
+  .cardBody {
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+  }
 }
