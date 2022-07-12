@@ -231,7 +231,7 @@ export default function ExplorePage() {
           overridesTotal={overridesCount(filteredObservations)}
           eventsTotal={eventsCount(filteredObservations)}
         />
-        <Card className={s.card} interactive elevation={Elevation.TWO}>
+        <Card className={s.card} elevation={Elevation.TWO}>
           <Callout intent={Intent.PRIMARY}>{t('explore.mapHint')}</Callout>
           <div className={s.cardBody}>
             <Map observations={filteredObservations} onInspect={setInspectedObservations} />
