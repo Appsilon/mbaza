@@ -9,7 +9,6 @@ import {
   Intent,
   Callout,
   NumberRange,
-  Divider,
   Tooltip,
   Icon
 } from '@blueprintjs/core';
