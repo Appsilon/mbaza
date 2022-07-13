@@ -9,4 +9,19 @@
   background-color: $c-green-80;
   text-align: center;
   color: #fff;
+
+  .footer {
+    bottom: 0;
+    position: absolute;
+
+    .heart {
+      color: #0099f9;
+    }
+
+    .logoLink {
+      .logoImg {
+        width: 100%;
+      }
+    }
+  }
 }
