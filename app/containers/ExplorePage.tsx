@@ -30,7 +30,7 @@ import writeCorrectedCsv from '../utils/writeCorrectedCsv';
 import readObservationsCsv from '../utils/readObservationsCsv';
 import ExploreHeader from '../components/ExploreHeader';
 import computeEvents from '../utils/computeEvents';
-import s from './ExplorePage.scss';
+import styles from './ExplorePage.scss';
 import exportDarwinCore from '../utils/exportDarwinCore';
 import exportPhotos from '../utils/exportPhotos';
 
@@ -214,7 +214,7 @@ export default function ExplorePage() {
     };
 
     return (
-      <div className={s.containerLoaded}>
+      <div className={styles.containerLoaded}>
         <ExploreHeader
           filePath={filePath}
           onDataImportClick={() => setObservations(undefined)}
@@ -231,9 +231,9 @@ export default function ExplorePage() {
           overridesTotal={overridesCount(filteredObservations)}
           eventsTotal={eventsCount(filteredObservations)}
         />
-        <Card className={s.card} elevation={Elevation.TWO}>
+        <Card className={styles.card} elevation={Elevation.TWO}>
           <Callout intent={Intent.PRIMARY}>{t('explore.mapHint')}</Callout>
-          <div className={s.cardBody}>
+          <div className={styles.cardBody}>
             <Map observations={filteredObservations} onInspect={setInspectedObservations} />
             <ObservationsInspector
               observations={inspectedObservations}
@@ -248,12 +248,12 @@ export default function ExplorePage() {
   }
 
   return (
-    <div className={s.container}>
-      <Card className={s.card} elevation={Elevation.TWO}>
-        <div className={s.header}>
-          <H4 className={s.title}>{t('explore.chooseFile')}</H4>
+    <div className={styles.container}>
+      <Card className={styles.card} elevation={Elevation.TWO}>
+        <div className={styles.header}>
+          <H4 className={styles.title}>{t('explore.chooseFile')}</H4>
           <Tooltip content={t('explore.info')}>
-            <Icon className={s.icon} color="#647f80" icon="help" iconSize={22} />
+            <Icon className={styles.icon} color="#647f80" icon="help" iconSize={22} />
           </Tooltip>
         </div>
         <Button
@@ -266,7 +266,7 @@ export default function ExplorePage() {
           type="submit"
         />
       </Card>
-      <div className={s.animals}>
+      <div className={styles.animals}>
         {animalsBackgrounds.map((background, index) => (
           <img src={background} key={background} alt={`animal_${index}`} />
         ))}
