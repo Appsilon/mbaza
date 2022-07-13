@@ -17,8 +17,8 @@ import { remote } from 'electron';
 import { csvFormat } from 'd3-dsv';
 
 import Map from '../components/Map';
-import ExplorerFilter from '../components/explorerFilters';
-import ExplorerMetrics from '../components/explorerMetrics';
+import ExplorerFilter from '../components/ExplorerFilters';
+import ExplorerMetrics from '../components/ExplorerMetrics';
 import {
   formatAnimalClassName,
   EmptyClasses,
