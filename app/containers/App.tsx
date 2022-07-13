@@ -4,6 +4,7 @@ import { Navbar, Alignment, Button, Popover, Menu, MenuItem } from '@blueprintjs
 
 import { routes } from '../constants/Routes';
 import Sidebar from '../components/Sidebar';
+import styles from './App.scss';
 
 type Props = {
   children: ReactNode;
@@ -15,10 +16,10 @@ export default function App(props: Props) {
 
   return (
     <>
-      <Navbar className="bp3-dark">
+      <Navbar className={`${styles.navbar} bp3-dark`}>
         <Navbar.Group align={Alignment.LEFT}>
           <Navbar.Heading>
-            <img src="assets/icon.png" style={{ width: '32px', height: '32px' }} alt="Mbaza" />
+            <img className={styles.logo} src="assets/icon.png" alt="Mbaza" />
           </Navbar.Heading>
           <Navbar.Heading>
             <strong>Mbaza</strong>
@@ -37,10 +38,10 @@ export default function App(props: Props) {
           </Popover>
         </Navbar.Group>
       </Navbar>
-      <div style={{ display: 'flex', flexDirection: 'row' }}>
+      <main className={styles.main}>
         <Sidebar routes={routes} />
         {children}
-      </div>
+      </main>
     </>
   );
 }
