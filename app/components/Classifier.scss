@@ -1,0 +1,43 @@
+@import '../styles/config/variables';
+
+.container {
+  align-items: flex-start;
+  display: flex;
+  max-height: calc(100vh - 50px);
+  overflow-y: scroll;
+  padding: 20px;
+  width: 100%;
+
+  .wrapper {
+    display: flex;
+    width: 100%;
+
+    .card {
+      box-shadow: $shadow-card;
+      margin-right: 40px;
+      min-width: 0;
+      width: 100%;
+
+      .form {
+        padding: 30px;
+        width: 100%;
+
+        .pathInput,
+        .radioLabel,
+        .textInput,
+        .button {
+          margin-bottom: 10px;
+        }
+
+        .button {
+          background-color: #fff;
+        }
+      }
+    }
+
+    .callout {
+      min-width: 340px;
+      width: 300px;
+    }
+  }
+}
