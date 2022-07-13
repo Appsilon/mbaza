@@ -1,0 +1,17 @@
+.link {
+  color: #fff;
+
+  .button {
+    color: #fff;
+    width: 100%;
+    padding: 20px;
+
+    &:hover {
+      color: #fff;
+    }
+  }
+}
+
+:global .bp3-button.bp3-active.bp3-minimal {
+  color: #fff;
+}
