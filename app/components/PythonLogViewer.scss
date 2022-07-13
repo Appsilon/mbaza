@@ -1,0 +1,14 @@
+.card {
+  .logMessage {
+    white-space: pre-wrap;
+  }
+
+  .preloader {
+    margin-top: 20px;
+    text-align: center;
+
+    .message {
+      margin-top: 20px;
+    }
+  }
+}
