@@ -88,30 +88,25 @@ function makeStationMarker(
         <Tooltip
           content={<AnimalsListTooltipContent entries={species.value()} />}
           position={Position.BOTTOM}
-          className="speciesTooltip"
         >
           <b>{t('explore.inspect.species', { count: species.size() })}</b>
         </Tooltip>
       </p>
-      <div className="photosPreview" style={{ display: 'flex' }}>
+      <div className={styles.photosPreview}>
         {groupObservations.slice(0, maxPreviewPhotosCount).map(observation => (
           // eslint-disable-next-line
           <a
             key={observation.location}
-            className="photosPreviewItem"
+            className={styles.photosPreviewItem}
             onClick={() => setInspectedObservations(groupObservations)}
           >
-            <img
-              src={observation.location}
-              alt="Observations preview"
-              style={{ width: '100%', height: '100%' }}
-            />
+            <img src={observation.location} alt="Observations preview" />
           </a>
         ))}
         <div>
           <Button
             onClick={() => setInspectedObservations(groupObservations)}
-            className="photosPreviewItem"
+            className={styles.photosPreviewItem}
             rightIcon="arrow-right"
             intent="primary"
           />
