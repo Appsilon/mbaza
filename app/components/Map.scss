@@ -1,6 +1,6 @@
-@use '../styles/config/variables' as var;
-@use '../styles/config/mixins' as mix;
-@use '../styles/config/animations';
+@use '../styles/variables' as var;
+@use '../styles/mixins' as mix;
+@use '../styles/animations';
 
 .mapContainer {
   height: 100%;

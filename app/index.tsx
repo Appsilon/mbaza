@@ -5,7 +5,7 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
 import Root from './containers/Root';
-import './app.global.css';
+import './styles/app.global.scss';
 
 const AppContainer = process.env.PLAIN_HMR ? Fragment : ReactHotAppContainer;
 const translations = require('assets/translations.json');
