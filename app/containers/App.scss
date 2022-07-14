@@ -1,4 +1,10 @@
+@use '../styles/config/variables' as var;
+
 .navbar {
+  &:global.bp3-navbar.bp3-dark {
+    background-color: var.$c-green-60;
+  }
+
   .logo {
     height: 32px;
     width: 32px;
