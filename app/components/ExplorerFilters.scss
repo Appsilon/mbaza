@@ -1,0 +1,19 @@
+@import '../styles/config/variables';
+@import '../styles/config/mixins';
+
+.container {
+  align-content: start;
+  display: grid;
+  gap: 15px;
+  grid-area: filters;
+  grid-template-columns: repeat(2, 1fr);
+  width: 100%;
+
+  .inputGroup {
+    width: 100%;
+  }
+
+  .label {
+    margin: 0 0 5px;
+  }
+}

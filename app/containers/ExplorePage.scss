@@ -59,3 +59,40 @@
     }
   }
 }
+
+.containerLoaded {
+  align-content: start;
+  display: grid;
+  flex-direction: column;
+  gap: 40px 30px;
+  grid-template-areas:
+    'header  header'
+    'filters map   '
+    'metrics map   ';
+  grid-template-columns: 450px 1fr;
+  grid-template-rows: repeat(2, auto) 1fr;
+  max-height: calc(100vh - 50px);
+  overflow-y: scroll;
+  padding: 30px;
+  position: relative;
+  width: 100%;
+
+  .card {
+    box-shadow: $shadow-card;
+    display: flex;
+    flex-direction: column;
+    grid-area: map;
+    height: 100%;
+
+    &:hover {
+      box-shadow: $shadow-card;
+    }
+  }
+
+  .cardBody {
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+  }
+}
