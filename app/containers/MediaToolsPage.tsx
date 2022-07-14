@@ -23,7 +23,7 @@ import { openDirectoryDialog } from '../utils/fileDialog';
 import { isDev, isLinux, isWin, rootModelsDirectory } from '../utils/environment';
 import MissingModelsMessage from '../components/MissingModelsMessage';
 import PathInput from '../components/PathInput';
-import styles from './MediaToolsPage.scss';
+import styles from './MediaToolsPage.module.scss';
 
 const toaster = Toaster.create({});
 

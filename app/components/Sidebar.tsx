@@ -1,7 +1,7 @@
 import React from 'react';
 import { RouteComponentProps, withRouter } from 'react-router';
 import { useTranslation } from 'react-i18next';
-import styles from './Sidebar.scss';
+import styles from './Sidebar.module.scss';
 
 import SidebarItem from './SidebarItem';
 import { RoutesType } from '../constants/Routes';

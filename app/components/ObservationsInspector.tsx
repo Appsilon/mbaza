@@ -6,7 +6,7 @@ import CreatableSelect from 'react-select/creatable';
 
 import { formatAnimalClassName } from '../constants/animalsClasses';
 import { taxonOptions } from '../constants/taxons';
-import styles from './ObservationsInspector.scss';
+import styles from './ObservationsInspector.module.scss';
 
 type ObservationCardProps = {
   observation: Observation;

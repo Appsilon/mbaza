@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, NumericInput, Popover, H5, H6, Tooltip, Icon } from '@blueprintjs/core';
 import ExploreHeaderBtnGroup from './ExploreHeaderBtnGroup';
-import styles from './ExploreHeader.scss';
+import styles from './ExploreHeader.module.scss';
 
 type Props = {
   filePath: string | undefined;
