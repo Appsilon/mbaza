@@ -13,6 +13,7 @@
     width: 100%;
 
     .card {
+      border-radius: $radius-card;
       box-shadow: $shadow-card;
       margin-right: 40px;
       width: 100%;
@@ -31,10 +32,15 @@
         .button {
           margin-bottom: 10px;
         }
+
+        .button {
+          background-color: #fff;
+        }
       }
     }
 
     .callout {
+      border-radius: $radius-card;
       width: 300px;
     }
   }

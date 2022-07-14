@@ -25,8 +25,6 @@ import MissingModelsMessage from '../components/MissingModelsMessage';
 import PathInput from '../components/PathInput';
 import styles from './MediaToolsPage.scss';
 
-type changePathChoiceType = (newPath: string) => void;
-
 const toaster = Toaster.create({});
 
 function displayErrorToast(message: string) {
@@ -215,12 +213,12 @@ export default function MediaToolsPage() {
       />
 
       <Button
+        className={styles.button}
         text={
           toolMode === 'EXTRACT_FRAMES' ? t('tools.extractFrames') : t('tools.createThumbnails')
         }
         onClick={runTool}
         disabled={isRunning || inputDir === '' || outputDir === ''}
-        style={{ marginBottom: '10px', backgroundColor: '#fff' }}
       />
       {exitCode !== undefined || isRunning ? (
         <PythonLogViewer

@@ -13,6 +13,7 @@
     width: 100%;
 
     .card {
+      border-radius: $radius-card;
       box-shadow: $shadow-card;
       margin-right: 40px;
       width: 100%;
@@ -35,6 +36,7 @@
     }
 
     .callout {
+      border-radius: $radius-card;
       width: 340px;
     }
   }

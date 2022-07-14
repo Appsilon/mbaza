@@ -78,6 +78,7 @@
   width: 100%;
 
   .card {
+    border-radius: $radius-card;
     box-shadow: $shadow-card;
     display: flex;
     flex-direction: column;
