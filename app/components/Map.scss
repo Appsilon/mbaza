@@ -1,20 +1,20 @@
-@import '../styles/config/variables';
-@import '../styles/config/mixins';
-@import '../styles/config/animations';
+@use '../styles/config/variables' as var;
+@use '../styles/config/mixins' as mix;
+@use '../styles/config/animations';
 
 .mapContainer {
   height: 100%;
 }
 
 .marker {
-  @include marker(marker-normal, $c-green-40, 0.2);
+  @include mix.marker(markerNormal, var.$c-green-40, 0.2);
 
   background-color: rgba(211, 211, 211, 0.5);
-  border: 4px solid $c-green-40;
+  border: 4px solid var.$c-green-40;
   border-radius: 50%;
   cursor: pointer;
   height: 50px;
-  transition: background-color $t-marker, border $t-marker;
+  transition: background-color var.$t-marker, border var.$t-marker;
   width: 50px;
 
   &::before {
@@ -25,12 +25,12 @@
     position: absolute;
     right: 4px;
     top: 4px;
-    transition: background-color $t-marker, transform $t-marker;
+    transition: background-color var.$t-marker, transform var.$t-marker;
     transform: scale(0);
   }
 
   &:hover {
-    @include marker(marker-hover, $c-green-60, 0.7);
+    @include mix.marker(marker-hover, var.$c-green-60, 0.7);
 
     &::before {
       transform: scale(1);
@@ -38,7 +38,7 @@
   }
 
   &.active {
-    @include marker(marker-active, $c-orange, 0.5);
+    @include mix.marker(marker-active, var.$c-orange, 0.5);
 
     &::before {
       transform: scale(1);

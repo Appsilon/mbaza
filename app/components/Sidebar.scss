@@ -1,4 +1,4 @@
-@import '../styles/config/variables';
+@use '../styles/config/variables' as var;
 
 .container {
   position: relative;
@@ -6,7 +6,7 @@
   flex-direction: column;
   flex: 0 0 190px;
   height: calc(100vh - 50px);
-  background-color: $c-green-80;
+  background-color: var.$c-green-80;
   text-align: center;
   color: #fff;
 

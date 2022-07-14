@@ -1,4 +1,4 @@
-@import '../styles/config/variables';
+@use '../styles/config/variables' as var;
 
 .container {
   align-content: start;
@@ -9,8 +9,8 @@
   width: 100%;
 
   .card {
-    border-radius: $radius-card;
-    box-shadow: $shadow-card;
+    border-radius: var.$radius-card;
+    box-shadow: var.$shadow-card;
     height: 100px;
     min-width: 100px;
     padding: 10px;

@@ -1,4 +1,4 @@
-@import '../styles/config/variables';
+@use '../styles/config/variables' as var;
 
 .container {
   align-items: flex-start;
@@ -13,8 +13,8 @@
     width: 100%;
 
     .card {
-      border-radius: $radius-card;
-      box-shadow: $shadow-card;
+      border-radius: var.$radius-card;
+      box-shadow: var.$shadow-card;
       margin-right: 40px;
       width: 100%;
 
@@ -36,7 +36,7 @@
     }
 
     .callout {
-      border-radius: $radius-card;
+      border-radius: var.$radius-card;
       width: 340px;
     }
   }

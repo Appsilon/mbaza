@@ -1,24 +1,27 @@
-@keyframes marker-normal {
+@use './variables' as var;
+@use './mixins' as mix;
+
+@keyframes markerNormal {
   0% {
-    @include marker-animation-start($c-green-60);
+    @include mix.marker-animation-start(var.$c-green-60);
   }
   100% {
-    @include marker-animation-end;
+    @include mix.marker-animation-end;
   }
 }
 @keyframes marker-hover {
   0% {
-    @include marker-animation-start($c-green-80);
+    @include mix.marker-animation-start(var.$c-green-80);
   }
   100% {
-    @include marker-animation-end;
+    @include mix.marker-animation-end;
   }
 }
 @keyframes marker-active {
   0% {
-    @include marker-animation-start($c-orange);
+    @include mix.marker-animation-start(var.$c-orange);
   }
   100% {
-    @include marker-animation-end;
+    @include mix.marker-animation-end;
   }
 }
