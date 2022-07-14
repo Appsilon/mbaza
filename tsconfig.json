@@ -22,6 +22,7 @@
     "resolveJsonModule": true,
     "allowJs": true
   },
+  "include": ["app", "./declarations.d.ts"],
   "exclude": [
     "test",
     "release",
