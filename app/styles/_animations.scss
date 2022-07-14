@@ -1,7 +1,7 @@
 @use './variables' as var;
 @use './mixins' as mix;
 
-@keyframes markerNormal {
+@keyframes marker-normal {
   0% {
     @include mix.marker-animation-start(var.$c-green-60);
   }
