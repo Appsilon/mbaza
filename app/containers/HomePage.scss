@@ -1,0 +1,60 @@
+@use '../styles/variables' as var;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  width: 100%;
+
+  .wrapper {
+    display: grid;
+    gap: 20px 40px;
+    grid-template-columns: 1fr 400px;
+    width: 100%;
+
+    .card {
+      border-radius: var.$radius-card;
+      box-shadow: var.$shadow-card;
+      grid-row: 1 / 3;
+      margin-right: 40px;
+      width: 100%;
+
+      .cardTitle {
+        margin: 0;
+      }
+    }
+
+    .callout {
+      border-radius: var.$radius-card;
+      width: 100%;
+    }
+  }
+
+  .logos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    margin-top: 40px;
+
+    .logo {
+      display: flex;
+      flex-direction: column;
+      height: 60px;
+      margin: 20px;
+      text-align: center;
+
+      > img {
+        height: 100%;
+      }
+
+      .label {
+        font-size: 13px;
+        margin-top: 5px;
+      }
+    }
+
+    .link {
+      opacity: 1;
+    }
+  }
+}

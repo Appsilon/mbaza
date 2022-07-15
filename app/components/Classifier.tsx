@@ -21,6 +21,8 @@ import PythonLogViewer from './PythonLogViewer';
 import { openCsvDialog, openDirectoryDialog, saveCsvDialog } from '../utils/fileDialog';
 import { isDev, isLinux, isWin, rootModelsDirectory } from '../utils/environment';
 import MissingModelsMessage from './MissingModelsMessage';
+import PathInput from './PathInput';
+import styles from './Classifier.scss';
 
 const toaster = Toaster.create({});
 
@@ -127,37 +129,6 @@ const computePredictions = (
   }
 };
 
-function PathInput(props: {
-  placeholder: string;
-  value: string;
-  onChange: (path: string) => void;
-  showDialog: () => Promise<string | undefined>;
-}) {
-  const { placeholder, value, onChange, showDialog } = props;
-  return (
-    <div className="bp3-input-group" style={{ marginBottom: '10px' }}>
-      <input
-        type="text"
-        className="bp3-input"
-        placeholder={placeholder}
-        value={value}
-        onChange={event => {
-          onChange(event.target.value);
-        }}
-      />
-      <button
-        aria-label="Search"
-        type="submit"
-        className="bp3-button bp3-minimal bp3-intent-primary bp3-icon-search"
-        onClick={async () => {
-          const newValue = await showDialog();
-          if (newValue !== undefined) onChange(newValue);
-        }}
-      />
-    </div>
-  );
-}
-
 export default function Classifier() {
   const { t } = useTranslation();
   const [isRunning, setIsRunning] = useState<boolean>(false);
@@ -180,27 +151,30 @@ export default function Classifier() {
   const rootModelsDirectoryExists = fs.existsSync(rootModelsDirectory);
 
   const classifierFormView = (
-    <div style={{ padding: '30px 30px', width: '60vw' }}>
+    <div className={styles.form}>
       <PathInput
+        className={styles.pathInput}
         placeholder={t('classify.chooseInput')}
         value={inputPath}
         onChange={setInputPath}
         showDialog={openDirectoryDialog}
       />
       <PathInput
+        className={styles.pathInput}
         placeholder={t('classify.chooseOutput')}
         value={outputPath}
         onChange={setOutputPath}
         showDialog={() => saveCsvDialog('classification_result')}
       />
       <PathInput
+        className={styles.pathInput}
         placeholder={t('classify.chooseStationsCsv')}
         value={stationsCsvPath}
         onChange={setStationsCsvPath}
         showDialog={openCsvDialog}
       />
 
-      <div style={{ marginBottom: '5px' }}>{t('classify.chooseModel')}</div>
+      <div className={styles.radioLabel}>{t('classify.chooseModel')}</div>
       <RadioGroup
         inline
         onChange={event => {
@@ -214,23 +188,24 @@ export default function Classifier() {
       </RadioGroup>
 
       <InputGroup
+        className={styles.textInput}
         value={projectId}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
           setProjectId(e.target.value);
         }}
         placeholder={t('classify.projectId')}
-        style={{ marginBottom: '10px' }}
       />
       <InputGroup
+        className={styles.textInput}
         value={deploymentId}
         onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
           setDeploymentId(e.target.value);
         }}
         placeholder={t('classify.deploymentId')}
-        style={{ marginBottom: '10px' }}
       />
 
       <Button
+        className={styles.button}
         text={t('classify.find')}
         icon="predictive-analysis"
         onClick={() => {
@@ -248,7 +223,6 @@ export default function Classifier() {
           );
         }}
         disabled={isRunning || inputPath === '' || outputPath === ''}
-        style={{ marginBottom: '10px', backgroundColor: '#fff' }}
       />
 
       {exitCode !== undefined || isRunning ? (
@@ -266,19 +240,15 @@ export default function Classifier() {
   );
 
   return (
-    <div style={{ flex: 1, overflowY: 'scroll', maxHeight: 'calc(100vh - 50px)' }}>
-      <div style={{ display: 'flex' }}>
-        <div style={{ flex: 1, padding: '20px' }}>
-          <Card elevation={Elevation.TWO}>
-            <H1>{t('classify.title')}</H1>
-            {rootModelsDirectoryExists ? classifierFormView : <MissingModelsMessage />}
-          </Card>
-        </div>
-        <div style={{ flex: 1, padding: '20px' }}>
-          <Callout intent={Intent.PRIMARY}>
-            <Trans i18nKey="classify.info" />
-          </Callout>
-        </div>
+    <div className={styles.container}>
+      <div className={styles.wrapper}>
+        <Card className={styles.card} elevation={Elevation.TWO}>
+          <H1>{t('classify.title')}</H1>
+          {rootModelsDirectoryExists ? classifierFormView : <MissingModelsMessage />}
+        </Card>
+        <Callout className={styles.callout} intent={Intent.PRIMARY}>
+          <Trans i18nKey="classify.info" />
+        </Callout>
       </div>
     </div>
   );

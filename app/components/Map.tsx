@@ -5,7 +5,7 @@ import mapboxgl from 'mapbox-gl';
 import _ from 'lodash';
 import { Button, Position, Tooltip } from '@blueprintjs/core';
 import ReactDOM from 'react-dom';
-import s from './Map.css';
+import styles from './Map.scss';
 import AnimalsListTooltipContent from './AnimalsListTooltipContent';
 import { EmptyClasses } from '../constants/animalsClasses';
 
@@ -62,14 +62,16 @@ function makeStationMarker(
   const maxPreviewPhotosCount = 3;
 
   const markerElement = document.createElement('div');
-  markerElement.className = 'marker';
+  markerElement.className = styles.marker;
   markerElement.setAttribute('style', `width: ${diameter}px; height: ${diameter}px;`);
   if (markerElement) {
     markerElement.addEventListener('click', (event: Event) => {
-      const activeMarkers: NodeListOf<Element> = document.querySelectorAll('.marker.active');
-      activeMarkers.forEach(marker => marker.classList.remove('active'));
+      const activeMarkers: NodeListOf<Element> = document.querySelectorAll(
+        `.${styles.marker}.${styles.active}`
+      );
+      activeMarkers.forEach(marker => marker.classList.remove(styles.active));
       const target = event.currentTarget as HTMLTextAreaElement;
-      target.classList.add('active');
+      target.classList.add(styles.active);
     });
   }
 
@@ -86,30 +88,25 @@ function makeStationMarker(
         <Tooltip
           content={<AnimalsListTooltipContent entries={species.value()} />}
           position={Position.BOTTOM}
-          className="speciesTooltip"
         >
           <b>{t('explore.inspect.species', { count: species.size() })}</b>
         </Tooltip>
       </p>
-      <div className="photosPreview" style={{ display: 'flex' }}>
+      <div className={styles.photosPreview}>
         {groupObservations.slice(0, maxPreviewPhotosCount).map(observation => (
           // eslint-disable-next-line
           <a
             key={observation.location}
-            className="photosPreviewItem"
+            className={styles.photosPreviewItem}
             onClick={() => setInspectedObservations(groupObservations)}
           >
-            <img
-              src={observation.location}
-              alt="Observations preview"
-              style={{ width: '100%', height: '100%' }}
-            />
+            <img src={observation.location} alt="Observations preview" />
           </a>
         ))}
         <div>
           <Button
             onClick={() => setInspectedObservations(groupObservations)}
-            className="photosPreviewItem"
+            className={styles.photosPreviewItem}
             rightIcon="arrow-right"
             intent="primary"
           />
@@ -182,5 +179,5 @@ export default function Map(props: MapProps) {
     };
   }, [observations]);
 
-  return <div ref={mapRef} className={s.mapContainer} />;
+  return <div ref={mapRef} className={styles.mapContainer} />;
 }

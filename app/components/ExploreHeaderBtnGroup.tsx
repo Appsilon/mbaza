@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button, Tooltip, Icon } from '@blueprintjs/core';
+import styles from './ExploreHeaderBtnGroup.scss';
 
 type Props = {
   btnLabel: string;
@@ -11,12 +12,12 @@ export default function ExploreHeaderBtnGroup(props: Props) {
   const { btnLabel, iconInfo, onExportBtnClick } = props;
 
   return (
-    <div style={{ alignItems: 'center', display: 'flex', marginTop: '15px' }}>
+    <div className={styles.container}>
       <Button
+        className={styles.button}
         fill
         intent="primary"
         onClick={onExportBtnClick}
-        style={{ marginRight: '10px' }}
         text={btnLabel}
       />
       <Tooltip content={iconInfo}>

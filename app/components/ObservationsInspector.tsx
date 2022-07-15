@@ -6,6 +6,7 @@ import CreatableSelect from 'react-select/creatable';
 
 import { formatAnimalClassName } from '../constants/animalsClasses';
 import { taxonOptions } from '../constants/taxons';
+import styles from './ObservationsInspector.scss';
 
 type ObservationCardProps = {
   observation: Observation;
@@ -50,8 +51,8 @@ function ObservationCard(props: ObservationCardProps) {
   );
   const predictionOverrideWidget = (
     <Tooltip content={t('explore.inspect.overrideTooltip')} position={Position.RIGHT}>
-      <div style={{ width: 250, marginLeft: 10 }}>
-        <h4 style={{ marginBottom: 5 }}>{t('explore.inspect.override')}</h4>
+      <div className={styles.predictionOverride}>
+        <h4 className={styles.predictionLabel}>{t('explore.inspect.override')}</h4>
         <CreatableSelect
           name={predictionOverride}
           value={predictionOverride}
@@ -64,7 +65,7 @@ function ObservationCard(props: ObservationCardProps) {
     </Tooltip>
   );
   const photoDetails = (
-    <div style={{ margin: '20px 10px' }}>
+    <div className={styles.photoDetails}>
       <p>
         <strong>
           {t('explore.inspect.camera')}
@@ -83,8 +84,8 @@ function ObservationCard(props: ObservationCardProps) {
   );
 
   return (
-    <Card elevation={Elevation.TWO} key={observation.location} style={{ marginTop: 10 }}>
-      <h3 style={{ marginTop: 0 }}>
+    <Card className={styles.card} elevation={Elevation.TWO} key={observation.location}>
+      <h3 className={styles.heading}>
         {t('explore.inspect.photoHeader', {
           species: formatAnimalClassName(
             predictionOverride ? predictionOverride.value : observation.pred_1
@@ -92,11 +93,11 @@ function ObservationCard(props: ObservationCardProps) {
           date: observation.date
         })}
       </h3>
-      <div style={{ display: 'flex' }}>
+      <div className={styles.body}>
         <div>
           <img src={observation.location} width={400} alt={observation.pred_1} />
         </div>
-        <div style={{ marginLeft: 24 }}>
+        <div className={styles.data}>
           {predictionsTable}
           {predictionOverrideWidget}
           {photoDetails}

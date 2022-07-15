@@ -10,16 +10,16 @@ interface Props extends RouteComponentProps {
   routes: RoutesType;
 }
 
-function DevelopedBy() {
+function Footer() {
   return (
-    <div style={{ position: 'absolute', bottom: 0 }}>
+    <div className={styles.footer}>
       Developed with
-      <span role="img" aria-label="love" style={{ color: '#0099f9' }}>
+      <span className={styles.heart} role="img" aria-label="love">
         {' 💙 '}
       </span>
       by
-      <a href="https://appsilon.com/" target="_blank" rel="noreferrer">
-        <img src="assets/logos/appsilon-white.png" alt="Appsilon" style={{ width: '100%' }} />
+      <a className={styles.logoLink} href="https://appsilon.com/" target="_blank" rel="noreferrer">
+        <img className={styles.logoImg} src="assets/logos/appsilon-white.png" alt="Appsilon" />
       </a>
     </div>
   );
@@ -40,7 +40,7 @@ function Sidebar(props: Props) {
           active={props.location.pathname === routes[key].path}
         />
       ))}
-      <DevelopedBy />
+      <Footer />
     </div>
   );
 }

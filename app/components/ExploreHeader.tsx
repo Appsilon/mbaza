@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button, NumericInput, Popover, H5, H6, Tooltip, Icon } from '@blueprintjs/core';
 import ExploreHeaderBtnGroup from './ExploreHeaderBtnGroup';
-import s from './ExploreHeader.scss';
+import styles from './ExploreHeader.scss';
 
 type Props = {
   filePath: string | undefined;
@@ -28,8 +28,8 @@ export default function ExploreHeader(props: Props) {
   const filename = (filePath !== undefined) ? filePath.replace(/^.*[\\\/]/, '') : "";
 
   return (
-    <div className={s.container}>
-      <div className={s.textOutput}>
+    <div className={styles.container}>
+      <div className={styles.textOutput}>
         <H5 title={t('explore.dataFileLoaded')}>{`${t('explore.dataFileLoaded')}:`}</H5>
         <H5>{filename}</H5>
       </div>
@@ -41,7 +41,7 @@ export default function ExploreHeader(props: Props) {
         outlined={false}
         text={t('explore.changeFile')}
       />
-      <Popover className={s.popover} usePortal={false} autoFocus={false}>
+      <Popover className={styles.popover} usePortal={false} autoFocus={false}>
         <Button
           icon="refresh"
           intent="primary"
@@ -49,16 +49,16 @@ export default function ExploreHeader(props: Props) {
           outlined={false}
           text={t('explore.eventsButtonLabel')}
         />
-        <div className={s.popoverContent}>
-          <div className={s.row}>
-            <H6 className={s.eventTitle}>{t('explore.eventsDurationLabel')}</H6>
+        <div className={styles.popoverContent}>
+          <div className={styles.row}>
+            <H6 className={styles.eventTitle}>{t('explore.eventsDurationLabel')}</H6>
             <Tooltip content={t('explore.eventsDescription')}>
               <Icon color="#647f80" icon="help" iconSize={22} />
             </Tooltip>
           </div>
-          <div className={s.row}>
+          <div className={styles.row}>
             <NumericInput
-              className={s.eventDurationInput}
+              className={styles.eventDurationInput}
               intent="primary"
               fill
               leftIcon="stopwatch"
@@ -69,7 +69,7 @@ export default function ExploreHeader(props: Props) {
               value={eventMaxDuration}
             />
             <Button
-              className={s.eventApplyButton}
+              className={styles.eventApplyButton}
               intent="primary"
               onClick={() => onEventsUpdateClick(eventMaxDuration)}
               outlined={false}
@@ -78,7 +78,12 @@ export default function ExploreHeader(props: Props) {
           </div>
         </div>
       </Popover>
-      <Popover className={s.popover} placement="bottom-end" usePortal={false} autoFocus={false}>
+      <Popover
+        className={styles.popover}
+        placement="bottom-end"
+        usePortal={false}
+        autoFocus={false}
+      >
         <Button
           icon="export"
           intent="primary"
@@ -86,8 +91,8 @@ export default function ExploreHeader(props: Props) {
           outlined={false}
           text={t('explore.exportButtonLabel')}
         />
-        <div className={s.popoverContent}>
-          <H6 className={s.eventTitle}>{t('explore.exportLabel')}</H6>
+        <div className={styles.popoverContent}>
+          <H6 className={styles.eventTitle}>{t('explore.exportLabel')}</H6>
           <ExploreHeaderBtnGroup
             btnLabel={t('explore.overridesExport')}
             iconInfo={t('explore.overridesExportHelp')}

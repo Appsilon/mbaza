@@ -1,5 +1,5 @@
-@import '../styles/config/variables';
-@import '../styles/config/mixins';
+@use '../styles/variables' as var;
+@use '../styles/mixins' as mix;
 
 .container {
   align-items: center;
@@ -11,12 +11,12 @@
   width: 100%;
 
   .card {
-    border-radius: $radius-card;
-    box-shadow: $shadow-card;
+    border-radius: var.$radius-card;
+    box-shadow: var.$shadow-card;
     padding: 40px;
 
     .header {
-      @include flex-center;
+      @include mix.flex-center;
 
       margin-bottom: 20px;
 
@@ -27,7 +27,7 @@
       }
 
       .icon {
-        @include flex-center;
+        @include mix.flex-center;
 
         margin-left: 20px;
       }
@@ -78,14 +78,15 @@
   width: 100%;
 
   .card {
-    box-shadow: $shadow-card;
+    border-radius: var.$radius-card;
+    box-shadow: var.$shadow-card;
     display: flex;
     flex-direction: column;
     grid-area: map;
     height: 100%;
 
     &:hover {
-      box-shadow: $shadow-card;
+      box-shadow: var.$shadow-card;
     }
   }
 

@@ -1,0 +1,43 @@
+@use '../styles/variables' as var;
+
+.container {
+  align-items: flex-start;
+  display: flex;
+  max-height: calc(100vh - 50px);
+  overflow-y: scroll;
+  padding: 20px;
+  width: 100%;
+
+  .wrapper {
+    display: flex;
+    width: 100%;
+
+    .card {
+      border-radius: var.$radius-card;
+      box-shadow: var.$shadow-card;
+      margin-right: 40px;
+      width: 100%;
+
+      .form {
+        padding: 30px;
+        width: 100%;
+
+        .pathInput,
+        .radioLabel,
+        .textInput,
+        .button {
+          margin-bottom: 10px;
+        }
+
+        .button {
+          background-color: #fff;
+        }
+      }
+    }
+
+    .callout {
+      border-radius: var.$radius-card;
+      width: 340px;
+    }
+  }
+}

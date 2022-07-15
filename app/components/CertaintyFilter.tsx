@@ -2,6 +2,7 @@ import { NumberRange, RangeSlider } from '@blueprintjs/core';
 import React, { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { debounce } from 'lodash';
+import styles from './CertaintyFilter.scss';
 
 type CertaintyFilterProps = {
   updateFilters: Function;
@@ -18,8 +19,8 @@ export default function CertaintyFilter({ updateFilters }: CertaintyFilterProps)
   const debouncedUpdateFilter = useCallback(debounce(updateFilter, 400), []);
 
   return (
-    <div style={{ padding: '0 15px', width: '100%' }}>
-      <h4 style={{ marginBottom: '5px' }}>{t('explore.certaintyRange')}</h4>
+    <div className={styles.container}>
+      <h4 className={styles.label}>{t('explore.certaintyRange')}</h4>
       <RangeSlider
         min={0}
         max={100}

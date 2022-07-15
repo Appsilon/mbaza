@@ -19,10 +19,11 @@ import fs from 'fs';
 import { TFunction } from 'i18next';
 
 import PythonLogViewer from '../components/PythonLogViewer';
+import { openDirectoryDialog } from '../utils/fileDialog';
 import { isDev, isLinux, isWin, rootModelsDirectory } from '../utils/environment';
 import MissingModelsMessage from '../components/MissingModelsMessage';
-
-type changePathChoiceType = (newPath: string) => void;
+import PathInput from '../components/PathInput';
+import styles from './MediaToolsPage.scss';
 
 const toaster = Toaster.create({});
 
@@ -118,26 +119,6 @@ const extractImages = (
   }
 };
 
-const chooseDirectory = (changeDirectoryChoice: changePathChoiceType) => {
-  // eslint-disable-next-line global-require
-  const { dialog } = require('electron').remote;
-  dialog
-    .showOpenDialog({
-      properties: ['openDirectory']
-    })
-    .then(result => {
-      if (!result.canceled) {
-        const directory = result.filePaths[0];
-        changeDirectoryChoice(directory);
-      }
-      return null;
-    })
-    .catch(error => {
-      // eslint-disable-next-line no-alert
-      alert(error);
-    });
-};
-
 const THUMBNAIL_SIZE_LABELS = new Map<number, string>([
   [200, 'tools.thumbnailSizeSmall'],
   [500, 'tools.thumbnailSizeMedium'],
@@ -205,7 +186,7 @@ export default function MediaToolsPage() {
   }
 
   const extractionForm = (
-    <div style={{ padding: '30px 30px', width: '60vw' }}>
+    <div className={styles.form}>
       <RadioGroup
         selectedValue={toolMode}
         onChange={e => setToolMode(e.currentTarget.value as ToolMode)}
@@ -214,52 +195,30 @@ export default function MediaToolsPage() {
         <Radio value="EXTRACT_FRAMES" label={t('tools.extractFramesDetail')} />
         <Radio value="CREATE_THUMBNAILS" label={t('tools.createThumbnailsDetail')} />
       </RadioGroup>
-      <div style={{ marginTop: '30px' }}>{parameterSlider}</div>
-      <div className="bp3-input-group" style={{ marginTop: '30px', marginBottom: '10px' }}>
-        <input
-          type="text"
-          className="bp3-input"
-          placeholder={t('tools.chooseInput')}
-          value={inputDir}
-          onChange={e => {
-            setInputDir(e.target.value);
-          }}
-        />
-        <button
-          aria-label="Search"
-          type="submit"
-          className="bp3-button bp3-minimal bp3-intent-primary bp3-icon-search"
-          onClick={() => {
-            chooseDirectory(setInputDir);
-          }}
-        />
-      </div>
-      <div className="bp3-input-group" style={{ marginBottom: '10px' }}>
-        <input
-          type="text"
-          className="bp3-input"
-          placeholder={t('tools.chooseOutput')}
-          value={outputDir}
-          onChange={e => {
-            setOutputDir(e.target.value);
-          }}
-        />
-        <button
-          aria-label="Search"
-          type="submit"
-          className="bp3-button bp3-minimal bp3-intent-primary bp3-icon-search"
-          onClick={() => {
-            chooseDirectory(setOutputDir);
-          }}
-        />
-      </div>
+      <div className={styles.slider}>{parameterSlider}</div>
+
+      <PathInput
+        className={styles.pathInput}
+        placeholder={t('tools.chooseInput')}
+        value={inputDir}
+        onChange={setInputDir}
+        showDialog={openDirectoryDialog}
+      />
+      <PathInput
+        className={styles.pathInput}
+        placeholder={t('tools.chooseOutput')}
+        value={outputDir}
+        onChange={setOutputDir}
+        showDialog={openDirectoryDialog}
+      />
+
       <Button
+        className={styles.button}
         text={
           toolMode === 'EXTRACT_FRAMES' ? t('tools.extractFrames') : t('tools.createThumbnails')
         }
         onClick={runTool}
         disabled={isRunning || inputDir === '' || outputDir === ''}
-        style={{ marginBottom: '10px', backgroundColor: '#fff' }}
       />
       {exitCode !== undefined || isRunning ? (
         <PythonLogViewer
@@ -276,19 +235,15 @@ export default function MediaToolsPage() {
   );
 
   return (
-    <div style={{ flex: 1, overflowY: 'scroll', maxHeight: 'calc(100vh - 50px)' }}>
-      <div style={{ display: 'flex' }}>
-        <div style={{ flex: 1, padding: '20px' }}>
-          <Card elevation={Elevation.TWO}>
-            <H1>{t('tools.title')}</H1>
-            {rootModelsDirectoryExists ? extractionForm : <MissingModelsMessage />}
-          </Card>
-        </div>
-        <div style={{ flex: 1, padding: '20px' }}>
-          <Callout intent={Intent.PRIMARY}>
-            <Trans i18nKey="tools.info" />
-          </Callout>
-        </div>
+    <div className={styles.container}>
+      <div className={styles.wrapper}>
+        <Card className={styles.card} elevation={Elevation.TWO}>
+          <H1>{t('tools.title')}</H1>
+          {rootModelsDirectoryExists ? extractionForm : <MissingModelsMessage />}
+        </Card>
+        <Callout className={styles.callout} intent={Intent.PRIMARY}>
+          <Trans i18nKey="tools.info" />
+        </Callout>
       </div>
     </div>
   );

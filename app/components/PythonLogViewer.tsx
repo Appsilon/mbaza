@@ -1,5 +1,6 @@
 import React from 'react';
 import { Callout, Card, Elevation, H5, H6, Intent, Pre, Spinner } from '@blueprintjs/core';
+import styles from './PythonLogViewer.scss';
 
 type Props = {
   title: string;
@@ -30,13 +31,13 @@ export default function PythonLogViewer(props: Props) {
     );
 
   return (
-    <Card interactive={false} elevation={Elevation.TWO}>
+    <Card className={styles.card} interactive={false} elevation={Elevation.TWO}>
       <H5>{title}</H5>
-      <Pre style={{ whiteSpace: 'pre-wrap' }}>{logMessage}</Pre>
+      <Pre className={styles.logMessage}>{logMessage}</Pre>
       {isRunning ? (
-        <div style={{ marginTop: '20px', textAlign: 'center' }}>
+        <div className={styles.preloader}>
           <Spinner />
-          <H6 style={{ marginTop: '20px' }}>{progressMessage}</H6>
+          <H6 className={styles.message}>{progressMessage}</H6>
         </div>
       ) : null}
       {exitCode !== undefined ? resultView : null}

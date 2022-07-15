@@ -1,9 +1,49 @@
-/* Config files */
-@import './config/variables';
-@import './config/mixins';
-@import './config/animations';
+/*
+ * @NOTE: Prepend a `~` to css file paths that are in your node_modules
+ *        See https://github.com/webpack-contrib/sass-loader#imports
+ */
 
-/* Components overrides files */
-@import './overrides/navbar';
-@import './overrides/buttons';
-@import './overrides/marker';
+@use './variables' as var;
+
+@import '~@fortawesome/fontawesome-free/css/all.css';
+@import '~normalize.css';
+@import '~@blueprintjs/core/lib/css/blueprint.css';
+@import '~@blueprintjs/icons/lib/css/blueprint-icons.css';
+@import '~mapbox-gl/dist/mapbox-gl.css';
+
+body {
+  background-color: #f8f9fa;
+  font-family: Roboto, Arial, Helvetica, Helvetica Neue, serif;
+  overflow-y: hidden;
+  position: relative;
+}
+
+li {
+  list-style: none;
+}
+
+a {
+  opacity: 1;
+  text-decoration: none;
+
+  &:hover {
+    cursor: pointer;
+    opacity: 1;
+    text-decoration: none;
+  }
+}
+
+.bp3-button.bp3-intent-primary:not(.bp3-minimal) {
+  background-color: var.$c-green-60;
+  border-radius: 5px;
+  box-shadow: none;
+  color: var.$c-green-10;
+
+  &:hover,
+  &:focus,
+  &.bp3-active {
+    background-color: var.$c-green-80;
+    box-shadow: none;
+    outline: none;
+  }
+}

@@ -1,0 +1,28 @@
+.card {
+  margin-top: 10px;
+
+  .heading {
+    margin-top: 0;
+  }
+
+  .body {
+    display: flex;
+
+    .data {
+      margin-left: 24px;
+
+      .predictionOverride {
+        margin-left: 10px;
+        width: 250px;
+      }
+
+      .predictionLabel {
+        margin-bottom: 5px;
+      }
+
+      .photoDetails {
+        margin: 20px 10px;
+      }
+    }
+  }
+}
