@@ -1,12 +1,12 @@
 import React from 'react';
-import { RouteComponentProps, withRouter } from 'react-router';
+import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import styles from './Sidebar.scss';
 
 import SidebarItem from './SidebarItem';
 import { RoutesType } from '../constants/Routes';
 
-interface Props extends RouteComponentProps {
+interface Props {
   routes: RoutesType;
 }
 
@@ -25,9 +25,10 @@ function Footer() {
   );
 }
 
-function Sidebar(props: Props) {
+export default function Sidebar(props: Props) {
   const { routes } = props;
   const { t } = useTranslation();
+  const location = useLocation();
 
   return (
     <div className={styles.container}>
@@ -37,12 +38,10 @@ function Sidebar(props: Props) {
           text={t(routes[key].name)}
           iconName={routes[key].iconName}
           link={routes[key].path}
-          active={props.location.pathname === routes[key].path}
+          active={location.pathname === routes[key].path}
         />
       ))}
       <Footer />
     </div>
   );
 }
-
-export default withRouter(Sidebar);
