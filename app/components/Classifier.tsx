@@ -22,7 +22,7 @@ import { openCsvDialog, openDirectoryDialog, saveCsvDialog } from '../utils/file
 import { isDev, isLinux, isWin, rootModelsDirectory } from '../utils/environment';
 import MissingModelsMessage from './MissingModelsMessage';
 import PathInput from './PathInput';
-import styles from './Classifier.module.scss';
+import styles from './Classifier.scss';
 
 const toaster = Toaster.create({});
 

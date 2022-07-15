@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation, Trans } from 'react-i18next';
 import { Card, Elevation, Callout, Intent } from '@blueprintjs/core';
 
-import styles from './HomePage.module.scss';
+import styles from './HomePage.scss';
 
 export default function HomePage() {
   const { t } = useTranslation();

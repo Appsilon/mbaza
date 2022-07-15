@@ -5,7 +5,7 @@ import mapboxgl from 'mapbox-gl';
 import _ from 'lodash';
 import { Button, Position, Tooltip } from '@blueprintjs/core';
 import ReactDOM from 'react-dom';
-import styles from './Map.module.scss';
+import styles from './Map.scss';
 import AnimalsListTooltipContent from './AnimalsListTooltipContent';
 import { EmptyClasses } from '../constants/animalsClasses';
 

@@ -3,7 +3,7 @@ import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Icon, IconName, Card, Elevation, Tooltip, Position } from '@blueprintjs/core';
 import AnimalsListTooltipContent from './AnimalsListTooltipContent';
-import styles from './ExplorerMetrics.module.scss';
+import styles from './ExplorerMetrics.scss';
 
 type Props = {
   data: Observation[];

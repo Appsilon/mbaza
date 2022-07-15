@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Select from 'react-select';
 import CertaintyFilter from './CertaintyFilter';
-import styles from './ExplorerFilters.module.scss';
+import styles from './ExplorerFilters.scss';
 
 type Props = {
   observations: Observation[];

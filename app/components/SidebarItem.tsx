@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@blueprintjs/core';
 import { IconName } from '@blueprintjs/icons';
-import styles from './SidebarItem.module.scss';
+import styles from './SidebarItem.scss';
 
 type Props = {
   iconName: IconName;

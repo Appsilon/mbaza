@@ -30,7 +30,7 @@ import writeCorrectedCsv from '../utils/writeCorrectedCsv';
 import readObservationsCsv from '../utils/readObservationsCsv';
 import ExploreHeader from '../components/ExploreHeader';
 import computeEvents from '../utils/computeEvents';
-import styles from './ExplorePage.module.scss';
+import styles from './ExplorePage.scss';
 import exportDarwinCore from '../utils/exportDarwinCore';
 import exportPhotos from '../utils/exportPhotos';
 
