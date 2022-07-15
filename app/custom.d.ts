@@ -12,3 +12,5 @@ declare module '*.svg' {
 }
 declare module 'react-select';
 declare module 'react-select/creatable';
+declare module 'react-window';
+declare module 'react-window-infinite-loader';
