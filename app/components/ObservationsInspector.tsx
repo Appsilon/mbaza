@@ -3,6 +3,8 @@ import { Card, Classes, Drawer, Elevation, Position, Tooltip } from '@blueprintj
 import { useTranslation } from 'react-i18next';
 import path from 'path';
 import CreatableSelect from 'react-select/creatable';
+import { ListOnItemsRenderedProps, FixedSizeList } from 'react-window';
+import InfiniteLoader from 'react-window-infinite-loader';
 
 import { formatAnimalClassName } from '../constants/animalsClasses';
 import { taxonOptions } from '../constants/taxons';
@@ -114,6 +116,54 @@ type ObservationsInspectorProps = {
   onPredictionOverride: PredictionOverrideHandler;
 };
 
+const LOADING = 1;
+const LOADED = 2;
+const itemStatusMap: number[] = [];
+
+const isItemLoaded = (index: number) => !!itemStatusMap[index];
+const loadMoreItems = (startIndex: number, stopIndex: number): Promise<void> => {
+  for (let index = startIndex; index <= stopIndex; index += 1) {
+    itemStatusMap[index] = LOADING;
+  }
+  return new Promise(resolve =>
+    setTimeout(() => {
+      for (let index = startIndex; index <= stopIndex; index += 1) {
+        itemStatusMap[index] = LOADED;
+      }
+      resolve();
+    }, 1000)
+  );
+};
+
+type ObservationRowProps = {
+  index: number;
+  style: React.CSSProperties;
+  data: {
+    observations: Observation[];
+    predictionOverrides: PredictionOverridesMap;
+    onPredictionOverride: PredictionOverrideHandler;
+  };
+};
+
+const ObservationRow = ({ index, style, data }: ObservationRowProps) => {
+  const { observations, predictionOverrides, onPredictionOverride } = data;
+  const observation = observations[index];
+
+  if (observation === undefined) return false;
+  return itemStatusMap[index] === LOADED ? (
+    <div style={style}>
+      <ObservationCard
+        key={observation.location}
+        observation={observation}
+        predictionOverride={predictionOverrides[observation.location]}
+        onPredictionOverride={onPredictionOverride}
+      />
+    </div>
+  ) : (
+    <div style={style}>Still loading</div>
+  );
+};
+
 export default function ObservationsInspector(props: ObservationsInspectorProps) {
   const { observations, onClose, predictionOverrides, onPredictionOverride } = props;
   const { t } = useTranslation();
@@ -133,14 +183,26 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
     >
       <div className={Classes.DRAWER_BODY}>
         <div className={Classes.DIALOG_BODY}>
-          {observations.map(observation => (
-            <ObservationCard
-              key={observation.location}
-              observation={observation}
-              predictionOverride={predictionOverrides[observation.location]}
-              onPredictionOverride={onPredictionOverride}
-            />
-          ))}
+          <InfiniteLoader isItemLoaded={isItemLoaded} itemCount={650} loadMoreItems={loadMoreItems}>
+            {({ onItemsRendered, ref }: { onItemsRendered: () => {}; ref: (ref: {}) => void }) => (
+              <FixedSizeList
+                className="List"
+                height={900}
+                itemCount={650}
+                itemData={{
+                  observations,
+                  predictionOverrides,
+                  onPredictionOverride
+                }}
+                itemSize={380}
+                onItemsRendered={onItemsRendered}
+                ref={ref}
+                width={600}
+              >
+                {ObservationRow}
+              </FixedSizeList>
+            )}
+          </InfiniteLoader>
         </div>
       </div>
       <div className={Classes.DRAWER_FOOTER}>
