@@ -1,3 +1,5 @@
+@use '../styles/variables' as var;
+
 .drawer {
   .drawer-body {
     overflow: hidden;
@@ -5,37 +7,72 @@
 
   .dialog-body {
     height: 100%;
+    margin: 0;
 
-    & > .List {
+    .list {
       height: 100%;
-    }
-  }
-}
+      margin: 0;
 
-.card {
-  margin-top: 10px;
+      .observation {
+        padding: 10px 20px;
+        transition: opacity var.$t-observation-card, visibility 0s var.$t-observation-card;
 
-  .heading {
-    margin-top: 0;
-  }
+        .card {
+          border-radius: var.$radius-card;
+          box-shadow: var.$shadow-card;
 
-  .body {
-    display: flex;
+          .heading {
+            margin-top: 0;
+          }
 
-    .data {
-      margin-left: 24px;
+          .body {
+            display: flex;
 
-      .predictionOverride {
-        margin-left: 10px;
-        width: 250px;
-      }
+            .photo {
+              border-radius: var.$radius-card;
+              height: auto;
+              max-height: 270px;
+              overflow: hidden;
 
-      .predictionLabel {
-        margin-bottom: 5px;
-      }
+              img {
+                border-radius: var.$radius-card;
+              }
+            }
 
-      .photoDetails {
-        margin: 20px 10px;
+            .data {
+              margin-left: 24px;
+
+              .predictionOverride {
+                margin-left: 10px;
+                width: 100%;
+              }
+
+              .predictionLabel {
+                margin-bottom: 5px;
+              }
+
+              .photoDetails {
+                margin: 20px 10px;
+              }
+            }
+          }
+        }
+
+        &.loading {
+          & > .card > .body > .photo {
+            opacity: 0;
+            visibility: hidden;
+          }
+        }
+
+        &.loaded {
+          opacity: 1;
+          transition: opacity var.$t-observation-card, visibility 0s;
+        }
+
+        &.scrolling {
+          opacity: 0.8;
+        }
       }
     }
   }

@@ -6,6 +6,7 @@ import CreatableSelect from 'react-select/creatable';
 import { FixedSizeList } from 'react-window';
 import InfiniteLoader from 'react-window-infinite-loader';
 import AutoSizer from 'react-virtualized-auto-sizer';
+import classNames from 'classnames/bind';
 
 import { formatAnimalClassName } from '../constants/animalsClasses';
 import { taxonOptions } from '../constants/taxons';
@@ -97,7 +98,7 @@ function ObservationCard(props: ObservationCardProps) {
         })}
       </h3>
       <div className={styles.body}>
-        <div>
+        <div className={styles.photo}>
           <img src={observation.location} width={400} alt={observation.pred_1} />
         </div>
         <div className={styles.data}>
@@ -132,12 +133,13 @@ const loadMoreItems = (startIndex: number, stopIndex: number): Promise<void> => 
         itemStatusMap[index] = LOADED;
       }
       resolve();
-    }, 1000)
+    }, 2000)
   );
 };
 
 type ObservationRowProps = {
   index: number;
+  isScrolling: boolean;
   style: React.CSSProperties;
   data: {
     observations: Observation[];
@@ -146,13 +148,21 @@ type ObservationRowProps = {
   };
 };
 
-const ObservationRow = ({ index, style, data }: ObservationRowProps) => {
+const ObservationRow = ({ index, isScrolling, style, data }: ObservationRowProps) => {
   const { observations, predictionOverrides, onPredictionOverride } = data;
   const observation = observations[index];
-
   if (observation === undefined) return false;
-  return itemStatusMap[index] === LOADED ? (
-    <div style={style}>
+
+  const cx = classNames.bind(styles);
+  const observationRowClass = cx({
+    observation: true,
+    loading: itemStatusMap[index] === LOADING,
+    loaded: itemStatusMap[index] === LOADED,
+    scrolling: isScrolling && itemStatusMap[index] === LOADED
+  });
+
+  return (
+    <div style={style} className={observationRowClass}>
       <ObservationCard
         key={observation.location}
         observation={observation}
@@ -160,8 +170,6 @@ const ObservationRow = ({ index, style, data }: ObservationRowProps) => {
         onPredictionOverride={onPredictionOverride}
       />
     </div>
-  ) : (
-    <div style={style}>Still loading</div>
   );
 };
 
@@ -185,13 +193,18 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
     >
       <div className={`${Classes.DRAWER_BODY} ${styles['drawer-body']}`}>
         <div className={`${Classes.DIALOG_BODY} ${styles['dialog-body']}`}>
-          <InfiniteLoader isItemLoaded={isItemLoaded} itemCount={650} loadMoreItems={loadMoreItems}>
-            {/* The types here should work after installation */}
+          <InfiniteLoader
+            isItemLoaded={isItemLoaded}
+            itemCount={observations.length}
+            loadMoreItems={loadMoreItems}
+          >
+            {/* TODO: Installed types definitions don't work in the line below */}
             {({ onItemsRendered, ref }: { onItemsRendered: () => {}; ref: (ref: {}) => void }) => (
               <AutoSizer>
+                {/* TODO: Installed types definitions don't work in the line below */}
                 {({ height, width }: { height: number; width: number }) => (
                   <FixedSizeList
-                    className="List"
+                    className={styles.list}
                     height={height}
                     itemCount={observations.length}
                     itemData={{
@@ -203,6 +216,7 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
                     onItemsRendered={onItemsRendered}
                     ref={ref}
                     width={width}
+                    useIsScrolling
                   >
                     {ObservationRow}
                   </FixedSizeList>
