@@ -6,6 +6,7 @@ import CreatableSelect from 'react-select/creatable';
 import { FixedSizeList } from 'react-window';
 import InfiniteLoader from 'react-window-infinite-loader';
 import AutoSizer from 'react-virtualized-auto-sizer';
+import BeatLoader from 'react-spinners/BeatLoader';
 import classNames from 'classnames/bind';
 
 import { formatAnimalClassName } from '../constants/animalsClasses';
@@ -99,7 +100,13 @@ function ObservationCard(props: ObservationCardProps) {
       </h3>
       <div className={styles.body}>
         <div className={styles.photo}>
-          <img src={observation.location} width={400} alt={observation.pred_1} />
+          <img
+            className={styles.img}
+            src={observation.location}
+            width={360}
+            alt={observation.pred_1}
+          />
+          <BeatLoader className={styles.loader} color="#263738" loading size={15} />
         </div>
         <div className={styles.data}>
           {predictionsTable}
@@ -133,7 +140,7 @@ const loadMoreItems = (startIndex: number, stopIndex: number): Promise<void> => 
         itemStatusMap[index] = LOADED;
       }
       resolve();
-    }, 2000)
+    }, 500)
   );
 };
 

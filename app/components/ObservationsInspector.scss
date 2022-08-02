@@ -1,6 +1,8 @@
 @use '../styles/variables' as var;
 
 .drawer {
+  width: 750px !important; // overriding specificity would be too complicated
+
   .drawer-body {
     overflow: hidden;
   }
@@ -8,6 +10,7 @@
   .dialog-body {
     height: 100%;
     margin: 0;
+    padding: 10px 0;
 
     .list {
       height: 100%;
@@ -20,6 +23,7 @@
         .card {
           border-radius: var.$radius-card;
           box-shadow: var.$shadow-card;
+          height: auto;
 
           .heading {
             margin-top: 0;
@@ -29,18 +33,33 @@
             display: flex;
 
             .photo {
+              align-items: start;
               border-radius: var.$radius-card;
+              display: flex;
               height: auto;
+              justify-content: center;
               max-height: 270px;
               overflow: hidden;
+              position: relative;
 
-              img {
+              .img {
                 border-radius: var.$radius-card;
+                transition: opacity var.$t-observation-card, visibility 0s;
+              }
+
+              .loader {
+                margin-top: 30%;
+                position: absolute;
+                transition: opacity var.$t-observation-card, visibility 0s;
               }
             }
 
             .data {
               margin-left: 24px;
+
+              :global .bp3-popover-target {
+                display: flex;
+              }
 
               .predictionOverride {
                 margin-left: 10px;
@@ -60,14 +79,30 @@
 
         &.loading {
           & > .card > .body > .photo {
-            opacity: 0;
-            visibility: hidden;
+            .img {
+              opacity: 0;
+              visibility: hidden;
+            }
+
+            .loader {
+              opacity: 1;
+              visibility: visible;
+            }
           }
         }
 
         &.loaded {
-          opacity: 1;
-          transition: opacity var.$t-observation-card, visibility 0s;
+          & > .card > .body > .photo {
+            .img {
+              opacity: 1;
+              visibility: visible;
+            }
+
+            .loader {
+              opacity: 0;
+              visibility: hidden;
+            }
+          }
         }
 
         &.scrolling {

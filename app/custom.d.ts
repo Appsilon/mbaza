@@ -15,3 +15,4 @@ declare module 'react-select/creatable';
 declare module 'react-window';
 declare module 'react-window-infinite-loader';
 declare module 'react-virtualized-auto-sizer';
+declare module 'react-spinners';
