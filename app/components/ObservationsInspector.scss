@@ -1,3 +1,17 @@
+.drawer {
+  .drawer-body {
+    overflow: hidden;
+  }
+
+  .dialog-body {
+    height: 100%;
+
+    & > .List {
+      height: 100%;
+    }
+  }
+}
+
 .card {
   margin-top: 10px;
 

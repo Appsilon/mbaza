@@ -3,8 +3,9 @@ import { Card, Classes, Drawer, Elevation, Position, Tooltip } from '@blueprintj
 import { useTranslation } from 'react-i18next';
 import path from 'path';
 import CreatableSelect from 'react-select/creatable';
-import { ListOnItemsRenderedProps, FixedSizeList } from 'react-window';
+import { FixedSizeList } from 'react-window';
 import InfiniteLoader from 'react-window-infinite-loader';
+import AutoSizer from 'react-virtualized-auto-sizer';
 
 import { formatAnimalClassName } from '../constants/animalsClasses';
 import { taxonOptions } from '../constants/taxons';
@@ -175,32 +176,38 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
       title={t('explore.inspect.header', {
         station: observations[0].station
       })}
+      className={styles.drawer}
       icon="camera"
       isOpen={observations.length > 0}
       onClose={onClose}
       // Workaround: without this setting, clearning prediction override closes the drawer.
       canOutsideClickClose={false}
     >
-      <div className={Classes.DRAWER_BODY}>
-        <div className={Classes.DIALOG_BODY}>
+      <div className={`${Classes.DRAWER_BODY} ${styles['drawer-body']}`}>
+        <div className={`${Classes.DIALOG_BODY} ${styles['dialog-body']}`}>
           <InfiniteLoader isItemLoaded={isItemLoaded} itemCount={650} loadMoreItems={loadMoreItems}>
+            {/* The types here should work after installation */}
             {({ onItemsRendered, ref }: { onItemsRendered: () => {}; ref: (ref: {}) => void }) => (
-              <FixedSizeList
-                className="List"
-                height={900}
-                itemCount={650}
-                itemData={{
-                  observations,
-                  predictionOverrides,
-                  onPredictionOverride
-                }}
-                itemSize={380}
-                onItemsRendered={onItemsRendered}
-                ref={ref}
-                width={600}
-              >
-                {ObservationRow}
-              </FixedSizeList>
+              <AutoSizer>
+                {({ height, width }: { height: number; width: number }) => (
+                  <FixedSizeList
+                    className="List"
+                    height={height}
+                    itemCount={observations.length}
+                    itemData={{
+                      observations,
+                      predictionOverrides,
+                      onPredictionOverride
+                    }}
+                    itemSize={380}
+                    onItemsRendered={onItemsRendered}
+                    ref={ref}
+                    width={width}
+                  >
+                    {ObservationRow}
+                  </FixedSizeList>
+                )}
+              </AutoSizer>
             )}
           </InfiniteLoader>
         </div>
