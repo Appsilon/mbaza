@@ -205,11 +205,9 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
             itemCount={observations.length}
             loadMoreItems={loadMoreItems}
           >
-            {/* TODO: Installed types definitions don't work in the line below */}
-            {({ onItemsRendered, ref }: { onItemsRendered: () => {}; ref: (ref: {}) => void }) => (
+            {({ onItemsRendered, ref }) => (
               <AutoSizer>
-                {/* TODO: Installed types definitions don't work in the line below */}
-                {({ height, width }: { height: number; width: number }) => (
+                {({ height, width }) => (
                   <FixedSizeList
                     className={styles.list}
                     height={height}
