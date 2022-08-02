@@ -68,11 +68,13 @@ const createWindow = async () => {
     width: 1024,
     height: 728,
     icon: getAssetPath('icon.png'),
+    // TODO: Use default (safer) web preferences.
     webPreferences: {
-      preload: app.isPackaged
-        ? path.join(__dirname, 'preload.js')
-        : path.join(__dirname, '../../.erb/dll/preload.js'),
-      sandbox: false,
+      // Allows the renderer to use Node.js APIs, e.g. `fs` and `child_process`.
+      contextIsolation: false,
+      nodeIntegration: true,
+      // Allows the renderer to access local files via `file://` (e.g. images).
+      webSecurity: false,
     },
   });
 
