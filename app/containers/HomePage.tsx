@@ -36,10 +36,7 @@ export default function HomePage() {
             src="assets/logos/stirling.png"
             alt="University of Stirling"
           />
-          <div className={styles.logo}>
-            <img src="assets/logos/ue.png" alt="European Union" />
-            <span className={styles.label}>ECOFAC6</span>
-          </div>
+          <img className={styles.logo} src="assets/logos/ue.png" alt="European Union" />
           <img
             className={styles.logo}
             src="assets/logos/appsilon-color.png"
