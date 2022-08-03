@@ -37,6 +37,7 @@ export default function HomePage() {
             alt="University of Stirling"
           />
           <img className={styles.logo} src="assets/logos/ue.png" alt="European Union" />
+          <img className={styles.logo} src="assets/logos/gcrf-trade-hub.png" alt="GCRF TRADE Hub" />
           <img
             className={styles.logo}
             src="assets/logos/appsilon-color.png"
