@@ -146,7 +146,7 @@ const loadMoreItems = (startIndex: number, stopIndex: number): Promise<void> => 
 
 type ObservationRowProps = {
   index: number;
-  isScrolling: boolean;
+  isScrolling?: boolean;
   style: React.CSSProperties;
   data: {
     observations: Observation[];
@@ -158,7 +158,6 @@ type ObservationRowProps = {
 const ObservationRow = ({ index, isScrolling, style, data }: ObservationRowProps) => {
   const { observations, predictionOverrides, onPredictionOverride } = data;
   const observation = observations[index];
-  if (observation === undefined) return false;
 
   const cx = classNames.bind(styles);
   const observationRowClass = cx({

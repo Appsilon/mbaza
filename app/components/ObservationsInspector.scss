@@ -1,11 +1,13 @@
 @use '../styles/variables' as var;
 
+$t-observation-card: 0.5s;
+
 .drawer {
-  .drawer-body {
+  .drawerBody {
     overflow: hidden;
   }
 
-  .dialog-body {
+  .dialogBody {
     height: 100%;
     margin: 0;
     padding: 10px 0;
@@ -16,7 +18,7 @@
 
       .observation {
         padding: 10px 20px;
-        transition: opacity var.$t-observation-card, visibility 0s var.$t-observation-card;
+        transition: opacity $t-observation-card, visibility 0s $t-observation-card;
 
         .card {
           border-radius: var.$radius-card;
@@ -42,13 +44,13 @@
 
               .img {
                 border-radius: var.$radius-card;
-                transition: opacity var.$t-observation-card, visibility 0s;
+                transition: opacity $t-observation-card, visibility 0s;
               }
 
               .loader {
                 margin-top: 30%;
                 position: absolute;
-                transition: opacity var.$t-observation-card, visibility 0s;
+                transition: opacity $t-observation-card, visibility 0s;
               }
             }
 
