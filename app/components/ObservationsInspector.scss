@@ -61,28 +61,6 @@ $t-observation-card: 0.5s;
             }
           }
         }
-
-        &.loading {
-          & > .card > .body > .photo {
-            .img {
-              opacity: 0;
-              visibility: hidden;
-            }
-          }
-        }
-
-        &.loaded {
-          & > .card > .body > .photo {
-            .img {
-              opacity: 1;
-              visibility: visible;
-            }
-          }
-        }
-
-        &.scrolling {
-          opacity: 0.8;
-        }
       }
     }
   }

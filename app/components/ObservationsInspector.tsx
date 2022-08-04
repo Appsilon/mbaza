@@ -4,9 +4,7 @@ import { useTranslation } from 'react-i18next';
 import path from 'path';
 import CreatableSelect from 'react-select/creatable';
 import { FixedSizeList } from 'react-window';
-import InfiniteLoader from 'react-window-infinite-loader';
 import AutoSizer from 'react-virtualized-auto-sizer';
-import classNames from 'classnames/bind';
 
 import { formatAnimalClassName } from '../constants/animalsClasses';
 import { taxonOptions } from '../constants/taxons';
@@ -123,28 +121,8 @@ type ObservationsInspectorProps = {
   onPredictionOverride: PredictionOverrideHandler;
 };
 
-const LOADING = 1;
-const LOADED = 2;
-const itemStatusMap: number[] = [];
-
-const isItemLoaded = (index: number) => !!itemStatusMap[index];
-const loadMoreItems = (startIndex: number, stopIndex: number): Promise<void> => {
-  for (let index = startIndex; index <= stopIndex; index += 1) {
-    itemStatusMap[index] = LOADING;
-  }
-  return new Promise(resolve =>
-    setTimeout(() => {
-      for (let index = startIndex; index <= stopIndex; index += 1) {
-        itemStatusMap[index] = LOADED;
-      }
-      resolve();
-    }, 500)
-  );
-};
-
 type ObservationRowProps = {
   index: number;
-  isScrolling?: boolean;
   style: React.CSSProperties;
   data: {
     observations: Observation[];
@@ -153,20 +131,11 @@ type ObservationRowProps = {
   };
 };
 
-const ObservationRow = ({ index, isScrolling, style, data }: ObservationRowProps) => {
+const ObservationRow = ({ index, style, data }: ObservationRowProps) => {
   const { observations, predictionOverrides, onPredictionOverride } = data;
   const observation = observations[index];
-
-  const cx = classNames.bind(styles);
-  const observationRowClass = cx({
-    observation: true,
-    loading: itemStatusMap[index] === LOADING,
-    loaded: itemStatusMap[index] === LOADED,
-    scrolling: isScrolling && itemStatusMap[index] === LOADED
-  });
-
   return (
-    <div style={style} className={observationRowClass}>
+    <div style={style} className={styles.observation}>
       <ObservationCard
         key={observation.location}
         observation={observation}
@@ -196,37 +165,26 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
       canOutsideClickClose={false}
       size={750}
     >
-      <div className={`${Classes.DRAWER_BODY} ${styles['drawer-body']}`}>
-        <div className={`${Classes.DIALOG_BODY} ${styles['dialog-body']}`}>
-          <InfiniteLoader
-            isItemLoaded={isItemLoaded}
-            itemCount={observations.length}
-            loadMoreItems={loadMoreItems}
-          >
-            {({ onItemsRendered, ref }) => (
-              <AutoSizer>
-                {({ height, width }) => (
-                  <FixedSizeList
-                    className={styles.list}
-                    height={height}
-                    itemCount={observations.length}
-                    itemData={{
-                      observations,
-                      predictionOverrides,
-                      onPredictionOverride
-                    }}
-                    itemSize={380}
-                    onItemsRendered={onItemsRendered}
-                    ref={ref}
-                    width={width}
-                    useIsScrolling
-                  >
-                    {ObservationRow}
-                  </FixedSizeList>
-                )}
-              </AutoSizer>
+      <div className={`${Classes.DRAWER_BODY} ${styles.drawerBody}`}>
+        <div className={`${Classes.DIALOG_BODY} ${styles.dialogBody}`}>
+          <AutoSizer>
+            {({ height, width }) => (
+              <FixedSizeList
+                className={styles.list}
+                height={height}
+                itemCount={observations.length}
+                itemData={{
+                  observations,
+                  predictionOverrides,
+                  onPredictionOverride
+                }}
+                itemSize={380}
+                width={width}
+              >
+                {ObservationRow}
+              </FixedSizeList>
             )}
-          </InfiniteLoader>
+          </AutoSizer>
         </div>
       </div>
       <div className={Classes.DRAWER_FOOTER}>
