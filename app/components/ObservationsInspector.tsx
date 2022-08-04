@@ -6,7 +6,6 @@ import CreatableSelect from 'react-select/creatable';
 import { FixedSizeList } from 'react-window';
 import InfiniteLoader from 'react-window-infinite-loader';
 import AutoSizer from 'react-virtualized-auto-sizer';
-import BeatLoader from 'react-spinners/BeatLoader';
 import classNames from 'classnames/bind';
 
 import { formatAnimalClassName } from '../constants/animalsClasses';
@@ -106,7 +105,6 @@ function ObservationCard(props: ObservationCardProps) {
             width={360}
             alt={observation.pred_1}
           />
-          <BeatLoader className={styles.loader} color="#263738" loading size={15} />
         </div>
         <div className={styles.data}>
           {predictionsTable}

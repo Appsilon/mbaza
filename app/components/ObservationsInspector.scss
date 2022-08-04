@@ -33,23 +33,8 @@ $t-observation-card: 0.5s;
             display: flex;
 
             .photo {
-              align-items: start;
-              border-radius: var.$radius-card;
-              display: flex;
-              height: auto;
-              justify-content: center;
-              max-height: 270px;
-              overflow: hidden;
-              position: relative;
-
               .img {
                 border-radius: var.$radius-card;
-                transition: opacity $t-observation-card, visibility 0s;
-              }
-
-              .loader {
-                margin-top: 30%;
-                position: absolute;
                 transition: opacity $t-observation-card, visibility 0s;
               }
             }
@@ -83,11 +68,6 @@ $t-observation-card: 0.5s;
               opacity: 0;
               visibility: hidden;
             }
-
-            .loader {
-              opacity: 1;
-              visibility: visible;
-            }
           }
         }
 
@@ -96,11 +76,6 @@ $t-observation-card: 0.5s;
             .img {
               opacity: 1;
               visibility: visible;
-            }
-
-            .loader {
-              opacity: 0;
-              visibility: hidden;
             }
           }
         }
