@@ -3,6 +3,8 @@ import { Card, Classes, Drawer, Elevation, Position, Tooltip } from '@blueprintj
 import { useTranslation } from 'react-i18next';
 import path from 'path';
 import CreatableSelect from 'react-select/creatable';
+import { FixedSizeList } from 'react-window';
+import AutoSizer from 'react-virtualized-auto-sizer';
 
 import { formatAnimalClassName } from '../constants/animalsClasses';
 import { taxonOptions } from '../constants/taxons';
@@ -94,8 +96,13 @@ function ObservationCard(props: ObservationCardProps) {
         })}
       </h3>
       <div className={styles.body}>
-        <div>
-          <img src={observation.location} width={400} alt={observation.pred_1} />
+        <div className={styles.photo}>
+          <img
+            className={styles.img}
+            src={observation.location}
+            width={360}
+            alt={observation.pred_1}
+          />
         </div>
         <div className={styles.data}>
           {predictionsTable}
@@ -114,6 +121,31 @@ type ObservationsInspectorProps = {
   onPredictionOverride: PredictionOverrideHandler;
 };
 
+type ObservationRowProps = {
+  index: number;
+  style: React.CSSProperties;
+  data: {
+    observations: Observation[];
+    predictionOverrides: PredictionOverridesMap;
+    onPredictionOverride: PredictionOverrideHandler;
+  };
+};
+
+const ObservationRow = ({ index, style, data }: ObservationRowProps) => {
+  const { observations, predictionOverrides, onPredictionOverride } = data;
+  const observation = observations[index];
+  return (
+    <div style={style} className={styles.observation}>
+      <ObservationCard
+        key={observation.location}
+        observation={observation}
+        predictionOverride={predictionOverrides[observation.location]}
+        onPredictionOverride={onPredictionOverride}
+      />
+    </div>
+  );
+};
+
 export default function ObservationsInspector(props: ObservationsInspectorProps) {
   const { observations, onClose, predictionOverrides, onPredictionOverride } = props;
   const { t } = useTranslation();
@@ -125,22 +157,34 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
       title={t('explore.inspect.header', {
         station: observations[0].station
       })}
+      className={styles.drawer}
       icon="camera"
       isOpen={observations.length > 0}
       onClose={onClose}
       // Workaround: without this setting, clearning prediction override closes the drawer.
       canOutsideClickClose={false}
+      size={750}
     >
-      <div className={Classes.DRAWER_BODY}>
-        <div className={Classes.DIALOG_BODY}>
-          {observations.map(observation => (
-            <ObservationCard
-              key={observation.location}
-              observation={observation}
-              predictionOverride={predictionOverrides[observation.location]}
-              onPredictionOverride={onPredictionOverride}
-            />
-          ))}
+      <div className={`${Classes.DRAWER_BODY} ${styles.drawerBody}`}>
+        <div className={`${Classes.DIALOG_BODY} ${styles.dialogBody}`}>
+          <AutoSizer>
+            {({ height, width }) => (
+              <FixedSizeList
+                className={styles.list}
+                height={height}
+                itemCount={observations.length}
+                itemData={{
+                  observations,
+                  predictionOverrides,
+                  onPredictionOverride
+                }}
+                itemSize={380}
+                width={width}
+              >
+                {ObservationRow}
+              </FixedSizeList>
+            )}
+          </AutoSizer>
         </div>
       </div>
       <div className={Classes.DRAWER_FOOTER}>
