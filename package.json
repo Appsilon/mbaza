@@ -64,7 +64,6 @@
   },
   "browserslist": [],
   "prettier": {
-    "singleQuote": true,
     "overrides": [
       {
         "files": [
@@ -75,7 +74,9 @@
           "parser": "json"
         }
       }
-    ]
+    ],
+    "printWidth": 100,
+    "singleQuote": true
   },
   "jest": {
     "moduleDirectories": [
