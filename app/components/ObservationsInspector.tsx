@@ -1,4 +1,4 @@
-import { Card, Classes, Drawer, Elevation, Position, Tooltip } from '@blueprintjs/core';
+import { Button, Card, Classes, Drawer, Elevation, Position, Tooltip } from '@blueprintjs/core';
 import path from 'path';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -87,14 +87,14 @@ function ObservationCard(props: ObservationCardProps) {
   return (
     <div className={styles.observation}>
       <Card className={styles.card} elevation={Elevation.TWO} key={observation.location}>
-        <h3 className={styles.heading}>
+        <h5 className={styles.heading}>
           {t('explore.inspect.photoHeader', {
             species: formatAnimalClassName(
               predictionOverride ? predictionOverride.value : observation.pred_1
             ),
             date: observation.date
           })}
-        </h3>
+        </h5>
         <div className={styles.body}>
           <div className={styles.photo}>
             <img
@@ -130,11 +130,7 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
   }
   return (
     <Drawer
-      title={t('explore.inspect.header', {
-        station: observations[0].station
-      })}
       className={styles.drawer}
-      icon="camera"
       isOpen={observations.length > 0}
       onClose={onClose}
       // Workaround: without this setting, clearning prediction override closes the drawer.
@@ -142,7 +138,23 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
       size="100%"
       transitionName="opacity"
       usePortal={false}
+      hasBackdrop={false}
     >
+      <div className={`${Classes.DRAWER_HEADER} ${styles.drawerHeader}`}>
+        <Button
+          className={styles.backButton}
+          icon="chevron-left"
+          minimal
+          alignText="left"
+          onClick={onClose}
+          text={t('explore.backToMap')}
+        />
+        <h4 className={styles.heading}>
+          {t('explore.inspect.header', {
+            station: observations[0].station
+          })}
+        </h4>
+      </div>
       <div className={`${Classes.DRAWER_BODY} ${styles.drawerBody}`}>
         <div className={`${Classes.DIALOG_BODY} ${styles.dialogBody}`}>
           <Virtuoso
