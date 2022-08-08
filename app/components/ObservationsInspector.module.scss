@@ -1,7 +1,5 @@
 @use '../styles/variables' as var;
 
-$t-observation-card: 0.5s;
-
 .drawer {
   .drawerHeader {
     background-color: var.$c-green-60;
@@ -54,55 +52,6 @@ $t-observation-card: 0.5s;
     .list {
       height: 100%;
       margin: 0;
-
-      .observation {
-        padding: 10px 20px;
-        transition: opacity $t-observation-card, visibility 0s $t-observation-card;
-
-        .card {
-          border-radius: var.$radius-card;
-          box-shadow: var.$shadow-card;
-          height: auto;
-
-          .heading {
-            margin: 0 0 1rem;
-            font-size: 1rem;
-            font-weight: 700;
-          }
-
-          .body {
-            display: flex;
-
-            .photo {
-              .img {
-                border-radius: var.$radius-card;
-                transition: opacity $t-observation-card, visibility 0s;
-              }
-            }
-
-            .data {
-              margin-left: 24px;
-
-              :global .bp3-popover-target {
-                display: flex;
-              }
-
-              .predictionOverride {
-                margin-left: 10px;
-                width: 100%;
-              }
-
-              .predictionLabel {
-                margin-bottom: 5px;
-              }
-
-              .photoDetails {
-                margin: 20px 10px;
-              }
-            }
-          }
-        }
-      }
     }
   }
 }
