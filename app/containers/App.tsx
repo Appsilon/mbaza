@@ -4,7 +4,7 @@ import { Navbar, Alignment, Button, Popover, Menu, MenuItem } from '@blueprintjs
 
 import { routes } from '../constants/Routes';
 import Sidebar from '../components/Sidebar';
-import styles from './App.scss';
+import styles from './App.module.scss';
 import useAnalytics from '../utils/useAnalytics';
 
 type Props = {
