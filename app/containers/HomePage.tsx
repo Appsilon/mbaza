@@ -1,8 +1,8 @@
+import { Callout, Card, Elevation, Intent } from '@blueprintjs/core';
 import React from 'react';
-import { useTranslation, Trans } from 'react-i18next';
-import { Card, Elevation, Callout, Intent } from '@blueprintjs/core';
+import { Trans, useTranslation } from 'react-i18next';
 
-import styles from './HomePage.scss';
+import styles from './HomePage.module.scss';
 
 export default function HomePage() {
   const { t } = useTranslation();

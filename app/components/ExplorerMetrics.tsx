@@ -1,9 +1,9 @@
+import { Card, Elevation, Icon, IconName, Position, Tooltip } from '@blueprintjs/core';
 import * as React from 'react';
-
 import { useTranslation } from 'react-i18next';
-import { Icon, IconName, Card, Elevation, Tooltip, Position } from '@blueprintjs/core';
+
 import AnimalsListTooltipContent from './AnimalsListTooltipContent';
-import styles from './ExplorerMetrics.scss';
+import styles from './ExplorerMetrics.module.scss';
 
 type Props = {
   data: Observation[];

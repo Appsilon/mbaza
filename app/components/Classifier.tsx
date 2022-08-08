@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
 import {
   Button,
+  Callout,
   Card,
   Elevation,
   H1,
@@ -8,21 +8,21 @@ import {
   Intent,
   Radio,
   RadioGroup,
-  Toaster,
-  Callout
+  Toaster
 } from '@blueprintjs/core';
-import { useTranslation, Trans } from 'react-i18next';
-import path from 'path';
-import { spawn, ChildProcessWithoutNullStreams } from 'child_process';
+import { ChildProcessWithoutNullStreams, spawn } from 'child_process';
 import fs from 'fs';
 import { TFunction } from 'i18next';
+import path from 'path';
+import React, { useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 
-import PythonLogViewer from './PythonLogViewer';
-import { openCsvDialog, openDirectoryDialog, saveCsvDialog } from '../utils/fileDialog';
 import { isDev, isLinux, isWin, rootModelsDirectory } from '../utils/environment';
+import { openCsvDialog, openDirectoryDialog, saveCsvDialog } from '../utils/fileDialog';
+import styles from './Classifier.module.scss';
 import MissingModelsMessage from './MissingModelsMessage';
 import PathInput from './PathInput';
-import styles from './Classifier.scss';
+import PythonLogViewer from './PythonLogViewer';
 
 const toaster = Toaster.create({});
 

@@ -1,11 +1,11 @@
+import { Alignment, Button, Menu, MenuItem, Navbar, Popover } from '@blueprintjs/core';
 import React, { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Navbar, Alignment, Button, Popover, Menu, MenuItem } from '@blueprintjs/core';
 
-import { routes } from '../constants/Routes';
 import Sidebar from '../components/Sidebar';
-import styles from './App.scss';
+import { routes } from '../constants/Routes';
 import useAnalytics from '../utils/useAnalytics';
+import styles from './App.module.scss';
 
 type Props = {
   children: ReactNode;

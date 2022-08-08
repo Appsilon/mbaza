@@ -1,8 +1,9 @@
 import { NumberRange, RangeSlider } from '@blueprintjs/core';
-import React, { useState, useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
 import { debounce } from 'lodash';
-import styles from './CertaintyFilter.scss';
+import React, { useCallback, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
+import styles from './CertaintyFilter.module.scss';
 
 type CertaintyFilterProps = {
   updateFilters: Function;

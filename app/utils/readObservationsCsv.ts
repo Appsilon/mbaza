@@ -1,5 +1,5 @@
-import { promises as fsPromises } from 'fs';
 import { csvParse } from 'd3-dsv';
+import { promises as fsPromises } from 'fs';
 
 const { readFile } = fsPromises;
 

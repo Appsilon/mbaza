@@ -1,13 +1,14 @@
-import React, { useEffect } from 'react';
-import { useTranslation } from 'react-i18next';
-import { TFunction } from 'i18next';
-import mapboxgl from 'mapbox-gl';
-import _ from 'lodash';
 import { Button, Position, Tooltip } from '@blueprintjs/core';
+import { TFunction } from 'i18next';
+import _ from 'lodash';
+import mapboxgl from 'mapbox-gl';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
-import styles from './Map.scss';
-import AnimalsListTooltipContent from './AnimalsListTooltipContent';
+import { useTranslation } from 'react-i18next';
+
 import { EmptyClasses } from '../constants/animalsClasses';
+import AnimalsListTooltipContent from './AnimalsListTooltipContent';
+import styles from './Map.module.scss';
 
 /*
 To produce a country file please have a look at download_map.sh

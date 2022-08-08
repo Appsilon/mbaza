@@ -1,6 +1,7 @@
-import React from 'react';
 import { Callout, Card, Elevation, H5, H6, Intent, Pre, Spinner } from '@blueprintjs/core';
-import styles from './PythonLogViewer.scss';
+import React from 'react';
+
+import styles from './PythonLogViewer.module.scss';
 
 type Props = {
   title: string;

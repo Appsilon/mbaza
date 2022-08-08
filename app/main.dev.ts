@@ -9,8 +9,9 @@
  * `./app/main.prod.js` using webpack. This gives us some performance wins.
  */
 import { app, BrowserWindow, shell } from 'electron';
-import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
+import { autoUpdater } from 'electron-updater';
+
 import MenuBuilder from './menu';
 
 export default class AppUpdater {

@@ -1,38 +1,38 @@
-import React, { useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
-import _ from 'lodash';
 import {
+  Button,
+  Callout,
   Card,
   Elevation,
   H4,
-  Button,
+  Icon,
   Intent,
-  Callout,
   NumberRange,
-  Tooltip,
-  Icon
+  Tooltip
 } from '@blueprintjs/core';
-import { promises as fsPromises } from 'fs';
-import { remote } from 'electron';
 import { csvFormat } from 'd3-dsv';
+import { remote } from 'electron';
+import { promises as fsPromises } from 'fs';
+import _ from 'lodash';
+import React, { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
-import Map from '../components/Map';
+import ExploreHeader from '../components/ExploreHeader';
 import ExplorerFilter from '../components/ExplorerFilters';
 import ExplorerMetrics from '../components/ExplorerMetrics';
+import Map from '../components/Map';
+import ObservationsInspector from '../components/ObservationsInspector';
 import {
-  formatAnimalClassName,
   EmptyClasses,
+  formatAnimalClassName,
   RareAnimalsClasses
 } from '../constants/animalsClasses';
-import ObservationsInspector from '../components/ObservationsInspector';
-import { openDirectoryDialog, saveCsvDialog } from '../utils/fileDialog';
-import writeCorrectedCsv from '../utils/writeCorrectedCsv';
-import readObservationsCsv from '../utils/readObservationsCsv';
-import ExploreHeader from '../components/ExploreHeader';
 import computeEvents from '../utils/computeEvents';
-import styles from './ExplorePage.scss';
 import exportDarwinCore from '../utils/exportDarwinCore';
 import exportPhotos from '../utils/exportPhotos';
+import { openDirectoryDialog, saveCsvDialog } from '../utils/fileDialog';
+import readObservationsCsv from '../utils/readObservationsCsv';
+import writeCorrectedCsv from '../utils/writeCorrectedCsv';
+import styles from './ExplorePage.module.scss';
 
 import animals1 from '../assets/graphics/SVG_1.svg';
 import animals2 from '../assets/graphics/SVG_2.svg';
