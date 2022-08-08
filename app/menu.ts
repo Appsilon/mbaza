@@ -1,5 +1,5 @@
 /* eslint @typescript-eslint/ban-ts-ignore: off */
-import { Menu, shell, BrowserWindow, MenuItemConstructorOptions } from 'electron';
+import { BrowserWindow, Menu, MenuItemConstructorOptions, shell } from 'electron';
 
 export default class MenuBuilder {
   mainWindow: BrowserWindow;

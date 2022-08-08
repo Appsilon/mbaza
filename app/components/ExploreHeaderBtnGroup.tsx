@@ -1,5 +1,6 @@
+import { Button, Icon, Tooltip } from '@blueprintjs/core';
 import React from 'react';
-import { Button, Tooltip, Icon } from '@blueprintjs/core';
+
 import styles from './ExploreHeaderBtnGroup.module.scss';
 
 type Props = {

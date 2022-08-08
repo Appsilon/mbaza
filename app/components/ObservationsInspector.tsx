@@ -1,7 +1,7 @@
-import React from 'react';
 import { Card, Classes, Drawer, Elevation, Position, Tooltip } from '@blueprintjs/core';
-import { useTranslation } from 'react-i18next';
 import path from 'path';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 import CreatableSelect from 'react-select/creatable';
 import { Virtuoso } from 'react-virtuoso';
 

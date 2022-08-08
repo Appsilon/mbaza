@@ -1,10 +1,10 @@
 import React from 'react';
-import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import styles from './Sidebar.module.scss';
+import { useLocation } from 'react-router-dom';
 
-import SidebarItem from './SidebarItem';
 import { RoutesType } from '../constants/Routes';
+import styles from './Sidebar.module.scss';
+import SidebarItem from './SidebarItem';
 
 interface Props {
   routes: RoutesType;

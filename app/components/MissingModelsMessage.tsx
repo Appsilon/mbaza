@@ -1,8 +1,8 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
 import { NonIdealState } from '@blueprintjs/core';
 import { shell } from 'electron';
 import path from 'path';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { userDataPath } from '../utils/environment';
 
