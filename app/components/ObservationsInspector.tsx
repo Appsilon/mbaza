@@ -139,7 +139,9 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
       onClose={onClose}
       // Workaround: without this setting, clearning prediction override closes the drawer.
       canOutsideClickClose={false}
-      size={750}
+      size="100%"
+      transitionName="opacity"
+      usePortal={false}
     >
       <div className={`${Classes.DRAWER_BODY} ${styles.drawerBody}`}>
         <div className={`${Classes.DIALOG_BODY} ${styles.dialogBody}`}>
