@@ -3,8 +3,7 @@ import { Card, Classes, Drawer, Elevation, Position, Tooltip } from '@blueprintj
 import { useTranslation } from 'react-i18next';
 import path from 'path';
 import CreatableSelect from 'react-select/creatable';
-import { FixedSizeList } from 'react-window';
-import AutoSizer from 'react-virtualized-auto-sizer';
+import { Virtuoso } from 'react-virtuoso';
 
 import { formatAnimalClassName } from '../constants/animalsClasses';
 import { taxonOptions } from '../constants/taxons';
@@ -86,31 +85,33 @@ function ObservationCard(props: ObservationCardProps) {
   );
 
   return (
-    <Card className={styles.card} elevation={Elevation.TWO} key={observation.location}>
-      <h3 className={styles.heading}>
-        {t('explore.inspect.photoHeader', {
-          species: formatAnimalClassName(
-            predictionOverride ? predictionOverride.value : observation.pred_1
-          ),
-          date: observation.date
-        })}
-      </h3>
-      <div className={styles.body}>
-        <div className={styles.photo}>
-          <img
-            className={styles.img}
-            src={observation.location}
-            width={360}
-            alt={observation.pred_1}
-          />
+    <div className={styles.observation}>
+      <Card className={styles.card} elevation={Elevation.TWO} key={observation.location}>
+        <h3 className={styles.heading}>
+          {t('explore.inspect.photoHeader', {
+            species: formatAnimalClassName(
+              predictionOverride ? predictionOverride.value : observation.pred_1
+            ),
+            date: observation.date
+          })}
+        </h3>
+        <div className={styles.body}>
+          <div className={styles.photo}>
+            <img
+              className={styles.img}
+              src={observation.location}
+              width={360}
+              alt={observation.pred_1}
+            />
+          </div>
+          <div className={styles.data}>
+            {predictionsTable}
+            {predictionOverrideWidget}
+            {photoDetails}
+          </div>
         </div>
-        <div className={styles.data}>
-          {predictionsTable}
-          {predictionOverrideWidget}
-          {photoDetails}
-        </div>
-      </div>
-    </Card>
+      </Card>
+    </div>
   );
 }
 
@@ -119,31 +120,6 @@ type ObservationsInspectorProps = {
   onClose: () => void;
   predictionOverrides: PredictionOverridesMap;
   onPredictionOverride: PredictionOverrideHandler;
-};
-
-type ObservationRowProps = {
-  index: number;
-  style: React.CSSProperties;
-  data: {
-    observations: Observation[];
-    predictionOverrides: PredictionOverridesMap;
-    onPredictionOverride: PredictionOverrideHandler;
-  };
-};
-
-const ObservationRow = ({ index, style, data }: ObservationRowProps) => {
-  const { observations, predictionOverrides, onPredictionOverride } = data;
-  const observation = observations[index];
-  return (
-    <div style={style} className={styles.observation}>
-      <ObservationCard
-        key={observation.location}
-        observation={observation}
-        predictionOverride={predictionOverrides[observation.location]}
-        onPredictionOverride={onPredictionOverride}
-      />
-    </div>
-  );
 };
 
 export default function ObservationsInspector(props: ObservationsInspectorProps) {
@@ -167,24 +143,17 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
     >
       <div className={`${Classes.DRAWER_BODY} ${styles.drawerBody}`}>
         <div className={`${Classes.DIALOG_BODY} ${styles.dialogBody}`}>
-          <AutoSizer>
-            {({ height, width }) => (
-              <FixedSizeList
-                className={styles.list}
-                height={height}
-                itemCount={observations.length}
-                itemData={{
-                  observations,
-                  predictionOverrides,
-                  onPredictionOverride
-                }}
-                itemSize={380}
-                width={width}
-              >
-                {ObservationRow}
-              </FixedSizeList>
+          <Virtuoso
+            className={styles.list}
+            data={observations}
+            itemContent={(_index, observation) => (
+              <ObservationCard
+                observation={observation}
+                predictionOverride={predictionOverrides[observation.location]}
+                onPredictionOverride={onPredictionOverride}
+              />
             )}
-          </AutoSizer>
+          />
         </div>
       </div>
       <div className={Classes.DRAWER_FOOTER}>
