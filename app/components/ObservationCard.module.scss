@@ -15,17 +15,47 @@ $t-observation-card: 0.5s;
     padding: 5px;
 
     .header {
-      align-items: flex-end;
+      align-items: center;
       display: flex;
       font-size: 0.9rem;
       font-weight: 400;
       justify-content: space-between;
       margin: 0;
       min-height: 36px;
-      padding: 0 10px;
+      padding-top: 5px;
 
-      & > .species {
-        font-size: 1rem;
+      .predictionOverride {
+        [class$='control'] {
+          border: none;
+          box-shadow: none;
+          cursor: pointer;
+          font-weight: 600;
+          min-height: 0;
+          padding: 5px;
+
+          [class$='ValueContainer'] {
+            padding: 0 5px 0 0;
+
+            [class$='Input'] {
+              margin: 0;
+              padding: 0;
+            }
+          }
+
+          [class$='IndicatorsContainer'] {
+            [class$='indicatorSeparator'] {
+              display: none;
+            }
+
+            [class$='indicatorContainer'] {
+              padding: 0;
+            }
+          }
+        }
+
+        [class$='menu'] {
+          width: auto;
+        }
       }
 
       & > .date {

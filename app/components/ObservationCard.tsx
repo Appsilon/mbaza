@@ -1,4 +1,5 @@
-import { Card, Elevation, Position, Tooltip } from '@blueprintjs/core';
+import { Card, Elevation, Position } from '@blueprintjs/core';
+import { Tooltip2 } from '@blueprintjs/popover2';
 import path from 'path';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -50,16 +51,17 @@ export default function ObservationCard(props: ObservationCardProps) {
     </table>
   );
   const predictionOverrideWidget = (
-    <Tooltip content={t('explore.inspect.overrideTooltip')} position={Position.RIGHT}>
+    <Tooltip2 content={t('explore.inspect.overrideTooltip')} position={Position.RIGHT}>
       <CreatableSelect
         name={predictionOverride}
         value={predictionOverride || observation}
         onChange={handlePredictionOverride}
-        isClearable
+        isClearable={predictionOverride}
         options={taxonOptions}
         menuShouldScrollIntoView={false}
+        className={styles.predictionOverride}
       />
-    </Tooltip>
+    </Tooltip2>
   );
   const photoDetails = (
     <div className={styles.photoDetails}>
@@ -90,12 +92,10 @@ export default function ObservationCard(props: ObservationCardProps) {
           <div className={styles.data}>
             {predictionsTable}
             {photoDetails}
+            <span className={styles.date}>{observation.date}</span>
           </div>
         </div>
-        <h5 className={styles.header}>
-          <span className={styles.species}>{predictionOverrideWidget}</span>
-          <span className={styles.date}>{observation.date}</span>
-        </h5>
+        <h5 className={styles.header}>{predictionOverrideWidget}</h5>
       </Card>
     </div>
   );
