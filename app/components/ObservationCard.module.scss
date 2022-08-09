@@ -3,32 +3,59 @@
 $t-observation-card: 0.5s;
 
 .observation {
-  padding: 10px 20px;
+  height: 100%;
   transition: opacity $t-observation-card, visibility 0s $t-observation-card;
 
   .card {
     border-radius: var.$radius-card;
     box-shadow: var.$shadow-card;
-    height: auto;
+    display: flex;
+    flex-direction: column;
+    height: 200px;
+    padding: 5px;
 
     .heading {
-      margin: 0 0 1rem;
-      font-size: 1rem;
-      font-weight: 700;
+      align-items: flex-end;
+      display: flex;
+      font-size: 0.9rem;
+      font-weight: 400;
+      justify-content: space-between;
+      margin: 0;
+      min-height: 36px;
+      padding: 0 10px;
+
+      & > .species {
+        font-size: 1rem;
+      }
+
+      & > .date {
+        color: var.$c-grey-60;
+      }
     }
 
     .body {
       display: flex;
+      height: 100%;
+      overflow: hidden;
 
       .photo {
+        border-radius: var.$radius-card - 2;
+        display: flex;
+        height: 100%;
+        overflow: hidden;
+
         .img {
-          border-radius: var.$radius-card;
+          border-radius: var.$radius-card - 2;
+          height: 100%;
           transition: opacity $t-observation-card, visibility 0s;
+          width: 100%;
         }
       }
 
       .data {
         margin-left: 24px;
+        position: absolute;
+        visibility: hidden;
 
         :global .bp3-popover-target {
           display: flex;

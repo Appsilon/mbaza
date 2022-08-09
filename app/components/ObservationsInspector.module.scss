@@ -47,11 +47,13 @@
   .dialogBody {
     height: 100%;
     margin: 0;
-    padding: 10px 0;
 
     .list {
-      height: 100%;
-      margin: 0;
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(4, 1fr);
+      margin: 20px 0;
+      padding: 20px;
     }
   }
 }

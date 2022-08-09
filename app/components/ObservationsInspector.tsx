@@ -1,7 +1,7 @@
 import { Button, Classes, Drawer } from '@blueprintjs/core';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Virtuoso } from 'react-virtuoso';
+import { VirtuosoGrid } from 'react-virtuoso';
 
 import ObservationCard from './ObservationCard';
 import styles from './ObservationsInspector.module.scss';
@@ -48,13 +48,13 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
       </div>
       <div className={`${Classes.DRAWER_BODY} ${styles.drawerBody}`}>
         <div className={`${Classes.DIALOG_BODY} ${styles.dialogBody}`}>
-          <Virtuoso
-            className={styles.list}
-            data={observations}
-            itemContent={(_index, observation) => (
+          <VirtuosoGrid
+            totalCount={observations.length}
+            listClassName={styles.list}
+            itemContent={index => (
               <ObservationCard
-                observation={observation}
-                predictionOverride={predictionOverrides[observation.location]}
+                observation={observations[index]}
+                predictionOverride={predictionOverrides[observations[index].location]}
                 onPredictionOverride={onPredictionOverride}
               />
             )}

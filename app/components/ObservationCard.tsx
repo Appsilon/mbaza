@@ -86,22 +86,9 @@ export default function ObservationCard(props: ObservationCardProps) {
   return (
     <div className={styles.observation}>
       <Card className={styles.card} elevation={Elevation.TWO} key={observation.location}>
-        <h5 className={styles.heading}>
-          {t('explore.inspect.photoHeader', {
-            species: formatAnimalClassName(
-              predictionOverride ? predictionOverride.value : observation.pred_1
-            ),
-            date: observation.date
-          })}
-        </h5>
         <div className={styles.body}>
           <div className={styles.photo}>
-            <img
-              className={styles.img}
-              src={observation.location}
-              width={360}
-              alt={observation.pred_1}
-            />
+            <img className={styles.img} src={observation.location} alt={observation.pred_1} />
           </div>
           <div className={styles.data}>
             {predictionsTable}
@@ -109,6 +96,16 @@ export default function ObservationCard(props: ObservationCardProps) {
             {photoDetails}
           </div>
         </div>
+        <h5 className={styles.heading}>
+          <span className={styles.species}>
+            {t('explore.inspect.photoSpecies', {
+              species: formatAnimalClassName(
+                predictionOverride ? predictionOverride.value : observation.pred_1
+              )
+            })}
+          </span>
+          <span className={styles.date}>{observation.date}</span>
+        </h5>
       </Card>
     </div>
   );
