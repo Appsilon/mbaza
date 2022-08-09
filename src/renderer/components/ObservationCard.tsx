@@ -49,7 +49,7 @@ export default function ObservationCard(props: ObservationCardProps) {
   ];
 
   const predictionsTable = (
-    <table className={`${styles.predictionsTable} bp3-html-table bp3-html-table-condensed`}>
+    <table className={`${styles.predictionsTable} bp4-html-table bp4-html-table-condensed`}>
       <thead>
         <tr>
           <th>{t('explore.inspect.prediction')}</th>

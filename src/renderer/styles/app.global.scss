@@ -32,7 +32,7 @@ a {
   }
 }
 
-.bp3-button.bp3-intent-primary:not(.bp3-minimal) {
+.bp4-button.bp4-intent-primary:not(.bp4-minimal) {
   background-color: var.$c-green-60;
   border-radius: 5px;
   box-shadow: none;
@@ -40,7 +40,7 @@ a {
 
   &:hover,
   &:focus,
-  &.bp3-active {
+  &.bp4-active {
     background-color: var.$c-green-80;
     box-shadow: none;
     outline: none;

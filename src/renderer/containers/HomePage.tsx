@@ -11,7 +11,7 @@ export default function HomePage() {
     <>
       <div className={styles.container}>
         <div className={styles.wrapper}>
-          <Card interactive elevation={Elevation.TWO} className={`${styles.card} bp3-running-text`}>
+          <Card interactive elevation={Elevation.TWO} className={`${styles.card} bp4-running-text`}>
             <h1 className={styles.cardTitle}>{t('home.welcome.title')}</h1>
             <Trans i18nKey="home.welcome.message" />
             <p>
