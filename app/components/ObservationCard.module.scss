@@ -14,7 +14,7 @@ $t-observation-card: 0.5s;
     height: 200px;
     padding: 5px;
 
-    .heading {
+    .header {
       align-items: flex-end;
       display: flex;
       font-size: 0.9rem;
@@ -59,11 +59,6 @@ $t-observation-card: 0.5s;
 
         :global .bp3-popover-target {
           display: flex;
-        }
-
-        .predictionOverride {
-          margin-left: 10px;
-          width: 100%;
         }
 
         .predictionLabel {

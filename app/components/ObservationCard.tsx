@@ -51,17 +51,14 @@ export default function ObservationCard(props: ObservationCardProps) {
   );
   const predictionOverrideWidget = (
     <Tooltip content={t('explore.inspect.overrideTooltip')} position={Position.RIGHT}>
-      <div className={styles.predictionOverride}>
-        <h4 className={styles.predictionLabel}>{t('explore.inspect.override')}</h4>
-        <CreatableSelect
-          name={predictionOverride}
-          value={predictionOverride}
-          onChange={handlePredictionOverride}
-          isClearable
-          options={taxonOptions}
-          menuShouldScrollIntoView={false}
-        />
-      </div>
+      <CreatableSelect
+        name={predictionOverride}
+        value={predictionOverride || observation}
+        onChange={handlePredictionOverride}
+        isClearable
+        options={taxonOptions}
+        menuShouldScrollIntoView={false}
+      />
     </Tooltip>
   );
   const photoDetails = (
@@ -92,18 +89,11 @@ export default function ObservationCard(props: ObservationCardProps) {
           </div>
           <div className={styles.data}>
             {predictionsTable}
-            {predictionOverrideWidget}
             {photoDetails}
           </div>
         </div>
-        <h5 className={styles.heading}>
-          <span className={styles.species}>
-            {t('explore.inspect.photoSpecies', {
-              species: formatAnimalClassName(
-                predictionOverride ? predictionOverride.value : observation.pred_1
-              )
-            })}
-          </span>
+        <h5 className={styles.header}>
+          <span className={styles.species}>{predictionOverrideWidget}</span>
           <span className={styles.date}>{observation.date}</span>
         </h5>
       </Card>

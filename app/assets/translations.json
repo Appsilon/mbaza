@@ -107,7 +107,6 @@
           "photoSpecies": "{{species}}",
           "prediction": "Prediction",
           "probability": "Probability",
-          "override": "Override prediction",
           "overrideTooltip": "You can override the top prediction and export a modified CSV",
           "camera": "Camera",
           "file": "File"
@@ -223,7 +222,6 @@
           "photoSpecies": "{{species}}",
           "prediction": "Prédiction",
           "probability": "Probabilité",
-          "override": "Modifier la prédiction",
           "overrideTooltip": "Vous pouvez modifier la prédiction supérieure et exporter un CSV modifié",
           "camera": "ID de l'appareil photo",
           "file": "Fichier"
