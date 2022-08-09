@@ -1,6 +1,7 @@
 import format from 'date-fns/format';
-import { remote } from 'electron';
 import { join } from 'path';
+
+const remote = require('@electron/remote');
 
 const csvFilters = [
   { name: 'CSV', extensions: ['csv'] },

@@ -10,7 +10,6 @@ import {
   Tooltip
 } from '@blueprintjs/core';
 import { csvFormat } from 'd3-dsv';
-import { remote } from 'electron';
 import { promises as fsPromises } from 'fs';
 import _ from 'lodash';
 import React, { useMemo, useState } from 'react';
@@ -41,6 +40,7 @@ import animals4 from '../../../assets/graphics/SVG_4.svg';
 import animals5 from '../../../assets/graphics/SVG_5.svg';
 import animals6 from '../../../assets/graphics/SVG_6.svg';
 
+const remote = require('@electron/remote');
 const { writeFile } = fsPromises;
 
 const animalsBackgrounds = [animals6, animals5, animals4, animals3, animals2, animals1];
