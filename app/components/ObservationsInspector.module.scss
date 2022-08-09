@@ -51,7 +51,7 @@
     .list {
       display: grid;
       gap: 20px;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       margin: 20px 0;
       padding: 20px;
     }

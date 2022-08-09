@@ -107,6 +107,7 @@
           "prediction": "Prediction",
           "probability": "Probability",
           "overrideTooltip": "You can override the top prediction and export a modified CSV",
+          "date": "Date",
           "camera": "Camera",
           "file": "File"
         }
@@ -221,6 +222,7 @@
           "prediction": "Prédiction",
           "probability": "Probabilité",
           "overrideTooltip": "Vous pouvez modifier la prédiction supérieure et exporter un CSV modifié",
+          "date": "Date",
           "camera": "ID de l'appareil photo",
           "file": "Fichier"
         }

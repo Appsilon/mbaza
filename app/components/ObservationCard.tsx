@@ -30,7 +30,7 @@ export default function ObservationCard(props: ObservationCardProps) {
   ];
 
   const predictionsTable = (
-    <table className="bp3-html-table bp3-html-table-condensed">
+    <table className={`${styles.predictionsTable} bp3-html-table bp3-html-table-condensed`}>
       <thead>
         <tr>
           <th>{t('explore.inspect.prediction')}</th>
@@ -63,22 +63,17 @@ export default function ObservationCard(props: ObservationCardProps) {
       />
     </Tooltip2>
   );
+  const photoDetail = (label: string, value: string) => (
+    <p className={styles.photoDetail}>
+      <span className={styles.label}>{`${t(`explore.inspect.${label}`)}: `}</span>
+      <span>{value}</span>
+    </p>
+  );
   const photoDetails = (
     <div className={styles.photoDetails}>
-      <p>
-        <strong>
-          {t('explore.inspect.camera')}
-          :&nbsp;
-        </strong>
-        {observation.camera}
-      </p>
-      <p>
-        <strong>
-          {t('explore.inspect.file')}
-          :&nbsp;
-        </strong>
-        {path.basename(observation.location)}
-      </p>
+      {photoDetail('date', observation.date)}
+      {photoDetail('camera', observation.camera)}
+      {photoDetail('file', path.basename(observation.location))}
     </div>
   );
 
@@ -92,7 +87,6 @@ export default function ObservationCard(props: ObservationCardProps) {
           <div className={styles.data}>
             {predictionsTable}
             {photoDetails}
-            <span className={styles.date}>{observation.date}</span>
           </div>
         </div>
         <h5 className={styles.header}>{predictionOverrideWidget}</h5>

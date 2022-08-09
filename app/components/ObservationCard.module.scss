@@ -1,6 +1,7 @@
 @use '../styles/variables' as var;
 
 $t-observation-card: 0.5s;
+$card-size: 240px;
 
 .observation {
   height: 100%;
@@ -11,7 +12,7 @@ $t-observation-card: 0.5s;
     box-shadow: var.$shadow-card;
     display: flex;
     flex-direction: column;
-    height: 200px;
+    height: $card-size;
     padding: 5px;
 
     .header {
@@ -64,9 +65,11 @@ $t-observation-card: 0.5s;
     }
 
     .body {
+      cursor: zoom-in;
       display: flex;
       height: 100%;
       overflow: hidden;
+      position: relative;
 
       .photo {
         border-radius: var.$radius-card - 2;
@@ -78,25 +81,60 @@ $t-observation-card: 0.5s;
           border-radius: var.$radius-card - 2;
           height: 100%;
           transition: opacity $t-observation-card, visibility 0s;
-          width: 100%;
+          width: auto;
         }
       }
 
       .data {
-        margin-left: 24px;
+        background-color: rgba($color: var.$c-green-10, $alpha: 0.8);
+        height: 100%;
+        overflow: auto;
+        opacity: 0.3;
+        padding: 10px;
         position: absolute;
+        transform: translateX(100%);
+        transition: opacity var.$t-obs-card, transform var.$t-obs-card,
+          visibility 0s var.$t-obs-card;
         visibility: hidden;
+        width: 100%;
 
         :global .bp3-popover-target {
           display: flex;
         }
 
-        .predictionLabel {
+        .predictionsTable {
+          font-size: 13px;
           margin-bottom: 5px;
+          width: 100%;
+
+          th,
+          td {
+            padding: 3px;
+          }
         }
 
         .photoDetails {
-          margin: 20px 10px;
+          display: flex;
+          flex-direction: column;
+          font-size: 13px;
+
+          .photoDetail {
+            margin-bottom: 5px;
+
+            .label {
+              font-weight: 700;
+            }
+          }
+        }
+      }
+
+      &:hover {
+        .data {
+          opacity: 1;
+          transform: translateX(0);
+          transition: opacity var.$t-obs-card,
+            transform var.$t-obs-card cubic-bezier(0.2, 0.98, 0.59, 1), visibility 0s;
+          visibility: visible;
         }
       }
     }
