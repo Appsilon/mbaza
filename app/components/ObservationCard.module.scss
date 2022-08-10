@@ -1,12 +1,10 @@
 @use '../styles/variables' as var;
+@use '../styles/animations';
 
 $t-observation-card: 0.5s;
 $card-size: 240px;
 
 .observation {
-  height: 100%;
-  transition: opacity $t-observation-card, visibility 0s $t-observation-card;
-
   .card {
     border-radius: var.$radius-card;
     box-shadow: var.$shadow-card;
@@ -18,7 +16,7 @@ $card-size: 240px;
     .header {
       align-items: center;
       display: flex;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       font-weight: 400;
       justify-content: space-between;
       margin: 0;
@@ -102,20 +100,24 @@ $card-size: 240px;
         }
 
         .predictionsTable {
-          font-size: 13px;
+          font-size: 0.81rem;
           margin-bottom: 5px;
           width: 100%;
 
           th,
           td {
             padding: 3px;
+
+            &:first-child {
+              padding-right: 10px;
+            }
           }
         }
 
         .photoDetails {
           display: flex;
           flex-direction: column;
-          font-size: 13px;
+          font-size: 0.81rem;
 
           .photoDetail {
             margin-bottom: 5px;
@@ -134,6 +136,83 @@ $card-size: 240px;
           transition: opacity var.$t-obs-card,
             transform var.$t-obs-card cubic-bezier(0.2, 0.98, 0.59, 1), visibility 0s;
           visibility: visible;
+        }
+      }
+    }
+  }
+
+  &.maximized {
+    animation: fade-in 0.3s;
+    display: flex;
+    height: 100%;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 100%;
+
+    .card {
+      border-radius: 0;
+      height: 100%;
+      width: 100%;
+
+      .header {
+        font-size: 1rem;
+        min-height: 50px;
+        padding: 5px 15px 0;
+      }
+
+      .body {
+        border-radius: 0;
+        cursor: zoom-out;
+
+        .photo {
+          display: flex;
+          justify-content: center;
+          overflow: initial;
+          width: 100%;
+        }
+
+        .data {
+          background-color: rgba($color: var.$c-green-10, $alpha: 0.9);
+          border-radius: var.$radius-card;
+          bottom: 20px;
+          height: auto;
+          left: 20px;
+          opacity: 0;
+          padding: 20px;
+          transform: translateX(0);
+          transition: opacity var.$t-obs-card, visibility 0s var.$t-obs-card;
+          width: auto;
+
+          .predictionsTable {
+            font-size: 0.88rem;
+            margin-bottom: 20px;
+
+            th,
+            td {
+              &:last-child {
+                text-align: right;
+              }
+            }
+          }
+
+          .photoDetails {
+            font-size: 0.88rem;
+
+            .photoDetail {
+              margin-bottom: 10px;
+            }
+          }
+        }
+
+        &:hover {
+          .data {
+            opacity: 1;
+            transform: translateX(0);
+            transition: opacity var.$t-obs-card, visibility 0s;
+            visibility: visible;
+          }
         }
       }
     }
