@@ -42,6 +42,11 @@ export default function ObservationCard(props: ObservationCardProps) {
     [formatAnimalClassName(observation.pred_3), observation.score_3]
   ];
 
+  const dropdownInitialValue = {
+    value: observation.pred_1,
+    label: formatAnimalClassName(observation.pred_1)
+  };
+
   const predictionsTable = (
     <table className={`${styles.predictionsTable} bp3-html-table bp3-html-table-condensed`}>
       <thead>
@@ -67,7 +72,7 @@ export default function ObservationCard(props: ObservationCardProps) {
     <Tooltip2 content={t('explore.inspect.overrideTooltip')} position={Position.RIGHT}>
       <CreatableSelect
         name={predictionOverride}
-        value={predictionOverride || observation}
+        value={predictionOverride || dropdownInitialValue}
         onChange={handlePredictionOverride}
         isClearable={predictionOverride}
         options={taxonOptions}
