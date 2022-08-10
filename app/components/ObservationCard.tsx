@@ -16,10 +16,20 @@ type ObservationCardProps = {
   observation: Observation;
   predictionOverride?: CreatableOption;
   onPredictionOverride: PredictionOverrideHandler;
+  onPhotoClick: (cardIndex: number | null) => void;
+  observationIndex: number;
+  isMaximized: boolean;
 };
 
 export default function ObservationCard(props: ObservationCardProps) {
-  const { observation, predictionOverride, onPredictionOverride } = props;
+  const {
+    observation,
+    predictionOverride,
+    onPredictionOverride,
+    onPhotoClick,
+    observationIndex,
+    isMaximized
+  } = props;
   const { t } = useTranslation();
 
   const handlePredictionOverride = (newValue: CreatableOption | null) => {
@@ -63,6 +73,7 @@ export default function ObservationCard(props: ObservationCardProps) {
         options={taxonOptions}
         menuShouldScrollIntoView={false}
         className={styles.predictionOverride}
+        menuPlacement={isMaximized ? 'top' : 'bottom'}
       />
     </Tooltip2>
   );
@@ -81,13 +92,17 @@ export default function ObservationCard(props: ObservationCardProps) {
   );
   const observationClass = cx({
     observation: true,
-    maximized: isPortal
+    maximized: isMaximized
   });
 
   return (
     <div className={observationClass}>
       <Card className={styles.card} elevation={Elevation.TWO} key={observation.location}>
-        <div className={styles.body}>
+        <div
+          className={styles.body}
+          onClick={() => onPhotoClick(isMaximized ? null : observationIndex)}
+          aria-hidden="true"
+        >
           <div className={styles.photo}>
             <img className={styles.img} src={observation.location} alt={observation.pred_1} />
           </div>

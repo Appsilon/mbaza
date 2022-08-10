@@ -1,5 +1,5 @@
 import { Button, Classes, Drawer } from '@blueprintjs/core';
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { VirtuosoGrid } from 'react-virtuoso';
 
@@ -11,14 +11,16 @@ type ObservationsInspectorProps = {
   onClose: () => void;
   predictionOverrides: PredictionOverridesMap;
   onPredictionOverride: PredictionOverrideHandler;
+  onPhotoClick: (cardIndex: number | null) => void;
 };
 
 export default function ObservationsInspector(props: ObservationsInspectorProps) {
   const { observations, onClose, predictionOverrides, onPredictionOverride } = props;
+  if (observations.length === 0) return null;
   const { t } = useTranslation();
-  if (observations.length === 0) {
-    return null;
-  }
+  const [maximizedCardIndex, setMaximizedCardIndex] = useState<number | null>(null);
+  const toggleMaximizedMode = (cardIndex: number | null) => setMaximizedCardIndex(cardIndex);
+
   return (
     <Drawer
       className={styles.drawer}
@@ -56,10 +58,23 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
                 observation={observations[index]}
                 predictionOverride={predictionOverrides[observations[index].location]}
                 onPredictionOverride={onPredictionOverride}
+                onPhotoClick={toggleMaximizedMode}
+                observationIndex={index}
+                isMaximized={false}
               />
             )}
           />
         </div>
+        {maximizedCardIndex !== null && (
+          <ObservationCard
+            observation={observations[maximizedCardIndex]}
+            predictionOverride={predictionOverrides[observations[maximizedCardIndex].location]}
+            onPredictionOverride={onPredictionOverride}
+            onPhotoClick={toggleMaximizedMode}
+            observationIndex={maximizedCardIndex}
+            isMaximized
+          />
+        )}
       </div>
       <div className={Classes.DRAWER_FOOTER}>
         {t('explore.inspect.observations', {
