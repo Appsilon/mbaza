@@ -20,6 +20,10 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
   const { t } = useTranslation();
   const [maximizedCardIndex, setMaximizedCardIndex] = useState<number | null>(null);
   const toggleMaximizedMode = (cardIndex: number | null) => setMaximizedCardIndex(cardIndex);
+  const backButtonText = t(
+    `explore.${maximizedCardIndex === null ? 'backToMap' : 'backToObservations'}`
+  );
+  const onBackButtonClick = maximizedCardIndex === null ? onClose : () => toggleMaximizedMode(null);
 
   return (
     <Drawer
@@ -39,8 +43,8 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
           icon="chevron-left"
           minimal
           alignText="left"
-          onClick={onClose}
-          text={t('explore.backToMap')}
+          onClick={onBackButtonClick}
+          text={backButtonText}
         />
         <h4 className={styles.heading}>
           {t('explore.inspect.header', {
