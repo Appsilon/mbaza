@@ -11,19 +11,21 @@ type ObservationsInspectorProps = {
   onClose: () => void;
   predictionOverrides: PredictionOverridesMap;
   onPredictionOverride: PredictionOverrideHandler;
-  onPhotoClick: (cardIndex: number | null) => void;
+  onPhotoClick?: (cardIndex: number) => void;
 };
 
 export default function ObservationsInspector(props: ObservationsInspectorProps) {
   const { observations, onClose, predictionOverrides, onPredictionOverride } = props;
   if (observations.length === 0) return null;
   const { t } = useTranslation();
-  const [maximizedCardIndex, setMaximizedCardIndex] = useState<number | null>(null);
-  const toggleMaximizedMode = (cardIndex: number | null) => setMaximizedCardIndex(cardIndex);
-  const backButtonText = t(
-    `explore.${maximizedCardIndex === null ? 'backToMap' : 'backToObservations'}`
-  );
-  const onBackButtonClick = maximizedCardIndex === null ? onClose : () => toggleMaximizedMode(null);
+  const [maximizedCardIndex, setMaximizedCardIndex] = useState<number>(-1);
+  const [isMaximizedMode, setMaximizedMode] = useState<boolean>(false);
+  const toggleMaximizedMode = (cardIndex: number) => {
+    setMaximizedCardIndex(cardIndex);
+    setMaximizedMode(cardIndex >= 0);
+  };
+  const backButtonText = t(`explore.${isMaximizedMode ? 'backToObservations' : 'backToMap'}`);
+  const onBackButtonClick = isMaximizedMode ? () => toggleMaximizedMode(-1) : onClose;
 
   return (
     <Drawer
@@ -69,7 +71,7 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
             )}
           />
         </div>
-        {maximizedCardIndex !== null && (
+        {isMaximizedMode && (
           <ObservationCard
             observation={observations[maximizedCardIndex]}
             predictionOverride={predictionOverrides[observations[maximizedCardIndex].location]}

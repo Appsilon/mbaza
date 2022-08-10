@@ -16,7 +16,7 @@ type ObservationCardProps = {
   observation: Observation;
   predictionOverride?: CreatableOption;
   onPredictionOverride: PredictionOverrideHandler;
-  onPhotoClick: (cardIndex: number | null) => void;
+  onPhotoClick: (cardIndex: number) => void;
   observationIndex: number;
   isMaximized: boolean;
 };
@@ -100,7 +100,7 @@ export default function ObservationCard(props: ObservationCardProps) {
       <Card className={styles.card} elevation={Elevation.TWO} key={observation.location}>
         <div
           className={styles.body}
-          onClick={() => onPhotoClick(isMaximized ? null : observationIndex)}
+          onClick={() => onPhotoClick(isMaximized ? -1 : observationIndex)}
           aria-hidden="true"
         >
           <div className={styles.photo}>
