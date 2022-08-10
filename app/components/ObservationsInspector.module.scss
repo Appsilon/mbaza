@@ -1,6 +1,8 @@
 @use '../styles/variables' as var;
+@use '../styles/animations';
 
 .box {
+  animation: fade-in 0.5s;
   display: flex;
   flex-direction: column;
   height: 100%;

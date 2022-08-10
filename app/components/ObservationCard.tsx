@@ -1,7 +1,7 @@
-import { Card, Elevation, Position } from '@blueprintjs/core';
+import { Card, Elevation, Position, Tag } from '@blueprintjs/core';
 import { Tooltip2 } from '@blueprintjs/popover2';
 import path from 'path';
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import CreatableSelect from 'react-select/creatable';
 import classNames from 'classnames/bind';
@@ -31,9 +31,21 @@ export default function ObservationCard(props: ObservationCardProps) {
     isMaximized
   } = props;
   const { t } = useTranslation();
+  const [isOverriden, setOverride] = useState<boolean>(false);
+
+  const dropdownInitialValue = {
+    value: observation.pred_1,
+    label: formatAnimalClassName(observation.pred_1)
+  };
 
   const handlePredictionOverride = (newValue: CreatableOption | null) => {
     onPredictionOverride(observation.location, newValue);
+    setOverride(
+      newValue === null
+        ? false
+        : dropdownInitialValue.label !== newValue.label &&
+            dropdownInitialValue.value !== newValue.value
+    );
   };
 
   const predictions = [
@@ -41,11 +53,6 @@ export default function ObservationCard(props: ObservationCardProps) {
     [formatAnimalClassName(observation.pred_2), observation.score_2],
     [formatAnimalClassName(observation.pred_3), observation.score_3]
   ];
-
-  const dropdownInitialValue = {
-    value: observation.pred_1,
-    label: formatAnimalClassName(observation.pred_1)
-  };
 
   const predictionsTable = (
     <table className={`${styles.predictionsTable} bp3-html-table bp3-html-table-condensed`}>
@@ -74,7 +81,6 @@ export default function ObservationCard(props: ObservationCardProps) {
         name={predictionOverride}
         value={predictionOverride || dropdownInitialValue}
         onChange={handlePredictionOverride}
-        isClearable={predictionOverride}
         options={taxonOptions}
         menuShouldScrollIntoView={false}
         className={styles.predictionOverride}
@@ -116,7 +122,14 @@ export default function ObservationCard(props: ObservationCardProps) {
             {photoDetails}
           </div>
         </div>
-        <h5 className={styles.header}>{predictionOverrideWidget}</h5>
+        <div className={styles.header}>
+          {predictionOverrideWidget}
+          {isOverriden && (
+            <Tag round minimal intent="primary" onRemove={() => handlePredictionOverride(null)}>
+              overriden
+            </Tag>
+          )}
+        </div>
       </Card>
     </div>
   );
