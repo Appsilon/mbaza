@@ -4,10 +4,13 @@ import path from 'path';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import CreatableSelect from 'react-select/creatable';
+import classNames from 'classnames/bind';
 
 import { formatAnimalClassName } from '../constants/animalsClasses';
 import { taxonOptions } from '../constants/taxons';
 import styles from './ObservationCard.module.scss';
+
+const cx = classNames.bind(styles);
 
 type ObservationCardProps = {
   observation: Observation;
@@ -76,9 +79,13 @@ export default function ObservationCard(props: ObservationCardProps) {
       {photoDetail('file', path.basename(observation.location))}
     </div>
   );
+  const observationClass = cx({
+    observation: true,
+    maximized: isPortal
+  });
 
   return (
-    <div className={styles.observation}>
+    <div className={observationClass}>
       <Card className={styles.card} elevation={Elevation.TWO} key={observation.location}>
         <div className={styles.body}>
           <div className={styles.photo}>
