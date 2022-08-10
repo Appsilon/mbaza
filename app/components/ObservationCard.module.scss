@@ -143,11 +143,8 @@ $card-size: 240px;
 
   &.maximized {
     animation: fade-in 0.3s;
-    display: flex;
     height: 100%;
-    left: 0;
     position: absolute;
-    right: 0;
     top: 0;
     width: 100%;
 

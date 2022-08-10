@@ -1,4 +1,4 @@
-import { Button, Classes, Drawer } from '@blueprintjs/core';
+import { Button } from '@blueprintjs/core';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { VirtuosoGrid } from 'react-virtuoso';
@@ -28,18 +28,8 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
   const onBackButtonClick = isMaximizedMode ? () => toggleMaximizedMode(-1) : onClose;
 
   return (
-    <Drawer
-      className={styles.drawer}
-      isOpen={observations.length > 0}
-      onClose={onClose}
-      // Workaround: without this setting, clearning prediction override closes the drawer.
-      canOutsideClickClose={false}
-      size="100%"
-      transitionName="opacity"
-      usePortal={false}
-      hasBackdrop={false}
-    >
-      <div className={`${Classes.DRAWER_HEADER} ${styles.drawerHeader}`}>
+    <div className={styles.box}>
+      <div className={styles.boxHeader}>
         <Button
           className={styles.backButton}
           icon="chevron-left"
@@ -49,28 +39,27 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
           text={backButtonText}
         />
         <h4 className={styles.heading}>
-          {t('explore.inspect.header', {
-            station: observations[0].station
-          })}
+          {t('explore.inspect.header', { station: observations[0].station })}
         </h4>
+        <p className={styles.counter}>
+          {t('explore.inspect.observations', { count: observations.length })}
+        </p>
       </div>
-      <div className={`${Classes.DRAWER_BODY} ${styles.drawerBody}`}>
-        <div className={`${Classes.DIALOG_BODY} ${styles.dialogBody}`}>
-          <VirtuosoGrid
-            totalCount={observations.length}
-            listClassName={styles.list}
-            itemContent={index => (
-              <ObservationCard
-                observation={observations[index]}
-                predictionOverride={predictionOverrides[observations[index].location]}
-                onPredictionOverride={onPredictionOverride}
-                onPhotoClick={toggleMaximizedMode}
-                observationIndex={index}
-                isMaximized={false}
-              />
-            )}
-          />
-        </div>
+      <div className={styles.boxBody}>
+        <VirtuosoGrid
+          totalCount={observations.length}
+          listClassName={styles.list}
+          itemContent={index => (
+            <ObservationCard
+              observation={observations[index]}
+              predictionOverride={predictionOverrides[observations[index].location]}
+              onPredictionOverride={onPredictionOverride}
+              onPhotoClick={toggleMaximizedMode}
+              observationIndex={index}
+              isMaximized={false}
+            />
+          )}
+        />
         {isMaximizedMode && (
           <ObservationCard
             observation={observations[maximizedCardIndex]}
@@ -82,11 +71,6 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
           />
         )}
       </div>
-      <div className={Classes.DRAWER_FOOTER}>
-        {t('explore.inspect.observations', {
-          count: observations.length
-        })}
-      </div>
-    </Drawer>
+    </div>
   );
 }

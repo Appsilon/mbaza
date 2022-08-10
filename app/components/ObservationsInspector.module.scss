@@ -1,26 +1,29 @@
 @use '../styles/variables' as var;
 
-.drawer {
-  .drawerHeader {
+.box {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+
+  .boxHeader {
+    align-items: center;
     background-color: var.$c-green-60;
     display: grid;
-    align-items: center;
     grid-template-columns: 200px 1fr 200px;
-
-    .heading {
-      color: var.$c-white;
-      font-size: 1rem;
-      font-weight: 600;
-      margin: 0;
-      text-align: center;
-    }
+    height: 36px;
+    padding: 0 20px;
 
     .backButton {
       background: none;
       box-shadow: none;
       color: var.$c-green-10;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       outline: none;
+      padding: 0;
       transition: color var.$t-button;
 
       :global .bp3-icon {
@@ -38,16 +41,26 @@
         }
       }
     }
+
+    .heading {
+      color: var.$c-white;
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 0;
+      text-align: center;
+    }
+
+    .counter {
+      color: var.$c-green-20;
+      margin: 0;
+      text-align: right;
+    }
   }
 
-  .drawerBody {
-    overflow: hidden;
-    position: relative;
-  }
-
-  .dialogBody {
+  .boxBody {
+    background-color: var.$c-white;
     height: 100%;
-    margin: 0;
+    position: relative;
 
     .list {
       display: grid;
