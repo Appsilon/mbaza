@@ -130,6 +130,7 @@ export default function ExplorePage() {
   const [filters, setFilters] = useState<Filters>(initialFilters);
   const [observations, setObservations] = useState<undefined | Observation[]>();
   const [inspectedObservations, setInspectedObservations] = useState<Observation[]>([]);
+  const [isMapVisible, setMapVisible] = useState<boolean>(true);
   const [predictionOverrides, setPredictionOverrides] = useState<PredictionOverridesMap>({});
 
   const handleFilters = (val: string[]) => {
@@ -234,10 +235,11 @@ export default function ExplorePage() {
         <Card className={styles.card} elevation={Elevation.TWO}>
           <Callout intent={Intent.PRIMARY}>{t('explore.mapHint')}</Callout>
           <div className={styles.cardBody}>
-            <Map observations={filteredObservations} onInspect={setInspectedObservations} />
+            <Map observations={filteredObservations} onInspect={() => setMapVisible(false)} />
             <ObservationsInspector
-              observations={inspectedObservations}
-              onClose={() => setInspectedObservations([])}
+              isVisible={!isMapVisible}
+              observations={filteredObservations}
+              onClose={() => setMapVisible(true)}
               predictionOverrides={predictionOverrides}
               onPredictionOverride={handlePredictionOverride}
             />
