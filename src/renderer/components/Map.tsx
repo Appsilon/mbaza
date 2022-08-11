@@ -101,7 +101,7 @@ function makeStationMarker(
             className={styles.photosPreviewItem}
             onClick={() => setInspectedObservations(groupObservations)}
           >
-            <img src={observation.location} alt="Observations preview" />
+            <img src={'file:' + observation.location} alt="Observations preview" />
           </a>
         ))}
         <div>

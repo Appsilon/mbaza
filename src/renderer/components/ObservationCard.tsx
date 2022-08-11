@@ -107,7 +107,11 @@ export default function ObservationCard(props: ObservationCardProps) {
           aria-hidden="true"
         >
           <div className={styles.photo}>
-            <img className={styles.img} src={observation.location} alt={observation.pred_1} />
+            <img
+              className={styles.img}
+              src={'file:' + observation.location}
+              alt={observation.pred_1}
+            />
           </div>
           <div className={styles.data}>
             {predictionsTable}
