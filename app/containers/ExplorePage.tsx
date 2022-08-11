@@ -129,7 +129,6 @@ export default function ExplorePage() {
   const [filePath, setFilePath] = useState<string>();
   const [filters, setFilters] = useState<Filters>(initialFilters);
   const [observations, setObservations] = useState<undefined | Observation[]>();
-  const [inspectedObservations, setInspectedObservations] = useState<Observation[]>([]);
   const [isMapVisible, setMapVisible] = useState<boolean>(true);
   const [predictionOverrides, setPredictionOverrides] = useState<PredictionOverridesMap>({});
 
