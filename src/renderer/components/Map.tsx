@@ -3,7 +3,7 @@ import { TFunction } from 'i18next';
 import _ from 'lodash';
 import mapboxgl from 'mapbox-gl';
 import React, { useEffect } from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { useTranslation } from 'react-i18next';
 
 import { EmptyClasses } from '../constants/animalsClasses';
@@ -77,7 +77,7 @@ function makeStationMarker(
   }
 
   const popupContentPlaceholder = document.createElement('div');
-  ReactDOM.render(
+  createRoot(popupContentPlaceholder).render(
     <>
       <h3>
         <b>{t('explore.inspect.station', { id: station }) as string}</b>
@@ -113,8 +113,7 @@ function makeStationMarker(
           />
         </div>
       </div>
-    </>,
-    popupContentPlaceholder
+    </>
   );
 
   const marker = new mapboxgl.Marker(markerElement)
