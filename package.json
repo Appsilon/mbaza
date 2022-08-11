@@ -201,7 +201,6 @@
     "@babel/preset-react": "^7.8.3",
     "@babel/preset-typescript": "^7.8.3",
     "@babel/register": "^7.8.6",
-    "@blueprintjs/popover2": "^1.5.0",
     "@types/d3-dsv": "^3.0.0",
     "@types/d3-fetch": "^3.0.1",
     "@types/enzyme": "^3.10.5",
