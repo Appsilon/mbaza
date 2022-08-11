@@ -1,6 +1,6 @@
-import { Card, Elevation, Tag, Tooltip } from '@blueprintjs/core';
+import { Card, Elevation, Tooltip } from '@blueprintjs/core';
 import path from 'path';
-import React, { useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import CreatableSelect from 'react-select/creatable';
 import classNames from 'classnames/bind';
@@ -30,7 +30,6 @@ export default function ObservationCard(props: ObservationCardProps) {
     isMaximized
   } = props;
   const { t } = useTranslation();
-  const [isOverriden, setOverride] = useState<boolean>(false);
 
   const dropdownInitialValue = {
     value: observation.pred_1,
@@ -39,12 +38,6 @@ export default function ObservationCard(props: ObservationCardProps) {
 
   const handlePredictionOverride = (newValue: CreatableOption | null) => {
     onPredictionOverride(observation.location, newValue);
-    setOverride(
-      newValue === null
-        ? false
-        : dropdownInitialValue.label !== newValue.label &&
-            dropdownInitialValue.value !== newValue.value
-    );
   };
 
   const predictions = [
@@ -80,6 +73,7 @@ export default function ObservationCard(props: ObservationCardProps) {
       value={predictionOverride || dropdownInitialValue}
       onChange={handlePredictionOverride}
       options={taxonOptions}
+      isClearable={predictionOverride}
       menuShouldScrollIntoView={false}
       className={styles.predictionOverride}
       menuPlacement={isMaximized ? 'top' : 'bottom'}
@@ -102,10 +96,6 @@ export default function ObservationCard(props: ObservationCardProps) {
     observation: true,
     maximized: isMaximized
   });
-  const tagClass = cx({
-    tag: true,
-    overriden: isOverriden
-  });
 
   return (
     <div className={observationClass}>
@@ -124,29 +114,9 @@ export default function ObservationCard(props: ObservationCardProps) {
           </div>
         </div>
         <div className={styles.header}>
-          {predictionOverrideWidget}
-          {isOverriden ? (
-            <Tag
-              className={tagClass}
-              round
-              minimal
-              intent="primary"
-              onRemove={() => handlePredictionOverride(null)}
-            >
-              overriden
-            </Tag>
-          ) : (
-            <Tooltip
-              content={t('explore.inspect.overrideTooltip')}
-              position="top"
-              openOnTargetFocus={false}
-              minimal
-            >
-              <Tag className={tagClass} round minimal>
-                i
-              </Tag>
-            </Tooltip>
-          )}
+          <Tooltip content={t('explore.inspect.overrideTooltip')} position="top" minimal>
+            {predictionOverrideWidget}
+          </Tooltip>
         </div>
       </Card>
     </div>

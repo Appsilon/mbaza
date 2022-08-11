@@ -56,18 +56,6 @@ $card-size: 240px;
           width: auto;
         }
       }
-
-      .tag {
-        background-color: var.$c-grey-20;
-        border: 1px solid var.$c-grey-40;
-        color: var.$c-grey-80;
-
-        &.overriden {
-          background-color: var.$c-green-10;
-          border: 1px solid var.$c-green-20;
-          color: var.$c-green-60;
-        }
-      }
     }
 
     .body {
