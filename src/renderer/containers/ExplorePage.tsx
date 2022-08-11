@@ -34,12 +34,12 @@ import readObservationsCsv from '../utils/readObservationsCsv';
 import writeCorrectedCsv from '../utils/writeCorrectedCsv';
 import styles from './ExplorePage.module.scss';
 
-import animals1 from '../assets/graphics/SVG_1.svg';
-import animals2 from '../assets/graphics/SVG_2.svg';
-import animals3 from '../assets/graphics/SVG_3.svg';
-import animals4 from '../assets/graphics/SVG_4.svg';
-import animals5 from '../assets/graphics/SVG_5.svg';
-import animals6 from '../assets/graphics/SVG_6.svg';
+import animals1 from '../../../assets/graphics/SVG_1.svg';
+import animals2 from '../../../assets/graphics/SVG_2.svg';
+import animals3 from '../../../assets/graphics/SVG_3.svg';
+import animals4 from '../../../assets/graphics/SVG_4.svg';
+import animals5 from '../../../assets/graphics/SVG_5.svg';
+import animals6 from '../../../assets/graphics/SVG_6.svg';
 
 const { writeFile } = fsPromises;
 

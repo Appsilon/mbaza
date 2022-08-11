@@ -26,11 +26,11 @@ https://github.com/klokantech/mapbox-gl-js-offline-example
 /* eslint-disable global-require */
 
 // STYLE FILE PREPROCESSING
-const mapboxStyle = require('assets/map-style.json');
+const mapboxStyle = require('../../../assets/map-style.json');
 
 mapboxStyle.sources.jsonsource = {
   type: 'geojson',
-  data: require('assets/map-sources/africa.json')
+  data: require('../../../assets/map-sources/africa.json')
 };
 
 // COMPONENT RENDERING

@@ -7,7 +7,7 @@
         "mapbox:type": "template"
     },
     "sources": {},
-    "glyphs": "assets/map-font/{fontstack}/{range}.pbf",
+    "glyphs": "file:/assets/map-font/{fontstack}/{range}.pbf",
     "layers": [
     {
         "id": "background",

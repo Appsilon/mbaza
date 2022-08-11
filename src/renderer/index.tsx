@@ -2,7 +2,7 @@ import i18next from 'i18next';
 import { createRoot } from 'react-dom/client';
 import { initReactI18next } from 'react-i18next';
 
-import translations from './assets/translations.json';
+import translations from '../../assets/translations.json';
 import Root from './Root';
 import './styles/app.global.scss';
 
