@@ -1,7 +1,7 @@
 @use '../styles/variables' as var;
 @use '../styles/animations';
 
-$t-observation-card: 0.5s;
+$t-obs-card: 0.5s;
 $card-size: 240px;
 
 .observation {
@@ -73,7 +73,7 @@ $card-size: 240px;
 
         .img {
           height: 100%;
-          transition: opacity $t-observation-card, visibility 0s;
+          transition: opacity $t-obs-card, visibility 0s;
           width: auto;
         }
       }
@@ -82,12 +82,11 @@ $card-size: 240px;
         background-color: rgba($color: var.$c-green-10, $alpha: 0.8);
         height: 100%;
         overflow: auto;
-        opacity: 0.3;
+        opacity: 0;
         padding: 10px;
         position: absolute;
-        transform: translateX(100%);
-        transition: opacity var.$t-obs-card, transform var.$t-obs-card,
-          visibility 0s var.$t-obs-card;
+        transform: translateY(-20%);
+        transition: opacity $t-obs-card, transform $t-obs-card, visibility 0s $t-obs-card;
         visibility: hidden;
         width: 100%;
 
@@ -128,9 +127,9 @@ $card-size: 240px;
       &:hover {
         .data {
           opacity: 1;
-          transform: translateX(0);
-          transition: opacity var.$t-obs-card,
-            transform var.$t-obs-card cubic-bezier(0.2, 0.98, 0.59, 1), visibility 0s;
+          transform: translateY(0);
+          transition: opacity $t-obs-card 0.2s,
+            transform $t-obs-card cubic-bezier(0.2, 0.98, 0.59, 1) 0.2s, visibility 0s;
           visibility: visible;
         }
       }
@@ -175,7 +174,7 @@ $card-size: 240px;
           opacity: 0;
           padding: 20px;
           transform: translateX(0);
-          transition: opacity var.$t-obs-card, visibility 0s var.$t-obs-card;
+          transition: opacity $t-obs-card, visibility 0s $t-obs-card;
           width: auto;
 
           .predictionsTable {
@@ -203,7 +202,7 @@ $card-size: 240px;
           .data {
             opacity: 1;
             transform: translateX(0);
-            transition: opacity var.$t-obs-card, visibility 0s;
+            transition: opacity $t-obs-card, visibility 0s;
             visibility: visible;
           }
         }

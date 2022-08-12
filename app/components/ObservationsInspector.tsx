@@ -19,14 +19,10 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
   const { isVisible, observations, onClose, predictionOverrides, onPredictionOverride } = props;
   if (!isVisible) return null;
   const { t } = useTranslation();
-  const [maximizedCardIndex, setMaximizedCardIndex] = useState<number>(-1);
-  const [isMaximizedMode, setMaximizedMode] = useState<boolean>(false);
-  const toggleMaximizedMode = (cardIndex: number) => {
-    setMaximizedCardIndex(cardIndex);
-    setMaximizedMode(cardIndex >= 0);
-  };
+  const [maximizedCardIndex, setMaximizedCardIndex] = useState<number | null>(null);
+  const isMaximizedMode = maximizedCardIndex !== null;
   const backButtonText = t(`explore.${isMaximizedMode ? 'backToObservations' : 'backToMap'}`);
-  const onBackButtonClick = isMaximizedMode ? () => toggleMaximizedMode(-1) : onClose;
+  const onBackButtonClick = () => (isMaximizedMode ? setMaximizedCardIndex(null) : onClose());
 
   return (
     <div className={styles.box}>
@@ -55,18 +51,18 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
               observation={observations[index]}
               predictionOverride={predictionOverrides[observations[index].location]}
               onPredictionOverride={onPredictionOverride}
-              onPhotoClick={toggleMaximizedMode}
+              onPhotoClick={setMaximizedCardIndex}
               observationIndex={index}
               isMaximized={false}
             />
           )}
         />
-        {isMaximizedMode && (
+        {isMaximizedMode && maximizedCardIndex !== null && (
           <ObservationCard
             observation={observations[maximizedCardIndex]}
             predictionOverride={predictionOverrides[observations[maximizedCardIndex].location]}
             onPredictionOverride={onPredictionOverride}
-            onPhotoClick={toggleMaximizedMode}
+            onPhotoClick={setMaximizedCardIndex}
             observationIndex={maximizedCardIndex}
             isMaximized
           />

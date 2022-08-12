@@ -1,9 +1,9 @@
 import { Card, Elevation, Tooltip } from '@blueprintjs/core';
+import classNames from 'classnames/bind';
 import path from 'path';
-import React from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import CreatableSelect from 'react-select/creatable';
-import classNames from 'classnames/bind';
 
 import { formatAnimalClassName } from '../constants/animalsClasses';
 import { taxonOptions } from '../constants/taxons';
@@ -15,7 +15,7 @@ type ObservationCardProps = {
   observation: Observation;
   predictionOverride?: CreatableOption;
   onPredictionOverride: PredictionOverrideHandler;
-  onPhotoClick: (cardIndex: number) => void;
+  onPhotoClick: (cardIndex: number | null) => void;
   observationIndex: number;
   isMaximized: boolean;
 };
@@ -30,6 +30,7 @@ export default function ObservationCard(props: ObservationCardProps) {
     isMaximized
   } = props;
   const { t } = useTranslation();
+  const [isOverriden, setOverride] = useState<boolean>(false);
 
   const dropdownInitialValue = {
     value: observation.pred_1,
@@ -38,6 +39,12 @@ export default function ObservationCard(props: ObservationCardProps) {
 
   const handlePredictionOverride = (newValue: CreatableOption | null) => {
     onPredictionOverride(observation.location, newValue);
+    setOverride(
+      newValue === null
+        ? false
+        : dropdownInitialValue.label !== newValue.label &&
+            dropdownInitialValue.value !== newValue.value
+    );
   };
 
   const predictions = [
@@ -73,7 +80,7 @@ export default function ObservationCard(props: ObservationCardProps) {
       value={predictionOverride || dropdownInitialValue}
       onChange={handlePredictionOverride}
       options={taxonOptions}
-      isClearable={predictionOverride}
+      isClearable={isOverriden}
       menuShouldScrollIntoView={false}
       className={styles.predictionOverride}
       menuPlacement={isMaximized ? 'top' : 'bottom'}
@@ -102,7 +109,7 @@ export default function ObservationCard(props: ObservationCardProps) {
       <Card className={styles.card} elevation={Elevation.TWO} key={observation.location}>
         <div
           className={styles.body}
-          onClick={() => onPhotoClick(isMaximized ? -1 : observationIndex)}
+          onClick={() => onPhotoClick(isMaximized ? null : observationIndex)}
           aria-hidden="true"
         >
           <div className={styles.photo}>
