@@ -31,24 +31,6 @@ export default function App(props: Props) {
         </Navbar.Group>
 
         <Navbar.Group align={Alignment.RIGHT}>
-          <div className={styles.externalLinks}>
-            <a
-              href="https://github.com/Appsilon/mbaza/discussions"
-              target="_blank"
-              rel="noreferrer"
-              className={styles.link}
-            >
-              Forum
-            </a>
-            <a
-              href="https://github.com/Appsilon/mbaza"
-              target="_blank"
-              rel="noreferrer"
-              className={styles.link}
-            >
-              User Guide
-            </a>
-          </div>
           <Popover>
             <Button className="bp3-minimal" icon="globe" />
             <Menu>

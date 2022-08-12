@@ -14,6 +14,22 @@ export default function HomePage() {
           <Card interactive elevation={Elevation.TWO} className={`${styles.card} bp3-running-text`}>
             <h1 className={styles.cardTitle}>{t('home.welcome.title')}</h1>
             <Trans i18nKey="home.welcome.message" />
+            <p>
+              <span>{t('home.welcome.forum.text')}</span>
+              <a
+                href="https://github.com/Appsilon/mbaza/discussions"
+                target="_blank"
+                rel="noreferrer"
+              >
+                {t('home.welcome.forum.linkText')}
+              </a>
+            </p>
+            <p>
+              <span>{t('home.welcome.userGuide.text')}</span>
+              <a href={t('home.welcome.userGuide.link')} target="_blank" rel="noreferrer">
+                {t('home.welcome.userGuide.linkText')}
+              </a>
+            </p>
           </Card>
           <Callout
             className={styles.callout}
