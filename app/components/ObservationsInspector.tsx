@@ -17,10 +17,11 @@ type ObservationsInspectorProps = {
 export default function ObservationsInspector(props: ObservationsInspectorProps) {
   const { observations, onClose, predictionOverrides, onPredictionOverride } = props;
   const { t } = useTranslation();
-  const [maximizedCardIndex, setMaximizedCardIndex] = useState<number | null>(null);
-  const isMaximizedMode = maximizedCardIndex !== null;
-  const backButtonText = t(`explore.${isMaximizedMode ? 'backToObservations' : 'backToMap'}`);
-  const onBackButtonClick = () => (isMaximizedMode ? setMaximizedCardIndex(null) : onClose());
+  const [maximizedCard, setMaximizedCard] = useState<number | null>(null);
+  const backButtonText = t(
+    maximizedCard !== null ? 'explore.backToObservations' : 'explore.backToMap'
+  );
+  const onBackButtonClick = () => (maximizedCard !== null ? setMaximizedCard(null) : onClose());
 
   return (
     <div className={styles.box}>
@@ -49,19 +50,19 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
               observation={observations[index]}
               predictionOverride={predictionOverrides[observations[index].location]}
               onPredictionOverride={onPredictionOverride}
-              onPhotoClick={setMaximizedCardIndex}
+              onPhotoClick={setMaximizedCard}
               observationIndex={index}
               isMaximized={false}
             />
           )}
         />
-        {isMaximizedMode && maximizedCardIndex !== null && (
+        {maximizedCard !== null && (
           <ObservationCard
-            observation={observations[maximizedCardIndex]}
-            predictionOverride={predictionOverrides[observations[maximizedCardIndex].location]}
+            observation={observations[maximizedCard]}
+            predictionOverride={predictionOverrides[observations[maximizedCard].location]}
             onPredictionOverride={onPredictionOverride}
-            onPhotoClick={setMaximizedCardIndex}
-            observationIndex={maximizedCardIndex}
+            onPhotoClick={setMaximizedCard}
+            observationIndex={maximizedCard}
             isMaximized
           />
         )}
