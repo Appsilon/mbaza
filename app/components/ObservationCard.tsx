@@ -1,7 +1,7 @@
 import { Card, Elevation, Tooltip } from '@blueprintjs/core';
 import classNames from 'classnames/bind';
 import path from 'path';
-import React, { useState } from 'react';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import CreatableSelect from 'react-select/creatable';
 
@@ -30,21 +30,16 @@ export default function ObservationCard(props: ObservationCardProps) {
     isMaximized
   } = props;
   const { t } = useTranslation();
-  const [isOverriden, setOverride] = useState<boolean>(false);
 
-  const dropdownInitialValue = {
+  const topPrediction = {
     value: observation.pred_1,
     label: formatAnimalClassName(observation.pred_1)
   };
 
-  const handlePredictionOverride = (newValue: CreatableOption | null) => {
-    onPredictionOverride(observation.location, newValue);
-    setOverride(
-      newValue === null
-        ? false
-        : dropdownInitialValue.label !== newValue.label &&
-            dropdownInitialValue.value !== newValue.value
-    );
+  const handlePredictionOverride = (newPrediction: CreatableOption | null) => {
+    if (newPrediction === null || newPrediction.value !== topPrediction.value) {
+      onPredictionOverride(observation.location, newPrediction);
+    }
   };
 
   const predictions = [
@@ -76,14 +71,13 @@ export default function ObservationCard(props: ObservationCardProps) {
   );
   const predictionOverrideWidget = (
     <CreatableSelect
-      name={predictionOverride}
-      value={predictionOverride || dropdownInitialValue}
+      value={predictionOverride || topPrediction}
       onChange={handlePredictionOverride}
       options={taxonOptions}
-      isClearable={isOverriden}
+      isClearable={predictionOverride !== undefined}
       menuShouldScrollIntoView={false}
       className={styles.predictionOverride}
-      menuPlacement={isMaximized ? 'top' : 'bottom'}
+      menuPlacement="auto"
     />
   );
   const photoDetail = (label: string, value: string) => (
