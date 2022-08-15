@@ -44,17 +44,17 @@ export default function ExplorerFilter(props: Props) {
   );
   const stations = getUniqueSet(observations.map((entry) => entry.station)).sort(orderByName);
 
-  const setAnimals = (options: Entry[]) => {
+  const setAnimals = (options: readonly Entry[]) => {
     let result: Entry[] = [];
     if (Array.isArray(options)) result = options;
     updateFilters({ activeAnimals: result });
   };
-  const setStations = (options: Entry[]) => {
+  const setStations = (options: readonly Entry[]) => {
     let result: Entry[] = [];
     if (Array.isArray(options)) result = options;
     updateFilters({ activeStations: result });
   };
-  const setCameras = (options: Entry[]) => {
+  const setCameras = (options: readonly Entry[]) => {
     let result: Entry[] = [];
     if (Array.isArray(options)) result = options;
     updateFilters({ activeCameras: result });
