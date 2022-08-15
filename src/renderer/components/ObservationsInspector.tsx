@@ -11,7 +11,6 @@ type ObservationsInspectorProps = {
   onClose: () => void;
   predictionOverrides: PredictionOverridesMap;
   onPredictionOverride: PredictionOverrideHandler;
-  onPhotoClick?: (cardIndex: number) => void;
 };
 
 export default function ObservationsInspector(props: ObservationsInspectorProps) {

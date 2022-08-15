@@ -7,15 +7,15 @@ import styles from './ExplorerFilters.module.scss';
 
 type Props = {
   observations: Observation[];
-  updateFilters: Function;
+  updateFilters: Function; // eslint-disable-line @typescript-eslint/ban-types
 };
 
-type entry = {
+type Entry = {
   label: string;
   value: string;
 };
 
-const orderByName = (a: entry, b: entry) => {
+const orderByName = (a: Entry, b: Entry) => {
   const nameA = a.label.toUpperCase();
   const nameB = b.label.toUpperCase();
 
@@ -45,18 +45,18 @@ export default function ExplorerFilter(props: Props) {
   );
   const stations = getUniqueSet(observations.map((entry) => entry.station)).sort(orderByName);
 
-  const setAnimals = (options: entry[]) => {
-    let result: entry[] = [];
+  const setAnimals = (options: Entry[]) => {
+    let result: Entry[] = [];
     if (Array.isArray(options)) result = options;
     updateFilters({ activeAnimals: result });
   };
-  const setStations = (options: entry[]) => {
-    let result: entry[] = [];
+  const setStations = (options: Entry[]) => {
+    let result: Entry[] = [];
     if (Array.isArray(options)) result = options;
     updateFilters({ activeStations: result });
   };
-  const setCameras = (options: entry[]) => {
-    let result: entry[] = [];
+  const setCameras = (options: Entry[]) => {
+    let result: Entry[] = [];
     if (Array.isArray(options)) result = options;
     updateFilters({ activeCameras: result });
   };

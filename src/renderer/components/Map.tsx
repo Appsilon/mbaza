@@ -177,7 +177,7 @@ export default function Map(props: MapProps) {
     return function cleanup() {
       map.remove();
     };
-  }, [observations]);
+  }, [mapRef, observations, onInspect, t]);
 
   return <div ref={mapRef} className={styles.mapContainer} />;
 }

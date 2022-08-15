@@ -20,7 +20,7 @@ type ObservationCardProps = {
   isMaximized: boolean;
 };
 
-export default function ObservationCard(props: ObservationCardProps) {
+function ObservationCard(props: ObservationCardProps) {
   const {
     observation,
     predictionOverride,
@@ -127,3 +127,9 @@ export default function ObservationCard(props: ObservationCardProps) {
     </div>
   );
 }
+
+ObservationCard.defaultProps = {
+  predictionOverride: undefined,
+};
+
+export default ObservationCard;

@@ -177,6 +177,7 @@ export default function ExplorePage() {
     return filtered;
     // TODO: Remove `predictionOverrides` from the dependencies once `observations` are updated
     // correctly in the `handlePredictionOverride()` function.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters, observations, predictionOverrides]);
 
   if (observations !== undefined) {
