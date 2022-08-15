@@ -1,166 +1,72 @@
-import { Card, Classes, Drawer, Elevation, Position, Tooltip } from '@blueprintjs/core';
-import path from 'path';
-import React from 'react';
+import { Button } from '@blueprintjs/core';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import CreatableSelect from 'react-select/creatable';
-import { Virtuoso } from 'react-virtuoso';
+import { VirtuosoGrid } from 'react-virtuoso';
 
-import { formatAnimalClassName } from '../constants/animalsClasses';
-import { taxonOptions } from '../constants/taxons';
+import ObservationCard from './ObservationCard';
 import styles from './ObservationsInspector.module.scss';
-
-type ObservationCardProps = {
-  observation: Observation;
-  predictionOverride?: CreatableOption;
-  onPredictionOverride: PredictionOverrideHandler;
-};
-
-function ObservationCard(props: ObservationCardProps) {
-  const { observation, predictionOverride, onPredictionOverride } = props;
-  const { t } = useTranslation();
-
-  const handlePredictionOverride = (newValue: CreatableOption | null) => {
-    onPredictionOverride(observation.location, newValue);
-  };
-
-  const predictions = [
-    [formatAnimalClassName(observation.pred_1), observation.score_1],
-    [formatAnimalClassName(observation.pred_2), observation.score_2],
-    [formatAnimalClassName(observation.pred_3), observation.score_3]
-  ];
-
-  const predictionsTable = (
-    <table className="bp3-html-table bp3-html-table-condensed">
-      <thead>
-        <tr>
-          <th>{t('explore.inspect.prediction')}</th>
-          <th>{t('explore.inspect.probability')}</th>
-        </tr>
-      </thead>
-      <tbody>
-        {predictions.map(i => (
-          <tr key={i[0]}>
-            <td>{i[0]}</td>
-            <td>
-              {((i[1] as number) * 100).toFixed(2)}
-              &nbsp;%
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
-  const predictionOverrideWidget = (
-    <Tooltip content={t('explore.inspect.overrideTooltip')} position={Position.RIGHT}>
-      <div className={styles.predictionOverride}>
-        <h4 className={styles.predictionLabel}>{t('explore.inspect.override')}</h4>
-        <CreatableSelect
-          name={predictionOverride}
-          value={predictionOverride}
-          onChange={handlePredictionOverride}
-          isClearable
-          options={taxonOptions}
-          menuShouldScrollIntoView={false}
-        />
-      </div>
-    </Tooltip>
-  );
-  const photoDetails = (
-    <div className={styles.photoDetails}>
-      <p>
-        <strong>
-          {t('explore.inspect.camera')}
-          :&nbsp;
-        </strong>
-        {observation.camera}
-      </p>
-      <p>
-        <strong>
-          {t('explore.inspect.file')}
-          :&nbsp;
-        </strong>
-        {path.basename(observation.location)}
-      </p>
-    </div>
-  );
-
-  return (
-    <div className={styles.observation}>
-      <Card className={styles.card} elevation={Elevation.TWO} key={observation.location}>
-        <h3 className={styles.heading}>
-          {t('explore.inspect.photoHeader', {
-            species: formatAnimalClassName(
-              predictionOverride ? predictionOverride.value : observation.pred_1
-            ),
-            date: observation.date
-          })}
-        </h3>
-        <div className={styles.body}>
-          <div className={styles.photo}>
-            <img
-              className={styles.img}
-              src={observation.location}
-              width={360}
-              alt={observation.pred_1}
-            />
-          </div>
-          <div className={styles.data}>
-            {predictionsTable}
-            {predictionOverrideWidget}
-            {photoDetails}
-          </div>
-        </div>
-      </Card>
-    </div>
-  );
-}
 
 type ObservationsInspectorProps = {
   observations: Observation[];
   onClose: () => void;
   predictionOverrides: PredictionOverridesMap;
   onPredictionOverride: PredictionOverrideHandler;
+  onPhotoClick?: (cardIndex: number) => void;
 };
 
 export default function ObservationsInspector(props: ObservationsInspectorProps) {
   const { observations, onClose, predictionOverrides, onPredictionOverride } = props;
   const { t } = useTranslation();
-  if (observations.length === 0) {
-    return null;
-  }
+  const [maximizedCard, setMaximizedCard] = useState<number | null>(null);
+  const backButtonText = t(
+    maximizedCard !== null ? 'explore.backToObservations' : 'explore.backToMap'
+  );
+  const onBackButtonClick = () => (maximizedCard !== null ? setMaximizedCard(null) : onClose());
+
   return (
-    <Drawer
-      title={t('explore.inspect.header', {
-        station: observations[0].station
-      })}
-      className={styles.drawer}
-      icon="camera"
-      isOpen={observations.length > 0}
-      onClose={onClose}
-      // Workaround: without this setting, clearning prediction override closes the drawer.
-      canOutsideClickClose={false}
-      size={750}
-    >
-      <div className={`${Classes.DRAWER_BODY} ${styles.drawerBody}`}>
-        <div className={`${Classes.DIALOG_BODY} ${styles.dialogBody}`}>
-          <Virtuoso
-            className={styles.list}
-            data={observations}
-            itemContent={(_index, observation) => (
-              <ObservationCard
-                observation={observation}
-                predictionOverride={predictionOverrides[observation.location]}
-                onPredictionOverride={onPredictionOverride}
-              />
-            )}
+    <div className={styles.box}>
+      <div className={styles.boxHeader}>
+        <Button
+          className={styles.backButton}
+          icon="chevron-left"
+          minimal
+          alignText="left"
+          onClick={onBackButtonClick}
+          text={backButtonText}
+        />
+        <h4 className={styles.heading}>
+          {t('explore.inspect.header', { station: observations[0].station })}
+        </h4>
+        <p className={styles.counter}>
+          {t('explore.inspect.observations', { count: observations.length })}
+        </p>
+      </div>
+      <div className={styles.boxBody}>
+        <VirtuosoGrid
+          totalCount={observations.length}
+          listClassName={styles.list}
+          itemContent={index => (
+            <ObservationCard
+              observation={observations[index]}
+              predictionOverride={predictionOverrides[observations[index].location]}
+              onPredictionOverride={onPredictionOverride}
+              onPhotoClick={setMaximizedCard}
+              observationIndex={index}
+              isMaximized={false}
+            />
+          )}
+        />
+        {maximizedCard !== null && (
+          <ObservationCard
+            observation={observations[maximizedCard]}
+            predictionOverride={predictionOverrides[observations[maximizedCard].location]}
+            onPredictionOverride={onPredictionOverride}
+            onPhotoClick={setMaximizedCard}
+            observationIndex={maximizedCard}
+            isMaximized
           />
-        </div>
+        )}
       </div>
-      <div className={Classes.DRAWER_FOOTER}>
-        {t('explore.inspect.observations', {
-          count: observations.length
-        })}
-      </div>
-    </Drawer>
+    </div>
   );
 }

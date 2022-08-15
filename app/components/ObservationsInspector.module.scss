@@ -1,67 +1,75 @@
 @use '../styles/variables' as var;
+@use '../styles/animations';
 
-$t-observation-card: 0.5s;
+.box {
+  animation: fade-in 0.5s;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
 
-.drawer {
-  .drawerBody {
-    overflow: hidden;
-  }
+  .boxHeader {
+    align-items: center;
+    background-color: var.$c-green-60;
+    display: grid;
+    grid-template-columns: 200px 1fr 200px;
+    height: 36px;
+    padding: 0 20px;
 
-  .dialogBody {
-    height: 100%;
-    margin: 0;
-    padding: 10px 0;
+    .backButton {
+      background: none;
+      box-shadow: none;
+      color: var.$c-green-10;
+      font-size: 0.88rem;
+      outline: none;
+      padding: 0;
+      transition: color var.$t-button;
 
-    .list {
-      height: 100%;
-      margin: 0;
+      :global .bp3-icon {
+        color: var.$c-green-10;
+        margin-right: 5px;
+        transition: color var.$t-button;
+      }
 
-      .observation {
-        padding: 10px 20px;
-        transition: opacity $t-observation-card, visibility 0s $t-observation-card;
+      &:hover {
+        background: none;
+        color: var.$c-orange;
 
-        .card {
-          border-radius: var.$radius-card;
-          box-shadow: var.$shadow-card;
-          height: auto;
-
-          .heading {
-            margin-top: 0;
-          }
-
-          .body {
-            display: flex;
-
-            .photo {
-              .img {
-                border-radius: var.$radius-card;
-                transition: opacity $t-observation-card, visibility 0s;
-              }
-            }
-
-            .data {
-              margin-left: 24px;
-
-              :global .bp3-popover-target {
-                display: flex;
-              }
-
-              .predictionOverride {
-                margin-left: 10px;
-                width: 100%;
-              }
-
-              .predictionLabel {
-                margin-bottom: 5px;
-              }
-
-              .photoDetails {
-                margin: 20px 10px;
-              }
-            }
-          }
+        :global .bp3-icon {
+          color: var.$c-orange;
         }
       }
+    }
+
+    .heading {
+      color: var.$c-white;
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 0;
+      text-align: center;
+    }
+
+    .counter {
+      color: var.$c-green-20;
+      margin: 0;
+      text-align: right;
+    }
+  }
+
+  .boxBody {
+    background-color: var.$c-white;
+    height: 100%;
+    position: relative;
+
+    .list {
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      margin: 20px 0;
+      padding: 20px;
     }
   }
 }

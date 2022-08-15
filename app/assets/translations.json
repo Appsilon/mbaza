@@ -75,6 +75,8 @@
       },
       "explore": {
         "chooseFile": "Choose results file to explore",
+        "backToMap": "Back to map",
+        "backToObservations": "Back to observations",
         "chooseFilePlaceholder": "Select data file",
         "info": "Please select a CSV file with detection results to analyze them.",
         "mapHint": "Size of circle corresponds to the number of detected species (species richness). Click on a station to see details.",
@@ -111,11 +113,10 @@
           "observations": "{{count}} observations",
           "species": "{{count}} species",
           "header": "Observations by station {{station}}",
-          "photoHeader": "{{species}} {{date}}",
           "prediction": "Prediction",
           "probability": "Probability",
-          "override": "Override prediction",
           "overrideTooltip": "You can override the top prediction and export a modified CSV",
+          "date": "Date",
           "camera": "Camera",
           "file": "File"
         }
@@ -198,6 +199,8 @@
       },
       "explore": {
         "chooseFile": "Choisissez le fichier de résultats à explorer",
+        "backToMap": "Retour à la carte",
+        "backToObservations": "Retour aux observations",
         "chooseFilePlaceholder": "Fichier de données",
         "info": "Veuillez sélectionnez un fichier CSV avec les résultats de la détection pour les analyser.",
         "mapHint": "La taille du cercle correspond au nombre d'espèces détectées. Cliquez sur une station pour voir les détails.",
@@ -234,11 +237,10 @@
           "observations": "{{count}} observations",
           "species": "{{count}} espèces",
           "header": "Observations par station {{station}}",
-          "photoHeader": "{{species}} {{date}}",
           "prediction": "Prédiction",
           "probability": "Probabilité",
-          "override": "Modifier la prédiction",
           "overrideTooltip": "Vous pouvez modifier la prédiction supérieure et exporter un CSV modifié",
+          "date": "Date",
           "camera": "ID de l'appareil photo",
           "file": "Fichier"
         }

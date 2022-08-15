@@ -84,16 +84,13 @@
     flex-direction: column;
     grid-area: map;
     height: 100%;
-
-    &:hover {
-      box-shadow: var.$shadow-card;
-    }
+    overflow: hidden;
+    position: relative;
   }
 
   .cardBody {
     height: 100%;
     overflow: hidden;
-    position: relative;
     width: 100%;
   }
 }
