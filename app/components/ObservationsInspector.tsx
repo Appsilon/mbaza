@@ -7,7 +7,6 @@ import ObservationCard from './ObservationCard';
 import styles from './ObservationsInspector.module.scss';
 
 type ObservationsInspectorProps = {
-  isVisible: boolean;
   observations: Observation[];
   onClose: () => void;
   predictionOverrides: PredictionOverridesMap;
@@ -16,8 +15,7 @@ type ObservationsInspectorProps = {
 };
 
 export default function ObservationsInspector(props: ObservationsInspectorProps) {
-  const { isVisible, observations, onClose, predictionOverrides, onPredictionOverride } = props;
-  if (!isVisible) return null;
+  const { observations, onClose, predictionOverrides, onPredictionOverride } = props;
   const { t } = useTranslation();
   const [maximizedCardIndex, setMaximizedCardIndex] = useState<number | null>(null);
   const isMaximizedMode = maximizedCardIndex !== null;

@@ -235,13 +235,14 @@ export default function ExplorePage() {
           <Callout intent={Intent.PRIMARY}>{t('explore.mapHint')}</Callout>
           <div className={styles.cardBody}>
             <Map observations={filteredObservations} onInspect={() => setInspectorOpen(true)} />
-            <ObservationsInspector
-              isVisible={isInspectorOpen}
-              observations={filteredObservations}
-              onClose={() => setInspectorOpen(false)}
-              predictionOverrides={predictionOverrides}
-              onPredictionOverride={handlePredictionOverride}
-            />
+            {isInspectorOpen && (
+              <ObservationsInspector
+                observations={filteredObservations}
+                onClose={() => setInspectorOpen(false)}
+                predictionOverrides={predictionOverrides}
+                onPredictionOverride={handlePredictionOverride}
+              />
+            )}
           </div>
         </Card>
       </div>
