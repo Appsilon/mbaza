@@ -1,7 +1,6 @@
 import { Card, Elevation, Tooltip } from '@blueprintjs/core';
 import classNames from 'classnames/bind';
 import path from 'path';
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import CreatableSelect from 'react-select/creatable';
 

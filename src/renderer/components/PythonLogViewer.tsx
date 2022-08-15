@@ -1,5 +1,4 @@
 import { Callout, Card, Elevation, H5, H6, Intent, Pre, Spinner } from '@blueprintjs/core';
-import React from 'react';
 
 import styles from './PythonLogViewer.module.scss';
 

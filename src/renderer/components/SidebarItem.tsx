@@ -1,6 +1,5 @@
 import { Button } from '@blueprintjs/core';
 import { IconName } from '@blueprintjs/icons';
-import React from 'react';
 import { Link } from 'react-router-dom';
 
 import styles from './SidebarItem.module.scss';

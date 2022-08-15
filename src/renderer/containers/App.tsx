@@ -1,5 +1,5 @@
 import { Alignment, Button, Menu, MenuItem, Navbar, Popover } from '@blueprintjs/core';
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Sidebar from '../components/Sidebar';

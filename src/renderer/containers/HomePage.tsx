@@ -1,5 +1,4 @@
 import { Callout, Card, Elevation, Intent } from '@blueprintjs/core';
-import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 
 import styles from './HomePage.module.scss';

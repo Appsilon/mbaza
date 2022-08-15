@@ -12,7 +12,7 @@ import {
 import { csvFormat } from 'd3-dsv';
 import { promises as fsPromises } from 'fs';
 import _ from 'lodash';
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import ExploreHeader from '../components/ExploreHeader';

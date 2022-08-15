@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { formatAnimalClassName } from '../constants/animalsClasses';
 
 type Props = {

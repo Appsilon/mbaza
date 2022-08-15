@@ -15,7 +15,7 @@ import { ChildProcessWithoutNullStreams, spawn } from 'child_process';
 import fs from 'fs';
 import { TFunction } from 'i18next';
 import path from 'path';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 
 import MissingModelsMessage from '../components/MissingModelsMessage';

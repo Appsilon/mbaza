@@ -1,5 +1,3 @@
-import React from 'react';
-
 export default function PathInput(props: {
   className: string;
   placeholder: string;

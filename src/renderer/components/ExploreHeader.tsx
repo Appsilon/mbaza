@@ -1,5 +1,5 @@
 import { Button, H5, H6, Icon, NumericInput, Popover, Tooltip } from '@blueprintjs/core';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import styles from './ExploreHeader.module.scss';

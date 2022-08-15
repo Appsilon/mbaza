@@ -1,5 +1,5 @@
 import { Button } from '@blueprintjs/core';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { VirtuosoGrid } from 'react-virtuoso';
 
