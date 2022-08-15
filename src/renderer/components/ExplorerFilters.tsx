@@ -39,11 +39,11 @@ export default function ExplorerFilter(props: Props) {
     });
   };
 
-  const animals = getUniqueSet(observations.map(entry => entry.label)).sort(orderByName);
-  const cameras = getUniqueSet(observations.map(entry => entry.camera)).sort(
+  const animals = getUniqueSet(observations.map((entry) => entry.label)).sort(orderByName);
+  const cameras = getUniqueSet(observations.map((entry) => entry.camera)).sort(
     (a, b) => parseInt(a.value, 10) - parseInt(b.value, 10)
   );
-  const stations = getUniqueSet(observations.map(entry => entry.station)).sort(orderByName);
+  const stations = getUniqueSet(observations.map((entry) => entry.station)).sort(orderByName);
 
   const setAnimals = (options: entry[]) => {
     let result: entry[] = [];

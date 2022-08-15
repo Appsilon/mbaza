@@ -37,12 +37,8 @@ export default function exportDarwinCore(
       publisher: '',
       license: '',
       rightsHolder: '',
-      scientificName: [o.genus, o.species].join(' ')
+      scientificName: [o.genus, o.species].join(' '),
     };
   }
-  return _(observations)
-    .groupBy('event_id')
-    .values()
-    .map(convertEvent)
-    .value();
+  return _(observations).groupBy('event_id').values().map(convertEvent).value();
 }

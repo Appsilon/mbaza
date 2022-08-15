@@ -21,7 +21,7 @@ export default function PythonLogViewer(props: Props) {
     progressMessage,
     logMessage,
     isRunning,
-    exitCode
+    exitCode,
   } = props;
 
   const resultView =

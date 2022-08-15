@@ -23,7 +23,7 @@ export default function ExploreHeader(props: Props) {
     onEventsUpdateClick,
     onDataExportClick,
     onDarwinCoreExportClick,
-    onPhotosExportClick
+    onPhotosExportClick,
   } = props;
   // eslint-disable-next-line
   const filename = (filePath !== undefined) ? filePath.replace(/^.*[\\\/]/, '') : "";

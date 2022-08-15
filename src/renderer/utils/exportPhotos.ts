@@ -13,7 +13,7 @@ function filename(o: Observation) {
     format(o.timestamp, 'yyyy-MM-dd'),
     format(o.timestamp, 'HH-mm-ss'),
     o.event_id || 'UnknownEventId',
-    o.event_photo || 'UnknownEventPhoto'
+    o.event_photo || 'UnknownEventPhoto',
   ].join('__');
   const extension = o.location.split('.').pop();
   return `${name}.${extension}`;

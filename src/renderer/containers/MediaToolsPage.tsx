@@ -9,7 +9,7 @@ import {
   Radio,
   RadioGroup,
   Slider,
-  Toaster
+  Toaster,
 } from '@blueprintjs/core';
 import { ChildProcessWithoutNullStreams, spawn } from 'child_process';
 import fs from 'fs';
@@ -31,7 +31,7 @@ function displayErrorToast(message: string) {
   toaster.show({
     message,
     intent: Intent.DANGER,
-    icon: 'warning-sign'
+    icon: 'warning-sign',
   });
 }
 
@@ -86,7 +86,7 @@ const extractImages = (
     '--input_folder',
     options.inputDir,
     '--output_folder',
-    options.outputDir
+    options.outputDir,
   ];
   if (options.toolMode === 'EXTRACT_FRAMES') {
     if (options.frameInterval !== undefined) {
@@ -102,15 +102,15 @@ const extractImages = (
   if (process !== null) {
     setExitCode(undefined);
     setIsRunning(true);
-    process.stdout.on('data', data => {
+    process.stdout.on('data', (data) => {
       changeLogMessage(`${data}`);
     });
-    process.stderr.on('data', data => {
+    process.stderr.on('data', (data) => {
       // eslint-disable-next-line no-console
       console.log(`Extractor stderr: ${data}`);
       changeLogMessage(`${data}`);
     });
-    process.on('exit', exitCode => {
+    process.on('exit', (exitCode) => {
       // eslint-disable-next-line no-console
       console.log(`Extractor exited with code ${exitCode}`);
       setIsRunning(false);
@@ -122,7 +122,7 @@ const extractImages = (
 const THUMBNAIL_SIZE_LABELS = new Map<number, string>([
   [200, 'tools.thumbnailSizeSmall'],
   [500, 'tools.thumbnailSizeMedium'],
-  [800, 'tools.thumbnailSizeLarge']
+  [800, 'tools.thumbnailSizeLarge'],
 ]);
 
 export default function MediaToolsPage() {
@@ -139,7 +139,7 @@ export default function MediaToolsPage() {
   const [exitCode, setExitCode] = useState<number | null>();
 
   const appendLogMessage = (newMessage: string) => {
-    setLogMessage(oldMessage => oldMessage + newMessage);
+    setLogMessage((oldMessage) => oldMessage + newMessage);
   };
 
   const rootModelsDirectoryExists = fs.existsSync(rootModelsDirectory);
@@ -189,7 +189,7 @@ export default function MediaToolsPage() {
     <div className={styles.form}>
       <RadioGroup
         selectedValue={toolMode}
-        onChange={e => setToolMode(e.currentTarget.value as ToolMode)}
+        onChange={(e) => setToolMode(e.currentTarget.value as ToolMode)}
         label={t('tools.mode')}
       >
         <Radio value="EXTRACT_FRAMES" label={t('tools.extractFramesDetail')} />

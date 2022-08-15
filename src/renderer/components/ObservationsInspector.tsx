@@ -45,7 +45,7 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
         <VirtuosoGrid
           totalCount={observations.length}
           listClassName={styles.list}
-          itemContent={index => (
+          itemContent={(index) => (
             <ObservationCard
               observation={observations[index]}
               predictionOverride={predictionOverrides[observations[index].location]}
