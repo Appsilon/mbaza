@@ -14,7 +14,16 @@
       "home": {
         "welcome": {
           "title": "Welcome to Mbaza AI!",
-          "message": "<h4>A multi-platform, offline application for classifying camera trap images </h4> <p>Mbaza AI allows biodiversity conservation researchers to automatically identify species in camera trap images and analyze the results. </p> <p> It is powered by high performance AI models and currently recognizes more than 25 species of Central African mammals and birds.</p> <p> To use the application, first go to Classify and run the AI on your photo dataset, then click Explore to view and analyze the results.</p>"
+          "message": "<h4>A multi-platform, offline application for classifying camera trap images </h4> <p>Mbaza AI allows biodiversity conservation researchers to automatically identify species in camera trap images and analyze the results. </p> <p> It is powered by high performance AI models and currently recognizes more than 25 species of Central African mammals and birds.</p> <p> To use the application, first go to Classify and run the AI on your photo dataset, then click Explore to view and analyze the results.</p>",
+          "forum": {
+            "text": "Connect with other members of our community in ",
+            "linkText": "the forum."
+          },
+          "userGuide": {
+            "text": "Click to download ",
+            "linkText": "the user guide.",
+            "link": "https://github.com/Appsilon/mbaza/releases/download/v1.2.1/Mbaza.AI.user.guide.v1-2-1.EN.pdf"
+          }
         },
         "warning": {
           "title": "This is an early development version",
@@ -128,7 +137,16 @@
       "home": {
         "welcome": {
           "title": "Bienvenue à Mbaza AI !",
-          "message": "<h4>Un logiciel multi-plateforme et hors ligne pour l'analyze d'images des pièges caméra </h4> <p>Mbaza IA est une application pour les chercheurs de conservation de biodiversité d'identifier automatiquement les espèces dans les images des pièges caméra et d'analyser les résultats.</p> <p>Elle est alimentée par modèles IA de haute performance capables de reconnaître plus de 25 mammifères et oiseaux des forêts d'Afrique centrale.</p> <p>Pour utiliser l'application, allez d'abord dans Detectez et exécutez l'IA sur votre ensemble de données de photos. Cliquez ensuite sur Explorez pour visualiser et analyser les résultats.</p>"
+          "message": "<h4>Un logiciel multi-plateforme et hors ligne pour l'analyze d'images des pièges caméra </h4> <p>Mbaza IA est une application pour les chercheurs de conservation de biodiversité d'identifier automatiquement les espèces dans les images des pièges caméra et d'analyser les résultats.</p> <p>Elle est alimentée par modèles IA de haute performance capables de reconnaître plus de 25 mammifères et oiseaux des forêts d'Afrique centrale.</p> <p>Pour utiliser l'application, allez d'abord dans Detectez et exécutez l'IA sur votre ensemble de données de photos. Cliquez ensuite sur Explorez pour visualiser et analyser les résultats.</p>",
+          "forum": {
+            "text": "Connectez-vous avec d'autres membres de notre communauté dans ",
+            "linkText": "le forum."
+          },
+          "userGuide": {
+            "text": "Cliquez pour télécharger ",
+            "linkText": "le guide d'utilisation.",
+            "link": "https://github.com/Appsilon/mbaza/releases/download/v1.2.1/Mbaza.AI.user.guide.v1-2-1.FR.pdf"
+          }
         },
         "warning": {
           "title": "Il s'agit d'une première version de développement",
