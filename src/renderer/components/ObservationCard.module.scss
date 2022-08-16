@@ -56,6 +56,32 @@ $card-size: 240px;
           width: auto;
         }
       }
+
+      .selectButton {
+        background: none;
+        opacity: 0;
+        outline: none;
+        transition: opacity var.$t-button, visibility 0s var.$t-button;
+        visibility: hidden;
+
+        & > span {
+          color: var.$c-green-20;
+          height: 20px;
+          transition: color var.$t-button;
+          width: 20px;
+
+          & > svg {
+            height: 100%;
+            width: 100%;
+          }
+        }
+
+        &:hover {
+          & > span {
+            color: var.$c-green-60;
+          }
+        }
+      }
     }
 
     .body {
@@ -85,8 +111,7 @@ $card-size: 240px;
         opacity: 0;
         padding: 10px;
         position: absolute;
-        transform: translateY(-20%);
-        transition: opacity $t-obs-card, transform $t-obs-card, visibility 0s $t-obs-card;
+        transition: opacity $t-obs-card, visibility 0s $t-obs-card;
         visibility: hidden;
         width: 100%;
 
@@ -128,11 +153,18 @@ $card-size: 240px;
         .data {
           opacity: 1;
           transform: translateY(0);
-          transition: opacity $t-obs-card 0.2s,
-            transform $t-obs-card cubic-bezier(0.2, 0.98, 0.59, 1) 0.2s, visibility 0s;
+          transition: opacity $t-obs-card 0.5s, visibility 0s;
           visibility: visible;
         }
       }
+    }
+  }
+
+  &:not(.maximized):hover {
+    .selectButton {
+      opacity: 1;
+      transition: opacity var.$t-button, visibility 0s;
+      visibility: visible;
     }
   }
 

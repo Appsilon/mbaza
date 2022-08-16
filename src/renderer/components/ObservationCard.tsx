@@ -1,4 +1,4 @@
-import { Card, Elevation, Tooltip } from '@blueprintjs/core';
+import { Card, Elevation, Tooltip, Button } from '@blueprintjs/core';
 import classNames from 'classnames/bind';
 import path from 'path';
 import { useTranslation } from 'react-i18next';
@@ -121,6 +121,7 @@ function ObservationCard(props: ObservationCardProps) {
           <Tooltip content={t('explore.inspect.overrideTooltip')} position="top" minimal>
             {predictionOverrideWidget}
           </Tooltip>
+          <Button className={styles.selectButton} icon="tick-circle" minimal></Button>
         </div>
       </Card>
     </div>
