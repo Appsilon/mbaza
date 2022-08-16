@@ -15,7 +15,7 @@ to classify camera trap animal images and analyze the results.
 ## Development
 
 Mbaza is based on [Electron React Boilerplate](https://github.com/electron-react-boilerplate/electron-react-boilerplate),
-which uses uses
+which uses
 [Electron](https://electron.atom.io/),
 [React](https://facebook.github.io/react/),
 [React Router](https://github.com/reactjs/react-router),
@@ -26,6 +26,9 @@ Useful files (sample data, biomonitoring stations, icons)
 can be found on our [Drive](https://drive.google.com/drive/folders/1eQWuf5WCT429xogQ2HiZqapehvweAtxP) (Appsilon internal).
 
 ### Commands
+
+You can run the following commands from the project root.
+You'll need [Node.js](https://nodejs.org/en/) 16 or later on your system.
 
 * `npm install`: Install dependencies.
 * `npm start`: Start the app in development mode.
