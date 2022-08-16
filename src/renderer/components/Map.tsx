@@ -3,7 +3,7 @@ import { TFunction } from 'i18next';
 import _ from 'lodash';
 import mapboxgl from 'mapbox-gl';
 import React, { useEffect } from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { useTranslation } from 'react-i18next';
 
 import { EmptyClasses } from '../constants/animalsClasses';
@@ -26,11 +26,11 @@ https://github.com/klokantech/mapbox-gl-js-offline-example
 /* eslint-disable global-require */
 
 // STYLE FILE PREPROCESSING
-const mapboxStyle = require('assets/map-style.json');
+const mapboxStyle = require('../../../assets/map-style.json');
 
 mapboxStyle.sources.jsonsource = {
   type: 'geojson',
-  data: require('assets/map-sources/africa.json')
+  data: require('../../../assets/map-sources/africa.json')
 };
 
 // COMPONENT RENDERING
@@ -77,20 +77,20 @@ function makeStationMarker(
   }
 
   const popupContentPlaceholder = document.createElement('div');
-  ReactDOM.render(
+  createRoot(popupContentPlaceholder).render(
     <>
       <h3>
-        <b>{t('explore.inspect.station', { id: station })}</b>
+        <b>{t('explore.inspect.station', { id: station }) as string}</b>
       </h3>
       <p>
-        <b>{t('explore.inspect.observations', { count })}</b>
+        <b>{t('explore.inspect.observations', { count }) as string}</b>
       </p>
       <p>
         <Tooltip
           content={<AnimalsListTooltipContent entries={species.value()} />}
           position={Position.BOTTOM}
         >
-          <b>{t('explore.inspect.species', { count: species.size() })}</b>
+          <b>{t('explore.inspect.species', { count: species.size() }) as string}</b>
         </Tooltip>
       </p>
       <div className={styles.photosPreview}>
@@ -101,7 +101,7 @@ function makeStationMarker(
             className={styles.photosPreviewItem}
             onClick={() => setInspectedObservations(groupObservations)}
           >
-            <img src={observation.location} alt="Observations preview" />
+            <img src={'file:' + observation.location} alt="Observations preview" />
           </a>
         ))}
         <div>
@@ -113,8 +113,7 @@ function makeStationMarker(
           />
         </div>
       </div>
-    </>,
-    popupContentPlaceholder
+    </>
   );
 
   const marker = new mapboxgl.Marker(markerElement)

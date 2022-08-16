@@ -1,7 +1,7 @@
 @use '../styles/variables' as var;
 
 .navbar {
-  &:global.bp3-navbar.bp3-dark {
+  &:global.bp4-navbar.bp4-dark {
     background-color: var.$c-green-60;
   }
 

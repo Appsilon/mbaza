@@ -14,7 +14,7 @@ export default function MissingModelsMessage() {
       <p>
         {t('classify.modelsDirectoryMissing.description1')}
         {/* eslint-disable-next-line */}
-        <a onClick={() => shell.openItem(userDataPath)}>{userDataPath}</a>
+        <a onClick={() => shell.openPath(userDataPath)}>{userDataPath}</a>
         {`${path.sep}models`}
         {t('classify.modelsDirectoryMissing.description2')}
       </p>

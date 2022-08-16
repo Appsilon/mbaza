@@ -18,10 +18,10 @@ export default function App(props: Props) {
 
   return (
     <>
-      <Navbar className={`${styles.navbar} bp3-dark`}>
+      <Navbar className={`${styles.navbar} bp4-dark`}>
         <Navbar.Group align={Alignment.LEFT}>
           <Navbar.Heading>
-            <img className={styles.logo} src="assets/icon.png" alt="Mbaza" />
+            <img className={styles.logo} src="file:/assets/icon.png" alt="Mbaza" />
           </Navbar.Heading>
           <Navbar.Heading>
             <strong>Mbaza</strong>
@@ -32,7 +32,7 @@ export default function App(props: Props) {
 
         <Navbar.Group align={Alignment.RIGHT}>
           <Popover>
-            <Button className="bp3-minimal" icon="globe" />
+            <Button className="bp4-minimal" icon="globe" />
             <Menu>
               <MenuItem text="English" onClick={() => i18n.changeLanguage('en')} />
               <MenuItem text="Français" onClick={() => i18n.changeLanguage('fr')} />

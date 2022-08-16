@@ -18,7 +18,7 @@ export default function SidebarItem(props: Props) {
   return (
     <Link className={styles.link} to={link}>
       <Button
-        className={`${styles.button} bp3-minimal`}
+        className={`${styles.button} bp4-minimal`}
         icon={iconName}
         text={text}
         alignText="left"

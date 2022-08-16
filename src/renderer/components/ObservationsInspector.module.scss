@@ -28,7 +28,7 @@
       padding: 0;
       transition: color var.$t-button;
 
-      :global .bp3-icon {
+      :global .bp4-icon {
         color: var.$c-green-10;
         margin-right: 5px;
         transition: color var.$t-button;
@@ -38,7 +38,7 @@
         background: none;
         color: var.$c-orange;
 
-        :global .bp3-icon {
+        :global .bp4-icon {
           color: var.$c-orange;
         }
       }

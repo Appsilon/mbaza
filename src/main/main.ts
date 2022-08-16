@@ -16,6 +16,10 @@ import path from 'path';
 import MenuBuilder from './menu';
 import { resolveHtmlPath } from './util';
 
+// TODO: Drop `@electron/remote`:
+// https://github.com/electron/remote/blob/main/README.md
+require('@electron/remote/main').initialize();
+
 class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';
@@ -97,6 +101,8 @@ const createWindow = async () => {
     shell.openExternal(edata.url);
     return { action: 'deny' };
   });
+
+  require('@electron/remote/main').enable(mainWindow.webContents);
 
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line

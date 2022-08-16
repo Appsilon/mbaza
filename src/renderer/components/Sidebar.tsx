@@ -19,7 +19,11 @@ function Footer() {
       </span>
       by
       <a className={styles.logoLink} href="https://appsilon.com/" target="_blank" rel="noreferrer">
-        <img className={styles.logoImg} src="assets/logos/appsilon-white.png" alt="Appsilon" />
+        <img
+          className={styles.logoImg}
+          src="file:/assets/logos/appsilon-white.png"
+          alt="Appsilon"
+        />
       </a>
     </div>
   );

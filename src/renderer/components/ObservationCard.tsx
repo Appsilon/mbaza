@@ -49,7 +49,7 @@ export default function ObservationCard(props: ObservationCardProps) {
   ];
 
   const predictionsTable = (
-    <table className={`${styles.predictionsTable} bp3-html-table bp3-html-table-condensed`}>
+    <table className={`${styles.predictionsTable} bp4-html-table bp4-html-table-condensed`}>
       <thead>
         <tr>
           <th>{t('explore.inspect.prediction')}</th>
@@ -107,7 +107,11 @@ export default function ObservationCard(props: ObservationCardProps) {
           aria-hidden="true"
         >
           <div className={styles.photo}>
-            <img className={styles.img} src={observation.location} alt={observation.pred_1} />
+            <img
+              className={styles.img}
+              src={'file:' + observation.location}
+              alt={observation.pred_1}
+            />
           </div>
           <div className={styles.data}>
             {predictionsTable}
