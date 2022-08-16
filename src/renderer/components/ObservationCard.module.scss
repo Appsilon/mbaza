@@ -78,72 +78,82 @@ $card-size: 240px;
 
         &:hover {
           & > span {
-            color: var.$c-green-60;
+            color: var.$c-green-40;
+          }
+        }
+
+        &:active {
+          & > span {
+            color: var.$c-green-80;
           }
         }
       }
     }
 
     .body {
+      background-color: var.$c-green-10;
       border-radius: var.$radius-card - 2;
       cursor: zoom-in;
       display: flex;
       height: 100%;
       overflow: hidden;
       position: relative;
+      transition: padding 0.15s;
 
       .photo {
+        border-radius: var.$radius-card - 2;
         display: flex;
         height: 100%;
         overflow: hidden;
+        position: relative;
 
         .img {
           height: 100%;
           transition: opacity $t-obs-card, visibility 0s;
           width: auto;
         }
-      }
 
-      .data {
-        background-color: rgba($color: var.$c-green-10, $alpha: 0.8);
-        height: 100%;
-        overflow: auto;
-        opacity: 0;
-        padding: 10px;
-        position: absolute;
-        transition: opacity $t-obs-card, visibility 0s $t-obs-card;
-        visibility: hidden;
-        width: 100%;
-
-        :global .bp4-popover-target {
-          display: flex;
-        }
-
-        .predictionsTable {
-          font-size: 0.81rem;
-          margin-bottom: 5px;
+        .data {
+          background-color: rgba($color: var.$c-green-10, $alpha: 0.8);
+          height: 100%;
+          overflow: auto;
+          opacity: 0;
+          padding: 10px;
+          position: absolute;
+          transition: opacity $t-obs-card, visibility 0s $t-obs-card;
+          visibility: hidden;
           width: 100%;
-
-          th,
-          td {
-            padding: 3px;
-
-            &:first-child {
-              padding-right: 10px;
+  
+          :global .bp4-popover-target {
+            display: flex;
+          }
+  
+          .predictionsTable {
+            font-size: 0.81rem;
+            margin-bottom: 5px;
+            width: 100%;
+  
+            th,
+            td {
+              padding: 3px;
+  
+              &:first-child {
+                padding-right: 10px;
+              }
             }
           }
-        }
-
-        .photoDetails {
-          display: flex;
-          flex-direction: column;
-          font-size: 0.81rem;
-
-          .photoDetail {
-            margin-bottom: 5px;
-
-            .label {
-              font-weight: 700;
+  
+          .photoDetails {
+            display: flex;
+            flex-direction: column;
+            font-size: 0.81rem;
+  
+            .photoDetail {
+              margin-bottom: 5px;
+  
+              .label {
+                font-weight: 700;
+              }
             }
           }
         }
@@ -160,11 +170,32 @@ $card-size: 240px;
     }
   }
 
-  &:not(.maximized):hover {
+  &:not(.maximized):hover,
+  &.selected {
     .selectButton {
       opacity: 1;
       transition: opacity var.$t-button, visibility 0s;
       visibility: visible;
+    }
+  }
+
+  &.selected {
+    .card {
+      .header {
+        .selectButton {
+          opacity: 1;
+          transition: opacity var.$t-button, visibility 0s;
+          visibility: visible;
+    
+          & > span {
+            color: var.$c-green-60;
+          }
+        }
+      }
+
+      .body {
+        padding: 15px;
+      }
     }
   }
 

@@ -1,6 +1,7 @@
-import { Card, Elevation, Tooltip, Button } from '@blueprintjs/core';
+import { Button, Card, Elevation, Tooltip } from '@blueprintjs/core';
 import classNames from 'classnames/bind';
 import path from 'path';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import CreatableSelect from 'react-select/creatable';
 
@@ -29,6 +30,7 @@ function ObservationCard(props: ObservationCardProps) {
     isMaximized,
   } = props;
   const { t } = useTranslation();
+  const [isSelected, setSelected] = useState<boolean>(false);
 
   const topPrediction = {
     value: observation.pred_1,
@@ -95,6 +97,7 @@ function ObservationCard(props: ObservationCardProps) {
   const observationClass = cx({
     observation: true,
     maximized: isMaximized,
+    selected: isSelected,    
   });
 
   return (
@@ -111,17 +114,22 @@ function ObservationCard(props: ObservationCardProps) {
               src={`file:${observation.location}`}
               alt={observation.pred_1}
             />
-          </div>
-          <div className={styles.data}>
-            {predictionsTable}
-            {photoDetails}
+            <div className={styles.data}>
+              {predictionsTable}
+              {photoDetails}
+            </div>
           </div>
         </div>
         <div className={styles.header}>
           <Tooltip content={t('explore.inspect.overrideTooltip')} position="top" minimal>
             {predictionOverrideWidget}
           </Tooltip>
-          <Button className={styles.selectButton} icon="tick-circle" minimal></Button>
+          <Button
+            className={styles.selectButton}
+            icon="tick-circle"
+            minimal
+            onClick={() => setSelected(!isSelected)}
+          ></Button>
         </div>
       </Card>
     </div>
