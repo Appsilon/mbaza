@@ -1,7 +1,6 @@
 import { Card, Elevation, Tooltip } from '@blueprintjs/core';
 import classNames from 'classnames/bind';
 import path from 'path';
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import CreatableSelect from 'react-select/creatable';
 
@@ -20,20 +19,20 @@ type ObservationCardProps = {
   isMaximized: boolean;
 };
 
-export default function ObservationCard(props: ObservationCardProps) {
+function ObservationCard(props: ObservationCardProps) {
   const {
     observation,
     predictionOverride,
     onPredictionOverride,
     onPhotoClick,
     observationIndex,
-    isMaximized
+    isMaximized,
   } = props;
   const { t } = useTranslation();
 
   const topPrediction = {
     value: observation.pred_1,
-    label: formatAnimalClassName(observation.pred_1)
+    label: formatAnimalClassName(observation.pred_1),
   };
 
   const handlePredictionOverride = (newPrediction: CreatableOption | null) => {
@@ -45,7 +44,7 @@ export default function ObservationCard(props: ObservationCardProps) {
   const predictions = [
     [formatAnimalClassName(observation.pred_1), observation.score_1],
     [formatAnimalClassName(observation.pred_2), observation.score_2],
-    [formatAnimalClassName(observation.pred_3), observation.score_3]
+    [formatAnimalClassName(observation.pred_3), observation.score_3],
   ];
 
   const predictionsTable = (
@@ -57,7 +56,7 @@ export default function ObservationCard(props: ObservationCardProps) {
         </tr>
       </thead>
       <tbody>
-        {predictions.map(i => (
+        {predictions.map((i) => (
           <tr key={i[0]}>
             <td>{i[0]}</td>
             <td>
@@ -95,7 +94,7 @@ export default function ObservationCard(props: ObservationCardProps) {
   );
   const observationClass = cx({
     observation: true,
-    maximized: isMaximized
+    maximized: isMaximized,
   });
 
   return (
@@ -109,7 +108,7 @@ export default function ObservationCard(props: ObservationCardProps) {
           <div className={styles.photo}>
             <img
               className={styles.img}
-              src={'file:' + observation.location}
+              src={`file:${observation.location}`}
               alt={observation.pred_1}
             />
           </div>
@@ -127,3 +126,9 @@ export default function ObservationCard(props: ObservationCardProps) {
     </div>
   );
 }
+
+ObservationCard.defaultProps = {
+  predictionOverride: undefined,
+};
+
+export default ObservationCard;

@@ -1,5 +1,4 @@
 import { Card, Elevation, Icon, IconName, Position, Tooltip } from '@blueprintjs/core';
-import * as React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import AnimalsListTooltipContent from './AnimalsListTooltipContent';
@@ -22,7 +21,7 @@ export default function ExplorerMetrics(props: Props) {
   };
 
   const getRareAnimals = (dataset: string[], rares: string[]) => {
-    return dataset.filter(entry => rares.includes(entry));
+    return dataset.filter((entry) => rares.includes(entry));
   };
 
   const nonEmpty = data.filter((entry: Observation) => !emptyClasses.includes(entry.pred_1));

@@ -1,5 +1,4 @@
 import { Button, Icon, Tooltip } from '@blueprintjs/core';
-import React from 'react';
 
 import styles from './ExploreHeaderBtnGroup.module.scss';
 

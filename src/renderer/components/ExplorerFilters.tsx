@@ -1,4 +1,3 @@
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Select from 'react-select';
 
@@ -7,15 +6,15 @@ import styles from './ExplorerFilters.module.scss';
 
 type Props = {
   observations: Observation[];
-  updateFilters: Function;
+  updateFilters: Function; // eslint-disable-line @typescript-eslint/ban-types
 };
 
-type entry = {
+type Entry = {
   label: string;
   value: string;
 };
 
-const orderByName = (a: entry, b: entry) => {
+const orderByName = (a: Entry, b: Entry) => {
   const nameA = a.label.toUpperCase();
   const nameB = b.label.toUpperCase();
 
@@ -39,24 +38,24 @@ export default function ExplorerFilter(props: Props) {
     });
   };
 
-  const animals = getUniqueSet(observations.map(entry => entry.label)).sort(orderByName);
-  const cameras = getUniqueSet(observations.map(entry => entry.camera)).sort(
+  const animals = getUniqueSet(observations.map((entry) => entry.label)).sort(orderByName);
+  const cameras = getUniqueSet(observations.map((entry) => entry.camera)).sort(
     (a, b) => parseInt(a.value, 10) - parseInt(b.value, 10)
   );
-  const stations = getUniqueSet(observations.map(entry => entry.station)).sort(orderByName);
+  const stations = getUniqueSet(observations.map((entry) => entry.station)).sort(orderByName);
 
-  const setAnimals = (options: entry[]) => {
-    let result: entry[] = [];
+  const setAnimals = (options: readonly Entry[]) => {
+    let result: Entry[] = [];
     if (Array.isArray(options)) result = options;
     updateFilters({ activeAnimals: result });
   };
-  const setStations = (options: entry[]) => {
-    let result: entry[] = [];
+  const setStations = (options: readonly Entry[]) => {
+    let result: Entry[] = [];
     if (Array.isArray(options)) result = options;
     updateFilters({ activeStations: result });
   };
-  const setCameras = (options: entry[]) => {
-    let result: entry[] = [];
+  const setCameras = (options: readonly Entry[]) => {
+    let result: Entry[] = [];
     if (Array.isArray(options)) result = options;
     updateFilters({ activeCameras: result });
   };

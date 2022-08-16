@@ -12,15 +12,15 @@ i18next
     resources: translations,
     lng: 'fr',
     interpolation: {
-      escapeValue: false // react already safes from xss
+      escapeValue: false, // react already safes from xss
     },
     react: {
       transSupportBasicHtmlNodes: true,
       transKeepBasicHtmlNodesFor: [
         // eslint-disable-next-line
         'br', 'strong', 'i', 'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'
-      ]
-    }
+      ],
+    },
   });
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

@@ -1,5 +1,4 @@
 import { Callout, Card, Elevation, H5, H6, Intent, Pre, Spinner } from '@blueprintjs/core';
-import React from 'react';
 
 import styles from './PythonLogViewer.module.scss';
 
@@ -21,7 +20,7 @@ export default function PythonLogViewer(props: Props) {
     progressMessage,
     logMessage,
     isRunning,
-    exitCode
+    exitCode,
   } = props;
 
   const resultView =

@@ -7,12 +7,12 @@ import {
   Icon,
   Intent,
   NumberRange,
-  Tooltip
+  Tooltip,
 } from '@blueprintjs/core';
 import { csvFormat } from 'd3-dsv';
 import { promises as fsPromises } from 'fs';
 import _ from 'lodash';
-import React, { useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import ExploreHeader from '../components/ExploreHeader';
@@ -23,7 +23,7 @@ import ObservationsInspector from '../components/ObservationsInspector';
 import {
   EmptyClasses,
   formatAnimalClassName,
-  RareAnimalsClasses
+  RareAnimalsClasses,
 } from '../constants/animalsClasses';
 import computeEvents from '../utils/computeEvents';
 import exportDarwinCore from '../utils/exportDarwinCore';
@@ -41,6 +41,7 @@ import animals5 from '../../../assets/graphics/SVG_5.svg';
 import animals6 from '../../../assets/graphics/SVG_6.svg';
 
 const remote = require('@electron/remote');
+
 const { writeFile } = fsPromises;
 
 const animalsBackgrounds = [animals6, animals5, animals4, animals3, animals2, animals1];
@@ -61,7 +62,7 @@ const initialFilters: Filters = {
   activeAnimals: [],
   activeCameras: [],
   activeStations: [],
-  certaintyRange: [0, 1]
+  certaintyRange: [0, 1],
 };
 
 async function chooseFile(
@@ -72,8 +73,8 @@ async function chooseFile(
     properties: ['openFile'],
     filters: [
       { name: 'CSV', extensions: ['csv'] },
-      { name: 'All Files', extensions: ['*'] }
-    ]
+      { name: 'All Files', extensions: ['*'] },
+    ],
   });
   if (!dialog.canceled) {
     const path = dialog.filePaths[0];
@@ -97,7 +98,7 @@ function detectOverrides(observations: Observation[] | undefined) {
       .forEach((observation: Observation) => {
         override[observation.location] = {
           label: formatAnimalClassName(observation.label),
-          value: formatAnimalClassName(observation.label)
+          value: formatAnimalClassName(observation.label),
         };
       });
     return override;
@@ -106,18 +107,11 @@ function detectOverrides(observations: Observation[] | undefined) {
 }
 
 function eventsCount(observations: Observation[]): number {
-  return _(observations)
-    .map('event_id')
-    .without(undefined)
-    .uniq()
-    .size();
+  return _(observations).map('event_id').without(undefined).uniq().size();
 }
 
 function missingEvents(observations: Observation[]): number {
-  return _(observations)
-    .map('event_id')
-    .filter(_.isUndefined)
-    .size();
+  return _(observations).map('event_id').filter(_.isUndefined).size();
 }
 
 function overridesCount(observations: Observation[]): number {
@@ -139,7 +133,7 @@ export default function ExplorePage() {
   const handlePredictionOverride = (location: string, override: CreatableOption | null) => {
     if (observations === undefined) return false;
     const overrides = { ...predictionOverrides };
-    const observationIndex: number = observations.findIndex(obs => obs.location === location);
+    const observationIndex: number = observations.findIndex((obs) => obs.location === location);
     const observation = observations[observationIndex];
 
     if (override === null) {
@@ -151,7 +145,7 @@ export default function ExplorePage() {
     // Mutating state in any other way easily leads to incorrect behavior.
     observations[observationIndex] = {
       ...observation,
-      label: override === null ? observation.pred_1 : override.value
+      label: override === null ? observation.pred_1 : override.value,
     };
     setPredictionOverrides(overrides);
     return false;
@@ -166,7 +160,7 @@ export default function ExplorePage() {
 
   const filterCondition = (needle: string, haystack: Entry[]) => {
     if (haystack.length === 0) return true;
-    return haystack.map(entry => entry.value).includes(needle);
+    return haystack.map((entry) => entry.value).includes(needle);
   };
 
   const filteredObservations = useMemo(() => {
@@ -183,6 +177,7 @@ export default function ExplorePage() {
     return filtered;
     // TODO: Remove `predictionOverrides` from the dependencies once `observations` are updated
     // correctly in the `handlePredictionOverride()` function.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters, observations, predictionOverrides]);
 
   if (observations !== undefined) {

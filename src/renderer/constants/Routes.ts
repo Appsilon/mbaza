@@ -14,21 +14,21 @@ export const routes: RoutesType = {
   HOME: {
     path: '/',
     name: 'sidebar.home',
-    iconName: 'home'
+    iconName: 'home',
   },
   MEDIA_TOOLS: {
     path: '/media-tools',
     name: 'sidebar.mediaTools',
-    iconName: 'mobile-video'
+    iconName: 'mobile-video',
   },
   CLASSIFY: {
     path: '/classify',
     name: 'sidebar.classify',
-    iconName: 'send-to-graph'
+    iconName: 'send-to-graph',
   },
   EXPLORE: {
     path: '/explore',
     name: 'sidebar.explore',
-    iconName: 'search-template'
-  }
+    iconName: 'search-template',
+  },
 };

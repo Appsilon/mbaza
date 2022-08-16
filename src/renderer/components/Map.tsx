@@ -30,7 +30,7 @@ const mapboxStyle = require('../../../assets/map-style.json');
 
 mapboxStyle.sources.jsonsource = {
   type: 'geojson',
-  data: require('../../../assets/map-sources/africa.json')
+  data: require('../../../assets/map-sources/africa.json'),
 };
 
 // COMPONENT RENDERING
@@ -70,7 +70,7 @@ function makeStationMarker(
       const activeMarkers: NodeListOf<Element> = document.querySelectorAll(
         `.${styles.marker}.${styles.active}`
       );
-      activeMarkers.forEach(marker => marker.classList.remove(styles.active));
+      activeMarkers.forEach((marker) => marker.classList.remove(styles.active));
       const target = event.currentTarget as HTMLTextAreaElement;
       target.classList.add(styles.active);
     });
@@ -94,14 +94,14 @@ function makeStationMarker(
         </Tooltip>
       </p>
       <div className={styles.photosPreview}>
-        {groupObservations.slice(0, maxPreviewPhotosCount).map(observation => (
+        {groupObservations.slice(0, maxPreviewPhotosCount).map((observation) => (
           // eslint-disable-next-line
           <a
             key={observation.location}
             className={styles.photosPreviewItem}
             onClick={() => setInspectedObservations(groupObservations)}
           >
-            <img src={'file:' + observation.location} alt="Observations preview" />
+            <img src={`file:${observation.location}`} alt="Observations preview" />
           </a>
         ))}
         <div>
@@ -130,19 +130,19 @@ function addMarkers(
 ) {
   // TODO: Drop observations with missing station and warn the user.
   const markers = _(observations)
-    .groupBy(x => x.station)
-    .map(group => ({
+    .groupBy((x) => x.station)
+    .map((group) => ({
       species: _(group)
-        .filter(x => !EmptyClasses.includes(x.pred_1))
+        .filter((x) => !EmptyClasses.includes(x.pred_1))
         .map('pred_1')
         .uniq(),
-      observations: group
+      observations: group,
     }));
 
-  const maxSpecies = markers.map(x => x.species.size()).max();
+  const maxSpecies = markers.map((x) => x.species.size()).max();
   if (maxSpecies !== undefined) {
     map.on('load', () => {
-      markers.forEach(group => {
+      markers.forEach((group) => {
         const marker = makeStationMarker(
           t,
           group.observations,
@@ -171,13 +171,13 @@ export default function Map(props: MapProps) {
       container: mapRef.current as HTMLElement,
       style: mapboxStyle,
       center: [12, -0.8],
-      zoom: 6
+      zoom: 6,
     });
     addMarkers(t, observations, map, onInspect);
     return function cleanup() {
       map.remove();
     };
-  }, [observations]);
+  }, [mapRef, observations, onInspect, t]);
 
   return <div ref={mapRef} className={styles.mapContainer} />;
 }

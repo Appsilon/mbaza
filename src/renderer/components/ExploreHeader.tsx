@@ -1,5 +1,5 @@
 import { Button, H5, H6, Icon, NumericInput, Popover, Tooltip } from '@blueprintjs/core';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import styles from './ExploreHeader.module.scss';
@@ -23,7 +23,7 @@ export default function ExploreHeader(props: Props) {
     onEventsUpdateClick,
     onDataExportClick,
     onDarwinCoreExportClick,
-    onPhotosExportClick
+    onPhotosExportClick,
   } = props;
   // eslint-disable-next-line
   const filename = (filePath !== undefined) ? filePath.replace(/^.*[\\\/]/, '') : "";

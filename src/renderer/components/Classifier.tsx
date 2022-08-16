@@ -8,7 +8,7 @@ import {
   Intent,
   Radio,
   RadioGroup,
-  Toaster
+  Toaster,
 } from '@blueprintjs/core';
 import { ChildProcessWithoutNullStreams, spawn } from 'child_process';
 import fs from 'fs';
@@ -30,7 +30,7 @@ function displayErrorToast(message: string) {
   toaster.show({
     message,
     intent: Intent.DANGER,
-    icon: 'warning-sign'
+    icon: 'warning-sign',
   });
 }
 
@@ -92,7 +92,7 @@ const computePredictions = (
     projectId,
     '--deployment_id',
     deploymentId,
-    '--overwrite'
+    '--overwrite',
   ];
 
   if (gridFilePath) {
@@ -112,15 +112,15 @@ const computePredictions = (
     setLogMessage('');
     setExitCode(undefined);
     setIsRunning(true);
-    process.stdout.on('data', data => {
+    process.stdout.on('data', (data) => {
       setLogMessage(`${data}`);
     });
-    process.stderr.on('data', data => {
+    process.stderr.on('data', (data) => {
       // eslint-disable-next-line no-console
       console.log(`classifier stderr: ${data}`);
       setLogMessage(`${data}`);
     });
-    process.on('exit', exitCode => {
+    process.on('exit', (exitCode) => {
       // eslint-disable-next-line no-console
       console.log(`Classifier exited with code ${exitCode}`);
       setIsRunning(false);
@@ -145,7 +145,7 @@ export default function Classifier() {
   // if there are no models available.
   const models = [
     { label: 'Central African forests', value: 'central_african_forests' },
-    { label: 'East African savannas', value: 'east_african_savannas' }
+    { label: 'East African savannas', value: 'east_african_savannas' },
   ];
   const [modelName, setModelName] = useState<string>(models[0].value);
   const rootModelsDirectoryExists = fs.existsSync(rootModelsDirectory);
@@ -177,12 +177,12 @@ export default function Classifier() {
       <div className={styles.radioLabel}>{t('classify.chooseModel')}</div>
       <RadioGroup
         inline
-        onChange={event => {
+        onChange={(event) => {
           setModelName(event.currentTarget.value);
         }}
         selectedValue={modelName}
       >
-        {models.map(model => (
+        {models.map((model) => (
           <Radio label={model.label} value={model.value} key={model.value} />
         ))}
       </RadioGroup>

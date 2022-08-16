@@ -23,7 +23,7 @@ export const RareAnimalsClasses = [
   'rhinoceros',
   'secretarybird',
   'topi',
-  'vulture'
+  'vulture',
 ];
 
 // Models can use different name for images without animals.

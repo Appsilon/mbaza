@@ -11,7 +11,7 @@ export default function computeEvents(
     let eventEnd: Date;
     return _(group)
       .sortBy('timestamp')
-      .map(observation => {
+      .map((observation) => {
         if (eventEnd === undefined || observation.timestamp > eventEnd) {
           // Start a new event.
           eventId += 1;
@@ -24,7 +24,7 @@ export default function computeEvents(
       .value();
   }
   const result = _(observations)
-    .groupBy(o => [o.station, o.label].join()) // Use comma as separator.
+    .groupBy((o) => [o.station, o.label].join()) // Use comma as separator.
     .values()
     .map(mapGroup)
     .flatten()

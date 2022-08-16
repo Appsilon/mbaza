@@ -1,5 +1,3 @@
-import React from 'react';
-
 export default function PathInput(props: {
   className: string;
   placeholder: string;
@@ -15,7 +13,7 @@ export default function PathInput(props: {
         className="bp4-input"
         placeholder={placeholder}
         value={value}
-        onChange={event => {
+        onChange={(event) => {
           onChange(event.target.value);
         }}
       />

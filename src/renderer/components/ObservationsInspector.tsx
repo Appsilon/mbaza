@@ -1,5 +1,5 @@
 import { Button } from '@blueprintjs/core';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { VirtuosoGrid } from 'react-virtuoso';
 
@@ -11,7 +11,6 @@ type ObservationsInspectorProps = {
   onClose: () => void;
   predictionOverrides: PredictionOverridesMap;
   onPredictionOverride: PredictionOverrideHandler;
-  onPhotoClick?: (cardIndex: number) => void;
 };
 
 export default function ObservationsInspector(props: ObservationsInspectorProps) {
@@ -45,7 +44,7 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
         <VirtuosoGrid
           totalCount={observations.length}
           listClassName={styles.list}
-          itemContent={index => (
+          itemContent={(index) => (
             <ObservationCard
               observation={observations[index]}
               predictionOverride={predictionOverrides[observations[index].location]}
