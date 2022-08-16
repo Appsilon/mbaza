@@ -1,37 +1,25 @@
 {
-  "description": "A foundation for scalable desktop apps",
   "keywords": [
-    "electron",
-    "boilerplate",
-    "react",
-    "typescript",
-    "ts",
-    "sass",
-    "webpack",
-    "hot",
-    "reload"
+    "ai",
+    "bioconservation",
+    "biodiversity",
+    "ml",
+    "wildlife"
   ],
-  "homepage": "https://github.com/electron-react-boilerplate/electron-react-boilerplate#readme",
+  "homepage": "https://github.com/Appsilon/mbaza#readme",
   "bugs": {
-    "url": "https://github.com/electron-react-boilerplate/electron-react-boilerplate/issues"
+    "url": "https://github.com/Appsilon/mbaza/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/electron-react-boilerplate/electron-react-boilerplate.git"
+    "url": "git+https://github.com/Appsilon/mbaza.git"
   },
-  "license": "MIT",
+  "license": "AGPL-3.0-or-later",
   "author": {
-    "name": "Electron React Boilerplate Maintainers",
-    "email": "electronreactboilerplate@gmail.com",
-    "url": "https://electron-react-boilerplate.js.org"
+    "name": "Appsilon",
+    "email": "hello@appsilon.com",
+    "url": "https://appsilon.com/"
   },
-  "contributors": [
-    {
-      "name": "Amila Welihinda",
-      "email": "amilajack@gmail.com",
-      "url": "https://github.com/amilajack"
-    }
-  ],
   "main": "./src/main/main.ts",
   "scripts": {
     "build": "concurrently \"npm run build:main\" \"npm run build:renderer\"",
@@ -110,24 +98,42 @@
     }
   },
   "dependencies": {
+    "@blueprintjs/core": "^4.7.0",
+    "@blueprintjs/icons": "^4.4.0",
+    "@electron/remote": "^2.0.8",
+    "classnames": "^2.3.1",
+    "d3-dsv": "^3.0.1",
+    "date-fns": "^2.29.1",
     "electron-debug": "^3.2.0",
     "electron-log": "^4.4.8",
     "electron-updater": "^5.2.1",
+    "i18next": "^21.8.16",
+    "lodash": "^4.17.21",
+    "mapbox-gl": "^1.13.2",
+    "node-machine-id": "^1.1.12",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-router-dom": "^6.3.0"
+    "react-i18next": "^11.18.3",
+    "react-router-dom": "^6.3.0",
+    "react-select": "^5.4.0",
+    "react-virtuoso": "^2.16.6",
+    "universal-analytics": "^0.5.3"
   },
   "devDependencies": {
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.7",
     "@teamsupercell/typings-for-css-modules-loader": "^2.5.1",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
+    "@types/d3-dsv": "^3.0.0",
     "@types/jest": "^28.1.6",
+    "@types/lodash": "^4.14.182",
+    "@types/mapbox-gl": "^1.13.4",
     "@types/node": "^18.6.3",
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
     "@types/react-test-renderer": "^18.0.0",
     "@types/terser-webpack-plugin": "^5.0.4",
+    "@types/universal-analytics": "^0.4.5",
     "@types/webpack-bundle-analyzer": "^4.4.1",
     "@typescript-eslint/eslint-plugin": "^5.32.0",
     "@typescript-eslint/parser": "^5.32.0",
@@ -185,8 +191,8 @@
     "webpack-merge": "^5.8.0"
   },
   "build": {
-    "productName": "ElectronReact",
-    "appId": "org.erb.ElectronReact",
+    "productName": "Mbaza AI",
+    "appId": "com.appsilon.mbaza",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
     "files": [
@@ -244,12 +250,9 @@
     ],
     "publish": {
       "provider": "github",
-      "owner": "electron-react-boilerplate",
-      "repo": "electron-react-boilerplate"
+      "owner": "Appsilon",
+      "repo": "mbaza"
     }
-  },
-  "collective": {
-    "url": "https://opencollective.com/electron-react-boilerplate-594"
   },
   "devEngines": {
     "node": ">=14.x",
