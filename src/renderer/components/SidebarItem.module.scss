@@ -1,0 +1,18 @@
+.link {
+  color: #fff;
+
+  .button {
+    width: 100%;
+    padding: 20px;
+  }
+
+  :global .bp4-button.bp4-minimal,
+  :global .bp4-button.bp4-active.bp4-minimal {
+    color: #fff;
+    outline: none;
+
+    &:hover {
+      color: #fff;
+    }
+  }
+}

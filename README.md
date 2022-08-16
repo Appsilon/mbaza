@@ -2,7 +2,8 @@
 
 [![DOI:10.1101/2020.09.12.294538](https://zenodo.org/badge/DOI/10.1101/2020.09.12.294538.svg)](https://doi.org/10.1101/2020.09.12.294538)
 
-A desktop application that allows bioconservation researchers to classify camera trap animal images and analyze the results.
+A desktop application that allows bioconservation researchers
+to classify camera trap animal images and analyze the results.
 
 ### Useful files
 
@@ -11,43 +12,27 @@ A desktop application that allows bioconservation researchers to classify camera
 * [User Guide](https://github.com/Appsilon/mbaza/releases/download/v1.2.1/Mbaza.AI.user.guide.v1-2-1.EN.pdf)
   / [Mode d’emploi](https://github.com/Appsilon/mbaza/releases/download/v1.2.1/Mbaza.AI.user.guide.v1-2-1.FR.pdf) (v1.2.1)
 
-## Maintainers
-
-- [Marek Rogala](https://github.com/marekrogala)
-- [Kamil Żyła](https://github.com/kamilzyla)
-- [Tomasz Dziopa](https://github.com/tomecki)
-- [Wojciech Dziwulski](https://github.com/wojdziw)
-
 ## Development
 
-### Basic information
+Mbaza is based on [Electron React Boilerplate](https://github.com/electron-react-boilerplate/electron-react-boilerplate),
+which uses uses
+[Electron](https://electron.atom.io/),
+[React](https://facebook.github.io/react/),
+[React Router](https://github.com/reactjs/react-router),
+[Webpack](https://webpack.js.org/),
+[React Fast Refresh](https://www.npmjs.com/package/react-refresh).
 
-- We're using Electron. The app is based on https://github.com/electron-react-boilerplate/electron-react-boilerplate], which internally uses https://github.com/electron-userland/electron-builder.
-- Useful files (sample data, biomonitoring stations, icons) can be found on our [Drive](https://drive.google.com/drive/folders/1eQWuf5WCT429xogQ2HiZqapehvweAtxP) (Appsilon internal).
+Useful files (sample data, biomonitoring stations, icons)
+can be found on our [Drive](https://drive.google.com/drive/folders/1eQWuf5WCT429xogQ2HiZqapehvweAtxP) (Appsilon internal).
 
-### Dev environment setup
+### Commands
 
-- Install Yarn (on Ubuntu: https://linuxize.com/post/how-to-install-yarn-on-ubuntu-18-04/) -- for node packages management, we will use https://yarnpkg.com/. This is recommended by Electron Builder (npm can lead to errors).
-- Editor configuration: https://electron-react-boilerplate.js.org/docs/editor-configuration
-- To test on Windows use virtual machine image from https://developer.microsoft.com/en-us/windows/downloads/virtual-machines/ (install VirtualBox 6 on Ubuntu following this guide: https://tecadmin.net/install-virtualbox-on-ubuntu-18-04/)
-
-### Linting
-
-We check for appropriate linting before each commit. You will be able to fix some lint errors automatically using `yarn lint-fix`.
-
-### Running the app
-
-- `yarn` installs dependencies.
-- `yarn dev` runs the app in development mode (with developer tools, hot swapping, ...).
-- `yarn start` runs the app in production mode (bundled and optimized).
-
-Prepend `yarn cross-env DEBUG_PROD=true` to a command to enable debugging in production.
-For example: `yarn cross-env DEBUG_PROD=true yarn package`.
-
-### Packaging for production
-
-`yarn package` packages the app for install. We run it with GitHub actions and store artifacts, so you can simply download an artifact from there.
-Model packaging: go to `models_runner` and follow the README there (both for Windows and Linux).
+* `npm install`: Install dependencies.
+* `npm start`: Start the app in development mode.
+* `npm run lint`: Lint sources.
+* `npm run lint -- --fix`: Lint sources and fix errors automatically.
+* `npm run package`: Package the app for the local platform.
+* `npx cross-env DEBUG_PROD=true npm run package`: Package the app with developer tools enabled.
 
 ## License
 

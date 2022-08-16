@@ -1,33 +1,31 @@
 name: Test
-
 on: push
-
 jobs:
-  release:
-    runs-on: ubuntu-20.04
+  test:
+    timeout-minutes: 30
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest, ubuntu-latest]
 
     steps:
-      - name: Check out Git repository
+      - name: Checkout repository
         uses: actions/checkout@v1
 
-      - name: Install Node.js, NPM and Yarn
-        uses: actions/setup-node@v1
+      - name: Install Node.js
+        uses: actions/setup-node@v2
         with:
-          node-version: 13
+          node-version: 16
+          cache: npm
 
-      - name: yarn install
-        run: |
-          yarn install
+      - name: Install dependencies
+        run: npm install
 
-      - name: yarn test
+      - name: Lint & test
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          yarn package-ci
-          yarn lint
-          yarn ts
-          yarn test
-
-# Failing beacuse virtual framebuffer not installed
-#          yarn build-e2e
-#          yarn test-e2e
+          npm run package
+          npm run lint
+          npm exec tsc
+          npm test
