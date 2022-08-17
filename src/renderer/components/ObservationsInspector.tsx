@@ -17,6 +17,25 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
   const { observations, onClose, predictionOverrides, onPredictionOverride } = props;
   const { t } = useTranslation();
   const [maximizedCard, setMaximizedCard] = useState<number | null>(null);
+  const [selectedCards, setSelectedCards] = useState<number[]>([]);
+
+  const handleSelectedCards = (cardIndex: number, cardSelected: boolean) => {
+    if (cardSelected) {
+      setSelectedCards([...selectedCards, cardIndex]);
+    } else {
+      setSelectedCards(selectedCards.filter((c) => c !== cardIndex));
+    }
+  };
+
+  const handlePhotoClick = (cardIndex: number | null) => {
+    if (selectedCards.length === 0) setMaximizedCard(cardIndex);
+  };
+
+  const handleCardClick = (cardIndex: number, isSelected) => {
+    console.log('isSelected', isSelected);
+    if (selectedCards.length > 0) handleSelectedCards(cardIndex, isSelected);
+  };
+
   const backButtonText = t(
     maximizedCard !== null ? 'explore.backToObservations' : 'explore.backToMap'
   );
@@ -49,7 +68,9 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
               observation={observations[index]}
               predictionOverride={predictionOverrides[observations[index].location]}
               onPredictionOverride={onPredictionOverride}
-              onPhotoClick={setMaximizedCard}
+              onPhotoClick={handlePhotoClick}
+              onCardClick={handleCardClick}
+              onCardSelect={handleSelectedCards}
               observationIndex={index}
               isMaximized={false}
             />
@@ -61,6 +82,8 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
             predictionOverride={predictionOverrides[observations[maximizedCard].location]}
             onPredictionOverride={onPredictionOverride}
             onPhotoClick={setMaximizedCard}
+            onCardClick={handleCardClick}
+            onCardSelect={handleSelectedCards}
             observationIndex={maximizedCard}
             isMaximized
           />

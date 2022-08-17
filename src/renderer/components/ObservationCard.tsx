@@ -16,6 +16,8 @@ type ObservationCardProps = {
   predictionOverride?: CreatableOption;
   onPredictionOverride: PredictionOverrideHandler;
   onPhotoClick: (cardIndex: number | null) => void;
+  onCardClick: (cardIndex: number | null, isSelected) => void;
+  onCardSelect: (cardIndex: number, cardSelected: boolean) => void;
   observationIndex: number;
   isMaximized: boolean;
 };
@@ -28,9 +30,23 @@ function ObservationCard(props: ObservationCardProps) {
     onPhotoClick,
     observationIndex,
     isMaximized,
+    onCardClick,
+    onCardSelect,
   } = props;
   const { t } = useTranslation();
   const [isSelected, setSelected] = useState<boolean>(false);
+
+  const handleSelection = () => {
+    const isNowSelected = !isSelected;
+    setSelected(isNowSelected);
+    onCardSelect(observationIndex, isNowSelected);
+  };
+
+  const handleCardClick = () => {
+    const isNowSelected = !isSelected;
+    setSelected(isNowSelected);
+    onCardClick(observationIndex, isNowSelected);
+  };
 
   const topPrediction = {
     value: observation.pred_1,
@@ -103,7 +119,12 @@ function ObservationCard(props: ObservationCardProps) {
 
   return (
     <div className={observationClass}>
-      <Card className={styles.card} elevation={Elevation.TWO} key={observation.location}>
+      <Card
+        className={styles.card}
+        elevation={Elevation.TWO}
+        key={observation.location}
+        onClick={handleCardClick}
+      >
         <div
           className={styles.body}
           onClick={() => onPhotoClick(isMaximized ? null : observationIndex)}
@@ -129,7 +150,7 @@ function ObservationCard(props: ObservationCardProps) {
             className={styles.selectButton}
             icon="tick-circle"
             minimal
-            onClick={() => setSelected(!isSelected)}
+            onClick={handleSelection}
           />
         </div>
       </Card>
