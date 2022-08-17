@@ -73,6 +73,7 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
               onCardSelect={handleSelectedCards}
               observationIndex={index}
               isMaximized={false}
+              isSelected={selectedCards.findIndex((card) => card === index) >= 0}
             />
           )}
         />
@@ -86,6 +87,7 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
             onCardSelect={handleSelectedCards}
             observationIndex={maximizedCard}
             isMaximized
+            isSelected={false}
           />
         )}
       </div>

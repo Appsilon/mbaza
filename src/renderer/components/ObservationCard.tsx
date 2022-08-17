@@ -20,6 +20,7 @@ type ObservationCardProps = {
   onCardSelect: (cardIndex: number, cardSelected: boolean) => void;
   observationIndex: number;
   isMaximized: boolean;
+  isSelected: boolean;
 };
 
 function ObservationCard(props: ObservationCardProps) {
@@ -30,21 +31,19 @@ function ObservationCard(props: ObservationCardProps) {
     onPhotoClick,
     observationIndex,
     isMaximized,
+    isSelected,
     onCardClick,
     onCardSelect,
   } = props;
   const { t } = useTranslation();
-  const [isSelected, setSelected] = useState<boolean>(false);
 
   const handleSelection = () => {
     const isNowSelected = !isSelected;
-    setSelected(isNowSelected);
     onCardSelect(observationIndex, isNowSelected);
   };
 
   const handleCardClick = () => {
     const isNowSelected = !isSelected;
-    setSelected(isNowSelected);
     onCardClick(observationIndex, isNowSelected);
   };
 
