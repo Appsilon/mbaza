@@ -27,13 +27,12 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
     }
   };
 
-  const handlePhotoClick = (cardIndex: number | null) => {
-    if (selectedCards.length === 0) setMaximizedCard(cardIndex);
-  };
-
-  const handleCardClick = (cardIndex: number, isSelected) => {
-    console.log('isSelected', isSelected);
-    if (selectedCards.length > 0) handleSelectedCards(cardIndex, isSelected);
+  const handlePhotoClick = (cardIndex: number | null, cardSelected: boolean) => {
+    if (selectedCards.length > 0 && cardIndex !== null) {
+      handleSelectedCards(cardIndex, cardSelected);
+    } else {
+      setMaximizedCard(cardIndex);
+    }
   };
 
   const backButtonText = t(
@@ -69,7 +68,6 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
               predictionOverride={predictionOverrides[observations[index].location]}
               onPredictionOverride={onPredictionOverride}
               onPhotoClick={handlePhotoClick}
-              onCardClick={handleCardClick}
               onCardSelect={handleSelectedCards}
               observationIndex={index}
               isMaximized={false}
@@ -82,8 +80,7 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
             observation={observations[maximizedCard]}
             predictionOverride={predictionOverrides[observations[maximizedCard].location]}
             onPredictionOverride={onPredictionOverride}
-            onPhotoClick={setMaximizedCard}
-            onCardClick={handleCardClick}
+            onPhotoClick={handlePhotoClick}
             onCardSelect={handleSelectedCards}
             observationIndex={maximizedCard}
             isMaximized

@@ -1,7 +1,6 @@
 import { Button, Card, Elevation, Tooltip } from '@blueprintjs/core';
 import classNames from 'classnames/bind';
 import path from 'path';
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import CreatableSelect from 'react-select/creatable';
 
@@ -15,8 +14,7 @@ type ObservationCardProps = {
   observation: Observation;
   predictionOverride?: CreatableOption;
   onPredictionOverride: PredictionOverrideHandler;
-  onPhotoClick: (cardIndex: number | null) => void;
-  onCardClick: (cardIndex: number | null, isSelected) => void;
+  onPhotoClick: (cardIndex: number | null, cardSelected: boolean) => void;
   onCardSelect: (cardIndex: number, cardSelected: boolean) => void;
   observationIndex: number;
   isMaximized: boolean;
@@ -29,23 +27,12 @@ function ObservationCard(props: ObservationCardProps) {
     predictionOverride,
     onPredictionOverride,
     onPhotoClick,
+    onCardSelect,
     observationIndex,
     isMaximized,
     isSelected,
-    onCardClick,
-    onCardSelect,
   } = props;
   const { t } = useTranslation();
-
-  const handleSelection = () => {
-    const isNowSelected = !isSelected;
-    onCardSelect(observationIndex, isNowSelected);
-  };
-
-  const handleCardClick = () => {
-    const isNowSelected = !isSelected;
-    onCardClick(observationIndex, isNowSelected);
-  };
 
   const topPrediction = {
     value: observation.pred_1,
@@ -118,15 +105,10 @@ function ObservationCard(props: ObservationCardProps) {
 
   return (
     <div className={observationClass}>
-      <Card
-        className={styles.card}
-        elevation={Elevation.TWO}
-        key={observation.location}
-        onClick={handleCardClick}
-      >
+      <Card className={styles.card} elevation={Elevation.TWO} key={observation.location}>
         <div
           className={styles.body}
-          onClick={() => onPhotoClick(isMaximized ? null : observationIndex)}
+          onClick={() => onPhotoClick(isMaximized ? null : observationIndex, !isSelected)}
           aria-hidden="true"
         >
           <div className={styles.photo}>
@@ -149,7 +131,7 @@ function ObservationCard(props: ObservationCardProps) {
             className={styles.selectButton}
             icon="tick-circle"
             minimal
-            onClick={handleSelection}
+            onClick={() => onCardSelect(observationIndex, !isSelected)}
           />
         </div>
       </Card>
