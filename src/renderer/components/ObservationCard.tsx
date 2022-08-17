@@ -75,6 +75,7 @@ function ObservationCard(props: ObservationCardProps) {
       value={predictionOverride || topPrediction}
       onChange={handlePredictionOverride}
       options={taxonOptions}
+      isDisabled={isSelected}
       isClearable={predictionOverride !== undefined}
       menuShouldScrollIntoView={false}
       className={styles.predictionOverride}
@@ -97,7 +98,7 @@ function ObservationCard(props: ObservationCardProps) {
   const observationClass = cx({
     observation: true,
     maximized: isMaximized,
-    selected: isSelected,    
+    selected: isSelected,
   });
 
   return (
@@ -129,7 +130,7 @@ function ObservationCard(props: ObservationCardProps) {
             icon="tick-circle"
             minimal
             onClick={() => setSelected(!isSelected)}
-          ></Button>
+          />
         </div>
       </Card>
     </div>
