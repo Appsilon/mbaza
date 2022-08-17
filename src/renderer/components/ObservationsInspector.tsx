@@ -1,10 +1,9 @@
-import { Button } from '@blueprintjs/core';
 import classNames from 'classnames/bind';
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { VirtuosoGrid } from 'react-virtuoso';
 
 import ObservationCard from './ObservationCard';
+import ObservationsHeader from './ObservationsHeader';
 import styles from './ObservationsInspector.module.scss';
 
 const cx = classNames.bind(styles);
@@ -18,7 +17,6 @@ type ObservationsInspectorProps = {
 
 export default function ObservationsInspector(props: ObservationsInspectorProps) {
   const { observations, onClose, predictionOverrides, onPredictionOverride } = props;
-  const { t } = useTranslation();
   const [maximizedCard, setMaximizedCard] = useState<number | null>(null);
   const [selectedCards, setSelectedCards] = useState<number[]>([]);
 
@@ -36,11 +34,8 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
       setMaximizedCard(cardIndex);
     }
   };
-  const onBackButtonClick = () => (maximizedCard !== null ? setMaximizedCard(null) : onClose());
+  const handleBackButtonClick = () => (maximizedCard !== null ? setMaximizedCard(null) : onClose());
 
-  const backButtonText = t(
-    maximizedCard !== null ? 'explore.backToObservations' : 'explore.backToMap'
-  );
   const boxClass = cx({
     box: true,
     selectionMode: selectedCards.length > 0,
@@ -48,22 +43,12 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
 
   return (
     <div className={boxClass}>
-      <div className={styles.boxHeader}>
-        <Button
-          className={styles.backButton}
-          icon="chevron-left"
-          minimal
-          alignText="left"
-          onClick={onBackButtonClick}
-          text={backButtonText}
-        />
-        <h4 className={styles.heading}>
-          {t('explore.inspect.header', { station: observations[0].station })}
-        </h4>
-        <p className={styles.counter}>
-          {t('explore.inspect.observations', { count: observations.length })}
-        </p>
-      </div>
+      <ObservationsHeader
+        observations={observations}
+        isCardMaximized={maximizedCard !== null}
+        isSelectionMode={selectedCards.length > 0}
+        onBackButtonClick={handleBackButtonClick}
+      />
       <div className={styles.boxBody}>
         <VirtuosoGrid
           totalCount={observations.length}
