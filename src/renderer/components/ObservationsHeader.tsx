@@ -13,16 +13,19 @@ type ObservationsHeaderProps = {
 export default function ObservationsHeader(props: ObservationsHeaderProps) {
   const { observations, isCardMaximized, isSelectionMode, onBackButtonClick } = props;
   const { t } = useTranslation();
+  let backButtonText = '';
 
-  const backButtonText = isSelectionMode
-    ? null
-    : t(isCardMaximized ? 'explore.backToObservations' : 'explore.backToMap');
+  if (isCardMaximized) {
+    backButtonText = t('explore.backToObservations');
+  } else if (!isSelectionMode) {
+    backButtonText = t('explore.backToMap');
+  }
 
   return (
     <div className={styles.container}>
       <Button
         className={styles.backButton}
-        icon="chevron-left"
+        icon={isCardMaximized || !isSelectionMode ? 'chevron-left' : 'cross'}
         minimal
         alignText="left"
         onClick={onBackButtonClick}

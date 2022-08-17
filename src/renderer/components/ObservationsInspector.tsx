@@ -34,7 +34,15 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
       setMaximizedCard(cardIndex);
     }
   };
-  const handleBackButtonClick = () => (maximizedCard !== null ? setMaximizedCard(null) : onClose());
+  const handleBackButtonClick = () => {
+    if (maximizedCard !== null) {
+      setMaximizedCard(null);
+    } else if (selectedCards.length > 0) {
+      setSelectedCards([]);
+    } else {
+      onClose();
+    }
+  };
 
   const boxClass = cx({
     box: true,
