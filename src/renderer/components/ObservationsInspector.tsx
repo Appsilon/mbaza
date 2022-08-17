@@ -1,10 +1,13 @@
 import { Button } from '@blueprintjs/core';
+import classNames from 'classnames/bind';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { VirtuosoGrid } from 'react-virtuoso';
 
 import ObservationCard from './ObservationCard';
 import styles from './ObservationsInspector.module.scss';
+
+const cx = classNames.bind(styles);
 
 type ObservationsInspectorProps = {
   observations: Observation[];
@@ -26,7 +29,6 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
       setSelectedCards(selectedCards.filter((c) => c !== cardIndex));
     }
   };
-
   const handlePhotoClick = (cardIndex: number | null, cardSelected: boolean) => {
     if (selectedCards.length > 0 && cardIndex !== null) {
       handleSelectedCards(cardIndex, cardSelected);
@@ -34,14 +36,18 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
       setMaximizedCard(cardIndex);
     }
   };
+  const onBackButtonClick = () => (maximizedCard !== null ? setMaximizedCard(null) : onClose());
 
   const backButtonText = t(
     maximizedCard !== null ? 'explore.backToObservations' : 'explore.backToMap'
   );
-  const onBackButtonClick = () => (maximizedCard !== null ? setMaximizedCard(null) : onClose());
+  const boxClass = cx({
+    box: true,
+    selectionMode: selectedCards.length > 0,
+  });
 
   return (
-    <div className={styles.box}>
+    <div className={boxClass}>
       <div className={styles.boxHeader}>
         <Button
           className={styles.backButton}
