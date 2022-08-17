@@ -1,12 +1,9 @@
-import classNames from 'classnames/bind';
 import { useState } from 'react';
 import { VirtuosoGrid } from 'react-virtuoso';
 
 import ObservationCard from './ObservationCard';
 import ObservationsHeader from './ObservationsHeader';
 import styles from './ObservationsInspector.module.scss';
-
-const cx = classNames.bind(styles);
 
 type ObservationsInspectorProps = {
   observations: Observation[];
@@ -44,13 +41,8 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
     }
   };
 
-  const boxClass = cx({
-    box: true,
-    selectionMode: selectedCards.length > 0,
-  });
-
   return (
-    <div className={boxClass}>
+    <div className={styles.box}>
       <ObservationsHeader
         observations={observations}
         isCardMaximized={maximizedCard !== null}

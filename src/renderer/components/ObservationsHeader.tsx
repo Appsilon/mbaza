@@ -1,7 +1,10 @@
 import { Button } from '@blueprintjs/core';
+import classNames from 'classnames/bind';
 import { useTranslation } from 'react-i18next';
 
 import styles from './ObservationsHeader.module.scss';
+
+const cx = classNames.bind(styles);
 
 type ObservationsHeaderProps = {
   observations: Observation[];
@@ -13,6 +16,10 @@ type ObservationsHeaderProps = {
 export default function ObservationsHeader(props: ObservationsHeaderProps) {
   const { observations, isCardMaximized, isSelectionMode, onBackButtonClick } = props;
   const { t } = useTranslation();
+  const containerClass = cx({
+    container: true,
+    selectionMode: isSelectionMode,
+  });
   let backButtonText = '';
 
   if (isCardMaximized) {
@@ -22,7 +29,7 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
   }
 
   return (
-    <div className={styles.container}>
+    <div className={containerClass}>
       <Button
         className={styles.backButton}
         icon={isCardMaximized || !isSelectionMode ? 'chevron-left' : 'cross'}
