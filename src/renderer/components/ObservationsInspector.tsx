@@ -46,7 +46,7 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
       <ObservationsHeader
         observations={observations}
         isCardMaximized={maximizedCard !== null}
-        isSelectionMode={selectedCards.length > 0}
+        selectedCardsTotal={selectedCards.length}
         onBackButtonClick={handleBackButtonClick}
       />
       <div className={styles.boxBody}>

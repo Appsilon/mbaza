@@ -24,6 +24,10 @@
       transition: color var.$t-button;
     }
 
+    :global .bp4-button-text {
+      color: var.$c-green-10;
+    }
+
     &:hover {
       background: none;
       color: var.$c-orange;
@@ -50,17 +54,21 @@
 
   &.selectionMode {
     background-color: var.$c-green-20;
+    grid-template-columns: auto 1fr auto;
 
     .backButton {
       color: var.$c-green-80;
+
+      :global .bp4-icon {
+        color: var.$c-green-60;
+      }
     }
 
     .heading {
       color: var.$c-green-80;
-    }
-
-    .counter {
-      color: var.$c-green-80;
+      font-size: 0.88rem;
+      padding-top: 0.1rem;
+      text-align: left;
     }
   }
 }

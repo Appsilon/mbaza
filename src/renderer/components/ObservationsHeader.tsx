@@ -9,41 +9,52 @@ const cx = classNames.bind(styles);
 type ObservationsHeaderProps = {
   observations: Observation[];
   isCardMaximized: boolean;
-  isSelectionMode: boolean;
+  selectedCardsTotal: number;
   onBackButtonClick: () => void;
 };
 
 export default function ObservationsHeader(props: ObservationsHeaderProps) {
-  const { observations, isCardMaximized, isSelectionMode, onBackButtonClick } = props;
+  const { observations, isCardMaximized, selectedCardsTotal, onBackButtonClick } = props;
   const { t } = useTranslation();
   const containerClass = cx({
     container: true,
-    selectionMode: isSelectionMode,
+    selectionMode: selectedCardsTotal,
   });
   let backButtonText = '';
 
   if (isCardMaximized) {
     backButtonText = t('explore.backToObservations');
-  } else if (!isSelectionMode) {
+  } else if (!selectedCardsTotal) {
     backButtonText = t('explore.backToMap');
   }
+
+  const headingText = selectedCardsTotal
+    ? t('explore.inspect.selected', {
+        count: selectedCardsTotal,
+        suffix: selectedCardsTotal === 1 ? '' : 's',
+      })
+    : t('explore.inspect.header', { station: observations[0].station });
 
   return (
     <div className={containerClass}>
       <Button
         className={styles.backButton}
-        icon={isCardMaximized || !isSelectionMode ? 'chevron-left' : 'cross'}
+        icon={isCardMaximized || !selectedCardsTotal ? 'chevron-left' : 'cross'}
         minimal
         alignText="left"
         onClick={onBackButtonClick}
         text={backButtonText}
       />
-      <h4 className={styles.heading}>
-        {t('explore.inspect.header', { station: observations[0].station })}
-      </h4>
-      <p className={styles.counter}>
-        {t('explore.inspect.observations', { count: observations.length })}
-      </p>
+      <h4 className={styles.heading}>{headingText}</h4>
+      {selectedCardsTotal ? (
+        <>
+          <div>placeholder</div>
+        </>
+      ) : (
+        <p className={styles.counter}>
+          {t('explore.inspect.observations', { count: observations.length })}
+        </p>
+      )}
     </div>
   );
 }
