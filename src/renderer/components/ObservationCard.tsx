@@ -19,6 +19,7 @@ type ObservationCardProps = {
   observationIndex: number;
   isMaximized: boolean;
   isSelected: boolean;
+  isSelectionMode: boolean;
 };
 
 function ObservationCard(props: ObservationCardProps) {
@@ -31,6 +32,7 @@ function ObservationCard(props: ObservationCardProps) {
     observationIndex,
     isMaximized,
     isSelected,
+    isSelectionMode,
   } = props;
   const { t } = useTranslation();
 
@@ -101,6 +103,7 @@ function ObservationCard(props: ObservationCardProps) {
     observation: true,
     maximized: isMaximized,
     selected: isSelected,
+    selectable: isSelectionMode,
   });
 
   return (

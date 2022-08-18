@@ -16,6 +16,7 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
   const { observations, onClose, predictionOverrides, onPredictionOverride } = props;
   const [maximizedCard, setMaximizedCard] = useState<number | null>(null);
   const [selectedCards, setSelectedCards] = useState<number[]>([]);
+  const isSelectionMode = selectedCards.length > 0;
 
   const handleSelectedCards = (cardIndex: number, cardSelected: boolean) => {
     if (cardSelected) {
@@ -73,6 +74,7 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
               observationIndex={index}
               isMaximized={false}
               isSelected={selectedCards.findIndex((card) => card === index) >= 0}
+              isSelectionMode={isSelectionMode}
             />
           )}
         />
@@ -86,6 +88,7 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
             observationIndex={maximizedCard}
             isMaximized
             isSelected={false}
+            isSelectionMode={false}
           />
         )}
       </div>

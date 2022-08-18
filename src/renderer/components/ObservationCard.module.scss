@@ -141,6 +141,14 @@ $card-size: 240px;
     }
   }
 
+  &.selectable {
+    .card {
+      .body {
+        cursor: pointer;
+      }
+    }
+  }
+
   &:not(.maximized):hover,
   &.selected {
     .selectButton {
