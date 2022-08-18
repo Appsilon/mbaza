@@ -83,7 +83,7 @@ $card-shadow-selected:
       transition: padding 0.2s ease-out;
 
       .photo {
-        border-radius: var.$radius-card - 2;
+        border-radius: var.$radius-card - 2 var.$radius-card - 2 0 0;
         display: flex;
         height: 100%;
         overflow: hidden;
@@ -190,6 +190,7 @@ $card-shadow-selected:
         padding: 10px;
 
         .photo {
+          border-radius: var.$radius-card - 2;
           img {
             opacity: 0.8;
           }

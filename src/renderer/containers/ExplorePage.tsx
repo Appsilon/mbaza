@@ -130,24 +130,28 @@ export default function ExplorePage() {
     setFilters({ ...filters, ...val });
   };
 
-  const handlePredictionOverride = (location: string, override: CreatableOption | null) => {
+  const handlePredictionsOverride = (locations: string[], override: CreatableOption | null) => {
     if (observations === undefined) return false;
     const overrides = { ...predictionOverrides };
-    const observationIndex: number = observations.findIndex((obs) => obs.location === location);
-    const observation = observations[observationIndex];
 
-    if (override === null) {
-      delete overrides[location];
-    } else {
-      overrides[location] = override;
-    }
-    // TODO: Observations should only be modified with `setObservations()`.
-    // Mutating state in any other way easily leads to incorrect behavior.
-    observations[observationIndex] = {
-      ...observation,
-      label: override === null ? observation.pred_1 : override.value,
-    };
-    setPredictionOverrides(overrides);
+    locations.forEach((location) => {
+      const observationIndex: number = observations.findIndex((obs) => obs.location === location);
+      const observation = observations[observationIndex];
+
+      if (override === null) {
+        delete overrides[location];
+      } else {
+        overrides[location] = override;
+      }
+      const obs = observations;
+      obs[observationIndex] = {
+        ...observation,
+        label: override === null ? observation.pred_1 : override.value,
+      };
+
+      setObservations(obs);
+      setPredictionOverrides(overrides);
+    });
     return false;
   };
 
@@ -235,7 +239,7 @@ export default function ExplorePage() {
                 observations={filteredObservations}
                 onClose={() => setInspectorOpen(false)}
                 predictionOverrides={predictionOverrides}
-                onPredictionOverride={handlePredictionOverride}
+                onPredictionsOverride={handlePredictionsOverride}
               />
             )}
           </div>

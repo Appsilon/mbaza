@@ -9,11 +9,11 @@ type ObservationsInspectorProps = {
   observations: Observation[];
   onClose: () => void;
   predictionOverrides: PredictionOverridesMap;
-  onPredictionOverride: PredictionOverrideHandler;
+  onPredictionsOverride: PredictionsOverrideHandler;
 };
 
 export default function ObservationsInspector(props: ObservationsInspectorProps) {
-  const { observations, onClose, predictionOverrides, onPredictionOverride } = props;
+  const { observations, onClose, predictionOverrides, onPredictionsOverride } = props;
   const [maximizedCard, setMaximizedCard] = useState<number | null>(null);
   const [selectedCards, setSelectedCards] = useState<number[]>([]);
   const isSelectionMode = selectedCards.length > 0;
@@ -43,12 +43,10 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
   };
 
   const handleGlobalOverride = (override: CreatableOption | null) => {
-    observations
-      .filter((obs, index) => selectedCards.includes(index))
-      // TODO: update state by dispatching all overrides at once
-      .forEach((observation, index) => {
-        onPredictionOverride(observation.location, override);
-      });
+    const locations = observations
+      .filter((_observation, index) => selectedCards.includes(index))
+      .map((observation) => observation.location);
+    onPredictionsOverride(locations, override);
   };
 
   return (
@@ -58,7 +56,7 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
         isCardMaximized={maximizedCard !== null}
         selectedCardsTotal={selectedCards.length}
         onBackButtonClick={handleBackButtonClick}
-        onPredictionChange={handleGlobalOverride}
+        onPredictionsOverride={handleGlobalOverride}
       />
       <div className={styles.boxBody}>
         <VirtuosoGrid
@@ -68,7 +66,7 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
             <ObservationCard
               observation={observations[index]}
               predictionOverride={predictionOverrides[observations[index].location]}
-              onPredictionOverride={onPredictionOverride}
+              onPredictionOverride={onPredictionsOverride}
               onPhotoClick={handlePhotoClick}
               onCardSelect={handleSelectedCards}
               observationIndex={index}
@@ -82,7 +80,7 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
           <ObservationCard
             observation={observations[maximizedCard]}
             predictionOverride={predictionOverrides[observations[maximizedCard].location]}
-            onPredictionOverride={onPredictionOverride}
+            onPredictionOverride={onPredictionsOverride}
             onPhotoClick={handlePhotoClick}
             onCardSelect={handleSelectedCards}
             observationIndex={maximizedCard}

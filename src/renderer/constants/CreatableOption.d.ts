@@ -6,4 +6,4 @@ type CreatableOption = {
 
 type PredictionOverridesMap = Record<string, CreatableOption>;
 
-type PredictionOverrideHandler = (location: string, prediction: CreatableOption | null) => void;
+type PredictionsOverrideHandler = (locations: string[], prediction: CreatableOption | null) => void;

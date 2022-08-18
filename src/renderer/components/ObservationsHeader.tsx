@@ -14,7 +14,7 @@ type ObservationsHeaderProps = {
   isCardMaximized: boolean;
   selectedCardsTotal: number;
   onBackButtonClick: () => void;
-  onPredictionChange: (override: string) => void;
+  onPredictionsOverride: (override: CreatableOption | null) => void;
 };
 
 export default function ObservationsHeader(props: ObservationsHeaderProps) {
@@ -23,7 +23,7 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
     isCardMaximized,
     selectedCardsTotal,
     onBackButtonClick,
-    onPredictionChange,
+    onPredictionsOverride,
   } = props;
   const { t } = useTranslation();
   const [globalOverride, setGlobalOverride] = useState<string | null>(null);
@@ -34,7 +34,7 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
   };
 
   const handleUpdateButtonClick = () => {
-    onPredictionChange(globalOverride);
+    onPredictionsOverride(globalOverride);
     handleBackButtonClick();
   };
 

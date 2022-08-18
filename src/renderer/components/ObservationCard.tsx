@@ -13,7 +13,7 @@ const cx = classNames.bind(styles);
 type ObservationCardProps = {
   observation: Observation;
   predictionOverride?: CreatableOption;
-  onPredictionOverride: PredictionOverrideHandler;
+  onPredictionOverride: PredictionsOverrideHandler;
   onPhotoClick: (cardIndex: number | null, cardSelected: boolean) => void;
   onCardSelect: (cardIndex: number, cardSelected: boolean) => void;
   observationIndex: number;
@@ -43,7 +43,7 @@ function ObservationCard(props: ObservationCardProps) {
 
   const handlePredictionOverride = (newPrediction: CreatableOption | null) => {
     if (newPrediction === null || newPrediction.value !== topPrediction.value) {
-      onPredictionOverride(observation.location, newPrediction);
+      onPredictionOverride([observation.location], newPrediction);
     }
   };
 
