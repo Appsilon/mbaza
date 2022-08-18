@@ -26,7 +26,7 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
     onPredictionsOverride,
   } = props;
   const { t } = useTranslation();
-  const [globalOverride, setGlobalOverride] = useState<string | null>(null);
+  const [globalOverride, setGlobalOverride] = useState<CreatableOption | null>(null);
 
   const handleBackButtonClick = () => {
     onBackButtonClick();
@@ -79,9 +79,9 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
               onChange={setGlobalOverride}
               className={styles.predictionOverride}
               isDisabled={!selectedCardsTotal}
-              // isClearable={predictionOverride !== undefined}
-              // menuShouldScrollIntoView={false}
-              // menuPlacement="auto"
+              isClearable={!!globalOverride}
+              menuShouldScrollIntoView={false}
+              menuPlacement="auto"
             />
             <Button
               className={styles.updateButton}
