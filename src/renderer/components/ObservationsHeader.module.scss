@@ -5,18 +5,19 @@
   background-color: var.$c-green-60;
   display: grid;
   grid-template-columns: 200px 1fr 200px;
-  height: 36px;
+  height: 40px;
+  min-height: 40px;
   padding: 0 20px;
   transition: background-color 0.3s;
 
-  .backButton {
+  button.backButton {
     background: none;
     box-shadow: none;
     color: var.$c-green-10;
     font-size: 0.88rem;
+    font-weight: 600;
     outline: none;
-    padding: 0;
-    transition: color var.$t-button;
+    transition: background-color var.$t-button, color var.$t-button;
 
     :global .bp4-icon {
       color: var.$c-green-10;
@@ -24,16 +25,13 @@
       transition: color var.$t-button;
     }
 
-    :global .bp4-button-text {
-      color: var.$c-green-10;
-    }
-
+    &:active,
     &:hover {
-      background: none;
-      color: var.$c-orange;
+      background: var.$c-green-40;
+      color: var.$c-green-80;
 
       :global .bp4-icon {
-        color: var.$c-orange;
+        color: var.$c-green-80;
       }
     }
   }
@@ -41,13 +39,14 @@
   .heading {
     color: var.$c-white;
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 400;
     margin: 0;
     text-align: center;
   }
 
   .counter {
     color: var.$c-green-20;
+    font-size: 0.88rem;
     margin: 0;
     text-align: right;
   }
@@ -67,7 +66,6 @@
     .heading {
       color: var.$c-green-80;
       font-size: 0.88rem;
-      padding-top: 0.1rem;
       text-align: left;
     }
   }

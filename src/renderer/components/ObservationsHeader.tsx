@@ -49,39 +49,43 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
 
   return (
     <div className={containerClass}>
-      <Button
-        className={styles.backButton}
-        icon={isCardMaximized || !selectedCardsTotal ? 'chevron-left' : 'cross'}
-        minimal
-        alignText="left"
-        onClick={onBackButtonClick}
-        text={backButtonText}
-      />
+      <div className={styles.side}>
+        <Button
+          className={styles.backButton}
+          icon={isCardMaximized || !selectedCardsTotal ? 'chevron-left' : 'cross'}
+          minimal
+          alignText="left"
+          onClick={onBackButtonClick}
+          text={backButtonText}
+        />
+      </div>
       <h4 className={styles.heading}>{headingText}</h4>
-      {selectedCardsTotal ? (
-        <>
-          <CreatableSelect
-            value={globalOverride}
-            options={taxonOptions}
-            onChange={setGlobalOverride}
-            // isDisabled={isSelected}
-            // isClearable={predictionOverride !== undefined}
-            // menuShouldScrollIntoView={false}
-            // className={styles.predictionOverride}
-            // menuPlacement="auto"
-          />
-          <Button
-            minimal
-            alignText="left"
-            onClick={() => onPredictionChange(globalOverride)}
-            text="Override"
-          />
-        </>
-      ) : (
-        <p className={styles.counter}>
-          {t('explore.inspect.observations', { count: observations.length })}
-        </p>
-      )}
+      <div className={styles.side}>
+        {selectedCardsTotal ? (
+          <>
+            <CreatableSelect
+              value={globalOverride}
+              options={taxonOptions}
+              onChange={setGlobalOverride}
+              // isDisabled={isSelected}
+              // isClearable={predictionOverride !== undefined}
+              // menuShouldScrollIntoView={false}
+              // className={styles.predictionOverride}
+              // menuPlacement="auto"
+            />
+            <Button
+              minimal
+              alignText="left"
+              onClick={() => onPredictionChange(globalOverride)}
+              text="Override"
+            />
+          </>
+        ) : (
+          <p className={styles.counter}>
+            {t('explore.inspect.observations', { count: observations.length })}
+          </p>
+        )}
+      </div>
     </div>
   );
 }
