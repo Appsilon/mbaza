@@ -1,7 +1,7 @@
 import { Button } from '@blueprintjs/core';
 import classNames from 'classnames/bind';
-import { useTranslation } from 'react-i18next';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import CreatableSelect from 'react-select/creatable';
 import { taxonOptions } from '../constants/taxons';
 
