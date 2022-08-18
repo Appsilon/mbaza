@@ -41,6 +41,15 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
     }
   };
 
+  const handleGlobalOverride = (override: CreatableOption | null) => {
+    observations
+      .filter((obs, index) => selectedCards.includes(index))
+      // TODO: update state by dispatching all overrides at once
+      .forEach((observation, index) => {
+        onPredictionOverride(observation.location, override);
+      });
+  };
+
   return (
     <div className={styles.box}>
       <ObservationsHeader
@@ -48,6 +57,7 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
         isCardMaximized={maximizedCard !== null}
         selectedCardsTotal={selectedCards.length}
         onBackButtonClick={handleBackButtonClick}
+        onPredictionChange={handleGlobalOverride}
       />
       <div className={styles.boxBody}>
         <VirtuosoGrid

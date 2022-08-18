@@ -54,7 +54,7 @@
 
   &.selectionMode {
     background-color: var.$c-green-20;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: auto 1fr repeat(2, auto);
 
     .backButton {
       color: var.$c-green-80;

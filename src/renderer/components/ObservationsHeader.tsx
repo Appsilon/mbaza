@@ -1,6 +1,9 @@
 import { Button } from '@blueprintjs/core';
 import classNames from 'classnames/bind';
 import { useTranslation } from 'react-i18next';
+import { useState } from 'react';
+import CreatableSelect from 'react-select/creatable';
+import { taxonOptions } from '../constants/taxons';
 
 import styles from './ObservationsHeader.module.scss';
 
@@ -11,11 +14,20 @@ type ObservationsHeaderProps = {
   isCardMaximized: boolean;
   selectedCardsTotal: number;
   onBackButtonClick: () => void;
+  onPredictionChange: (override: string) => void;
 };
 
 export default function ObservationsHeader(props: ObservationsHeaderProps) {
-  const { observations, isCardMaximized, selectedCardsTotal, onBackButtonClick } = props;
+  const {
+    observations,
+    isCardMaximized,
+    selectedCardsTotal,
+    onBackButtonClick,
+    onPredictionChange,
+  } = props;
   const { t } = useTranslation();
+  const [globalOverride, setGlobalOverride] = useState<string | null>(null);
+
   const containerClass = cx({
     container: true,
     selectionMode: selectedCardsTotal,
@@ -48,7 +60,22 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
       <h4 className={styles.heading}>{headingText}</h4>
       {selectedCardsTotal ? (
         <>
-          <div>placeholder</div>
+          <CreatableSelect
+            value={globalOverride}
+            options={taxonOptions}
+            onChange={setGlobalOverride}
+            // isDisabled={isSelected}
+            // isClearable={predictionOverride !== undefined}
+            // menuShouldScrollIntoView={false}
+            // className={styles.predictionOverride}
+            // menuPlacement="auto"
+          />
+          <Button
+            minimal
+            alignText="left"
+            onClick={() => onPredictionChange(globalOverride)}
+            text="Override"
+          />
         </>
       ) : (
         <p className={styles.counter}>
