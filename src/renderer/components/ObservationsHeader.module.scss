@@ -1,37 +1,74 @@
 @use '../styles/variables' as var;
+@use '../styles/mixins' as mix;
 
 .container {
   align-items: center;
   background-color: var.$c-green-60;
   display: grid;
-  grid-template-columns: 200px 1fr 200px;
-  height: 40px;
+  grid-template-columns: 210px 1fr 210px;
   min-height: 40px;
-  padding: 0 20px;
+  padding: 5px 20px;
   transition: background-color 0.3s;
 
-  button.backButton {
-    background: none;
-    box-shadow: none;
-    color: var.$c-green-10;
-    font-size: 0.88rem;
-    font-weight: 600;
-    outline: none;
-    transition: background-color var.$t-button, color var.$t-button;
+  .side {
+    align-items: center;
+    display: flex;
+    gap: 5px;
+    height: 100%;
 
-    :global .bp4-icon {
-      color: var.$c-green-10;
-      margin-right: 5px;
-      transition: color var.$t-button;
+    &.left {
+      justify-content: flex-start;
+
+      .backButton {
+        background: none;
+        box-shadow: none;
+        color: var.$c-green-10;
+        font-size: 0.88rem;
+        font-weight: 600;
+        outline: none;
+        transition: background-color var.$t-button, color var.$t-button;
+    
+        :global .bp4-icon {
+          color: var.$c-green-10;
+          margin-right: 5px;
+          transition: color var.$t-button;
+        }
+    
+        &:active,
+        &:hover {
+          background: var.$c-green-40;
+          color: var.$c-green-80;
+    
+          :global .bp4-icon {
+            color: var.$c-green-80;
+          }
+        }
+      }
     }
 
-    &:active,
-    &:hover {
-      background: var.$c-green-40;
-      color: var.$c-green-80;
+    &.right {
+      justify-content: flex-end;
 
-      :global .bp4-icon {
-        color: var.$c-green-80;
+      .counter {
+        color: var.$c-green-20;
+        font-size: 0.88rem;
+        margin: 0;
+        text-align: right;
+      }
+
+      .predictionOverride {
+        @include mix.custom-react-select(var.$c-green-10);
+      }
+
+      .updateButton {
+        background-color: var.$c-green-60;
+        color: var.$c-green-10;
+        font-weight: 600;
+
+        &:hover {
+          background-color: var.$c-green-80;
+          color: var.$c-white;
+        }
       }
     }
   }
@@ -44,22 +81,29 @@
     text-align: center;
   }
 
-  .counter {
-    color: var.$c-green-20;
-    font-size: 0.88rem;
-    margin: 0;
-    text-align: right;
-  }
-
   &.selectionMode {
     background-color: var.$c-green-20;
-    grid-template-columns: auto 1fr repeat(2, auto);
+    grid-template-columns: auto 1fr auto;
 
-    .backButton {
-      color: var.$c-green-80;
+    .side {
+      &.left {
+        .backButton {
+          border-radius: 50%;
+          color: var.$c-green-80;
+          height: 30px;
+          margin-right: 5px;
+          width: 30px;
 
-      :global .bp4-icon {
-        color: var.$c-green-60;
+          :global .bp4-icon {
+            color: var.$c-green-80;
+            margin: 0;
+          }
+
+          &:active,
+          &:hover {
+            background-color: var.$c-green-10;
+          }
+        }
       }
     }
 

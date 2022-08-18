@@ -49,7 +49,7 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
 
   return (
     <div className={containerClass}>
-      <div className={styles.side}>
+      <div className={cx({ side: true, left: true })}>
         <Button
           className={styles.backButton}
           icon={isCardMaximized || !selectedCardsTotal ? 'chevron-left' : 'cross'}
@@ -60,24 +60,24 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
         />
       </div>
       <h4 className={styles.heading}>{headingText}</h4>
-      <div className={styles.side}>
+      <div className={cx({ side: true, right: true })}>
         {selectedCardsTotal ? (
           <>
             <CreatableSelect
               value={globalOverride}
               options={taxonOptions}
               onChange={setGlobalOverride}
+              className={styles.predictionOverride}
               // isDisabled={isSelected}
               // isClearable={predictionOverride !== undefined}
               // menuShouldScrollIntoView={false}
-              // className={styles.predictionOverride}
               // menuPlacement="auto"
             />
             <Button
-              minimal
-              alignText="left"
+              className={styles.updateButton}
+              intent="primary"
               onClick={() => onPredictionChange(globalOverride)}
-              text="Override"
+              text="Update"
             />
           </>
         ) : (

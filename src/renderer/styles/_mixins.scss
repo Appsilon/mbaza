@@ -23,3 +23,39 @@
     background-color: $color;
   }
 }
+
+@mixin custom-react-select($background: none) {
+  [class$='control'] {
+    background: $background;
+    border: none;
+    border-radius: var.$radius-input;
+    box-shadow: none;
+    cursor: pointer;
+    font-weight: 600;
+    min-height: 0;
+    padding: 5px;
+
+    [class$='ValueContainer'] {
+      padding: 0 5px 0 0;
+
+      [class$='Input'] {
+        margin: 0;
+        padding: 0;
+      }
+    }
+
+    [class$='IndicatorsContainer'] {
+      [class$='indicatorSeparator'] {
+        display: none;
+      }
+
+      [class$='indicatorContainer'] {
+        padding: 0;
+      }
+    }
+  }
+
+  [class$='menu'] {
+    width: auto;
+  }
+}
