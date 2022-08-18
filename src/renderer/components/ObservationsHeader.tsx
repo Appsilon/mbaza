@@ -28,6 +28,16 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
   const { t } = useTranslation();
   const [globalOverride, setGlobalOverride] = useState<string | null>(null);
 
+  const handleBackButtonClick = () => {
+    onBackButtonClick();
+    setGlobalOverride(null);
+  };
+
+  const handleUpdateButtonClick = () => {
+    onPredictionChange(globalOverride);
+    handleBackButtonClick();
+  };
+
   const containerClass = cx({
     container: true,
     selectionMode: selectedCardsTotal,
@@ -55,7 +65,7 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
           icon={isCardMaximized || !selectedCardsTotal ? 'chevron-left' : 'cross'}
           minimal
           alignText="left"
-          onClick={onBackButtonClick}
+          onClick={handleBackButtonClick}
           text={backButtonText}
         />
       </div>
@@ -76,7 +86,7 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
             <Button
               className={styles.updateButton}
               intent="primary"
-              onClick={() => onPredictionChange(globalOverride)}
+              onClick={handleUpdateButtonClick}
               text="Update"
             />
           </>
