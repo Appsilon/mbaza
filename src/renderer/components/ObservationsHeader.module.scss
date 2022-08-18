@@ -58,6 +58,7 @@
 
       .predictionOverride {
         @include mix.custom-react-select(var.$c-green-10);
+        min-width: 180px;
       }
 
       .updateButton {

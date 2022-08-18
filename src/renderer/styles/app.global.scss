@@ -46,4 +46,9 @@ a {
     box-shadow: none;
     outline: none;
   }
+
+  &.bp4-disabled {
+    opacity: 0.5;
+    pointer-events: none;
+  }
 }

@@ -78,7 +78,7 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
               options={taxonOptions}
               onChange={setGlobalOverride}
               className={styles.predictionOverride}
-              // isDisabled={isSelected}
+              isDisabled={!selectedCardsTotal}
               // isClearable={predictionOverride !== undefined}
               // menuShouldScrollIntoView={false}
               // menuPlacement="auto"
@@ -86,8 +86,9 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
             <Button
               className={styles.updateButton}
               intent="primary"
+              disabled={!globalOverride}
               onClick={handleUpdateButtonClick}
-              text="Update"
+              text="Update Selected"
             />
           </>
         ) : (
