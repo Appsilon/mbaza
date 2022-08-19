@@ -68,6 +68,7 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
               predictionOverride={predictionOverrides[observations[index].location]}
               onPredictionOverride={onPredictionsOverride}
               onPhotoClick={handlePhotoClick}
+              lastObservationIndex={observations.length - 1}
               onCardSelect={handleSelectedCards}
               observationIndex={index}
               isMaximized={false}
@@ -82,6 +83,7 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
             predictionOverride={predictionOverrides[observations[maximizedCard].location]}
             onPredictionOverride={onPredictionsOverride}
             onPhotoClick={handlePhotoClick}
+            lastObservationIndex={observations.length - 1}
             onCardSelect={handleSelectedCards}
             observationIndex={maximizedCard}
             isMaximized

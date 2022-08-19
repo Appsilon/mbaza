@@ -16,6 +16,7 @@ type ObservationCardProps = {
   onPredictionOverride: PredictionsOverrideHandler;
   onPhotoClick: (cardIndex: number | null, cardSelected: boolean) => void;
   onCardSelect: (cardIndex: number, cardSelected: boolean) => void;
+  lastObservationIndex: number;
   observationIndex: number;
   isMaximized: boolean;
   isSelected: boolean;
@@ -29,6 +30,7 @@ function ObservationCard(props: ObservationCardProps) {
     onPredictionOverride,
     onPhotoClick,
     onCardSelect,
+    lastObservationIndex,
     observationIndex,
     isMaximized,
     isSelected,
@@ -45,6 +47,16 @@ function ObservationCard(props: ObservationCardProps) {
     if (newPrediction === null || newPrediction.value !== topPrediction.value) {
       onPredictionOverride([observation.location], newPrediction);
     }
+  };
+
+  const handleNavigationClick = (direction: string) => {
+    let newIndex = null;
+    if (direction === 'left') {
+      newIndex = observationIndex > 0 ? observationIndex - 1 : lastObservationIndex;
+    } else if (direction === 'right') {
+      newIndex = observationIndex < lastObservationIndex ? observationIndex + 1 : 0;
+    }
+    onPhotoClick(newIndex);
   };
 
   const predictions = [
@@ -101,8 +113,18 @@ function ObservationCard(props: ObservationCardProps) {
   );
   const navigation = (
     <nav className={styles.nav}>
-      <Button className={cx({ arrow: true, left: true })} icon="chevron-left" large />
-      <Button className={cx({ arrow: true, right: true })} icon="chevron-right" large />
+      <Button
+        className={cx({ arrow: true, left: true })}
+        icon="chevron-left"
+        large
+        onClick={() => handleNavigationClick('left')}
+      />
+      <Button
+        className={cx({ arrow: true, right: true })}
+        icon="chevron-right"
+        large
+        onClick={() => handleNavigationClick('right')}
+      />
     </nav>
   );
   const observationClass = cx({
