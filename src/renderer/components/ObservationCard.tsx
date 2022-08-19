@@ -101,8 +101,8 @@ function ObservationCard(props: ObservationCardProps) {
   );
   const navigation = (
     <nav className={styles.nav}>
-      <Button className={cx({ arrow: true, left: true })} icon="chevron-left" />
-      <Button className={cx({ arrow: true, right: true })} icon="chevron-right" />
+      <Button className={cx({ arrow: true, left: true })} icon="chevron-left" large />
+      <Button className={cx({ arrow: true, right: true })} icon="chevron-right" large />
     </nav>
   );
   const observationClass = cx({
