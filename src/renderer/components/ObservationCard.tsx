@@ -3,7 +3,7 @@ import classNames from 'classnames/bind';
 import path from 'path';
 import { useTranslation } from 'react-i18next';
 import CreatableSelect from 'react-select/creatable';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import { formatAnimalClassName } from '../constants/animalsClasses';
 import { taxonOptions } from '../constants/taxons';
@@ -55,6 +55,32 @@ function ObservationCard(props: ObservationCardProps) {
     onPhotoClick(newIndex);
     setSlideDirection(direction);
   };
+
+  if (isMaximized) {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    useEffect(() => {
+      const handler = (e: KeyboardEvent) => {
+        switch (e.key) {
+          case 'ArrowLeft':
+            handleNavigationClick('left');
+            break;
+
+          case 'ArrowRight':
+            handleNavigationClick('right');
+            break;
+
+          case 'Escape':
+            onPhotoClick(null);
+            break;
+
+          default:
+            break;
+        }
+      };
+      window.addEventListener('keydown', handler);
+      return () => window.removeEventListener('keydown', handler);
+    }, [handleNavigationClick, onPhotoClick]);
+  }
 
   const predictions = [
     [formatAnimalClassName(observation.pred_1), observation.score_1],
