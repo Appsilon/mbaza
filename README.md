@@ -5,6 +5,8 @@
 A desktop application that allows bioconservation researchers
 to classify camera trap animal images and analyze the results.
 
+Application landing page: https://appsilon.com/data-for-good/mbaza-ai/
+
 ### Useful files
 
 * [Windows installer](https://github.com/Appsilon/mbaza/releases/download/v1.3.1/Mbaza.AI.Setup.1.3.1.exe) (v1.3.1)
