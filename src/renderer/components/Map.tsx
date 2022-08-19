@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 import { EmptyClasses } from '../constants/animalsClasses';
 import AnimalsListTooltipContent from './AnimalsListTooltipContent';
 import Marker from '../../../assets/graphics/map-marker.svg';
+import MarkerActive from '../../../assets/graphics/map-marker-active.svg';
 import styles from './Map.module.scss';
 
 /*
@@ -65,7 +66,22 @@ function makeStationMarker(
 
   const markerElement = document.createElement('img');
   markerElement.setAttribute('src', Marker);
-  // markerElement.setAttribute('style', `width: ${diameter}px; height: ${diameter}px;`);
+
+  // Change marker color when clicked
+  if (markerElement) {
+    markerElement.addEventListener('click', (event: Event) => {
+      markerElement.setAttribute('src', MarkerActive);
+      markerElement.className = '.active-marker';
+      const activeMarkers: NodeListOf<Element> = document.querySelectorAll(`.active-marker`);
+      activeMarkers.forEach((marker) => {
+        marker.setAttribute('src', Marker);
+        marker.classList.remove('active-marker');
+      });
+      const target = event.currentTarget as HTMLTextAreaElement;
+      markerElement.setAttribute('src', MarkerActive);
+      target.classList.add('active-marker');
+    });
+  }
 
   const popupContentPlaceholder = document.createElement('div');
   createRoot(popupContentPlaceholder).render(
