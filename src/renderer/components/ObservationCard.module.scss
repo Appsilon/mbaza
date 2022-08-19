@@ -115,6 +115,7 @@ $card-shadow-selected: 0 2px 6px
           overflow: auto;
           opacity: 0;
           padding: 10px;
+          pointer-events: none;
           position: absolute;
           transition: opacity $t-obs-card, visibility 0s $t-obs-card;
           visibility: hidden;
@@ -229,6 +230,41 @@ $card-shadow-selected: 0 2px 6px
               opacity: 1;
               transition: opacity $t-obs-card, visibility 0s;
               visibility: visible;
+            }
+          }
+        }
+
+        .nav {
+          bottom: 0;
+          display: flex;
+          justify-content: space-between;
+          left: 0;
+          pointer-events: none;
+          position: absolute;
+          right: 0;
+          top: 0;
+
+          .arrow {
+            background: transparent;
+            border-radius: 0;
+            box-shadow: none;
+            outline: none;
+            pointer-events: all;
+            transition: background var.$t-button;
+
+            &:hover {
+              background: rgba($color: var.$c-green-60, $alpha: 0.5);
+            }
+
+            & > span {
+              color: var.$c-green-10;
+              height: 40px;
+              width: 40px;
+
+              & > svg {
+                height: 100%;
+                width: 100%;
+              }
             }
           }
         }
