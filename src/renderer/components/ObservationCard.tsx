@@ -1,4 +1,4 @@
-import { Card, Elevation, Tooltip } from '@blueprintjs/core';
+import { Card, Elevation, Tooltip, Button } from '@blueprintjs/core';
 import classNames from 'classnames/bind';
 import path from 'path';
 import { useTranslation } from 'react-i18next';
@@ -94,8 +94,8 @@ function ObservationCard(props: ObservationCardProps) {
   );
   const navigation = (
     <nav className={styles.nav}>
-      <Button className={cx({ arrow: true, left: true })} icon="chevron-left" />
-      <Button className={cx({ arrow: true, right: true })} icon="chevron-right" />
+      <Button className={cx({ arrow: true, left: true })} icon="chevron-left" large />
+      <Button className={cx({ arrow: true, right: true })} icon="chevron-right" large />
     </nav>
   );
   const observationClass = cx({
@@ -106,12 +106,12 @@ function ObservationCard(props: ObservationCardProps) {
   return (
     <div className={observationClass}>
       <Card className={styles.card} elevation={Elevation.TWO} key={observation.location}>
-        <div
-          className={styles.body}
-          onClick={() => onPhotoClick(isMaximized ? null : observationIndex)}
-          aria-hidden="true"
-        >
-          <div className={styles.photo}>
+        <div className={styles.body}>
+          <div
+            className={styles.photo}
+            onClick={() => onPhotoClick(isMaximized ? null : observationIndex)}
+            aria-hidden="true"
+          >
             <img
               className={styles.img}
               src={`file:${observation.location}`}
