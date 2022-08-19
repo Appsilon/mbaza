@@ -92,6 +92,12 @@ function ObservationCard(props: ObservationCardProps) {
       {photoDetail('file', path.basename(observation.location))}
     </div>
   );
+  const navigation = (
+    <nav className={styles.nav}>
+      <Button className={cx({ arrow: true, left: true })} icon="chevron-left" />
+      <Button className={cx({ arrow: true, right: true })} icon="chevron-right" />
+    </nav>
+  );
   const observationClass = cx({
     observation: true,
     maximized: isMaximized,
@@ -116,6 +122,7 @@ function ObservationCard(props: ObservationCardProps) {
             {predictionsTable}
             {photoDetails}
           </div>
+          {isMaximized && navigation}
         </div>
         <div className={styles.header}>
           <Tooltip content={t('explore.inspect.overrideTooltip')} position="top" minimal>
