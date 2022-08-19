@@ -110,7 +110,7 @@
         "plotTitle": "Image count over time ({{windowLengthInDays}}-day intervals)",
         "inspect": {
           "station": "Station {{id}}",
-          "observations": "{{count}} observations",
+          "observations": "{{current}}{{count}} observations",
           "species": "{{count}} species",
           "header": "Observations by station {{station}}",
           "prediction": "Prediction",
@@ -234,7 +234,7 @@
         "plotTitle": "Comptage des animaux dans le temps ({{windowLengthInDays}}-intervalles de jours)",
         "inspect": {
           "station": "Station {{id}}",
-          "observations": "{{count}} observations",
+          "observations": "{{current}}{{count}} observations",
           "species": "{{count}} espèces",
           "header": "Observations par station {{station}}",
           "prediction": "Prédiction",

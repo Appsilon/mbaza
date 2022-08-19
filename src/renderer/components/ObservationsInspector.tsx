@@ -37,7 +37,10 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
           {t('explore.inspect.header', { station: observations[0].station })}
         </h4>
         <p className={styles.counter}>
-          {t('explore.inspect.observations', { count: observations.length })}
+          {t('explore.inspect.observations', {
+            count: observations.length,
+            current: maximizedCard !== null ? `${maximizedCard + 1} / ` : '',
+          })}
         </p>
       </div>
       <div className={styles.boxBody}>
