@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 
 import { EmptyClasses } from '../constants/animalsClasses';
 import AnimalsListTooltipContent from './AnimalsListTooltipContent';
+import Marker from '../../../assets/graphics/map-marker.svg';
 import styles from './Map.module.scss';
 
 /*
@@ -62,19 +63,9 @@ function makeStationMarker(
   const diameter = circleDiameter(species.size(), maxSpecies);
   const maxPreviewPhotosCount = 3;
 
-  const markerElement = document.createElement('div');
-  markerElement.className = styles.marker;
-  markerElement.setAttribute('style', `width: ${diameter}px; height: ${diameter}px;`);
-  if (markerElement) {
-    markerElement.addEventListener('click', (event: Event) => {
-      const activeMarkers: NodeListOf<Element> = document.querySelectorAll(
-        `.${styles.marker}.${styles.active}`
-      );
-      activeMarkers.forEach((marker) => marker.classList.remove(styles.active));
-      const target = event.currentTarget as HTMLTextAreaElement;
-      target.classList.add(styles.active);
-    });
-  }
+  const markerElement = document.createElement('img');
+  markerElement.setAttribute('src', Marker);
+  // markerElement.setAttribute('style', `width: ${diameter}px; height: ${diameter}px;`);
 
   const popupContentPlaceholder = document.createElement('div');
   createRoot(popupContentPlaceholder).render(
