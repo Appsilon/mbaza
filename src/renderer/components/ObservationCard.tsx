@@ -3,6 +3,7 @@ import classNames from 'classnames/bind';
 import path from 'path';
 import { useTranslation } from 'react-i18next';
 import CreatableSelect from 'react-select/creatable';
+import { useState } from 'react';
 
 import { formatAnimalClassName } from '../constants/animalsClasses';
 import { taxonOptions } from '../constants/taxons';
@@ -31,6 +32,7 @@ function ObservationCard(props: ObservationCardProps) {
     isMaximized,
   } = props;
   const { t } = useTranslation();
+  const [slideDirection, setSlideDirection] = useState<string | null>(null);
 
   const topPrediction = {
     value: observation.pred_1,
@@ -51,6 +53,7 @@ function ObservationCard(props: ObservationCardProps) {
       newIndex = observationIndex < lastObservationIndex ? observationIndex + 1 : 0;
     }
     onPhotoClick(newIndex);
+    setSlideDirection(direction);
   };
 
   const predictions = [
@@ -124,13 +127,18 @@ function ObservationCard(props: ObservationCardProps) {
     observation: true,
     maximized: isMaximized,
   });
+  const photoClass = cx({
+    photo: true,
+    slideInFromLeft: slideDirection === 'left',
+    slideInFromRight: slideDirection === 'right',
+  });
 
   return (
     <div className={observationClass}>
       <Card className={styles.card} elevation={Elevation.TWO} key={observation.location}>
         <div className={styles.body}>
           <div
-            className={styles.photo}
+            className={photoClass}
             onClick={() => onPhotoClick(isMaximized ? null : observationIndex)}
             aria-hidden="true"
           >
