@@ -56,7 +56,7 @@ function ObservationCard(props: ObservationCardProps) {
     } else if (direction === 'right') {
       newIndex = observationIndex < lastObservationIndex ? observationIndex + 1 : 0;
     }
-    onPhotoClick(newIndex);
+    onPhotoClick(newIndex, !isSelected);
   };
 
   const predictions = [
