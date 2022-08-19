@@ -173,10 +173,12 @@ $card-size: 240px;
   }
 
   &.maximized {
-    animation: fade-in 0.3s;
+    // animation: fade-in 1s;
     height: 100%;
+    opacity: 1;
     position: absolute;
     top: 0;
+    transition: opacity 1s;
     width: 100%;
 
     .card {
@@ -244,5 +246,17 @@ $card-size: 240px;
         }
       }
     }
+  }
+
+  &.hidden {
+    opacity: 0;
+  }
+
+  &.visible {
+    opacity: 1;
+  }
+
+  &.noTransition {
+    transition: none;
   }
 }

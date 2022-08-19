@@ -17,10 +17,13 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
   const { observations, onClose, predictionOverrides, onPredictionOverride } = props;
   const { t } = useTranslation();
   const [maximizedCard, setMaximizedCard] = useState<number | null>(null);
+  const [prevCardIndex, setPrevCardIndex] = useState<number | null>(null);
+  const [isSliding, setSliding] = useState<boolean>(false);
   const backButtonText = t(
     maximizedCard !== null ? 'explore.backToObservations' : 'explore.backToMap'
   );
   const onBackButtonClick = () => (maximizedCard !== null ? setMaximizedCard(null) : onClose());
+  const maximizedObservationsIndexes = [maximizedCard, prevCardIndex].flatMap((f) => f || []);
 
   return (
     <div className={styles.box}>
@@ -53,23 +56,32 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
               predictionOverride={predictionOverrides[observations[index].location]}
               onPredictionOverride={onPredictionOverride}
               onPhotoClick={setMaximizedCard}
+              onSlideInit={setPrevCardIndex}
+              onSlideStart={setSliding}
               lastObservationIndex={observations.length - 1}
               observationIndex={index}
               isMaximized={false}
+              prevCardIndex={prevCardIndex}
+              isSliding={isSliding}
             />
           )}
         />
-        {maximizedCard !== null && (
-          <ObservationCard
-            observation={observations[maximizedCard]}
-            predictionOverride={predictionOverrides[observations[maximizedCard].location]}
-            onPredictionOverride={onPredictionOverride}
-            onPhotoClick={setMaximizedCard}
-            lastObservationIndex={observations.length - 1}
-            observationIndex={maximizedCard}
-            isMaximized
-          />
-        )}
+        {maximizedCard !== null &&
+          maximizedObservationsIndexes.map((index) => (
+            <ObservationCard
+              observation={observations[index]}
+              predictionOverride={predictionOverrides[observations[index].location]}
+              onPredictionOverride={onPredictionOverride}
+              onPhotoClick={setMaximizedCard}
+              onSlideInit={setPrevCardIndex}
+              onSlideStart={setSliding}
+              lastObservationIndex={observations.length - 1}
+              observationIndex={index}
+              isMaximized
+              prevCardIndex={prevCardIndex}
+              isSliding={isSliding}
+            />
+          ))}
       </div>
     </div>
   );

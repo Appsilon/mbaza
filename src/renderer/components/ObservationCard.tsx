@@ -15,9 +15,13 @@ type ObservationCardProps = {
   predictionOverride?: CreatableOption;
   onPredictionOverride: PredictionOverrideHandler;
   onPhotoClick: (cardIndex: number | null) => void;
+  onSlideInit: (nextCardIndex: number | null) => void;
+  onSlideStart: (arg: boolean) => void;
   lastObservationIndex: number;
   observationIndex: number;
   isMaximized: boolean;
+  prevCardIndex: number | null;
+  isSliding: boolean;
 };
 
 function ObservationCard(props: ObservationCardProps) {
@@ -26,9 +30,13 @@ function ObservationCard(props: ObservationCardProps) {
     predictionOverride,
     onPredictionOverride,
     onPhotoClick,
+    onSlideInit,
+    onSlideStart,
     lastObservationIndex,
     observationIndex,
     isMaximized,
+    prevCardIndex,
+    isSliding,
   } = props;
   const { t } = useTranslation();
 
@@ -43,14 +51,23 @@ function ObservationCard(props: ObservationCardProps) {
     }
   };
 
-  const handleNavigationClick = (direction: string) => {
-    let newIndex = null;
+  const handleSlideInit = (direction: string) => {
+    let newCardIndex = null;
     if (direction === 'left') {
-      newIndex = observationIndex > 0 ? observationIndex - 1 : lastObservationIndex;
+      newCardIndex = observationIndex > 0 ? observationIndex - 1 : lastObservationIndex;
     } else if (direction === 'right') {
-      newIndex = observationIndex < lastObservationIndex ? observationIndex + 1 : 0;
+      newCardIndex = observationIndex < lastObservationIndex ? observationIndex + 1 : 0;
     }
-    onPhotoClick(newIndex);
+    onPhotoClick(newCardIndex);
+    onSlideInit(observationIndex);
+  };
+
+  const handleSlideStart = () => {
+    onSlideStart(true);
+    setTimeout(() => {
+      onSlideStart(false);
+      onSlideInit(null);
+    }, 1000);
   };
 
   const predictions = [
@@ -110,19 +127,28 @@ function ObservationCard(props: ObservationCardProps) {
         className={cx({ arrow: true, left: true })}
         icon="chevron-left"
         large
-        onClick={() => handleNavigationClick('left')}
+        onMouseDown={() => handleSlideInit('left')}
+        onMouseUp={handleSlideStart}
       />
       <Button
         className={cx({ arrow: true, right: true })}
         icon="chevron-right"
         large
-        onClick={() => handleNavigationClick('right')}
+        onMouseDown={() => handleSlideInit('right')}
+        onMouseUp={handleSlideStart}
       />
     </nav>
   );
   const observationClass = cx({
     observation: true,
     maximized: isMaximized,
+    hidden:
+      (isMaximized && observationIndex !== prevCardIndex && prevCardIndex !== null && !isSliding) ||
+      (isMaximized && observationIndex === prevCardIndex && isSliding),
+    visible:
+      (isMaximized && observationIndex === prevCardIndex && !isSliding) ||
+      (isMaximized && observationIndex !== prevCardIndex && prevCardIndex !== null && isSliding),
+    noTransition: (prevCardIndex !== null && !isSliding) || prevCardIndex === null,
   });
 
   return (
