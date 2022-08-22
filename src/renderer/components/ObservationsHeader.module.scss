@@ -56,11 +56,6 @@
         text-align: right;
       }
 
-      .predictionOverride {
-        @include mix.custom-react-select(var.$c-green-10);
-        min-width: 180px;
-      }
-
       .updateButton {
         background-color: var.$c-green-60;
         color: var.$c-green-10;
