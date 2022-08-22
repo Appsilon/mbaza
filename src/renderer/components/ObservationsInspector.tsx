@@ -26,7 +26,7 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
     }
   };
   const handlePhotoClick = (cardIndex: number | null, cardSelected: boolean) => {
-    if (selectedCards.length > 0 && cardIndex !== null) {
+    if (isSelectionMode && cardIndex !== null) {
       handleSelectedCards(cardIndex, cardSelected);
     } else {
       setMaximizedCard(cardIndex);
@@ -35,7 +35,7 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
   const handleBackButtonClick = () => {
     if (maximizedCard !== null) {
       setMaximizedCard(null);
-    } else if (selectedCards.length > 0) {
+    } else if (isSelectionMode) {
       setSelectedCards([]);
     } else {
       onClose();
