@@ -6,6 +6,7 @@ import CreatableSelect from 'react-select/creatable';
 
 import { taxonOptions } from '../constants/taxons';
 import styles from './ObservationsHeader.module.scss';
+import sassVariables from '../styles/variables.module.scss';
 
 const cx = classNames.bind(styles);
 

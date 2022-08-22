@@ -3,7 +3,7 @@
  *        See https://github.com/webpack-contrib/sass-loader#imports
  */
 
-@use './variables' as var;
+@use './variables.module.scss' as var;
 
 @import '~normalize.css';
 @import '~@blueprintjs/core/lib/css/blueprint.css';
