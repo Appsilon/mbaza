@@ -1,9 +1,9 @@
 import { Button, Card, Elevation, Tooltip } from '@blueprintjs/core';
 import classNames from 'classnames/bind';
 import path from 'path';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import CreatableSelect from 'react-select/creatable';
-import { useState, useEffect, useCallback } from 'react';
 
 import CreatableSelect from 'react-select/creatable';
 import { formatAnimalClassName } from '../constants/animalsClasses';
@@ -64,31 +64,28 @@ function ObservationCard(props: ObservationCardProps) {
     [lastObservationIndex, observationIndex, onPhotoClick]
   );
 
-  if (isMaximized) {
-    // eslint-disable-next-line react-hooks/rules-of-hooks
-    useEffect(() => {
-      const handler = (e: KeyboardEvent) => {
-        switch (e.key) {
-          case 'ArrowLeft':
-            handleNavigationClick('left');
-            break;
-
-          case 'ArrowRight':
-            handleNavigationClick('right');
-            break;
-
-          case 'Escape':
-            onPhotoClick(null);
-            break;
-
-          default:
-            break;
-        }
-      };
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      switch (e.key) {
+        case 'ArrowLeft':
+          handleNavigationClick('left');
+          break;
+        case 'ArrowRight':
+          handleNavigationClick('right');
+          break;
+        case 'Escape':
+          onPhotoClick(null);
+          break;
+        default:
+          break;
+      }
+    };
+    if (isMaximized) {
       window.addEventListener('keydown', handler);
       return () => window.removeEventListener('keydown', handler);
-    });
-  }
+    }
+    return undefined;
+  }, [handleNavigationClick, isMaximized, onPhotoClick]);
 
   const predictions = [
     [formatAnimalClassName(observation.pred_1), observation.score_1],
