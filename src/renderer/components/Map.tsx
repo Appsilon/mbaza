@@ -43,12 +43,6 @@ function getObservationCoordinates(row: Observation): [number, number] {
   return [row.coordinates_long, row.coordinates_lat];
 }
 
-function circleDiameter(count: number, total: number): number {
-  const minSize = 10;
-  const maxSize = 50;
-  return minSize + (count / total) * (maxSize - minSize);
-}
-
 function makeStationMarker(
   t: TFunction,
   groupObservations: Observation[],
@@ -63,7 +57,6 @@ function makeStationMarker(
   const count = groupObservations.length;
   const { station } = firstObservation;
 
-  const diameter = circleDiameter(species.size(), maxSpecies);
   const maxPreviewPhotosCount = 3;
 
   const markerElement = document.createElement('img');
@@ -127,7 +120,7 @@ function makeStationMarker(
 
   const marker = new mapboxgl.Marker(markerElement, { anchor: 'bottom' })
     .setLngLat(coordinates)
-    .setPopup(new mapboxgl.Popup({ offset: diameter / 2 }).setDOMContent(popupContentPlaceholder));
+    .setPopup(new mapboxgl.Popup().setDOMContent(popupContentPlaceholder));
   return marker;
 }
 
