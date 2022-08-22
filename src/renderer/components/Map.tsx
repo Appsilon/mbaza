@@ -123,7 +123,7 @@ function makeStationMarker(
     </>
   );
 
-  const marker = new mapboxgl.Marker(markerElement)
+  const marker = new mapboxgl.Marker(markerElement, { anchor: 'bottom' })
     .setLngLat(coordinates)
     .setPopup(new mapboxgl.Popup({ offset: diameter / 2 }).setDOMContent(popupContentPlaceholder));
   return marker;
