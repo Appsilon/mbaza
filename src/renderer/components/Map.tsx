@@ -1,5 +1,6 @@
 import { Button } from '@blueprintjs/core';
 import { Tooltip2 } from '@blueprintjs/popover2';
+import '@blueprintjs/popover2/lib/css/blueprint-popover2.css';
 import { TFunction } from 'i18next';
 import _ from 'lodash';
 import mapboxgl from 'mapbox-gl';
@@ -10,7 +11,6 @@ import { useTranslation } from 'react-i18next';
 import { EmptyClasses } from '../constants/animalsClasses';
 import AnimalsListTooltipContent from './AnimalsListTooltipContent';
 import styles from './Map.module.scss';
-import '@blueprintjs/popover2/lib/css/blueprint-popover2.css';
 
 /*
 To produce a country file please have a look at download_map.sh
