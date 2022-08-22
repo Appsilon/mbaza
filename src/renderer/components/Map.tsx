@@ -1,4 +1,6 @@
-import { Button, Position, Tooltip } from '@blueprintjs/core';
+import { Button } from '@blueprintjs/core';
+import { Tooltip2 } from '@blueprintjs/popover2';
+import '@blueprintjs/popover2/lib/css/blueprint-popover2.css';
 import { TFunction } from 'i18next';
 import _ from 'lodash';
 import mapboxgl from 'mapbox-gl';
@@ -92,14 +94,14 @@ function makeStationMarker(
       <p>
         <b>{t('explore.inspect.observations', { count }) as string}</b>
       </p>
-      <p>
-        <Tooltip
-          content={<AnimalsListTooltipContent entries={species.value()} />}
-          position={Position.BOTTOM}
-        >
-          <b>{t('explore.inspect.species', { count: species.size() }) as string}</b>
-        </Tooltip>
-      </p>
+      <Tooltip2
+        content={<AnimalsListTooltipContent entries={species.value()} />}
+        openOnTargetFocus={false}
+        placement="bottom"
+      >
+        <b>{t('explore.inspect.species', { count: species.size() }) as string}</b>
+      </Tooltip2>
+
       <div className={styles.photosPreview}>
         {groupObservations.slice(0, maxPreviewPhotosCount).map((observation) => (
           // eslint-disable-next-line
