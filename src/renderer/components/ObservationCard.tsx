@@ -1,9 +1,9 @@
 import { Button, Card, Elevation, Tooltip } from '@blueprintjs/core';
 import classNames from 'classnames/bind';
 import path from 'path';
-import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import CreatableSelect from 'react-select/creatable';
+import { useState, useEffect, useCallback } from 'react';
 
 import CreatableSelect from 'react-select/creatable';
 import { formatAnimalClassName } from '../constants/animalsClasses';
@@ -51,15 +51,18 @@ function ObservationCard(props: ObservationCardProps) {
     }
   };
 
-  const handleNavigationClick = (direction: string) => {
-    let newIndex = null;
-    if (direction === 'left') {
-      newIndex = observationIndex > 0 ? observationIndex - 1 : lastObservationIndex;
-    } else if (direction === 'right') {
-      newIndex = observationIndex < lastObservationIndex ? observationIndex + 1 : 0;
-    }
-    onPhotoClick(newIndex, !isSelected);
-  };
+  const handleNavigationClick = useCallback(
+    (direction: string) => {
+      let newIndex = null;
+      if (direction === 'left') {
+        newIndex = observationIndex > 0 ? observationIndex - 1 : lastObservationIndex;
+      } else if (direction === 'right') {
+        newIndex = observationIndex < lastObservationIndex ? observationIndex + 1 : 0;
+      }
+      onPhotoClick(newIndex);
+    },
+    [lastObservationIndex, observationIndex, onPhotoClick]
+  );
 
   if (isMaximized) {
     // eslint-disable-next-line react-hooks/rules-of-hooks
