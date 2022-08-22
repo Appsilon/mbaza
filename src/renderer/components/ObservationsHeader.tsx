@@ -3,8 +3,8 @@ import classNames from 'classnames/bind';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import CreatableSelect from 'react-select/creatable';
-import { taxonOptions } from '../constants/taxons';
 
+import { taxonOptions } from '../constants/taxons';
 import styles from './ObservationsHeader.module.scss';
 
 const cx = classNames.bind(styles);
@@ -51,10 +51,7 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
   }
 
   const headingText = selectedCardsTotal
-    ? t('explore.inspect.selected', {
-        count: selectedCardsTotal,
-        suffix: selectedCardsTotal === 1 ? '' : 's',
-      })
+    ? t('explore.inspect.selected', { count: selectedCardsTotal })
     : t('explore.inspect.header', { station: observations[0].station });
 
   return (
