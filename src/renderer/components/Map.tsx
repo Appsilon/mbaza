@@ -6,10 +6,10 @@ import React, { useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import { useTranslation } from 'react-i18next';
 
+import MarkerActive from '../../../assets/graphics/map-marker-active.svg';
+import Marker from '../../../assets/graphics/map-marker.svg';
 import { EmptyClasses } from '../constants/animalsClasses';
 import AnimalsListTooltipContent from './AnimalsListTooltipContent';
-import Marker from '../../../assets/graphics/map-marker.svg';
-import MarkerActive from '../../../assets/graphics/map-marker-active.svg';
 import styles from './Map.module.scss';
 
 /*
