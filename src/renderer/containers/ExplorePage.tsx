@@ -132,26 +132,27 @@ export default function ExplorePage() {
 
   const handlePredictionsOverride = (locations: string[], override: CreatableOption | null) => {
     if (observations === undefined) return false;
-    const overrides = { ...predictionOverrides };
+    const updatedOverrides = { ...predictionOverrides };
+    const updatedObservations = [...observations];
 
     locations.forEach((location) => {
-      const observationIndex: number = observations.findIndex((obs) => obs.location === location);
-      const observation = observations[observationIndex];
+      const observationIndex: number = updatedObservations.findIndex(
+        (observation) => observation.location === location
+      );
+      const observation = updatedObservations[observationIndex];
 
       if (override === null) {
-        delete overrides[location];
+        delete updatedOverrides[location];
       } else {
-        overrides[location] = override;
+        updatedOverrides[location] = override;
       }
-      const obs = observations;
-      obs[observationIndex] = {
+      updatedObservations[observationIndex] = {
         ...observation,
         label: override === null ? observation.pred_1 : override.value,
       };
-
-      setObservations(obs);
-      setPredictionOverrides(overrides);
     });
+    setObservations(updatedObservations);
+    setPredictionOverrides(updatedOverrides);
     return false;
   };
 
