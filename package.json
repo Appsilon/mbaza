@@ -99,6 +99,7 @@
   "dependencies": {
     "@blueprintjs/core": "^4.7.0",
     "@blueprintjs/icons": "^4.4.0",
+    "@blueprintjs/popover2": "^1.5.1",
     "@electron/remote": "^2.0.8",
     "classnames": "^2.3.1",
     "d3-dsv": "^3.0.1",
