@@ -83,12 +83,9 @@ function ObservationCard(props: ObservationCardProps) {
       isClearable={predictionOverride !== undefined}
       menuShouldScrollIntoView={false}
       menuPlacement="auto"
-      styles={{
-        control: (base) => ({
-          ...base,
-          cursor: 'pointer',
-          width: 'auto',
-        }),
+      controlStyles={{
+        background: 'none',
+        width: 'auto',
       }}
     />
   );
