@@ -2,10 +2,10 @@ import { Button, Card, Elevation, Tooltip } from '@blueprintjs/core';
 import classNames from 'classnames/bind';
 import path from 'path';
 import { useTranslation } from 'react-i18next';
-import CreatableSelect from 'react-select/creatable';
 
 import { formatAnimalClassName } from '../constants/animalsClasses';
 import { taxonOptions } from '../constants/taxons';
+import CreatableSelect from './CreatableSelect';
 import styles from './ObservationCard.module.scss';
 
 const cx = classNames.bind(styles);
@@ -82,8 +82,14 @@ function ObservationCard(props: ObservationCardProps) {
       isDisabled={isSelected}
       isClearable={predictionOverride !== undefined}
       menuShouldScrollIntoView={false}
-      className={styles.predictionOverride}
       menuPlacement="auto"
+      styles={{
+        control: (base) => ({
+          ...base,
+          cursor: 'pointer',
+          width: 'auto',
+        }),
+      }}
     />
   );
   const photoDetail = (label: string, value: string) => (
