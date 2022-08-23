@@ -85,7 +85,7 @@ function makeStationMarker(
         <b>{t('explore.inspect.station', { id: station }) as string}</b>
       </h3>
       <p>
-        <b>{t('explore.inspect.observations', { count, current: '' }) as string}</b>
+        <b>{t('explore.inspect.observations', { count }) as string}</b>
       </p>
       <Tooltip2
         content={<AnimalsListTooltipContent entries={species.value()} />}
