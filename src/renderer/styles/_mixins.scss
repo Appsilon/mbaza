@@ -23,16 +23,3 @@
     background-color: $color;
   }
 }
-
-@mixin slide-in-from($side, $position) {
-  @keyframes slide-in-from-#{$side} {
-    0% {
-      transform: translateX(#{$position});
-      opacity: 0;
-    }
-    100% {
-      transform: translateX(0);
-      opacity: 1;
-    }
-  }
-}

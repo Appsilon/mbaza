@@ -1,7 +1,7 @@
 import { Button, Card, Elevation, Tooltip } from '@blueprintjs/core';
 import classNames from 'classnames/bind';
 import path from 'path';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import CreatableSelect from 'react-select/creatable';
 
@@ -32,7 +32,6 @@ function ObservationCard(props: ObservationCardProps) {
     isMaximized,
   } = props;
   const { t } = useTranslation();
-  const [slideDirection, setSlideDirection] = useState<string | null>(null);
 
   const topPrediction = {
     value: observation.pred_1,
@@ -45,19 +44,15 @@ function ObservationCard(props: ObservationCardProps) {
     }
   };
 
-  const handleNavigationClick = useCallback(
-    (direction: string) => {
-      let newIndex = null;
-      if (direction === 'left') {
-        newIndex = observationIndex > 0 ? observationIndex - 1 : lastObservationIndex;
-      } else if (direction === 'right') {
-        newIndex = observationIndex < lastObservationIndex ? observationIndex + 1 : 0;
-      }
-      onPhotoClick(newIndex);
-      setSlideDirection(direction);
-    },
-    [lastObservationIndex, observationIndex, onPhotoClick]
-  );
+  const handleNavigationClick = (direction: string) => {
+    let newIndex = null;
+    if (direction === 'left') {
+      newIndex = observationIndex > 0 ? observationIndex - 1 : lastObservationIndex;
+    } else if (direction === 'right') {
+      newIndex = observationIndex < lastObservationIndex ? observationIndex + 1 : 0;
+    }
+    onPhotoClick(newIndex);
+  };
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
@@ -80,7 +75,7 @@ function ObservationCard(props: ObservationCardProps) {
       return () => window.removeEventListener('keydown', handler);
     }
     return undefined;
-  }, [handleNavigationClick, isMaximized, onPhotoClick]);
+  });
 
   const predictions = [
     [formatAnimalClassName(observation.pred_1), observation.score_1],
@@ -136,13 +131,13 @@ function ObservationCard(props: ObservationCardProps) {
   const navigation = (
     <nav className={styles.nav}>
       <Button
-        className={cx({ arrow: true, left: true })}
+        className={styles.arrow}
         icon="chevron-left"
         large
         onClick={() => handleNavigationClick('left')}
       />
       <Button
-        className={cx({ arrow: true, right: true })}
+        className={styles.arrow}
         icon="chevron-right"
         large
         onClick={() => handleNavigationClick('right')}
@@ -153,18 +148,13 @@ function ObservationCard(props: ObservationCardProps) {
     observation: true,
     maximized: isMaximized,
   });
-  const photoClass = cx({
-    photo: true,
-    slideInFromLeft: slideDirection === 'left',
-    slideInFromRight: slideDirection === 'right',
-  });
 
   return (
     <div className={observationClass}>
       <Card className={styles.card} elevation={Elevation.TWO} key={observation.location}>
         <div className={styles.body}>
           <div
-            className={photoClass}
+            className={styles.photo}
             onClick={() => onPhotoClick(isMaximized ? null : observationIndex)}
             aria-hidden="true"
           >

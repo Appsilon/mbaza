@@ -3,9 +3,6 @@
 @use '../styles/animations';
 
 $t-obs-card: 0.5s;
-$t-obs-card-slide: 0.8s;
-$t-obs-card-timing: cubic-bezier(.15,.66,.44,1);
-
 $card-size: 240px;
 
 .observation {
@@ -79,16 +76,6 @@ $card-size: 240px;
           height: 100%;
           transition: opacity $t-obs-card, visibility 0s;
           width: auto;
-        }
-
-        &.slideInFromLeft {
-          @include mix.slide-in-from(left, -50%);
-          animation: slide-in-from-left $t-obs-card-slide $t-obs-card-timing;
-        }
-
-        &.slideInFromRight {
-          @include mix.slide-in-from(right, 50%);
-          animation: slide-in-from-right $t-obs-card-slide $t-obs-card-timing;
         }
       }
 
