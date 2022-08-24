@@ -4,6 +4,7 @@ import path from 'path';
 import { useTranslation } from 'react-i18next';
 import CreatableSelect from 'react-select/creatable';
 
+import { PredictionsTable } from './observationsComponents';
 import { getPredictions, getTopPrediction } from '../utils/observationsHelpers';
 import { taxonOptions } from '../constants/taxons';
 import styles from './ObservationCard.module.scss';
@@ -45,70 +46,10 @@ function ObservationCard(props: ObservationCardProps) {
 
   const handlePredictionOverride = (newPrediction: CreatableOption | null) => {
     if (newPrediction === null || newPrediction.value !== topPrediction.value) {
-      onPredictionOverride([observation.location], newPrediction);
+      onPredictionOverride(observation.location, newPrediction);
     }
   };
 
-  const handleNavigationClick = (direction: string) => {
-    let newIndex = null;
-    if (direction === 'left') {
-      newIndex = observationIndex > 0 ? observationIndex - 1 : lastObservationIndex;
-    } else if (direction === 'right') {
-      newIndex = observationIndex < lastObservationIndex ? observationIndex + 1 : 0;
-    }
-    onPhotoClick(newIndex);
-  };
-
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      switch (e.key) {
-        case 'ArrowLeft':
-          handleNavigationClick('left');
-          break;
-        case 'ArrowRight':
-          handleNavigationClick('right');
-          break;
-        case 'Escape':
-          onPhotoClick(null);
-          break;
-        default:
-          break;
-      }
-    };
-    if (isMaximized) {
-      window.addEventListener('keydown', handler);
-      return () => window.removeEventListener('keydown', handler);
-    }
-    return undefined;
-  });
-
-  const predictions = [
-    [formatAnimalClassName(observation.pred_1), observation.score_1],
-    [formatAnimalClassName(observation.pred_2), observation.score_2],
-    [formatAnimalClassName(observation.pred_3), observation.score_3],
-  ];
-
-  const predictionsTable = (
-    <table className={`${styles.predictionsTable} bp4-html-table bp4-html-table-condensed`}>
-      <thead>
-        <tr>
-          <th>{t('explore.inspect.prediction')}</th>
-          <th>{t('explore.inspect.probability')}</th>
-        </tr>
-      </thead>
-      <tbody>
-        {predictions.map((i) => (
-          <tr key={i[0]}>
-            <td>{i[0]}</td>
-            <td>
-              {((i[1] as number) * 100).toFixed(2)}
-              &nbsp;%
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
   const predictionOverrideWidget = (
     <CreatableSelect
       value={predictionOverride || topPrediction}
@@ -171,12 +112,11 @@ function ObservationCard(props: ObservationCardProps) {
               src={`file:${observation.location}`}
               alt={observation.pred_1}
             />
-            <div className={styles.data}>
-              {predictionsTable}
-              {photoDetails}
-            </div>
           </div>
-          {isMaximized && navigation}
+          <div className={styles.data}>
+            <PredictionsTable predictions={predictions} className={styles.predictionsTable} />
+            {photoDetails}
+          </div>
         </div>
         <div className={styles.header}>
           <Tooltip content={t('explore.inspect.overrideTooltip')} position="top" minimal>
