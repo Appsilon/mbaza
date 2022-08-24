@@ -5,7 +5,7 @@ import { VirtuosoGrid } from 'react-virtuoso';
 
 import MaximizedObservationCard from './MaximizedObservationCard';
 import ObservationCard from './ObservationCard';
-import { predictionOverrideWrapper } from './observationsComponents';
+import { predictionOverrideWrapper } from './observationsHelpers';
 import styles from './ObservationsInspector.module.scss';
 
 export default function ObservationsInspector(props: ObservationsInspectorProps) {
