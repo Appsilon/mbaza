@@ -4,7 +4,13 @@ import CreatableSelect from 'react-select/creatable';
 import { taxonOptions } from '../constants/taxons';
 import { getTopPrediction } from '../utils/observationsHelpers';
 
-export function PredictionsTable({ predictions, className }) {
+export function PredictionsTable({
+  predictions,
+  className,
+}: {
+  predictions: Predictions;
+  className: string;
+}) {
   const { t } = useTranslation();
   return (
     <table className={`${className} bp4-html-table bp4-html-table-condensed`}>
@@ -29,7 +35,7 @@ export function PredictionsTable({ predictions, className }) {
   );
 }
 
-function PhotoDetail(label: string, value: string, styles) {
+function PhotoDetail(label: string, value: string, styles: Styles) {
   const { t } = useTranslation();
   return (
     <p className={styles.photoDetail}>
@@ -39,7 +45,7 @@ function PhotoDetail(label: string, value: string, styles) {
   );
 }
 
-export function PhotoDetails({ observation, styles }) {
+export function PhotoDetails({ observation, styles }: PhotoDetails) {
   const { date, camera, location } = observation;
   return (
     <div className={styles.photoDetails}>

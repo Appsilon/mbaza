@@ -8,10 +8,12 @@ type PredictionOverridesMap = Record<string, CreatableOption>;
 
 type PredictionOverrideHandler = (location: string, prediction: CreatableOption | null) => void;
 
+type Predictions = (string | number)[][];
+
 type PredictionOverrideWrapperProps = {
-  observation: Observation;
+  observation?: Observation;
   predictionOverride?: CreatableOption;
-  onPredictionOverride: PredictionOverrideHandler;
+  onPredictionOverride?: PredictionOverrideHandler;
 };
 
 type ObservationsInspectorProps = {
@@ -34,4 +36,9 @@ type MaximizedObservationCardProps = {
   lastObservationIndex: number;
   onPhotoClick: (cardIndex: number | null) => void;
   predictionOverrideWrapper: (props: PredictionOverrideWrapperProps) => JSX.Element;
+};
+
+type PhotoDetails = {
+  observation: Observation;
+  styles: Styles;
 };
