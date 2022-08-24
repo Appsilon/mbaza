@@ -4,6 +4,7 @@ import { VirtuosoGrid } from 'react-virtuoso';
 import ObservationCard from './ObservationCard';
 import ObservationsHeader from './ObservationsHeader';
 import MaximizedObservationCard from './MaximizedObservationCard';
+import { predictionOverrideWrapper } from './observationsComponents';
 import styles from './ObservationsInspector.module.scss';
 
 type ObservationsInspectorProps = {
@@ -71,10 +72,14 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
               onPhotoClick={handlePhotoClick}
               lastObservationIndex={observations.length - 1}
               onCardSelect={handleSelectedCards}
+              predictionOverrideWrapper={() =>
+                predictionOverrideWrapper(
+                  observations[index],
+                  predictionOverrides,
+                  onPredictionOverride
+                )
+              }
               observationIndex={index}
-              isMaximized={false}
-              isSelected={selectedCards.findIndex((card) => card === index) >= 0}
-              isSelectionMode={isSelectionMode}
             />
           )}
         />
@@ -87,9 +92,13 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
             lastObservationIndex={observations.length - 1}
             onCardSelect={handleSelectedCards}
             observationIndex={maximizedCard}
-            isMaximized
-            isSelected={false}
-            isSelectionMode={false}
+            predictionOverrideWrapper={() =>
+              predictionOverrideWrapper(
+                observations[index],
+                predictionOverrides,
+                onPredictionOverride
+              )
+            }
           />
         )}
       </div>

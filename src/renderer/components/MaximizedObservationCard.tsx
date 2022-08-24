@@ -2,9 +2,7 @@ import { Button, Card, Elevation, Tooltip } from '@blueprintjs/core';
 import classNames from 'classnames/bind';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import CreatableSelect from 'react-select/creatable';
 
-import { taxonOptions } from '../constants/taxons';
 import { getPredictions, getTopPrediction } from '../utils/observationsHelpers';
 import styles from './ObservationCard.module.scss';
 import { PhotoDetails, PredictionsTable } from './observationsComponents';
@@ -28,6 +26,7 @@ function ObservationCard(props: ObservationCardProps) {
     onPhotoClick,
     lastObservationIndex,
     observationIndex,
+    predictionOverrideWrapper: PredictionOverrideWrapper,
   } = props;
   const { t } = useTranslation();
   const topPrediction = getTopPrediction(observation);
@@ -105,15 +104,7 @@ function ObservationCard(props: ObservationCardProps) {
         </div>
         <div className={styles.header}>
           <Tooltip content={t('explore.inspect.overrideTooltip')} position="top" minimal>
-            <CreatableSelect
-              value={predictionOverride || topPrediction}
-              onChange={handlePredictionOverride}
-              options={taxonOptions}
-              isClearable={predictionOverride !== undefined}
-              menuShouldScrollIntoView={false}
-              className={styles.predictionOverride}
-              menuPlacement="auto"
-            />
+            <PredictionOverrideWrapper />
           </Tooltip>
         </div>
       </Card>

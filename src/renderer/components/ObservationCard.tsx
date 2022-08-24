@@ -1,12 +1,10 @@
 import { Button, Card, Elevation, Tooltip } from '@blueprintjs/core';
 import classNames from 'classnames/bind';
 import { useTranslation } from 'react-i18next';
-import CreatableSelect from 'react-select/creatable';
 
-import { PredictionsTable, PhotoDetails } from './observationsComponents';
 import { getPredictions, getTopPrediction } from '../utils/observationsHelpers';
-import { taxonOptions } from '../constants/taxons';
 import styles from './ObservationCard.module.scss';
+import { PhotoDetails, PredictionsTable } from './observationsComponents';
 
 const cx = classNames.bind(styles);
 
@@ -29,25 +27,11 @@ function ObservationCard(props: ObservationCardProps) {
     predictionOverride,
     onPredictionOverride,
     onPhotoClick,
-    onCardSelect,
-    lastObservationIndex,
     observationIndex,
-    isMaximized,
-    isSelected,
-    isSelectionMode,
+    predictionOverrideWrapper: PredictionOverrideWrapper,
   } = props;
   const { t } = useTranslation();
-
-  const topPrediction = {
-    value: observation.pred_1,
-    label: formatAnimalClassName(observation.pred_1),
-  };
-
-  const handlePredictionOverride = (newPrediction: CreatableOption | null) => {
-    if (newPrediction === null || newPrediction.value !== topPrediction.value) {
-      onPredictionOverride(observation.location, newPrediction);
-    }
-  };
+  const predictions = getPredictions(observation);
 
   const predictionOverrideWidget = (
     <CreatableSelect
@@ -119,15 +103,7 @@ function ObservationCard(props: ObservationCardProps) {
         </div>
         <div className={styles.header}>
           <Tooltip content={t('explore.inspect.overrideTooltip')} position="top" minimal>
-            <CreatableSelect
-              value={predictionOverride || topPrediction}
-              onChange={handlePredictionOverride}
-              options={taxonOptions}
-              isClearable={predictionOverride !== undefined}
-              menuShouldScrollIntoView={false}
-              className={styles.predictionOverride}
-              menuPlacement="auto"
-            />
+            <PredictionOverrideWrapper />
           </Tooltip>
           <Button
             className={styles.selectButton}
