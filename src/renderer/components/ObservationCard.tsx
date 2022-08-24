@@ -1,12 +1,10 @@
 import { Button, Card, Elevation, Tooltip } from '@blueprintjs/core';
 import classNames from 'classnames/bind';
 import path from 'path';
-import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import CreatableSelect from 'react-select/creatable';
 
-import CreatableSelect from 'react-select/creatable';
-import { formatAnimalClassName } from '../constants/animalsClasses';
+import { getPredictions, getTopPrediction } from '../utils/observationsHelpers';
 import { taxonOptions } from '../constants/taxons';
 import styles from './ObservationCard.module.scss';
 

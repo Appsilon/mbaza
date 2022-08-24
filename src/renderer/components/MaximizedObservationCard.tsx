@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import CreatableSelect from 'react-select/creatable';
 
-import { formatAnimalClassName } from '../constants/animalsClasses';
+import { getPredictions, getTopPrediction } from '../utils/observationsHelpers';
 import { taxonOptions } from '../constants/taxons';
 import styles from './ObservationCard.module.scss';
 
@@ -30,11 +30,8 @@ function ObservationCard(props: ObservationCardProps) {
     observationIndex,
   } = props;
   const { t } = useTranslation();
-
-  const topPrediction = {
-    value: observation.pred_1,
-    label: formatAnimalClassName(observation.pred_1),
-  };
+  const topPrediction = getTopPrediction(observation);
+  const predictions = getPredictions(observation);
 
   const handlePredictionOverride = (newPrediction: CreatableOption | null) => {
     if (newPrediction === null || newPrediction.value !== topPrediction.value) {
@@ -71,12 +68,6 @@ function ObservationCard(props: ObservationCardProps) {
     window.addEventListener('keydown', handler);
     return () => window.removeEventListener('keydown', handler);
   });
-
-  const predictions = [
-    [formatAnimalClassName(observation.pred_1), observation.score_1],
-    [formatAnimalClassName(observation.pred_2), observation.score_2],
-    [formatAnimalClassName(observation.pred_3), observation.score_3],
-  ];
 
   const predictionsTable = (
     <table className={`${styles.predictionsTable} bp4-html-table bp4-html-table-condensed`}>
