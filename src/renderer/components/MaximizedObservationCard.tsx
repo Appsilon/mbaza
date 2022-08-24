@@ -1,14 +1,13 @@
 import { Button, Card, Elevation, Tooltip } from '@blueprintjs/core';
 import classNames from 'classnames/bind';
-import path from 'path';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import CreatableSelect from 'react-select/creatable';
 
-import { PredictionsTable } from './observationsComponents';
-import { getPredictions, getTopPrediction } from '../utils/observationsHelpers';
 import { taxonOptions } from '../constants/taxons';
+import { getPredictions, getTopPrediction } from '../utils/observationsHelpers';
 import styles from './ObservationCard.module.scss';
+import { PhotoDetails, PredictionsTable } from './observationsComponents';
 
 const cx = classNames.bind(styles);
 
@@ -70,30 +69,6 @@ function ObservationCard(props: ObservationCardProps) {
     return () => window.removeEventListener('keydown', handler);
   });
 
-  const predictionOverrideWidget = (
-    <CreatableSelect
-      value={predictionOverride || topPrediction}
-      onChange={handlePredictionOverride}
-      options={taxonOptions}
-      isClearable={predictionOverride !== undefined}
-      menuShouldScrollIntoView={false}
-      className={styles.predictionOverride}
-      menuPlacement="auto"
-    />
-  );
-  const photoDetail = (label: string, value: string) => (
-    <p className={styles.photoDetail}>
-      <span className={styles.label}>{`${t(`explore.inspect.${label}`)}: `}</span>
-      <span>{value}</span>
-    </p>
-  );
-  const photoDetails = (
-    <div className={styles.photoDetails}>
-      {photoDetail('date', observation.date)}
-      {photoDetail('camera', observation.camera)}
-      {photoDetail('file', path.basename(observation.location))}
-    </div>
-  );
   const navigation = (
     <nav className={styles.nav}>
       <Button
@@ -124,13 +99,21 @@ function ObservationCard(props: ObservationCardProps) {
           </div>
           <div className={styles.data}>
             <PredictionsTable predictions={predictions} className={styles.predictionsTable} />
-            {photoDetails}
+            <PhotoDetails observation={observation} styles={styles} />
           </div>
           {navigation}
         </div>
         <div className={styles.header}>
           <Tooltip content={t('explore.inspect.overrideTooltip')} position="top" minimal>
-            {predictionOverrideWidget}
+            <CreatableSelect
+              value={predictionOverride || topPrediction}
+              onChange={handlePredictionOverride}
+              options={taxonOptions}
+              isClearable={predictionOverride !== undefined}
+              menuShouldScrollIntoView={false}
+              className={styles.predictionOverride}
+              menuPlacement="auto"
+            />
           </Tooltip>
         </div>
       </Card>
