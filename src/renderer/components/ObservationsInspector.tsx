@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { VirtuosoGrid } from 'react-virtuoso';
 
 import ObservationCard from './ObservationCard';
+import MaximizedObservationCard from './MaximizedObservationCard';
 import styles from './ObservationsInspector.module.scss';
 
 type ObservationsInspectorProps = {
@@ -53,21 +54,18 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
               predictionOverride={predictionOverrides[observations[index].location]}
               onPredictionOverride={onPredictionOverride}
               onPhotoClick={setMaximizedCard}
-              lastObservationIndex={observations.length - 1}
               observationIndex={index}
-              isMaximized={false}
             />
           )}
         />
         {maximizedCard !== null && (
-          <ObservationCard
+          <MaximizedObservationCard
             observation={observations[maximizedCard]}
             predictionOverride={predictionOverrides[observations[maximizedCard].location]}
             onPredictionOverride={onPredictionOverride}
             onPhotoClick={setMaximizedCard}
             lastObservationIndex={observations.length - 1}
             observationIndex={maximizedCard}
-            isMaximized
           />
         )}
       </div>
