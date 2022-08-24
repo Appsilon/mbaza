@@ -1,12 +1,10 @@
 import { Card, Elevation, Tooltip } from '@blueprintjs/core';
 import classNames from 'classnames/bind';
 import { useTranslation } from 'react-i18next';
-import CreatableSelect from 'react-select/creatable';
 
-import { PredictionsTable, PhotoDetails } from './observationsComponents';
 import { getPredictions, getTopPrediction } from '../utils/observationsHelpers';
-import { taxonOptions } from '../constants/taxons';
 import styles from './ObservationCard.module.scss';
+import { PhotoDetails, PredictionsTable } from './observationsComponents';
 
 const cx = classNames.bind(styles);
 
@@ -19,17 +17,16 @@ type ObservationCardProps = {
 };
 
 function ObservationCard(props: ObservationCardProps) {
-  const { observation, predictionOverride, onPredictionOverride, onPhotoClick, observationIndex } =
-    props;
+  const {
+    observation,
+    predictionOverride,
+    onPredictionOverride,
+    onPhotoClick,
+    observationIndex,
+    predictionOverrideWrapper: PredictionOverrideWrapper,
+  } = props;
   const { t } = useTranslation();
-  const topPrediction = getTopPrediction(observation);
   const predictions = getPredictions(observation);
-
-  const handlePredictionOverride = (newPrediction: CreatableOption | null) => {
-    if (newPrediction === null || newPrediction.value !== topPrediction.value) {
-      onPredictionOverride(observation.location, newPrediction);
-    }
-  };
 
   return (
     <div className={styles.observation}>
@@ -53,15 +50,7 @@ function ObservationCard(props: ObservationCardProps) {
         </div>
         <div className={styles.header}>
           <Tooltip content={t('explore.inspect.overrideTooltip')} position="top" minimal>
-            <CreatableSelect
-              value={predictionOverride || topPrediction}
-              onChange={handlePredictionOverride}
-              options={taxonOptions}
-              isClearable={predictionOverride !== undefined}
-              menuShouldScrollIntoView={false}
-              className={styles.predictionOverride}
-              menuPlacement="auto"
-            />
+            <PredictionOverrideWrapper />
           </Tooltip>
         </div>
       </Card>

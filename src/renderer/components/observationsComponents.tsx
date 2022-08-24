@@ -1,5 +1,8 @@
-import { useTranslation } from 'react-i18next';
 import path from 'path';
+import { useTranslation } from 'react-i18next';
+import CreatableSelect from 'react-select/creatable';
+import { taxonOptions } from '../constants/taxons';
+import { getTopPrediction } from '../utils/observationsHelpers';
 
 export function PredictionsTable({ predictions, className }) {
   const { t } = useTranslation();
@@ -44,5 +47,25 @@ export function PhotoDetails({ observation, styles }) {
       {PhotoDetail('camera', camera, styles)}
       {PhotoDetail('file', path.basename(location), styles)}
     </div>
+  );
+}
+
+export function predictionOverrideWrapper(observation, predictionOverrides, onPredictionOverride) {
+  const predictionOverrideValue = predictionOverrides[observation.location];
+  const topPrediction = getTopPrediction(observation);
+  const handlePredictionOverride = (newPrediction: CreatableOption | null) => {
+    if (newPrediction === null || newPrediction.value !== topPrediction.value) {
+      onPredictionOverride(observation.location, newPrediction);
+    }
+  };
+  return (
+    <CreatableSelect
+      value={predictionOverrideValue || topPrediction}
+      onChange={handlePredictionOverride}
+      options={taxonOptions}
+      isClearable={predictionOverrideValue !== undefined}
+      menuShouldScrollIntoView={false}
+      menuPlacement="auto"
+    />
   );
 }
