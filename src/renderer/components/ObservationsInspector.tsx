@@ -12,6 +12,20 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
   const [selectedCards, setSelectedCards] = useState<number[]>([]);
   const isSelectionMode = selectedCards.length > 0;
 
+  const backButtonText = t(
+    maximizedCard !== null ? 'explore.backToObservations' : 'explore.backToMap'
+  );
+  const lastObservationIndex = observations.length - 1;
+
+  const onBackButtonClick = () => (maximizedCard !== null ? setMaximizedCard(null) : onClose());
+  const handlePreviousObservationClick = (currentIndex: number) => {
+    const newIndex = currentIndex > 0 ? currentIndex - 1 : lastObservationIndex;
+    setMaximizedCard(newIndex);
+  };
+  const handleNextObservationClick = (currentIndex: number) => {
+    const newIndex = currentIndex < lastObservationIndex ? currentIndex + 1 : 0;
+    setMaximizedCard(newIndex);
+  };
   const handleSelectedCards = (cardIndex: number, cardSelected: boolean) => {
     if (cardSelected) {
       setSelectedCards([...selectedCards, cardIndex]);
@@ -76,8 +90,9 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
           <MaximizedObservationCard
             observation={observations[maximizedCard]}
             observationIndex={maximizedCard}
-            lastObservationIndex={observations.length - 1}
             onPhotoClick={setMaximizedCard}
+            onPrevious={handlePreviousObservationClick}
+            onNext={handleNextObservationClick}
             predictionOverrideWrapper={() =>
               predictionOverrideWrapper(
                 observations[index],

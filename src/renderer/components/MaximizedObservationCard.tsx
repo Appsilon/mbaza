@@ -13,30 +13,21 @@ export default function ObservationCard(props: MaximizedObservationCardProps) {
     observation,
     observationIndex,
     onPhotoClick,
-    lastObservationIndex,
+    onPrevious,
+    onNext,
     predictionOverrideWrapper: PredictionOverrideWrapper,
   } = props;
   const { t } = useTranslation();
   const predictions = getPredictions(observation);
 
-  const handleNavigationClick = (direction: string) => {
-    let newIndex = null;
-    if (direction === 'left') {
-      newIndex = observationIndex > 0 ? observationIndex - 1 : lastObservationIndex;
-    } else if (direction === 'right') {
-      newIndex = observationIndex < lastObservationIndex ? observationIndex + 1 : 0;
-    }
-    onPhotoClick(newIndex);
-  };
-
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
       switch (e.key) {
         case 'ArrowLeft':
-          handleNavigationClick('left');
+          onPrevious(observationIndex);
           break;
         case 'ArrowRight':
-          handleNavigationClick('right');
+          onNext(observationIndex);
           break;
         case 'Escape':
           onPhotoClick(null);
@@ -55,13 +46,13 @@ export default function ObservationCard(props: MaximizedObservationCardProps) {
         className={styles.arrow}
         icon="chevron-left"
         large
-        onClick={() => handleNavigationClick('left')}
+        onClick={() => onPrevious(observationIndex)}
       />
       <Button
         className={styles.arrow}
         icon="chevron-right"
         large
-        onClick={() => handleNavigationClick('right')}
+        onClick={() => onNext(observationIndex)}
       />
     </nav>
   );
