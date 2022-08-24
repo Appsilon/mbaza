@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { VirtuosoGrid } from 'react-virtuoso';
 
-import ObservationCard from './ObservationCard';
-import ObservationsHeader from './ObservationsHeader';
 import MaximizedObservationCard from './MaximizedObservationCard';
-import { predictionOverrideWrapper } from './observationsComponents';
+import ObservationCard from './ObservationCard';
+import { predictionOverrideWrapper } from './observationsHelpers';
 import styles from './ObservationsInspector.module.scss';
 
 export default function ObservationsInspector(props: ObservationsInspectorProps) {

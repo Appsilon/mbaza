@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import styles from './ObservationCard.module.scss';
-import { getPredictions, PhotoDetails, PredictionsTable } from './observationsComponents';
+import { getPredictions, PhotoDetails, PredictionsTable } from './observationsHelpers';
 
 const cx = classNames.bind(styles);
 
