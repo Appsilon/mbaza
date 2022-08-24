@@ -7,13 +7,6 @@ import MaximizedObservationCard from './MaximizedObservationCard';
 import { predictionOverrideWrapper } from './observationsComponents';
 import styles from './ObservationsInspector.module.scss';
 
-type ObservationsInspectorProps = {
-  observations: Observation[];
-  onClose: () => void;
-  predictionOverrides: PredictionOverridesMap;
-  onPredictionsOverride: PredictionsOverrideHandler;
-};
-
 export default function ObservationsInspector(props: ObservationsInspectorProps) {
   const { observations, onClose, predictionOverrides, onPredictionsOverride } = props;
   const [maximizedCard, setMaximizedCard] = useState<number | null>(null);
@@ -67,11 +60,8 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
           itemContent={(index) => (
             <ObservationCard
               observation={observations[index]}
-              predictionOverride={predictionOverrides[observations[index].location]}
-              onPredictionOverride={onPredictionsOverride}
-              onPhotoClick={handlePhotoClick}
-              lastObservationIndex={observations.length - 1}
-              onCardSelect={handleSelectedCards}
+              observationIndex={index}
+              onPhotoClick={setMaximizedCard}
               predictionOverrideWrapper={() =>
                 predictionOverrideWrapper(
                   observations[index],
@@ -86,12 +76,9 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
         {maximizedCard !== null && (
           <MaximizedObservationCard
             observation={observations[maximizedCard]}
-            predictionOverride={predictionOverrides[observations[maximizedCard].location]}
-            onPredictionOverride={onPredictionsOverride}
-            onPhotoClick={handlePhotoClick}
-            lastObservationIndex={observations.length - 1}
-            onCardSelect={handleSelectedCards}
             observationIndex={maximizedCard}
+            lastObservationIndex={observations.length - 1}
+            onPhotoClick={setMaximizedCard}
             predictionOverrideWrapper={() =>
               predictionOverrideWrapper(
                 observations[index],

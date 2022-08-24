@@ -1,33 +1,15 @@
 import { Button, Card, Elevation, Tooltip } from '@blueprintjs/core';
-import classNames from 'classnames/bind';
 import { useTranslation } from 'react-i18next';
 
-import { getPredictions, getTopPrediction } from '../utils/observationsHelpers';
+import { getPredictions } from '../utils/observationsHelpers';
 import styles from './ObservationCard.module.scss';
 import { PhotoDetails, PredictionsTable } from './observationsComponents';
 
-const cx = classNames.bind(styles);
-
-type ObservationCardProps = {
-  observation: Observation;
-  predictionOverride?: CreatableOption;
-  onPredictionOverride: PredictionsOverrideHandler;
-  onPhotoClick: (cardIndex: number | null, cardSelected: boolean) => void;
-  onCardSelect: (cardIndex: number, cardSelected: boolean) => void;
-  lastObservationIndex: number;
-  observationIndex: number;
-  isMaximized: boolean;
-  isSelected: boolean;
-  isSelectionMode: boolean;
-};
-
-function ObservationCard(props: ObservationCardProps) {
+export default function ObservationCard(props: ObservationCardProps) {
   const {
     observation,
-    predictionOverride,
-    onPredictionOverride,
-    onPhotoClick,
     observationIndex,
+    onPhotoClick,
     predictionOverrideWrapper: PredictionOverrideWrapper,
   } = props;
   const { t } = useTranslation();
@@ -116,9 +98,3 @@ function ObservationCard(props: ObservationCardProps) {
     </div>
   );
 }
-
-ObservationCard.defaultProps = {
-  predictionOverride: undefined,
-};
-
-export default ObservationCard;

@@ -3,40 +3,22 @@ import classNames from 'classnames/bind';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { getPredictions, getTopPrediction } from '../utils/observationsHelpers';
+import { getPredictions } from '../utils/observationsHelpers';
 import styles from './ObservationCard.module.scss';
 import { PhotoDetails, PredictionsTable } from './observationsComponents';
 
 const cx = classNames.bind(styles);
 
-type ObservationCardProps = {
-  observation: Observation;
-  predictionOverride?: CreatableOption;
-  onPredictionOverride: PredictionOverrideHandler;
-  onPhotoClick: (cardIndex: number | null) => void;
-  lastObservationIndex: number;
-  observationIndex: number;
-};
-
-function ObservationCard(props: ObservationCardProps) {
+export default function ObservationCard(props: MaximizedObservationCardProps) {
   const {
     observation,
-    predictionOverride,
-    onPredictionOverride,
+    observationIndex,
     onPhotoClick,
     lastObservationIndex,
-    observationIndex,
     predictionOverrideWrapper: PredictionOverrideWrapper,
   } = props;
   const { t } = useTranslation();
-  const topPrediction = getTopPrediction(observation);
   const predictions = getPredictions(observation);
-
-  const handlePredictionOverride = (newPrediction: CreatableOption | null) => {
-    if (newPrediction === null || newPrediction.value !== topPrediction.value) {
-      onPredictionOverride(observation.location, newPrediction);
-    }
-  };
 
   const handleNavigationClick = (direction: string) => {
     let newIndex = null;
@@ -111,9 +93,3 @@ function ObservationCard(props: ObservationCardProps) {
     </div>
   );
 }
-
-ObservationCard.defaultProps = {
-  predictionOverride: undefined,
-};
-
-export default ObservationCard;
