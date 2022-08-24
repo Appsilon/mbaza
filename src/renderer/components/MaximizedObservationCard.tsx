@@ -5,6 +5,7 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import CreatableSelect from 'react-select/creatable';
 
+import { PredictionsTable } from './observationsComponents';
 import { getPredictions, getTopPrediction } from '../utils/observationsHelpers';
 import { taxonOptions } from '../constants/taxons';
 import styles from './ObservationCard.module.scss';
@@ -69,27 +70,6 @@ function ObservationCard(props: ObservationCardProps) {
     return () => window.removeEventListener('keydown', handler);
   });
 
-  const predictionsTable = (
-    <table className={`${styles.predictionsTable} bp4-html-table bp4-html-table-condensed`}>
-      <thead>
-        <tr>
-          <th>{t('explore.inspect.prediction')}</th>
-          <th>{t('explore.inspect.probability')}</th>
-        </tr>
-      </thead>
-      <tbody>
-        {predictions.map((i) => (
-          <tr key={i[0]}>
-            <td>{i[0]}</td>
-            <td>
-              {((i[1] as number) * 100).toFixed(2)}
-              &nbsp;%
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
   const predictionOverrideWidget = (
     <CreatableSelect
       value={predictionOverride || topPrediction}
@@ -143,7 +123,7 @@ function ObservationCard(props: ObservationCardProps) {
             />
           </div>
           <div className={styles.data}>
-            {predictionsTable}
+            <PredictionsTable predictions={predictions} className={styles.predictionsTable} />
             {photoDetails}
           </div>
           {navigation}
