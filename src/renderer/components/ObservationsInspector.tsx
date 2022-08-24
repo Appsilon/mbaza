@@ -15,7 +15,17 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
   const backButtonText = t(
     maximizedCard !== null ? 'explore.backToObservations' : 'explore.backToMap'
   );
+  const lastObservationIndex = observations.length - 1;
+
   const onBackButtonClick = () => (maximizedCard !== null ? setMaximizedCard(null) : onClose());
+  const handlePreviousObservationClick = (currentIndex: number) => {
+    const newIndex = currentIndex > 0 ? currentIndex - 1 : lastObservationIndex;
+    setMaximizedCard(newIndex);
+  };
+  const handleNextObservationClick = (currentIndex: number) => {
+    const newIndex = currentIndex < lastObservationIndex ? currentIndex + 1 : 0;
+    setMaximizedCard(newIndex);
+  };
 
   return (
     <div className={styles.box}>
@@ -61,8 +71,9 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
           <MaximizedObservationCard
             observation={observations[maximizedCard]}
             observationIndex={maximizedCard}
-            lastObservationIndex={observations.length - 1}
             onPhotoClick={setMaximizedCard}
+            onPrevious={handlePreviousObservationClick}
+            onNext={handleNextObservationClick}
             predictionOverrideWrapper={() =>
               predictionOverrideWrapper(
                 observations[maximizedCard],

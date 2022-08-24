@@ -66,7 +66,8 @@ type ObservationCardProps = {
 type MaximizedObservationCardProps = {
   observation: Observation;
   observationIndex: number;
-  lastObservationIndex: number;
+  onPrevious: (currentIndex: number) => void;
+  onNext: (currentIndex: number) => void;
   onPhotoClick: (cardIndex: number | null) => void;
   predictionOverrideWrapper: (props: PredictionOverrideWrapperProps) => JSX.Element;
 };
