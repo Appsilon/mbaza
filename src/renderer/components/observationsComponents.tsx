@@ -50,7 +50,11 @@ export function PhotoDetails({ observation, styles }) {
   );
 }
 
-export function predictionOverrideWrapper(observation, predictionOverrides, onPredictionOverride) {
+export function predictionOverrideWrapper(
+  observation: Observation,
+  predictionOverrides: PredictionOverridesMap,
+  onPredictionOverride: PredictionOverrideHandler
+) {
   const predictionOverrideValue = predictionOverrides[observation.location];
   const topPrediction = getTopPrediction(observation);
   const handlePredictionOverride = (newPrediction: CreatableOption | null) => {

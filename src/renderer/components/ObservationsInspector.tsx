@@ -8,13 +8,6 @@ import ObservationCard from './ObservationCard';
 import { predictionOverrideWrapper } from './observationsComponents';
 import styles from './ObservationsInspector.module.scss';
 
-type ObservationsInspectorProps = {
-  observations: Observation[];
-  onClose: () => void;
-  predictionOverrides: PredictionOverridesMap;
-  onPredictionOverride: PredictionOverrideHandler;
-};
-
 export default function ObservationsInspector(props: ObservationsInspectorProps) {
   const { observations, onClose, predictionOverrides, onPredictionOverride } = props;
   const { t } = useTranslation();
@@ -52,10 +45,8 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
           itemContent={(index) => (
             <ObservationCard
               observation={observations[index]}
-              predictionOverride={predictionOverrides[observations[index].location]}
-              onPredictionOverride={onPredictionOverride}
-              onPhotoClick={setMaximizedCard}
               observationIndex={index}
+              onPhotoClick={setMaximizedCard}
               predictionOverrideWrapper={() =>
                 predictionOverrideWrapper(
                   observations[index],
@@ -69,11 +60,9 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
         {maximizedCard !== null && (
           <MaximizedObservationCard
             observation={observations[maximizedCard]}
-            predictionOverride={predictionOverrides[observations[maximizedCard].location]}
-            onPredictionOverride={onPredictionOverride}
-            onPhotoClick={setMaximizedCard}
-            lastObservationIndex={observations.length - 1}
             observationIndex={maximizedCard}
+            lastObservationIndex={observations.length - 1}
+            onPhotoClick={setMaximizedCard}
             predictionOverrideWrapper={() =>
               predictionOverrideWrapper(
                 observations[maximizedCard],
