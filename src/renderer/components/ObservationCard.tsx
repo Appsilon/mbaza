@@ -1,9 +1,8 @@
 import { Button, Card, Elevation, Tooltip } from '@blueprintjs/core';
 import { useTranslation } from 'react-i18next';
 
-import { getPredictions } from '../utils/observationsHelpers';
 import styles from './ObservationCard.module.scss';
-import { PhotoDetails, PredictionsTable } from './observationsComponents';
+import { getPredictions, PhotoDetails, PredictionsTable } from './observationsComponents';
 
 export default function ObservationCard(props: ObservationCardProps) {
   const {

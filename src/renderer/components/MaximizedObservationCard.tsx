@@ -3,9 +3,8 @@ import classNames from 'classnames/bind';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { getPredictions } from '../utils/observationsHelpers';
 import styles from './ObservationCard.module.scss';
-import { PhotoDetails, PredictionsTable } from './observationsComponents';
+import { getPredictions, PhotoDetails, PredictionsTable } from './observationsComponents';
 
 const cx = classNames.bind(styles);
 
