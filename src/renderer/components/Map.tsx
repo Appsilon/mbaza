@@ -47,7 +47,6 @@ function makeStationMarker(
   t: TFunction,
   groupObservations: Observation[],
   species: _.Collection<string>,
-  maxSpecies: number,
   setInspectedObservations: (observations: Observation[]) => void
 ) {
   // Observations from a single station should have approximately identical
@@ -149,7 +148,6 @@ function addMarkers(
           t,
           group.observations,
           group.species,
-          maxSpecies,
           setInspectedObservations
         );
         marker.addTo(map);
