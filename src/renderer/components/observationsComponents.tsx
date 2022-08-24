@@ -1,8 +1,23 @@
 import path from 'path';
 import { useTranslation } from 'react-i18next';
 import CreatableSelect from 'react-select/creatable';
+import { formatAnimalClassName } from '../constants/animalsClasses';
 import { taxonOptions } from '../constants/taxons';
-import { getTopPrediction } from '../utils/observationsHelpers';
+
+const getTopPrediction = (observation: Observation): CreatableOption => {
+  return {
+    value: observation.pred_1,
+    label: formatAnimalClassName(observation.pred_1),
+  };
+};
+
+export const getPredictions = (observation: Observation): Predictions => {
+  return [
+    [formatAnimalClassName(observation.pred_1), observation.score_1],
+    [formatAnimalClassName(observation.pred_2), observation.score_2],
+    [formatAnimalClassName(observation.pred_3), observation.score_3],
+  ];
+};
 
 export function PredictionsTable({
   predictions,
