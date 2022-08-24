@@ -1,11 +1,10 @@
-import { Button, Card, Elevation, Tooltip } from '@blueprintjs/core';
+import { Card, Elevation, Tooltip } from '@blueprintjs/core';
 import classNames from 'classnames/bind';
 import path from 'path';
-import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import CreatableSelect from 'react-select/creatable';
 
-import { formatAnimalClassName } from '../constants/animalsClasses';
+import { getPredictions, getTopPrediction } from '../utils/observationsHelpers';
 import { taxonOptions } from '../constants/taxons';
 import styles from './ObservationCard.module.scss';
 
@@ -23,23 +22,14 @@ function ObservationCard(props: ObservationCardProps) {
   const { observation, predictionOverride, onPredictionOverride, onPhotoClick, observationIndex } =
     props;
   const { t } = useTranslation();
-
-  const topPrediction = {
-    value: observation.pred_1,
-    label: formatAnimalClassName(observation.pred_1),
-  };
+  const topPrediction = getTopPrediction(observation);
+  const predictions = getPredictions(observation);
 
   const handlePredictionOverride = (newPrediction: CreatableOption | null) => {
     if (newPrediction === null || newPrediction.value !== topPrediction.value) {
       onPredictionOverride(observation.location, newPrediction);
     }
   };
-
-  const predictions = [
-    [formatAnimalClassName(observation.pred_1), observation.score_1],
-    [formatAnimalClassName(observation.pred_2), observation.score_2],
-    [formatAnimalClassName(observation.pred_3), observation.score_3],
-  ];
 
   const predictionsTable = (
     <table className={`${styles.predictionsTable} bp4-html-table bp4-html-table-condensed`}>
