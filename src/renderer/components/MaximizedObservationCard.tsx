@@ -5,7 +5,6 @@ import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import CreatableSelect from 'react-select/creatable';
 
-import CreatableSelect from 'react-select/creatable';
 import { formatAnimalClassName } from '../constants/animalsClasses';
 import { taxonOptions } from '../constants/taxons';
 import styles from './ObservationCard.module.scss';
@@ -15,14 +14,10 @@ const cx = classNames.bind(styles);
 type ObservationCardProps = {
   observation: Observation;
   predictionOverride?: CreatableOption;
-  onPredictionOverride: PredictionsOverrideHandler;
-  onPhotoClick: (cardIndex: number | null, cardSelected: boolean) => void;
-  onCardSelect: (cardIndex: number, cardSelected: boolean) => void;
+  onPredictionOverride: PredictionOverrideHandler;
+  onPhotoClick: (cardIndex: number | null) => void;
   lastObservationIndex: number;
   observationIndex: number;
-  isMaximized: boolean;
-  isSelected: boolean;
-  isSelectionMode: boolean;
 };
 
 function ObservationCard(props: ObservationCardProps) {
@@ -31,12 +26,8 @@ function ObservationCard(props: ObservationCardProps) {
     predictionOverride,
     onPredictionOverride,
     onPhotoClick,
-    onCardSelect,
     lastObservationIndex,
     observationIndex,
-    isMaximized,
-    isSelected,
-    isSelectionMode,
   } = props;
   const { t } = useTranslation();
 
@@ -47,7 +38,7 @@ function ObservationCard(props: ObservationCardProps) {
 
   const handlePredictionOverride = (newPrediction: CreatableOption | null) => {
     if (newPrediction === null || newPrediction.value !== topPrediction.value) {
-      onPredictionOverride([observation.location], newPrediction);
+      onPredictionOverride(observation.location, newPrediction);
     }
   };
 
@@ -77,11 +68,8 @@ function ObservationCard(props: ObservationCardProps) {
           break;
       }
     };
-    if (isMaximized) {
-      window.addEventListener('keydown', handler);
-      return () => window.removeEventListener('keydown', handler);
-    }
-    return undefined;
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
   });
 
   const predictions = [
@@ -116,11 +104,10 @@ function ObservationCard(props: ObservationCardProps) {
       value={predictionOverride || topPrediction}
       onChange={handlePredictionOverride}
       options={taxonOptions}
-      isDisabled={isSelected}
       isClearable={predictionOverride !== undefined}
       menuShouldScrollIntoView={false}
-      menuPlacement="auto"
       className={styles.predictionOverride}
+      menuPlacement="auto"
     />
   );
   const photoDetail = (label: string, value: string) => (
@@ -152,44 +139,28 @@ function ObservationCard(props: ObservationCardProps) {
       />
     </nav>
   );
-  const observationClass = cx({
-    observation: true,
-    maximized: isMaximized,
-    selected: isSelected,
-    selectable: isSelectionMode,
-  });
 
   return (
-    <div className={styles.observation}>
+    <div className={cx('observation', 'maximized')}>
       <Card className={styles.card} elevation={Elevation.TWO} key={observation.location}>
-        <div
-          className={styles.body}
-          onClick={() => onPhotoClick(isMaximized ? null : observationIndex, !isSelected)}
-          aria-hidden="true"
-        >
-          <div className={styles.photo}>
+        <div className={styles.body}>
+          <div className={styles.photo} onClick={() => onPhotoClick(null)} aria-hidden="true">
             <img
               className={styles.img}
               src={`file:${observation.location}`}
               alt={observation.pred_1}
             />
-            <div className={styles.data}>
-              {predictionsTable}
-              {photoDetails}
-            </div>
           </div>
-          {isMaximized && navigation}
+          <div className={styles.data}>
+            {predictionsTable}
+            {photoDetails}
+          </div>
+          {navigation}
         </div>
         <div className={styles.header}>
           <Tooltip content={t('explore.inspect.overrideTooltip')} position="top" minimal>
             {predictionOverrideWidget}
           </Tooltip>
-          <Button
-            className={styles.selectButton}
-            icon="tick-circle"
-            minimal
-            onClick={() => onCardSelect(observationIndex, !isSelected)}
-          />
         </div>
       </Card>
     </div>

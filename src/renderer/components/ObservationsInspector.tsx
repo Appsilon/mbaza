@@ -3,6 +3,7 @@ import { VirtuosoGrid } from 'react-virtuoso';
 
 import ObservationCard from './ObservationCard';
 import ObservationsHeader from './ObservationsHeader';
+import MaximizedObservationCard from './MaximizedObservationCard';
 import styles from './ObservationsInspector.module.scss';
 
 type ObservationsInspectorProps = {
@@ -78,7 +79,7 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
           )}
         />
         {maximizedCard !== null && (
-          <ObservationCard
+          <MaximizedObservationCard
             observation={observations[maximizedCard]}
             predictionOverride={predictionOverrides[observations[maximizedCard].location]}
             onPredictionOverride={onPredictionsOverride}
