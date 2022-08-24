@@ -6,8 +6,6 @@ import { useTranslation } from 'react-i18next';
 import styles from './ObservationCard.module.scss';
 import { getPredictions, PhotoDetails, PredictionsTable } from './observationsHelpers';
 
-const cx = classNames.bind(styles);
-
 export default function ObservationCard(props: MaximizedObservationCardProps) {
   const {
     observation,
@@ -18,6 +16,7 @@ export default function ObservationCard(props: MaximizedObservationCardProps) {
     predictionOverrideWrapper: PredictionOverrideWrapper,
   } = props;
   const { t } = useTranslation();
+  const cx = classNames.bind(styles);
   const predictions = getPredictions(observation);
 
   useEffect(() => {
