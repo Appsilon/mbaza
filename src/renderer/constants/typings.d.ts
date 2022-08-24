@@ -76,3 +76,9 @@ type PhotoDetails = {
   observation: Observation;
   styles: Styles;
 };
+
+type PhotoDetail = {
+  label: string;
+  value: string;
+  styles: Styles;
+};

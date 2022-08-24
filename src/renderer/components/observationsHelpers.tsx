@@ -50,7 +50,7 @@ export function PredictionsTable({
   );
 }
 
-function PhotoDetail(label: string, value: string, styles: Styles) {
+function PhotoDetail({ label, value, styles }: PhotoDetail) {
   const { t } = useTranslation();
   return (
     <p className={styles.photoDetail}>
@@ -64,9 +64,9 @@ export function PhotoDetails({ observation, styles }: PhotoDetails) {
   const { date, camera, location } = observation;
   return (
     <div className={styles.photoDetails}>
-      {PhotoDetail('date', date, styles)}
-      {PhotoDetail('camera', camera, styles)}
-      {PhotoDetail('file', path.basename(location), styles)}
+      <PhotoDetail label="date" value={date} styles={styles} />
+      <PhotoDetail label="camera" value={camera} styles={styles} />
+      <PhotoDetail label="file" value={path.basename(location)} styles={styles} />
     </div>
   );
 }
