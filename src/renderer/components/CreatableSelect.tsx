@@ -18,17 +18,16 @@ export default function CreatableSelect({
       ...base,
       width: 'auto',
     }),
-    option: (base, { isFocused, isSelected }) => ({
-      ...base,
-      // eslint-disable-next-line no-nested-ternary
-      backgroundColor: isSelected
-        ? sassVariables.green80
-        : isFocused
-        ? sassVariables.green10
-        : sassVariables.white,
-      borderBottom: `1px solid ${sassVariables.green10}`,
-      color: isSelected ? sassVariables.white : sassVariables.green80,
-    }),
+    option: (base, { isFocused, isSelected }) => {
+      let backgroundColor = isFocused ? sassVariables.green10 : sassVariables.white;
+      backgroundColor = isSelected ? sassVariables.green80 : backgroundColor;
+      return {
+        ...base,
+        backgroundColor,
+        borderBottom: `1px solid ${sassVariables.green10}`,
+        color: isSelected ? sassVariables.white : sassVariables.green80,
+      };
+    },
     control: (base) => ({
       ...base,
       background: sassVariables.green10,
@@ -76,5 +75,6 @@ export default function CreatableSelect({
     }),
   };
 
+  // eslint-disable-next-line react/jsx-props-no-spreading
   return <OriginalCreatableSelect {...props} styles={customStyles} />;
 }
