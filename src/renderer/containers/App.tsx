@@ -21,7 +21,7 @@ export default function App(props: Props) {
       <Navbar className={`${styles.navbar} bp4-dark`}>
         <Navbar.Group align={Alignment.LEFT}>
           <Navbar.Heading>
-            <img className={styles.logo} src="file:/assets/icon.png" alt="Mbaza" />
+            <img className={styles.logo} src="file:///assets/icon.png" alt="Mbaza" />
           </Navbar.Heading>
           <Navbar.Heading>
             <strong>Mbaza</strong>

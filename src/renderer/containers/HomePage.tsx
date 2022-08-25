@@ -42,24 +42,24 @@ export default function HomePage() {
           </Callout>
         </div>
         <div className={styles.logos}>
-          <img className={styles.logo} src="file:/assets/logos/gabon.png" alt="Parcs Gabon" />
-          <img className={styles.logo} src="file:/assets/logos/iret.png" alt="IRET" />
-          <img className={styles.logo} src="file:/assets/logos/panthera.png" alt="Panthera" />
-          <img className={styles.logo} src="file:/assets/logos/gbif.png" alt="GBIF" />
+          <img className={styles.logo} src="file:///assets/logos/gabon.png" alt="Parcs Gabon" />
+          <img className={styles.logo} src="file:///assets/logos/iret.png" alt="IRET" />
+          <img className={styles.logo} src="file:///assets/logos/panthera.png" alt="Panthera" />
+          <img className={styles.logo} src="file:///assets/logos/gbif.png" alt="GBIF" />
           <img
             className={styles.logo}
-            src="file:/assets/logos/stirling.png"
+            src="file:///assets/logos/stirling.png"
             alt="University of Stirling"
           />
-          <img className={styles.logo} src="file:/assets/logos/ue.png" alt="European Union" />
+          <img className={styles.logo} src="file:///assets/logos/ue.png" alt="European Union" />
           <img
             className={styles.logo}
-            src="file:/assets/logos/gcrf-trade-hub.png"
+            src="file:///assets/logos/gcrf-trade-hub.png"
             alt="GCRF TRADE Hub"
           />
           <img
             className={styles.logo}
-            src="file:/assets/logos/appsilon-color.png"
+            src="file:///assets/logos/appsilon-color.png"
             alt="Appsilon - technology partner"
           />
           <a
@@ -70,7 +70,7 @@ export default function HomePage() {
           >
             <img
               className={styles.logo}
-              src="file:/assets/logos/data-for-good.png"
+              src="file:///assets/logos/data-for-good.png"
               alt="Data for Good"
             />
           </a>
