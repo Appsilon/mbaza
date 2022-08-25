@@ -70,23 +70,27 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
         <VirtuosoGrid
           totalCount={observations.length}
           listClassName={styles.list}
-          itemContent={(index) => (
-            <ObservationCard
-              observation={observations[index]}
-              observationIndex={index}
-              isSelected={selectedCards.findIndex((card) => card === index) >= 0}
-              isSelectionMode={isSelectionMode}
-              onPhotoClick={handlePhotoClick}
-              onCardSelect={handleSelectedCards}
-              predictionOverrideWrapper={() =>
-                predictionOverrideWrapper(
-                  observations[index],
-                  predictionOverrides,
-                  onPredictionsOverride
-                )
-              }
-            />
-          )}
+          itemContent={(index) => {
+            const isSelected = selectedCards.findIndex((card) => card === index) >= 0;
+            return (
+              <ObservationCard
+                observation={observations[index]}
+                observationIndex={index}
+                isSelected={isSelected}
+                isSelectionMode={isSelectionMode}
+                onPhotoClick={handlePhotoClick}
+                onCardSelect={handleSelectedCards}
+                predictionOverrideWrapper={() =>
+                  predictionOverrideWrapper(
+                    observations[index],
+                    predictionOverrides,
+                    onPredictionsOverride,
+                    isSelected
+                  )
+                }
+              />
+            );
+          }}
         />
         {maximizedCard !== null && (
           <MaximizedObservationCard

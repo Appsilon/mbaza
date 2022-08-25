@@ -1,0 +1,58 @@
+@use '../styles/variables.module.scss' as var;
+@use '../styles/mixins' as mix;
+@use '../styles/animations';
+
+.photoDetails {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.81rem;
+  padding-left: 10px;
+
+  .photoDetail {
+    margin-bottom: 5px;
+
+    .label {
+      font-weight: 700;
+    }
+  }
+
+  &.maximized {
+    font-size: 0.88rem;
+
+    .photoDetail {
+      margin-bottom: 10px;
+    }
+  }
+}
+
+.predictionOverride {
+  @include mix.custom-react-select;
+}
+
+.predictionsTable {
+  margin-bottom: 5px;
+  width: 100%;
+
+  th,
+  td {
+    font-size: 0.81rem;
+    line-height: 1;
+
+    &:first-child {
+      padding-right: 10px;
+    }
+  }
+
+  &.maximized {
+    margin-bottom: 20px;
+
+    th,
+    td {
+      font-size: 0.88rem;
+
+      &:last-child {
+        text-align: right;
+      }
+    }
+  }
+}

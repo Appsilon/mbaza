@@ -1,8 +1,10 @@
 import path from 'path';
 import { useTranslation } from 'react-i18next';
 import CreatableSelect from 'react-select/creatable';
+
 import { formatAnimalClassName } from '../constants/animalsClasses';
 import { taxonOptions } from '../constants/taxons';
+import styles from './observationsHelpers.module.scss';
 
 const getTopPrediction = (observation: Observation): CreatableOption => {
   return {
@@ -19,16 +21,10 @@ export const getPredictions = (observation: Observation): Predictions => {
   ];
 };
 
-export function PredictionsTable({
-  predictions,
-  className,
-}: {
-  predictions: Predictions;
-  className: string;
-}) {
+export function PredictionsTable({ predictions }: PredictionsTable) {
   const { t } = useTranslation();
   return (
-    <table className={`${className} bp4-html-table bp4-html-table-condensed`}>
+    <table className={`${styles.predictionsTable} bp4-html-table bp4-html-table-condensed`}>
       <thead>
         <tr>
           <th>{t('explore.inspect.prediction')}</th>
@@ -50,7 +46,7 @@ export function PredictionsTable({
   );
 }
 
-function PhotoDetail({ label, value, styles }: PhotoDetail) {
+function PhotoDetail({ label, value }: PhotoDetail) {
   const { t } = useTranslation();
   return (
     <p className={styles.photoDetail}>
@@ -60,13 +56,13 @@ function PhotoDetail({ label, value, styles }: PhotoDetail) {
   );
 }
 
-export function PhotoDetails({ observation, styles }: PhotoDetails) {
+export function PhotoDetails({ observation }: PhotoDetails) {
   const { date, camera, location } = observation;
   return (
     <div className={styles.photoDetails}>
-      <PhotoDetail label="date" value={date} styles={styles} />
-      <PhotoDetail label="camera" value={camera} styles={styles} />
-      <PhotoDetail label="file" value={path.basename(location)} styles={styles} />
+      <PhotoDetail label="date" value={date} />
+      <PhotoDetail label="camera" value={camera} />
+      <PhotoDetail label="file" value={path.basename(location)} />
     </div>
   );
 }
@@ -74,7 +70,8 @@ export function PhotoDetails({ observation, styles }: PhotoDetails) {
 export function predictionOverrideWrapper(
   observation: Observation,
   predictionOverrides: PredictionOverridesMap,
-  onPredictionOverride: PredictionsOverrideHandler
+  onPredictionOverride: PredictionsOverrideHandler,
+  isSelected?: boolean
 ) {
   const predictionOverrideValue = predictionOverrides[observation.location];
   const topPrediction = getTopPrediction(observation);
@@ -88,9 +85,11 @@ export function predictionOverrideWrapper(
       value={predictionOverrideValue || topPrediction}
       onChange={handlePredictionOverride}
       options={taxonOptions}
+      isDisabled={isSelected}
       isClearable={predictionOverrideValue !== undefined}
       menuShouldScrollIntoView={false}
       menuPlacement="auto"
+      className={styles.predictionOverride}
     />
   );
 }

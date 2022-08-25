@@ -39,10 +39,10 @@ export default function ObservationCard(props: ObservationCardProps) {
               src={`file:${observation.location}`}
               alt={observation.pred_1}
             />
-          </div>
-          <div className={styles.data}>
-            <PredictionsTable predictions={predictions} className={styles.predictionsTable} />
-            <PhotoDetails observation={observation} styles={styles} />
+            <div className={styles.data}>
+              <PredictionsTable predictions={predictions} maximized={false} />
+              <PhotoDetails observation={observation} maximized={false} />
+            </div>
           </div>
         </div>
         <div className={styles.header}>

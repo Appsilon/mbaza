@@ -77,11 +77,15 @@ type MaximizedObservationCardProps = {
 
 type PhotoDetails = {
   observation: Observation;
-  styles: Styles;
+  maximized: boolean;
 };
 
 type PhotoDetail = {
   label: string;
   value: string;
-  styles: Styles;
+};
+
+type PredictionsTable = {
+  predictions: Predictions;
+  maximized: boolean;
 };

@@ -27,18 +27,18 @@
         font-weight: 600;
         outline: none;
         transition: background-color var.$t-button, color var.$t-button;
-    
+
         :global .bp4-icon {
           color: var.$c-green-10;
           margin-right: 5px;
           transition: color var.$t-button;
         }
-    
+
         &:active,
         &:hover {
           background: var.$c-green-40;
           color: var.$c-green-80;
-    
+
           :global .bp4-icon {
             color: var.$c-green-80;
           }
