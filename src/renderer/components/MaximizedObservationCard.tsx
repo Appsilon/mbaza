@@ -29,7 +29,7 @@ export default function ObservationCard(props: MaximizedObservationCardProps) {
           onNext(observationIndex);
           break;
         case 'Escape':
-          onPhotoClick(null);
+          onPhotoClick(null, false);
           break;
         default:
           break;
@@ -60,7 +60,11 @@ export default function ObservationCard(props: MaximizedObservationCardProps) {
     <div className={cx('observation', 'maximized')}>
       <Card className={styles.card} elevation={Elevation.TWO} key={observation.location}>
         <div className={styles.body}>
-          <div className={styles.photo} onClick={() => onPhotoClick(null)} aria-hidden="true">
+          <div
+            className={styles.photo}
+            onClick={() => onPhotoClick(null, false)}
+            aria-hidden="true"
+          >
             <img
               className={styles.img}
               src={`file:${observation.location}`}

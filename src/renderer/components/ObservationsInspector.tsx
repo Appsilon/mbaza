@@ -8,7 +8,7 @@ import { predictionOverrideWrapper } from './observationsHelpers';
 import styles from './ObservationsInspector.module.scss';
 
 export default function ObservationsInspector(props: ObservationsInspectorProps) {
-  const { observations, onClose, predictionOverrides, onPredictionOverride } = props;
+  const { observations, onClose, predictionOverrides, onPredictionsOverride } = props;
   const [maximizedCard, setMaximizedCard] = useState<number | null>(null);
   const [selectedCards, setSelectedCards] = useState<number[]>([]);
   const isSelectionMode = selectedCards.length > 0;
@@ -18,10 +18,12 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
     const newIndex = currentIndex > 0 ? currentIndex - 1 : lastObservationIndex;
     setMaximizedCard(newIndex);
   };
+
   const handleNextObservationClick = (currentIndex: number) => {
     const newIndex = currentIndex < lastObservationIndex ? currentIndex + 1 : 0;
     setMaximizedCard(newIndex);
   };
+
   const handleSelectedCards = (cardIndex: number, cardSelected: boolean) => {
     if (cardSelected) {
       setSelectedCards([...selectedCards, cardIndex]);
@@ -29,6 +31,7 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
       setSelectedCards(selectedCards.filter((c) => c !== cardIndex));
     }
   };
+
   const handlePhotoClick = (cardIndex: number | null, cardSelected: boolean) => {
     if (isSelectionMode && cardIndex !== null) {
       handleSelectedCards(cardIndex, cardSelected);
@@ -36,6 +39,7 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
       setMaximizedCard(cardIndex);
     }
   };
+
   const handleBackButtonClick = () => {
     if (maximizedCard !== null) {
       setMaximizedCard(null);
@@ -71,7 +75,8 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
               observation={observations[index]}
               observationIndex={index}
               isSelected={selectedCards.findIndex((card) => card === index) >= 0}
-              onPhotoClick={setMaximizedCard}
+              isSelectionMode={isSelectionMode}
+              onPhotoClick={handlePhotoClick}
               onCardSelect={handleSelectedCards}
               predictionOverrideWrapper={() =>
                 predictionOverrideWrapper(
@@ -87,7 +92,7 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
           <MaximizedObservationCard
             observation={observations[maximizedCard]}
             observationIndex={maximizedCard}
-            onPhotoClick={setMaximizedCard}
+            onPhotoClick={handlePhotoClick}
             onPrevious={handlePreviousObservationClick}
             onNext={handleNextObservationClick}
             predictionOverrideWrapper={() =>

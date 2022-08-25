@@ -39,29 +39,30 @@ type CreatableOption = {
 
 type PredictionOverridesMap = Record<string, CreatableOption>;
 
-type PredictionOverrideHandler = (location: string, prediction: CreatableOption | null) => void;
+type PredictionsOverrideHandler = (location: string[], prediction: CreatableOption | null) => void;
 
 type Predictions = (string | number)[][];
 
 type PredictionOverrideWrapperProps = {
   observation?: Observation;
   predictionOverride?: CreatableOption;
-  onPredictionOverride?: PredictionOverrideHandler;
+  onPredictionsOverride?: PredictionsOverrideHandler;
 };
 
 type ObservationsInspectorProps = {
   observations: Observation[];
   onClose: () => void;
   predictionOverrides: PredictionOverridesMap;
-  onPredictionOverride: PredictionOverrideHandler;
+  onPredictionsOverride: PredictionsOverrideHandler;
 };
 
 type ObservationCardProps = {
   observation: Observation;
   observationIndex: number;
   isSelected: boolean;
-  onPhotoClick: (cardIndex: number | null) => void;
+  isSelectionMode: boolean;
   onCardSelect: (cardIndex: number, cardSelected: boolean) => void;
+  onPhotoClick: (cardIndex: number | null, cardSelected: boolean) => void;
   predictionOverrideWrapper: (props: PredictionOverrideWrapperProps) => JSX.Element;
 };
 
@@ -70,7 +71,7 @@ type MaximizedObservationCardProps = {
   observationIndex: number;
   onPrevious: (currentIndex: number) => void;
   onNext: (currentIndex: number) => void;
-  onPhotoClick: (cardIndex: number | null) => void;
+  onPhotoClick: (cardIndex: number | null, cardSelected: boolean) => void;
   predictionOverrideWrapper: (props: PredictionOverrideWrapperProps) => JSX.Element;
 };
 
