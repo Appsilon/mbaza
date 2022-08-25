@@ -59,7 +59,9 @@ type ObservationsInspectorProps = {
 type ObservationCardProps = {
   observation: Observation;
   observationIndex: number;
+  isSelected: boolean;
   onPhotoClick: (cardIndex: number | null) => void;
+  onCardSelect: (cardIndex: number, cardSelected: boolean) => void;
   predictionOverrideWrapper: (props: PredictionOverrideWrapperProps) => JSX.Element;
 };
 

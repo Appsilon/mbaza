@@ -3,21 +3,17 @@ import { VirtuosoGrid } from 'react-virtuoso';
 
 import MaximizedObservationCard from './MaximizedObservationCard';
 import ObservationCard from './ObservationCard';
+import ObservationsHeader from './ObservationsHeader';
 import { predictionOverrideWrapper } from './observationsHelpers';
 import styles from './ObservationsInspector.module.scss';
 
 export default function ObservationsInspector(props: ObservationsInspectorProps) {
-  const { observations, onClose, predictionOverrides, onPredictionsOverride } = props;
+  const { observations, onClose, predictionOverrides, onPredictionOverride } = props;
   const [maximizedCard, setMaximizedCard] = useState<number | null>(null);
   const [selectedCards, setSelectedCards] = useState<number[]>([]);
   const isSelectionMode = selectedCards.length > 0;
-
-  const backButtonText = t(
-    maximizedCard !== null ? 'explore.backToObservations' : 'explore.backToMap'
-  );
   const lastObservationIndex = observations.length - 1;
 
-  const onBackButtonClick = () => (maximizedCard !== null ? setMaximizedCard(null) : onClose());
   const handlePreviousObservationClick = (currentIndex: number) => {
     const newIndex = currentIndex > 0 ? currentIndex - 1 : lastObservationIndex;
     setMaximizedCard(newIndex);
@@ -74,15 +70,16 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
             <ObservationCard
               observation={observations[index]}
               observationIndex={index}
+              isSelected={selectedCards.findIndex((card) => card === index) >= 0}
               onPhotoClick={setMaximizedCard}
+              onCardSelect={handleSelectedCards}
               predictionOverrideWrapper={() =>
                 predictionOverrideWrapper(
                   observations[index],
                   predictionOverrides,
-                  onPredictionOverride
+                  onPredictionsOverride
                 )
               }
-              observationIndex={index}
             />
           )}
         />
@@ -95,9 +92,9 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
             onNext={handleNextObservationClick}
             predictionOverrideWrapper={() =>
               predictionOverrideWrapper(
-                observations[index],
+                observations[maximizedCard],
                 predictionOverrides,
-                onPredictionOverride
+                onPredictionsOverride
               )
             }
           />

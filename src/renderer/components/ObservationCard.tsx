@@ -8,7 +8,9 @@ export default function ObservationCard(props: ObservationCardProps) {
   const {
     observation,
     observationIndex,
+    isSelected,
     onPhotoClick,
+    onCardSelect,
     predictionOverrideWrapper: PredictionOverrideWrapper,
   } = props;
   const { t } = useTranslation();
@@ -67,7 +69,7 @@ export default function ObservationCard(props: ObservationCardProps) {
       <Card className={styles.card} elevation={Elevation.TWO} key={observation.location}>
         <div
           className={styles.body}
-          onClick={() => onPhotoClick(isMaximized ? null : observationIndex, !isSelected)}
+          onClick={() => onPhotoClick(observationIndex)}
           aria-hidden="true"
         >
           <div className={styles.photo}>
