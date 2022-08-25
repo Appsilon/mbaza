@@ -20,7 +20,7 @@ function Footer() {
       <a className={styles.logoLink} href="https://appsilon.com/" target="_blank" rel="noreferrer">
         <img
           className={styles.logoImg}
-          src="file:/assets/logos/appsilon-white.png"
+          src="file:///assets/logos/appsilon-white.png"
           alt="Appsilon"
         />
       </a>

@@ -130,24 +130,29 @@ export default function ExplorePage() {
     setFilters({ ...filters, ...val });
   };
 
-  const handlePredictionOverride = (location: string, override: CreatableOption | null) => {
+  const handlePredictionsOverride = (locations: string[], override: CreatableOption | null) => {
     if (observations === undefined) return false;
-    const overrides = { ...predictionOverrides };
-    const observationIndex: number = observations.findIndex((obs) => obs.location === location);
-    const observation = observations[observationIndex];
+    const updatedOverrides = { ...predictionOverrides };
+    const updatedObservations = [...observations];
 
-    if (override === null) {
-      delete overrides[location];
-    } else {
-      overrides[location] = override;
-    }
-    // TODO: Observations should only be modified with `setObservations()`.
-    // Mutating state in any other way easily leads to incorrect behavior.
-    observations[observationIndex] = {
-      ...observation,
-      label: override === null ? observation.pred_1 : override.value,
-    };
-    setPredictionOverrides(overrides);
+    locations.forEach((location) => {
+      const observationIndex: number = updatedObservations.findIndex(
+        (observation) => observation.location === location
+      );
+      const observation = updatedObservations[observationIndex];
+
+      if (override === null) {
+        delete updatedOverrides[location];
+      } else {
+        updatedOverrides[location] = override;
+      }
+      updatedObservations[observationIndex] = {
+        ...observation,
+        label: override === null ? observation.pred_1 : override.value,
+      };
+    });
+    setObservations(updatedObservations);
+    setPredictionOverrides(updatedOverrides);
     return false;
   };
 
@@ -235,7 +240,7 @@ export default function ExplorePage() {
                 observations={filteredObservations}
                 onClose={() => setInspectorOpen(false)}
                 predictionOverrides={predictionOverrides}
-                onPredictionOverride={handlePredictionOverride}
+                onPredictionsOverride={handlePredictionsOverride}
               />
             )}
           </div>

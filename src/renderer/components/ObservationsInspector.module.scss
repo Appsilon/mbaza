@@ -1,4 +1,4 @@
-@use '../styles/variables' as var;
+@use '../styles/variables.module.scss' as var;
 @use '../styles/animations';
 
 .box {
@@ -11,54 +11,6 @@
   top: 0;
   width: 100%;
 
-  .boxHeader {
-    align-items: center;
-    background-color: var.$c-green-60;
-    display: grid;
-    grid-template-columns: 200px 1fr 200px;
-    height: 36px;
-    padding: 0 20px;
-
-    .backButton {
-      background: none;
-      box-shadow: none;
-      color: var.$c-green-10;
-      font-size: 0.88rem;
-      outline: none;
-      padding: 0;
-      transition: color var.$t-button;
-
-      :global .bp4-icon {
-        color: var.$c-green-10;
-        margin-right: 5px;
-        transition: color var.$t-button;
-      }
-
-      &:hover {
-        background: none;
-        color: var.$c-orange;
-
-        :global .bp4-icon {
-          color: var.$c-orange;
-        }
-      }
-    }
-
-    .heading {
-      color: var.$c-white;
-      font-size: 1rem;
-      font-weight: 600;
-      margin: 0;
-      text-align: center;
-    }
-
-    .counter {
-      color: var.$c-green-20;
-      margin: 0;
-      text-align: right;
-    }
-  }
-
   .boxBody {
     background-color: var.$c-white;
     height: 100%;
@@ -66,7 +18,7 @@
 
     .list {
       display: grid;
-      gap: 20px;
+      gap: 16px;
       grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
       margin: 20px 0;
       padding: 20px;

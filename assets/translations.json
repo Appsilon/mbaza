@@ -111,6 +111,8 @@
         "inspect": {
           "station": "Station {{id}}",
           "observations": "{{count}} observations",
+          "selected_one": "{{count}} observation selected",
+          "selected_other": "{{count}} observations selected",
           "species": "{{count}} species",
           "header": "Observations by station {{station}}",
           "prediction": "Prediction",
@@ -235,6 +237,8 @@
         "inspect": {
           "station": "Station {{id}}",
           "observations": "{{count}} observations",
+          "selected_one": "{{count}} observation selected (TODO)",
+          "selected_other": "{{count}} observations selected (TODO)",
           "species": "{{count}} espèces",
           "header": "Observations par station {{station}}",
           "prediction": "Prédiction",
