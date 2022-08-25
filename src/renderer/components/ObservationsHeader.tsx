@@ -3,8 +3,8 @@ import classNames from 'classnames/bind';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
+import CreatableSelect from 'react-select/creatable';
 import { taxonOptions } from '../constants/taxons';
-import CreatableSelect from './CreatableSelect';
 import styles from './ObservationsHeader.module.scss';
 
 const cx = classNames.bind(styles);
@@ -78,6 +78,7 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
               isClearable={!!globalOverride}
               menuShouldScrollIntoView={false}
               menuPlacement="auto"
+              className={styles.predictionOverride}
             />
             <Button
               className={styles.updateButton}

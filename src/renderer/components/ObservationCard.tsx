@@ -3,9 +3,9 @@ import classNames from 'classnames/bind';
 import path from 'path';
 import { useTranslation } from 'react-i18next';
 
+import CreatableSelect from 'react-select/creatable';
 import { formatAnimalClassName } from '../constants/animalsClasses';
 import { taxonOptions } from '../constants/taxons';
-import CreatableSelect from './CreatableSelect';
 import styles from './ObservationCard.module.scss';
 
 const cx = classNames.bind(styles);
@@ -83,10 +83,7 @@ function ObservationCard(props: ObservationCardProps) {
       isClearable={predictionOverride !== undefined}
       menuShouldScrollIntoView={false}
       menuPlacement="auto"
-      controlStyles={{
-        background: 'none',
-        width: 'auto',
-      }}
+      className={styles.predictionOverride}
     />
   );
   const photoDetail = (label: string, value: string) => (

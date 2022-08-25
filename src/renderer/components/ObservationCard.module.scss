@@ -36,6 +36,10 @@ $card-shadow-selected:
       min-height: 40px;
       padding: 5px;
 
+      .predictionOverride {
+        @include mix.custom-react-select;
+      }
+
       .selectButton {
         background: none;
         opacity: 0;
