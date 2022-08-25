@@ -3,7 +3,7 @@
  *        See https://github.com/webpack-contrib/sass-loader#imports
  */
 
-@use './variables' as var;
+@use './variables.module.scss' as var;
 
 @import '~normalize.css';
 @import '~@blueprintjs/core/lib/css/blueprint.css';
@@ -34,9 +34,10 @@ a {
 
 .bp4-button.bp4-intent-primary:not(.bp4-minimal) {
   background-color: var.$c-green-60;
-  border-radius: 5px;
+  border-radius: var.$radius-input;
   box-shadow: none;
   color: var.$c-green-10;
+  transition: background-color var.$t-button, color var.$t-button;
 
   &:hover,
   &:focus,
@@ -44,5 +45,10 @@ a {
     background-color: var.$c-green-80;
     box-shadow: none;
     outline: none;
+  }
+
+  &.bp4-disabled {
+    opacity: 0.5;
+    pointer-events: none;
   }
 }

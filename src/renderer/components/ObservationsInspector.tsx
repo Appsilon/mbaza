@@ -1,45 +1,63 @@
-import { Button } from '@blueprintjs/core';
 import { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { VirtuosoGrid } from 'react-virtuoso';
 
 import ObservationCard from './ObservationCard';
+import ObservationsHeader from './ObservationsHeader';
 import styles from './ObservationsInspector.module.scss';
 
 type ObservationsInspectorProps = {
   observations: Observation[];
   onClose: () => void;
   predictionOverrides: PredictionOverridesMap;
-  onPredictionOverride: PredictionOverrideHandler;
+  onPredictionsOverride: PredictionsOverrideHandler;
 };
 
 export default function ObservationsInspector(props: ObservationsInspectorProps) {
-  const { observations, onClose, predictionOverrides, onPredictionOverride } = props;
-  const { t } = useTranslation();
+  const { observations, onClose, predictionOverrides, onPredictionsOverride } = props;
   const [maximizedCard, setMaximizedCard] = useState<number | null>(null);
-  const backButtonText = t(
-    maximizedCard !== null ? 'explore.backToObservations' : 'explore.backToMap'
-  );
-  const onBackButtonClick = () => (maximizedCard !== null ? setMaximizedCard(null) : onClose());
+  const [selectedCards, setSelectedCards] = useState<number[]>([]);
+  const isSelectionMode = selectedCards.length > 0;
+
+  const handleSelectedCards = (cardIndex: number, cardSelected: boolean) => {
+    if (cardSelected) {
+      setSelectedCards([...selectedCards, cardIndex]);
+    } else {
+      setSelectedCards(selectedCards.filter((c) => c !== cardIndex));
+    }
+  };
+  const handlePhotoClick = (cardIndex: number | null, cardSelected: boolean) => {
+    if (isSelectionMode && cardIndex !== null) {
+      handleSelectedCards(cardIndex, cardSelected);
+    } else {
+      setMaximizedCard(cardIndex);
+    }
+  };
+  const handleBackButtonClick = () => {
+    if (maximizedCard !== null) {
+      setMaximizedCard(null);
+    } else if (isSelectionMode) {
+      setSelectedCards([]);
+    } else {
+      onClose();
+    }
+  };
+
+  const handleGlobalOverride = (override: CreatableOption | null) => {
+    const locations = observations
+      .filter((_observation, index) => selectedCards.includes(index))
+      .map((observation) => observation.location);
+    onPredictionsOverride(locations, override);
+  };
 
   return (
     <div className={styles.box}>
-      <div className={styles.boxHeader}>
-        <Button
-          className={styles.backButton}
-          icon="chevron-left"
-          minimal
-          alignText="left"
-          onClick={onBackButtonClick}
-          text={backButtonText}
-        />
-        <h4 className={styles.heading}>
-          {t('explore.inspect.header', { station: observations[0].station })}
-        </h4>
-        <p className={styles.counter}>
-          {t('explore.inspect.observations', { count: observations.length })}
-        </p>
-      </div>
+      <ObservationsHeader
+        observations={observations}
+        isCardMaximized={maximizedCard !== null}
+        selectedCardsTotal={selectedCards.length}
+        onBackButtonClick={handleBackButtonClick}
+        onPredictionsOverride={handleGlobalOverride}
+      />
       <div className={styles.boxBody}>
         <VirtuosoGrid
           totalCount={observations.length}
@@ -48,10 +66,13 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
             <ObservationCard
               observation={observations[index]}
               predictionOverride={predictionOverrides[observations[index].location]}
-              onPredictionOverride={onPredictionOverride}
-              onPhotoClick={setMaximizedCard}
+              onPredictionOverride={onPredictionsOverride}
+              onPhotoClick={handlePhotoClick}
+              onCardSelect={handleSelectedCards}
               observationIndex={index}
               isMaximized={false}
+              isSelected={selectedCards.findIndex((card) => card === index) >= 0}
+              isSelectionMode={isSelectionMode}
             />
           )}
         />
@@ -59,10 +80,13 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
           <ObservationCard
             observation={observations[maximizedCard]}
             predictionOverride={predictionOverrides[observations[maximizedCard].location]}
-            onPredictionOverride={onPredictionOverride}
-            onPhotoClick={setMaximizedCard}
+            onPredictionOverride={onPredictionsOverride}
+            onPhotoClick={handlePhotoClick}
+            onCardSelect={handleSelectedCards}
             observationIndex={maximizedCard}
             isMaximized
+            isSelected={false}
+            isSelectionMode={false}
           />
         )}
       </div>

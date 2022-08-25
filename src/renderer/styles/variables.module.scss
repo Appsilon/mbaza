@@ -18,8 +18,23 @@ $shadow-card: 0 4px 15px
 
 // Corner radius
 $radius-card: 10px;
+$radius-input: 5px;
 
 // Transitions
 $t-marker: 0.2s;
 $t-marker-animation: 1.5s;
 $t-button: 0.2s;
+
+// Export sass variables to be used on react side
+:export {
+  green80: $c-green-80;
+  green60: $c-green-60;
+  green40: $c-green-40;
+  green20: $c-green-20;
+  green10: $c-green-10;
+  lightBlue: $c-light-blue;
+  orange: $c-orange;
+  white: $c-white;
+  radiusCard: 10px;
+  radiusInput: 5px;
+}

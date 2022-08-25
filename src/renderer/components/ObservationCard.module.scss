@@ -1,17 +1,30 @@
-@use '../styles/variables' as var;
+@use '../styles/variables.module.scss' as var;
+@use '../styles/mixins' as mix;
 @use '../styles/animations';
 
-$t-obs-card: 0.5s;
+$t-obs-card: 0.4s;
 $card-size: 240px;
+$card-shadow-normal: 0 2px 6px rgba($color: var.$c-green-60, $alpha: 0.3);
+$card-shadow-hovered:
+  0 2px 6px rgba($color: var.$c-green-60, $alpha: 0.4),
+  0 3px 12px rgba($color: var.$c-green-60, $alpha: 0.4);
+$card-shadow-selected:
+  0 2px 6px rgba($color: var.$c-green-60, $alpha: 0.5),
+  0 4px 20px rgba($color: var.$c-green-60, $alpha: 0.6);
 
 .observation {
   .card {
     border-radius: var.$radius-card;
-    box-shadow: var.$shadow-card;
+    box-shadow: $card-shadow-normal;
     display: flex;
     flex-direction: column;
     height: $card-size;
-    padding: 5px;
+    padding: 0;
+    transition: box-shadow $t-obs-card;
+
+    &:hover {
+      box-shadow: $card-shadow-hovered;
+    }
 
     .header {
       align-items: center;
@@ -20,105 +33,109 @@ $card-size: 240px;
       font-weight: 400;
       justify-content: space-between;
       margin: 0;
-      min-height: 36px;
-      padding-top: 5px;
+      min-height: 40px;
+      padding: 5px;
 
       .predictionOverride {
-        [class$='control'] {
-          border: none;
-          box-shadow: none;
-          cursor: pointer;
-          font-weight: 600;
-          min-height: 0;
-          padding: 5px;
+        @include mix.custom-react-select;
+      }
 
-          [class$='ValueContainer'] {
-            padding: 0 5px 0 0;
+      .selectButton {
+        background: none;
+        opacity: 0;
+        outline: none;
+        transition: opacity var.$t-button, visibility 0s var.$t-button;
+        visibility: hidden;
 
-            [class$='Input'] {
-              margin: 0;
-              padding: 0;
-            }
-          }
+        & > span {
+          color: var.$c-green-20;
+          height: 20px;
+          transition: color var.$t-button;
+          width: 20px;
 
-          [class$='IndicatorsContainer'] {
-            [class$='indicatorSeparator'] {
-              display: none;
-            }
-
-            [class$='indicatorContainer'] {
-              padding: 0;
-            }
+          & > svg {
+            height: 100%;
+            width: 100%;
           }
         }
 
-        [class$='menu'] {
-          width: auto;
+        &:hover {
+          & > span {
+            color: var.$c-green-40;
+          }
+        }
+
+        &:active {
+          & > span {
+            color: var.$c-green-80;
+          }
         }
       }
     }
 
     .body {
-      border-radius: var.$radius-card - 2;
+      border-radius: var.$radius-card var.$radius-card 0 0;
       cursor: zoom-in;
       display: flex;
       height: 100%;
       overflow: hidden;
       position: relative;
+      transition: padding 0.2s ease-out;
 
       .photo {
+        border-radius: var.$radius-card - 2 var.$radius-card - 2 0 0;
         display: flex;
         height: 100%;
         overflow: hidden;
+        position: relative;
 
         .img {
           height: 100%;
           transition: opacity $t-obs-card, visibility 0s;
           width: auto;
         }
-      }
 
-      .data {
-        background-color: rgba($color: var.$c-green-10, $alpha: 0.8);
-        height: 100%;
-        overflow: auto;
-        opacity: 0;
-        padding: 10px;
-        position: absolute;
-        transform: translateY(-20%);
-        transition: opacity $t-obs-card, transform $t-obs-card, visibility 0s $t-obs-card;
-        visibility: hidden;
-        width: 100%;
-
-        :global .bp4-popover-target {
-          display: flex;
-        }
-
-        .predictionsTable {
-          font-size: 0.81rem;
-          margin-bottom: 5px;
+        .data {
+          background-color: rgba($color: var.$c-green-10, $alpha: 0.8);
+          height: 100%;
+          overflow: auto;
+          opacity: 0;
+          padding: 10px;
+          position: absolute;
+          transition: opacity $t-obs-card, visibility 0s $t-obs-card;
+          visibility: hidden;
           width: 100%;
-
-          th,
-          td {
-            padding: 3px;
-
-            &:first-child {
-              padding-right: 10px;
+  
+          :global .bp4-popover-target {
+            display: flex;
+          }
+  
+          .predictionsTable {
+            font-size: 0.81rem;
+            margin-bottom: 5px;
+            width: 100%;
+  
+            th,
+            td {
+              padding: 3px;
+  
+              &:first-child {
+                padding-right: 10px;
+              }
             }
           }
-        }
-
-        .photoDetails {
-          display: flex;
-          flex-direction: column;
-          font-size: 0.81rem;
-
-          .photoDetail {
-            margin-bottom: 5px;
-
-            .label {
-              font-weight: 700;
+  
+          .photoDetails {
+            display: flex;
+            flex-direction: column;
+            font-size: 0.81rem;
+  
+            .photoDetail {
+              margin-bottom: 5px;
+  
+              .label {
+                font-weight: 700;
+              }
             }
           }
         }
@@ -128,9 +145,55 @@ $card-size: 240px;
         .data {
           opacity: 1;
           transform: translateY(0);
-          transition: opacity $t-obs-card 0.2s,
-            transform $t-obs-card cubic-bezier(0.2, 0.98, 0.59, 1) 0.2s, visibility 0s;
+          transition: opacity $t-obs-card 1s, visibility 0s;
           visibility: visible;
+        }
+      }
+    }
+  }
+
+  &.selectable {
+    .card {
+      .body {
+        cursor: pointer;
+      }
+    }
+  }
+
+  &:not(.maximized):hover,
+  &.selected {
+    .selectButton {
+      opacity: 1;
+      transition: opacity var.$t-button, visibility 0s;
+      visibility: visible;
+    }
+  }
+
+  &.selected {
+    .card {
+      background-color: var.$c-green-10;
+      box-shadow: $card-shadow-selected;
+
+      .header {
+        .selectButton {
+          opacity: 1;
+          transition: opacity var.$t-button, visibility 0s;
+          visibility: visible;
+    
+          & > span {
+            color: var.$c-green-60;
+          }
+        }
+      }
+
+      .body {
+        padding: 10px;
+
+        .photo {
+          border-radius: var.$radius-card - 2;
+          img {
+            opacity: 0.8;
+          }
         }
       }
     }
@@ -173,7 +236,6 @@ $card-size: 240px;
           left: 20px;
           opacity: 0;
           padding: 20px;
-          transform: translateX(0);
           transition: opacity $t-obs-card, visibility 0s $t-obs-card;
           width: auto;
 
@@ -201,7 +263,6 @@ $card-size: 240px;
         &:hover {
           .data {
             opacity: 1;
-            transform: translateX(0);
             transition: opacity $t-obs-card, visibility 0s;
             visibility: visible;
           }
