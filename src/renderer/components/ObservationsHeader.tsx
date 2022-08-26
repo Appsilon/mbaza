@@ -1,4 +1,5 @@
-import { Button, Dialog, Slider } from '@blueprintjs/core';
+import { Button, Dialog, mergeRefs, Slider } from '@blueprintjs/core';
+import { Popover2 } from '@blueprintjs/popover2';
 import classNames from 'classnames/bind';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -127,7 +128,29 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
             </Dialog>
           </>
         ) : (
-          <Slider value={cardsTotalInRow} onChange={onCardsSizeChange} vertical min={1} max={10} />
+          <Popover2
+            interactionKind="click"
+            className={styles.cardsSizePopover}
+            placement="bottom"
+            content={
+              <Slider
+                value={cardsTotalInRow}
+                onChange={onCardsSizeChange}
+                vertical
+                min={1}
+                max={10}
+              />
+            }
+            renderTarget={({ isOpen, ref: ref1, ...targetProps }) => (
+              <Button
+                // eslint-disable-next-line react/jsx-props-no-spreading
+                {...targetProps}
+                elementRef={mergeRefs(ref1)}
+                intent="primary"
+                text="Cards Layout"
+              />
+            )}
+          />
         )}
       </div>
     </div>
