@@ -1,16 +1,19 @@
-import { useState, forwardRef } from 'react';
-import { VirtuosoGrid, Components } from 'react-virtuoso';
+import { useState, useRef } from 'react';
+import { VirtuosoGrid } from 'react-virtuoso';
 
 import MaximizedObservationCard from './MaximizedObservationCard';
+import classNames from 'classnames/bind';
 import ObservationCard from './ObservationCard';
 import ObservationsHeader from './ObservationsHeader';
 import { OverrideWidget } from './observationsHelpers';
 import styles from './ObservationsInspector.module.scss';
 
 export default function ObservationsInspector(props: ObservationsInspectorProps) {
+  const cx = classNames.bind(styles);
   const { observations, onClose, predictionOverrides, onPredictionsOverride } = props;
   const [maximizedCard, setMaximizedCard] = useState<number | null>(null);
   const [selectedCards, setSelectedCards] = useState<number[]>([]);
+  const [cardsTotalInRow, setCardsTotalInRow] = useState<number>(3);
   const isSelectionMode = selectedCards.length > 0;
   const lastObservationIndex = observations.length - 1;
 
@@ -71,13 +74,15 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
         observations={observations}
         maximizedCardIndex={maximizedCard}
         selectedCardsTotal={selectedCards.length}
+        cardsTotalInRow={cardsTotalInRow}
         onBackButtonClick={handleBackButtonClick}
         onPredictionsOverride={handleGlobalOverride}
+        onCardsSizeChange={setCardsTotalInRow}
       />
       <div className={styles.boxBody}>
         <VirtuosoGrid
           totalCount={observations.length}
-          listClassName={styles.list}
+          listClassName={cx('list', `list--${cardsTotalInRow}`)}
           itemContent={(index) => {
             const isSelected = selectedCards.findIndex((card) => card === index) >= 0;
             return (

@@ -127,7 +127,7 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
             </Dialog>
           </>
         ) : (
-          <Slider value={cardsTotalInRow} onChange={onCardsSizeChange} vertical />
+          <Slider value={cardsTotalInRow} onChange={onCardsSizeChange} vertical min={1} max={10} />
         )}
       </div>
     </div>
