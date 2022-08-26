@@ -63,7 +63,7 @@ type ObservationCardProps = {
   isSelectionMode: boolean;
   onCardSelect: (cardIndex: number, cardSelected: boolean) => void;
   onPhotoClick: (cardIndex: number | null, cardSelected: boolean) => void;
-  predictionOverrideWrapper: (props: PredictionOverrideWrapperProps) => JSX.Element;
+  overrideWidget: React.ReactNode;
 };
 
 type MaximizedObservationCardProps = {
@@ -72,7 +72,7 @@ type MaximizedObservationCardProps = {
   onPrevious: (currentIndex: number) => void;
   onNext: (currentIndex: number) => void;
   onPhotoClick: (cardIndex: number | null, cardSelected: boolean) => void;
-  predictionOverrideWrapper: (props: PredictionOverrideWrapperProps) => JSX.Element;
+  overrideWidget: React.ReactNode;
 };
 
 type PhotoDetails = {

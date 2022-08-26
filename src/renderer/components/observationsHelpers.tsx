@@ -72,12 +72,19 @@ export function PhotoDetails({ observation, maximized }: PhotoDetails) {
   );
 }
 
-export function predictionOverrideWrapper(
-  observation: Observation,
-  predictionOverrides: PredictionOverridesMap,
-  onPredictionOverride: PredictionsOverrideHandler,
-  isSelected?: boolean
-) {
+type OverrideWidgetProps = {
+  observation: Observation;
+  predictionOverrides: PredictionOverridesMap;
+  onPredictionOverride: PredictionsOverrideHandler;
+  isDisabled?: boolean;
+};
+
+export function OverrideWidget({
+  observation,
+  predictionOverrides,
+  onPredictionOverride,
+  isDisabled,
+}: OverrideWidgetProps) {
   const predictionOverrideValue = predictionOverrides[observation.location];
   const topPrediction = getTopPrediction(observation);
   const handlePredictionOverride = (newPrediction: CreatableOption | null) => {
@@ -90,7 +97,7 @@ export function predictionOverrideWrapper(
       value={predictionOverrideValue || topPrediction}
       onChange={handlePredictionOverride}
       options={taxonOptions}
-      isDisabled={isSelected}
+      isDisabled={isDisabled}
       isClearable={predictionOverrideValue !== undefined}
       menuShouldScrollIntoView={false}
       menuPlacement="auto"
@@ -98,3 +105,7 @@ export function predictionOverrideWrapper(
     />
   );
 }
+
+OverrideWidget.defaultProps = {
+  isDisabled: false,
+};

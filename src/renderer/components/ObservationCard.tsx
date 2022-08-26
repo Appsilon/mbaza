@@ -15,7 +15,7 @@ export default function ObservationCard(props: ObservationCardProps) {
     isSelectionMode,
     onCardSelect,
     onPhotoClick,
-    predictionOverrideWrapper: PredictionOverrideWrapper,
+    overrideWidget,
   } = props;
   const { t } = useTranslation();
   const predictions = getPredictions(observation);
@@ -47,7 +47,7 @@ export default function ObservationCard(props: ObservationCardProps) {
         </div>
         <div className={styles.header}>
           <Tooltip content={t('explore.inspect.overrideTooltip')} position="top" minimal>
-            <PredictionOverrideWrapper />
+            {overrideWidget}
           </Tooltip>
           <Button
             className={styles.selectButton}

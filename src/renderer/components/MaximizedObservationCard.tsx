@@ -6,14 +6,7 @@ import styles from './MaximizedObservationCard.module.scss';
 import { getPredictions, PhotoDetails, PredictionsTable } from './observationsHelpers';
 
 export default function ObservationCard(props: MaximizedObservationCardProps) {
-  const {
-    observation,
-    observationIndex,
-    onPhotoClick,
-    onPrevious,
-    onNext,
-    predictionOverrideWrapper: PredictionOverrideWrapper,
-  } = props;
+  const { observation, observationIndex, onPhotoClick, onPrevious, onNext, overrideWidget } = props;
   const { t } = useTranslation();
   const predictions = getPredictions(observation);
 
@@ -73,7 +66,7 @@ export default function ObservationCard(props: MaximizedObservationCardProps) {
         </div>
         <div className={styles.header}>
           <Tooltip content={t('explore.inspect.overrideTooltip')} position="top" minimal>
-            <PredictionOverrideWrapper />
+            {overrideWidget}
           </Tooltip>
         </div>
       </Card>

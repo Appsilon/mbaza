@@ -4,7 +4,7 @@ import { VirtuosoGrid } from 'react-virtuoso';
 import MaximizedObservationCard from './MaximizedObservationCard';
 import ObservationCard from './ObservationCard';
 import ObservationsHeader from './ObservationsHeader';
-import { predictionOverrideWrapper } from './observationsHelpers';
+import { OverrideWidget } from './observationsHelpers';
 import styles from './ObservationsInspector.module.scss';
 
 export default function ObservationsInspector(props: ObservationsInspectorProps) {
@@ -80,13 +80,13 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
                 isSelectionMode={isSelectionMode}
                 onPhotoClick={handlePhotoClick}
                 onCardSelect={handleSelectedCards}
-                predictionOverrideWrapper={() =>
-                  predictionOverrideWrapper(
-                    observations[index],
-                    predictionOverrides,
-                    onPredictionsOverride,
-                    isSelected
-                  )
+                overrideWidget={
+                  <OverrideWidget
+                    observation={observations[index]}
+                    predictionOverrides={predictionOverrides}
+                    onPredictionOverride={onPredictionsOverride}
+                    isDisabled={isSelected}
+                  />
                 }
               />
             );
@@ -99,12 +99,12 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
             onPhotoClick={handlePhotoClick}
             onPrevious={handlePreviousObservationClick}
             onNext={handleNextObservationClick}
-            predictionOverrideWrapper={() =>
-              predictionOverrideWrapper(
-                observations[maximizedCard],
-                predictionOverrides,
-                onPredictionsOverride
-              )
+            overrideWidget={
+              <OverrideWidget
+                observation={observations[maximizedCard]}
+                predictionOverrides={predictionOverrides}
+                onPredictionOverride={onPredictionsOverride}
+              />
             }
           />
         )}
