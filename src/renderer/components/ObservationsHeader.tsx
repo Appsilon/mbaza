@@ -1,7 +1,7 @@
 import { Button, Dialog, mergeRefs, Slider } from '@blueprintjs/core';
 import { Popover2 } from '@blueprintjs/popover2';
 import classNames from 'classnames/bind';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import CreatableSelect from 'react-select/creatable';
@@ -32,8 +32,10 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
   } = props;
   const { t } = useTranslation();
   const [globalOverride, setGlobalOverride] = useState<CreatableOption | null>(null);
-  const isCardMaximized = maximizedCardIndex !== null;
+  const [cardsMaxInRow, setCardsMaxInRow] = useState<number>(0);
+  const [isPopoverOpen, setPopoverOpen] = useState<boolean>(false);
   const [isDialogOpen, setDialogOpen] = useState<boolean>(false);
+  const isCardMaximized = maximizedCardIndex !== null;
 
   const handleBackButtonClick = () => {
     onBackButtonClick();
@@ -69,8 +71,17 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
       })
     : t('explore.inspect.observations', { count: observations.length });
 
+  const headerRef = useRef<HTMLInputElement>();
+  const handleCardsLayoutButton = () => {
+    if (headerRef.current) {
+      setPopoverOpen(!isPopoverOpen);
+      setCardsMaxInRow(Math.round(headerRef.current.clientWidth / 250));
+      if (cardsTotalInRow > cardsMaxInRow) onCardsSizeChange(cardsMaxInRow);
+    }
+  };
+
   return (
-    <div className={containerClass}>
+    <div className={containerClass} ref={headerRef}>
       <div className={cx({ side: true, left: true })}>
         <Button
           className={styles.backButton}
@@ -132,13 +143,14 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
             interactionKind="click"
             className={styles.cardsSizePopover}
             placement="bottom"
+            isOpen={isPopoverOpen}
             content={
               <Slider
                 value={cardsTotalInRow}
                 onChange={onCardsSizeChange}
                 vertical
                 min={1}
-                max={10}
+                max={cardsMaxInRow}
               />
             }
             renderTarget={({ isOpen, ref: ref1, ...targetProps }) => (
@@ -148,6 +160,7 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
                 elementRef={mergeRefs(ref1)}
                 intent="primary"
                 text="Cards Layout"
+                onClick={handleCardsLayoutButton}
               />
             )}
           />
