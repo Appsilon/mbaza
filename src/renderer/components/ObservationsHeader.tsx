@@ -1,4 +1,4 @@
-import { Button } from '@blueprintjs/core';
+import { Button, Classes, Dialog } from '@blueprintjs/core';
 import classNames from 'classnames/bind';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -20,6 +20,7 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
   const { t } = useTranslation();
   const [globalOverride, setGlobalOverride] = useState<CreatableOption | null>(null);
   const isCardMaximized = maximizedCardIndex !== null;
+  const [isDialogOpen, setDialogOpen] = useState<boolean>(false);
 
   const handleBackButtonClick = () => {
     onBackButtonClick();
@@ -86,9 +87,17 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
               className={styles.updateButton}
               intent="primary"
               disabled={!globalOverride}
-              onClick={handleUpdateButtonClick}
+              onClick={() => setDialogOpen(true)}
               text="Update Selected"
             />
+            <Dialog
+              title="Dialog Title"
+              icon="info-sign"
+              isOpen={isDialogOpen}
+              onClose={() => setDialogOpen(false)}
+            >
+              <div className={Classes.DIALOG_BODY}>Are you sure?</div>
+            </Dialog>
           </>
         ) : (
           <p className={styles.counter}>{counterText}</p>
