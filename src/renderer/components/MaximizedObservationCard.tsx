@@ -1,9 +1,8 @@
 import { Button, Card, Elevation, Tooltip } from '@blueprintjs/core';
-import classNames from 'classnames/bind';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import styles from './ObservationCard.module.scss';
+import styles from './MaximizedObservationCard.module.scss';
 import { getPredictions, PhotoDetails, PredictionsTable } from './observationsHelpers';
 
 export default function ObservationCard(props: MaximizedObservationCardProps) {
@@ -16,7 +15,6 @@ export default function ObservationCard(props: MaximizedObservationCardProps) {
     predictionOverrideWrapper: PredictionOverrideWrapper,
   } = props;
   const { t } = useTranslation();
-  const cx = classNames.bind(styles);
   const predictions = getPredictions(observation);
 
   useEffect(() => {
@@ -40,7 +38,7 @@ export default function ObservationCard(props: MaximizedObservationCardProps) {
   });
 
   return (
-    <div className={cx('observation', 'maximized')}>
+    <div className={styles.observation}>
       <Card className={styles.card} elevation={Elevation.TWO} key={observation.location}>
         <div className={styles.body}>
           <div
@@ -54,24 +52,24 @@ export default function ObservationCard(props: MaximizedObservationCardProps) {
               alt={observation.pred_1}
             />
             <div className={styles.data}>
-              <PredictionsTable predictions={predictions} maximized={false} />
-              <PhotoDetails observation={observation} maximized={false} />
+              <PredictionsTable predictions={predictions} maximized />
+              <PhotoDetails observation={observation} maximized />
             </div>
-            <nav className={styles.nav}>
-              <Button
-                className={styles.arrow}
-                icon="chevron-left"
-                large
-                onClick={() => onPrevious(observationIndex)}
-              />
-              <Button
-                className={styles.arrow}
-                icon="chevron-right"
-                large
-                onClick={() => onNext(observationIndex)}
-              />
-            </nav>
           </div>
+          <nav className={styles.nav}>
+            <Button
+              className={styles.arrow}
+              icon="chevron-left"
+              large
+              onClick={() => onPrevious(observationIndex)}
+            />
+            <Button
+              className={styles.arrow}
+              icon="chevron-right"
+              large
+              onClick={() => onNext(observationIndex)}
+            />
+          </nav>
         </div>
         <div className={styles.header}>
           <Tooltip content={t('explore.inspect.overrideTooltip')} position="top" minimal>

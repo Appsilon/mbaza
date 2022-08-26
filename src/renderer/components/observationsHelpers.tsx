@@ -1,3 +1,4 @@
+import classNames from 'classnames/bind';
 import path from 'path';
 import { useTranslation } from 'react-i18next';
 import CreatableSelect from 'react-select/creatable';
@@ -5,6 +6,8 @@ import CreatableSelect from 'react-select/creatable';
 import { formatAnimalClassName } from '../constants/animalsClasses';
 import { taxonOptions } from '../constants/taxons';
 import styles from './observationsHelpers.module.scss';
+
+const cx = classNames.bind(styles);
 
 const getTopPrediction = (observation: Observation): CreatableOption => {
   return {
@@ -21,10 +24,11 @@ export const getPredictions = (observation: Observation): Predictions => {
   ];
 };
 
-export function PredictionsTable({ predictions }: PredictionsTable) {
+export function PredictionsTable({ predictions, maximized }: PredictionsTable) {
   const { t } = useTranslation();
+  const className = cx('predictionsTable', { maximized });
   return (
-    <table className={`${styles.predictionsTable} bp4-html-table bp4-html-table-condensed`}>
+    <table className={`${className} bp4-html-table bp4-html-table-condensed`}>
       <thead>
         <tr>
           <th>{t('explore.inspect.prediction')}</th>
@@ -56,10 +60,11 @@ function PhotoDetail({ label, value }: PhotoDetail) {
   );
 }
 
-export function PhotoDetails({ observation }: PhotoDetails) {
+export function PhotoDetails({ observation, maximized }: PhotoDetails) {
   const { date, camera, location } = observation;
+  const className = cx('photoDetails', { maximized });
   return (
-    <div className={styles.photoDetails}>
+    <div className={className}>
       <PhotoDetail label="date" value={date} />
       <PhotoDetail label="camera" value={camera} />
       <PhotoDetail label="file" value={path.basename(location)} />

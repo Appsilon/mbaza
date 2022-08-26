@@ -19,8 +19,7 @@ export default function ObservationCard(props: ObservationCardProps) {
   const cx = classNames.bind(styles);
   const predictions = getPredictions(observation);
 
-  const observationClass = cx({
-    observation: true,
+  const observationClass = cx('observation', {
     selected: isSelected,
     selectable: isSelectionMode,
   });

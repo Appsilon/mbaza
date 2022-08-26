@@ -3,7 +3,6 @@
 @use '../styles/animations';
 
 $t-obs-card: 0.4s;
-$card-size: 240px;
 $card-shadow-normal: 0 2px 6px
   rgba(
     $color: var.$c-green-60,
@@ -30,13 +29,14 @@ $card-shadow-selected: 0 2px 6px
       $alpha: 0.6,
     );
 
+
 .observation {
   .card {
     border-radius: var.$radius-card;
     box-shadow: $card-shadow-normal;
     display: flex;
     flex-direction: column;
-    height: $card-size;
+    height: 240px;
     padding: 0;
     transition: box-shadow $t-obs-card;
 
@@ -179,93 +179,6 @@ $card-shadow-selected: 0 2px 6px
           border-radius: var.$radius-card - 2;
           img {
             opacity: 0.8;
-          }
-        }
-      }
-    }
-  }
-
-  &.maximized {
-    animation: fade-in 0.3s;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    width: 100%;
-
-    .card {
-      border-radius: 0;
-      height: 100%;
-      width: 100%;
-
-      .header {
-        font-size: 1rem;
-        min-height: 50px;
-        padding: 5px 15px 0;
-      }
-
-      .body {
-        border-radius: 0;
-        cursor: zoom-out;
-
-        .photo {
-          display: flex;
-          justify-content: center;
-          overflow: initial;
-          width: 100%;
-
-          .data {
-            background-color: rgba($color: var.$c-green-10, $alpha: 0.9);
-            border-radius: var.$radius-card;
-            bottom: 20px;
-            height: auto;
-            left: 20px;
-            opacity: 0;
-            padding: 20px;
-            transition: opacity $t-obs-card, visibility 0s $t-obs-card;
-            width: auto;
-          }
-
-          .nav {
-            bottom: 0;
-            display: flex;
-            justify-content: space-between;
-            left: 0;
-            pointer-events: none;
-            position: absolute;
-            right: 0;
-            top: 0;
-  
-            .arrow {
-              background: transparent;
-              border-radius: 0;
-              box-shadow: none;
-              outline: none;
-              pointer-events: all;
-              transition: background var.$t-button;
-  
-              &:hover {
-                background: rgba($color: var.$c-green-60, $alpha: 0.5);
-              }
-  
-              & > span {
-                color: var.$c-green-10;
-                height: 40px;
-                width: 40px;
-  
-                & > svg {
-                  height: 100%;
-                  width: 100%;
-                }
-              }
-            }
-          }
-
-          &:hover {
-            .data {
-              opacity: 1;
-              transition: opacity $t-obs-card, visibility 0s;
-              visibility: visible;
-            }
           }
         }
       }
