@@ -1,4 +1,4 @@
-import { Button, Dialog } from '@blueprintjs/core';
+import { Button, Dialog, Slider } from '@blueprintjs/core';
 import classNames from 'classnames/bind';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -9,13 +9,25 @@ import styles from './ObservationsHeader.module.scss';
 
 const cx = classNames.bind(styles);
 
+type ObservationsHeaderProps = {
+  observations: Observation[];
+  isCardMaximized: boolean;
+  selectedCardsTotal: number;
+  cardsTotalInRow: number;
+  onBackButtonClick: () => void;
+  onPredictionsOverride: (override: CreatableOption | null) => void;
+  onCardsSizeChange: (cardsTotalInRow: number) => void;
+};
+
 export default function ObservationsHeader(props: ObservationsHeaderProps) {
   const {
     observations,
     maximizedCardIndex,
     selectedCardsTotal,
+    cardsTotalInRow,
     onBackButtonClick,
     onPredictionsOverride,
+    onCardsSizeChange,
   } = props;
   const { t } = useTranslation();
   const [globalOverride, setGlobalOverride] = useState<CreatableOption | null>(null);
@@ -115,7 +127,7 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
             </Dialog>
           </>
         ) : (
-          <p className={styles.counter}>{counterText}</p>
+          <Slider value={cardsTotalInRow} onChange={onCardsSizeChange} vertical />
         )}
       </div>
     </div>
