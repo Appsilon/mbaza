@@ -92,7 +92,9 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
               text="Update Selected"
             />
             <Dialog isOpen={isDialogOpen} onClose={() => setDialogOpen(false)}>
-              <div className={Classes.DIALOG_BODY}>Are you sure?</div>
+              <div className={Classes.DIALOG_BODY}>
+                {t('explore.inspect.confirmation', { count: selectedCardsTotal })}
+              </div>
               <div className={Classes.DIALOG_FOOTER}>
                 <Button
                   onClick={() => setDialogOpen(false)}
