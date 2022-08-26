@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { VirtuosoGrid } from 'react-virtuoso';
+import { useState, forwardRef } from 'react';
+import { VirtuosoGrid, Components } from 'react-virtuoso';
 
 import MaximizedObservationCard from './MaximizedObservationCard';
 import ObservationCard from './ObservationCard';
@@ -56,6 +56,14 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
       .map((observation) => observation.location);
     onPredictionsOverride(locations, override);
   };
+
+  const List: Components['List'] = forwardRef(({ style, children }, ref) => {
+    return (
+      <div style={style} ref={ref}>
+        {children}
+      </div>
+    );
+  });
 
   return (
     <div className={styles.box}>
