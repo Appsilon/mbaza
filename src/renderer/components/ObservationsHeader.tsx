@@ -32,7 +32,7 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
   } = props;
   const { t } = useTranslation();
   const [globalOverride, setGlobalOverride] = useState<CreatableOption | null>(null);
-  const [cardsMaxInRow, setCardsMaxInRow] = useState<number>(0);
+  const [cardsMaxInRow, setCardsMaxInRow] = useState<number | undefined>(undefined);
   const [isPopoverOpen, setPopoverOpen] = useState<boolean>(false);
   const [isDialogOpen, setDialogOpen] = useState<boolean>(false);
   const isCardMaximized = maximizedCardIndex !== null;
@@ -77,7 +77,7 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
     if (headerRef.current) {
       setPopoverOpen(!isPopoverOpen);
       setCardsMaxInRow(Math.round(headerRef.current.clientWidth / CARD_MIN_WIDTH));
-      if (cardsTotalInRow > cardsMaxInRow) onCardsSizeChange(cardsMaxInRow);
+      if (cardsMaxInRow && cardsTotalInRow > cardsMaxInRow) onCardsSizeChange(cardsMaxInRow);
     }
   };
 
@@ -113,9 +113,10 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
               className={styles.updateButton}
               intent="primary"
               disabled={!globalOverride}
-              onClick={() => setDialogOpen(true)}
+              onClick={handleUpdateButtonClick}
               text="Update Selected"
             />
+
             <Dialog
               className={styles.confirmationDialog}
               isOpen={isDialogOpen}
@@ -160,7 +161,7 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
                 {...targetProps}
                 elementRef={mergeRefs(ref1)}
                 intent="primary"
-                text="Cards Layout"
+                text={t('explore.inspect.layout')}
                 onClick={handleCardsLayoutButton}
               />
             )}
