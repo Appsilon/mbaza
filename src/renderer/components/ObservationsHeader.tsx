@@ -9,24 +9,17 @@ import styles from './ObservationsHeader.module.scss';
 
 const cx = classNames.bind(styles);
 
-type ObservationsHeaderProps = {
-  observations: Observation[];
-  isCardMaximized: boolean;
-  selectedCardsTotal: number;
-  onBackButtonClick: () => void;
-  onPredictionsOverride: (override: CreatableOption | null) => void;
-};
-
 export default function ObservationsHeader(props: ObservationsHeaderProps) {
   const {
     observations,
-    isCardMaximized,
+    maximizedCardIndex,
     selectedCardsTotal,
     onBackButtonClick,
     onPredictionsOverride,
   } = props;
   const { t } = useTranslation();
   const [globalOverride, setGlobalOverride] = useState<CreatableOption | null>(null);
+  const isCardMaximized = maximizedCardIndex !== null;
 
   const handleBackButtonClick = () => {
     onBackButtonClick();
@@ -54,6 +47,13 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
     ? t('explore.inspect.selected', { count: selectedCardsTotal })
     : t('explore.inspect.header', { station: observations[0].station });
 
+  const counterText = isCardMaximized
+    ? t('explore.inspect.observationNumber', {
+        currentObservation: `${maximizedCardIndex + 1} /`,
+        count: observations.length,
+      })
+    : t('explore.inspect.observations', { count: observations.length });
+
   return (
     <div className={containerClass}>
       <div className={cx({ side: true, left: true })}>
@@ -66,7 +66,9 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
           text={backButtonText}
         />
       </div>
-      <h4 className={styles.heading}>{headingText}</h4>
+      <h4 title={headingText} className={styles.heading}>
+        {headingText}
+      </h4>
       <div className={cx({ side: true, right: true })}>
         {selectedCardsTotal ? (
           <>
@@ -89,9 +91,7 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
             />
           </>
         ) : (
-          <p className={styles.counter}>
-            {t('explore.inspect.observations', { count: observations.length })}
-          </p>
+          <p className={styles.counter}>{counterText}</p>
         )}
       </div>
     </div>

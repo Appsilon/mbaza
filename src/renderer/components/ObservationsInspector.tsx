@@ -1,22 +1,28 @@
 import { useState } from 'react';
 import { VirtuosoGrid } from 'react-virtuoso';
 
+import MaximizedObservationCard from './MaximizedObservationCard';
 import ObservationCard from './ObservationCard';
 import ObservationsHeader from './ObservationsHeader';
+import { OverrideWidget } from './observationsHelpers';
 import styles from './ObservationsInspector.module.scss';
-
-type ObservationsInspectorProps = {
-  observations: Observation[];
-  onClose: () => void;
-  predictionOverrides: PredictionOverridesMap;
-  onPredictionsOverride: PredictionsOverrideHandler;
-};
 
 export default function ObservationsInspector(props: ObservationsInspectorProps) {
   const { observations, onClose, predictionOverrides, onPredictionsOverride } = props;
   const [maximizedCard, setMaximizedCard] = useState<number | null>(null);
   const [selectedCards, setSelectedCards] = useState<number[]>([]);
   const isSelectionMode = selectedCards.length > 0;
+  const lastObservationIndex = observations.length - 1;
+
+  const handlePreviousObservationClick = (currentIndex: number) => {
+    const newIndex = currentIndex > 0 ? currentIndex - 1 : lastObservationIndex;
+    setMaximizedCard(newIndex);
+  };
+
+  const handleNextObservationClick = (currentIndex: number) => {
+    const newIndex = currentIndex < lastObservationIndex ? currentIndex + 1 : 0;
+    setMaximizedCard(newIndex);
+  };
 
   const handleSelectedCards = (cardIndex: number, cardSelected: boolean) => {
     if (cardSelected) {
@@ -25,6 +31,7 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
       setSelectedCards(selectedCards.filter((c) => c !== cardIndex));
     }
   };
+
   const handlePhotoClick = (cardIndex: number | null, cardSelected: boolean) => {
     if (isSelectionMode && cardIndex !== null) {
       handleSelectedCards(cardIndex, cardSelected);
@@ -32,6 +39,7 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
       setMaximizedCard(cardIndex);
     }
   };
+
   const handleBackButtonClick = () => {
     if (maximizedCard !== null) {
       setMaximizedCard(null);
@@ -53,7 +61,7 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
     <div className={styles.box}>
       <ObservationsHeader
         observations={observations}
-        isCardMaximized={maximizedCard !== null}
+        maximizedCardIndex={maximizedCard}
         selectedCardsTotal={selectedCards.length}
         onBackButtonClick={handleBackButtonClick}
         onPredictionsOverride={handleGlobalOverride}
@@ -62,31 +70,42 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
         <VirtuosoGrid
           totalCount={observations.length}
           listClassName={styles.list}
-          itemContent={(index) => (
-            <ObservationCard
-              observation={observations[index]}
-              predictionOverride={predictionOverrides[observations[index].location]}
-              onPredictionOverride={onPredictionsOverride}
-              onPhotoClick={handlePhotoClick}
-              onCardSelect={handleSelectedCards}
-              observationIndex={index}
-              isMaximized={false}
-              isSelected={selectedCards.findIndex((card) => card === index) >= 0}
-              isSelectionMode={isSelectionMode}
-            />
-          )}
+          itemContent={(index) => {
+            const isSelected = selectedCards.findIndex((card) => card === index) >= 0;
+            return (
+              <ObservationCard
+                observation={observations[index]}
+                observationIndex={index}
+                isSelected={isSelected}
+                isSelectionMode={isSelectionMode}
+                onPhotoClick={handlePhotoClick}
+                onCardSelect={handleSelectedCards}
+                overrideWidget={
+                  <OverrideWidget
+                    observation={observations[index]}
+                    predictionOverrides={predictionOverrides}
+                    onPredictionOverride={onPredictionsOverride}
+                    isDisabled={isSelected}
+                  />
+                }
+              />
+            );
+          }}
         />
         {maximizedCard !== null && (
-          <ObservationCard
+          <MaximizedObservationCard
             observation={observations[maximizedCard]}
-            predictionOverride={predictionOverrides[observations[maximizedCard].location]}
-            onPredictionOverride={onPredictionsOverride}
-            onPhotoClick={handlePhotoClick}
-            onCardSelect={handleSelectedCards}
             observationIndex={maximizedCard}
-            isMaximized
-            isSelected={false}
-            isSelectionMode={false}
+            onPhotoClick={handlePhotoClick}
+            onPrevious={handlePreviousObservationClick}
+            onNext={handleNextObservationClick}
+            overrideWidget={
+              <OverrideWidget
+                observation={observations[maximizedCard]}
+                predictionOverrides={predictionOverrides}
+                onPredictionOverride={onPredictionsOverride}
+              />
+            }
           />
         )}
       </div>

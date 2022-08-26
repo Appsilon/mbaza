@@ -3,8 +3,8 @@
 @use '../styles/animations';
 
 $t-obs-card: 0.4s;
-$card-size: 240px;
-$card-shadow-normal: 0 2px 6px rgba($color: var.$c-green-60, $alpha: 0.3);
+$card-shadow-normal:
+  0 2px 6px rgba($color: var.$c-green-60, $alpha: 0.3);
 $card-shadow-hovered:
   0 2px 6px rgba($color: var.$c-green-60, $alpha: 0.4),
   0 3px 12px rgba($color: var.$c-green-60, $alpha: 0.4);
@@ -18,7 +18,7 @@ $card-shadow-selected:
     box-shadow: $card-shadow-normal;
     display: flex;
     flex-direction: column;
-    height: $card-size;
+    height: 240px;
     padding: 0;
     transition: box-shadow $t-obs-card;
 
@@ -35,10 +35,6 @@ $card-shadow-selected:
       margin: 0;
       min-height: 40px;
       padding: 5px;
-
-      .predictionOverride {
-        @include mix.custom-react-select;
-      }
 
       .selectButton {
         background: none;
@@ -101,42 +97,14 @@ $card-shadow-selected:
           overflow: auto;
           opacity: 0;
           padding: 10px;
+          pointer-events: none;
           position: absolute;
           transition: opacity $t-obs-card, visibility 0s $t-obs-card;
           visibility: hidden;
           width: 100%;
-  
+
           :global .bp4-popover-target {
             display: flex;
-          }
-  
-          .predictionsTable {
-            font-size: 0.81rem;
-            margin-bottom: 5px;
-            width: 100%;
-  
-            th,
-            td {
-              padding: 3px;
-  
-              &:first-child {
-                padding-right: 10px;
-              }
-            }
-          }
-  
-          .photoDetails {
-            display: flex;
-            flex-direction: column;
-            font-size: 0.81rem;
-  
-            .photoDetail {
-              margin-bottom: 5px;
-  
-              .label {
-                font-weight: 700;
-              }
-            }
           }
         }
       }
@@ -179,7 +147,7 @@ $card-shadow-selected:
           opacity: 1;
           transition: opacity var.$t-button, visibility 0s;
           visibility: visible;
-    
+
           & > span {
             color: var.$c-green-60;
           }
@@ -193,78 +161,6 @@ $card-shadow-selected:
           border-radius: var.$radius-card - 2;
           img {
             opacity: 0.8;
-          }
-        }
-      }
-    }
-  }
-
-  &.maximized {
-    animation: fade-in 0.3s;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    width: 100%;
-
-    .card {
-      border-radius: 0;
-      height: 100%;
-      width: 100%;
-
-      .header {
-        font-size: 1rem;
-        min-height: 50px;
-        padding: 5px 15px 0;
-      }
-
-      .body {
-        border-radius: 0;
-        cursor: zoom-out;
-
-        .photo {
-          display: flex;
-          justify-content: center;
-          overflow: initial;
-          width: 100%;
-        }
-
-        .data {
-          background-color: rgba($color: var.$c-green-10, $alpha: 0.9);
-          border-radius: var.$radius-card;
-          bottom: 20px;
-          height: auto;
-          left: 20px;
-          opacity: 0;
-          padding: 20px;
-          transition: opacity $t-obs-card, visibility 0s $t-obs-card;
-          width: auto;
-
-          .predictionsTable {
-            font-size: 0.88rem;
-            margin-bottom: 20px;
-
-            th,
-            td {
-              &:last-child {
-                text-align: right;
-              }
-            }
-          }
-
-          .photoDetails {
-            font-size: 0.88rem;
-
-            .photoDetail {
-              margin-bottom: 10px;
-            }
-          }
-        }
-
-        &:hover {
-          .data {
-            opacity: 1;
-            transition: opacity $t-obs-card, visibility 0s;
-            visibility: visible;
           }
         }
       }
