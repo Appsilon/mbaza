@@ -61,7 +61,7 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
     <div className={styles.box}>
       <ObservationsHeader
         observations={observations}
-        isCardMaximized={maximizedCard !== null}
+        maximizedCardIndex={maximizedCard}
         selectedCardsTotal={selectedCards.length}
         onBackButtonClick={handleBackButtonClick}
         onPredictionsOverride={handleGlobalOverride}

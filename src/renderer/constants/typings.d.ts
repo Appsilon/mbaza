@@ -89,3 +89,11 @@ type PredictionsTable = {
   predictions: Predictions;
   maximized: boolean;
 };
+
+type ObservationsHeaderProps = {
+  observations: Observation[];
+  maximizedCardIndex: number | null;
+  selectedCardsTotal: number;
+  onBackButtonClick: () => void;
+  onPredictionsOverride: (override: CreatableOption | null) => void;
+};

@@ -39,23 +39,6 @@ export default function ObservationCard(props: MaximizedObservationCardProps) {
     return () => window.removeEventListener('keydown', handler);
   });
 
-  const navigation = (
-    <nav className={styles.nav}>
-      <Button
-        className={styles.arrow}
-        icon="chevron-left"
-        large
-        onClick={() => onPrevious(observationIndex)}
-      />
-      <Button
-        className={styles.arrow}
-        icon="chevron-right"
-        large
-        onClick={() => onNext(observationIndex)}
-      />
-    </nav>
-  );
-
   return (
     <div className={cx('observation', 'maximized')}>
       <Card className={styles.card} elevation={Elevation.TWO} key={observation.location}>
@@ -74,8 +57,21 @@ export default function ObservationCard(props: MaximizedObservationCardProps) {
               <PredictionsTable predictions={predictions} maximized={false} />
               <PhotoDetails observation={observation} maximized={false} />
             </div>
+            <nav className={styles.nav}>
+              <Button
+                className={styles.arrow}
+                icon="chevron-left"
+                large
+                onClick={() => onPrevious(observationIndex)}
+              />
+              <Button
+                className={styles.arrow}
+                icon="chevron-right"
+                large
+                onClick={() => onNext(observationIndex)}
+              />
+            </nav>
           </div>
-          {navigation}
         </div>
         <div className={styles.header}>
           <Tooltip content={t('explore.inspect.overrideTooltip')} position="top" minimal>
