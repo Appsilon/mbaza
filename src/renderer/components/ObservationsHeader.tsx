@@ -1,4 +1,4 @@
-import { Button, Classes, Dialog } from '@blueprintjs/core';
+import { Button, Dialog } from '@blueprintjs/core';
 import classNames from 'classnames/bind';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -91,18 +91,23 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
               onClick={() => setDialogOpen(true)}
               text="Update Selected"
             />
-            <Dialog isOpen={isDialogOpen} onClose={() => setDialogOpen(false)}>
-              <div className={Classes.DIALOG_BODY}>
+            <Dialog
+              className={styles.confirmationDialog}
+              isOpen={isDialogOpen}
+              onClose={() => setDialogOpen(false)}
+            >
+              <div className={styles.text}>
                 {t('explore.inspect.confirmation', { count: selectedCardsTotal })}
               </div>
-              <div className={Classes.DIALOG_FOOTER}>
+              <div className={styles.buttons}>
                 <Button
-                  onClick={() => setDialogOpen(false)}
                   intent="primary"
-                  outlined
+                  minimal
+                  large
+                  onClick={() => setDialogOpen(false)}
                   text="Cancel"
                 />
-                <Button onClick={handleUpdateButtonClick} intent="primary" text="Confirm" />
+                <Button intent="primary" large text="Confirm" onClick={handleUpdateButtonClick} />
               </div>
             </Dialog>
           </>
