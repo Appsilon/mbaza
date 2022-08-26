@@ -1,5 +1,5 @@
 import { Button, Dialog, mergeRefs, Slider } from '@blueprintjs/core';
-import { Popover2 } from '@blueprintjs/popover2';
+import { Classes, Popover2 } from '@blueprintjs/popover2';
 import classNames from 'classnames/bind';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -36,6 +36,7 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
   const [isPopoverOpen, setPopoverOpen] = useState<boolean>(false);
   const [isDialogOpen, setDialogOpen] = useState<boolean>(false);
   const isCardMaximized = maximizedCardIndex !== null;
+  const CARD_MIN_WIDTH = 230;
 
   const handleBackButtonClick = () => {
     onBackButtonClick();
@@ -75,7 +76,7 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
   const handleCardsLayoutButton = () => {
     if (headerRef.current) {
       setPopoverOpen(!isPopoverOpen);
-      setCardsMaxInRow(Math.round(headerRef.current.clientWidth / 250));
+      setCardsMaxInRow(Math.round(headerRef.current.clientWidth / CARD_MIN_WIDTH));
       if (cardsTotalInRow > cardsMaxInRow) onCardsSizeChange(cardsMaxInRow);
     }
   };
@@ -141,7 +142,7 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
         ) : (
           <Popover2
             interactionKind="click"
-            className={styles.cardsSizePopover}
+            popoverClassName={Classes.POPOVER2_CONTENT_SIZING}
             placement="bottom"
             isOpen={isPopoverOpen}
             content={
