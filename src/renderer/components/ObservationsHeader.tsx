@@ -1,4 +1,4 @@
-import { Button } from '@blueprintjs/core';
+import { Button, Dialog } from '@blueprintjs/core';
 import classNames from 'classnames/bind';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -20,6 +20,7 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
   const { t } = useTranslation();
   const [globalOverride, setGlobalOverride] = useState<CreatableOption | null>(null);
   const isCardMaximized = maximizedCardIndex !== null;
+  const [isDialogOpen, setDialogOpen] = useState<boolean>(false);
 
   const handleBackButtonClick = () => {
     onBackButtonClick();
@@ -29,6 +30,7 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
   const handleUpdateButtonClick = () => {
     onPredictionsOverride(globalOverride);
     handleBackButtonClick();
+    setDialogOpen(false);
   };
 
   const containerClass = cx({
@@ -86,9 +88,31 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
               className={styles.updateButton}
               intent="primary"
               disabled={!globalOverride}
-              onClick={handleUpdateButtonClick}
+              onClick={() => setDialogOpen(true)}
               text="Update Selected"
             />
+            <Dialog
+              className={styles.confirmationDialog}
+              isOpen={isDialogOpen}
+              onClose={() => setDialogOpen(false)}
+            >
+              <div className={styles.text}>{t('explore.inspect.override.warning')}</div>
+              <div className={styles.buttons}>
+                <Button
+                  intent="primary"
+                  minimal
+                  large
+                  onClick={() => setDialogOpen(false)}
+                  text={t('explore.inspect.override.cancel')}
+                />
+                <Button
+                  intent="primary"
+                  large
+                  text={t('explore.inspect.override.confirm')}
+                  onClick={handleUpdateButtonClick}
+                />
+              </div>
+            </Dialog>
           </>
         ) : (
           <p className={styles.counter}>{counterText}</p>

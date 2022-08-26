@@ -118,3 +118,20 @@
     }
   }
 }
+
+.confirmationDialog {
+  background-color: var.$c-white;
+  border-radius: var.$radius-card;
+  gap: 20px;
+  padding: 30px;
+
+  .text {
+    font-size: 1rem;
+  }
+
+  .buttons {
+    justify-content: flex-end;
+    display: flex;
+    gap: 5px;
+  }
+}
