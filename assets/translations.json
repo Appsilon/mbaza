@@ -117,11 +117,14 @@
           "observationNumber_other": "{{currentObservation}} {{count}} observations",
           "species": "{{count}} species",
           "header": "Observations by station {{station}}",
-          "confirmation_one": "Are you sure you want to override the selected prediction?",
-          "confirmation_other": "Are you sure you want to override {{count}} selected predictions?",
           "prediction": "Prediction",
           "probability": "Probability",
-          "overrideTooltip": "You can override the top prediction and export a modified CSV",
+          "override": {
+            "tooltip": "You can override the top prediction and export a modified CSV",
+            "warning": "Are you sure you want to override the selected predictions?",
+            "cancel": "Cancel",
+            "confirm": "Confirm"
+          },
           "date": "Date",
           "camera": "Camera",
           "file": "File"
@@ -241,17 +244,20 @@
         "inspect": {
           "station": "Station {{id}}",
           "observations": "{{count}} observations",
-          "selected_one": "{{count}} observation selected (TODO)",
-          "selected_other": "{{count}} observations selected (TODO)",
+          "selected_one": "(TODO) {{count}} observation selected",
+          "selected_other": "(TODO) {{count}} observations selected",
           "observationNumber_one": "{{currentObservation}} {{count}} observation",
           "observationNumber_other": "{{currentObservation}} {{count}} observations",
           "species": "{{count}} espèces",
           "header": "Observations par station {{station}}",
-          "confirmation_one": "Are you sure you want to override the selected prediction? (TODO)",
-          "confirmation_other": "Are you sure you want to override {{count}} selected predictions? (TODO)",
           "prediction": "Prédiction",
           "probability": "Probabilité",
-          "overrideTooltip": "Vous pouvez modifier la prédiction supérieure et exporter un CSV modifié",
+          "override": {
+            "tooltip": "Vous pouvez modifier la prédiction supérieure et exporter un CSV modifié",
+            "warning": "(TODO) Are you sure you want to override the selected predictions?",
+            "cancel": "(TODO) Cancel",
+            "confirm": "(TODO) Confirm"
+          },
           "date": "Date",
           "camera": "ID de l'appareil photo",
           "file": "Fichier"

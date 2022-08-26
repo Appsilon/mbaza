@@ -96,18 +96,21 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
               isOpen={isDialogOpen}
               onClose={() => setDialogOpen(false)}
             >
-              <div className={styles.text}>
-                {t('explore.inspect.confirmation', { count: selectedCardsTotal })}
-              </div>
+              <div className={styles.text}>{t('explore.inspect.override.warning')}</div>
               <div className={styles.buttons}>
                 <Button
                   intent="primary"
                   minimal
                   large
                   onClick={() => setDialogOpen(false)}
-                  text="Cancel"
+                  text={t('explore.inspect.override.cancel')}
                 />
-                <Button intent="primary" large text="Confirm" onClick={handleUpdateButtonClick} />
+                <Button
+                  intent="primary"
+                  large
+                  text={t('explore.inspect.override.confirm')}
+                  onClick={handleUpdateButtonClick}
+                />
               </div>
             </Dialog>
           </>

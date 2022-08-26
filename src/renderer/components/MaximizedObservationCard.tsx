@@ -65,7 +65,7 @@ export default function ObservationCard(props: MaximizedObservationCardProps) {
           </nav>
         </div>
         <div className={styles.header}>
-          <Tooltip content={t('explore.inspect.overrideTooltip')} position="top" minimal>
+          <Tooltip content={t('explore.inspect.override.tooltip')} position="top" minimal>
             {overrideWidget}
           </Tooltip>
         </div>
