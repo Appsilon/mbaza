@@ -88,9 +88,7 @@ export function OverrideWidget({
   const predictionOverrideValue = predictionOverrides[observation.location];
   const topPrediction = getTopPrediction(observation);
   const handlePredictionOverride = (newPrediction: CreatableOption | null) => {
-    if (newPrediction === null || newPrediction.value !== topPrediction.value) {
-      onPredictionOverride([observation.location], newPrediction);
-    }
+    onPredictionOverride([observation.location], newPrediction);
   };
   return (
     <CreatableSelect
