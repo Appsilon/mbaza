@@ -30,6 +30,7 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
   const handleUpdateButtonClick = () => {
     onPredictionsOverride(globalOverride);
     handleBackButtonClick();
+    setDialogOpen(false);
   };
 
   const containerClass = cx({
@@ -90,13 +91,17 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
               onClick={() => setDialogOpen(true)}
               text="Update Selected"
             />
-            <Dialog
-              title="Dialog Title"
-              icon="info-sign"
-              isOpen={isDialogOpen}
-              onClose={() => setDialogOpen(false)}
-            >
+            <Dialog isOpen={isDialogOpen} onClose={() => setDialogOpen(false)}>
               <div className={Classes.DIALOG_BODY}>Are you sure?</div>
+              <div className={Classes.DIALOG_FOOTER}>
+                <Button
+                  onClick={() => setDialogOpen(false)}
+                  intent="primary"
+                  outlined
+                  text="Cancel"
+                />
+                <Button onClick={handleUpdateButtonClick} intent="primary" text="Confirm" />
+              </div>
             </Dialog>
           </>
         ) : (
