@@ -7,6 +7,8 @@ import CreatableSelect from 'react-select/creatable';
 import { taxonOptions } from '../constants/taxons';
 import styles from './ObservationsHeader.module.scss';
 
+const cx = classNames.bind(styles);
+
 export default function ObservationsHeader(props: ObservationsHeaderProps) {
   const {
     observations,
@@ -16,7 +18,6 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
     onPredictionsOverride,
   } = props;
   const { t } = useTranslation();
-  const cx = classNames.bind(styles);
   const [globalOverride, setGlobalOverride] = useState<CreatableOption | null>(null);
   const isCardMaximized = maximizedCardIndex !== null;
 

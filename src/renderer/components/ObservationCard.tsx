@@ -1,9 +1,11 @@
 import { Button, Card, Elevation, Tooltip } from '@blueprintjs/core';
+import classNames from 'classnames/bind';
 import { useTranslation } from 'react-i18next';
 
-import classNames from 'classnames/bind';
 import styles from './ObservationCard.module.scss';
 import { getPredictions, PhotoDetails, PredictionsTable } from './observationsHelpers';
+
+const cx = classNames.bind(styles);
 
 export default function ObservationCard(props: ObservationCardProps) {
   const {
@@ -16,7 +18,6 @@ export default function ObservationCard(props: ObservationCardProps) {
     predictionOverrideWrapper: PredictionOverrideWrapper,
   } = props;
   const { t } = useTranslation();
-  const cx = classNames.bind(styles);
   const predictions = getPredictions(observation);
 
   const observationClass = cx('observation', {
