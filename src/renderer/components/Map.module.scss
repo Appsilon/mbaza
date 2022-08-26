@@ -6,6 +6,17 @@
   height: 100%;
 }
 
+.marker {
+  cursor: pointer;
+  height: 35px;
+  width: 35px;
+  background: url('/assets/graphics/map-marker.svg') no-repeat center center / cover;
+
+  &.active {
+    background: url('/assets/graphics/map-marker-active.svg') no-repeat center center / cover;
+  }
+}
+
 .photosPreview {
   display: flex;
   height: 50px;

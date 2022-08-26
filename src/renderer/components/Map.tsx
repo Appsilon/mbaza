@@ -8,17 +8,13 @@ import React, { useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import { useTranslation } from 'react-i18next';
 
-import MarkerActive from '../../../assets/graphics/map-marker-active.svg';
-import Marker from '../../../assets/graphics/map-marker.svg';
 import { EmptyClasses } from '../constants/animalsClasses';
 import AnimalsListTooltipContent from './AnimalsListTooltipContent';
 import styles from './Map.module.scss';
 
 /*
 To produce a country file please have a look at download_map.sh
-
 Useful tutorial - https://digitalki.net/2017/12/13/offline-maps-with-mapbox-gl-js-and-electron/
-
 Possible style inspirations:
 https://github.com/maputnik/osm-liberty
 https://github.com/Toshiwoz/terry-mapper
@@ -58,22 +54,16 @@ function makeStationMarker(
 
   const maxPreviewPhotosCount = 3;
 
-  const markerElement = document.createElement('img');
-  markerElement.setAttribute('src', Marker);
-
-  // Change marker color when clicked
+  const markerElement = document.createElement('div');
+  markerElement.className = styles.marker;
   if (markerElement) {
     markerElement.addEventListener('click', (event: Event) => {
-      markerElement.setAttribute('src', MarkerActive);
-      markerElement.className = '.active-marker';
-      const activeMarkers: NodeListOf<Element> = document.querySelectorAll(`.active-marker`);
-      activeMarkers.forEach((marker) => {
-        marker.setAttribute('src', Marker);
-        marker.classList.remove('active-marker');
-      });
+      const activeMarkers: NodeListOf<Element> = document.querySelectorAll(
+        `.${styles.marker}.${styles.active}`
+      );
+      activeMarkers.forEach((marker) => marker.classList.remove(styles.active));
       const target = event.currentTarget as HTMLTextAreaElement;
-      markerElement.setAttribute('src', MarkerActive);
-      target.classList.add('active-marker');
+      target.classList.add(styles.active);
     });
   }
 
@@ -117,7 +107,7 @@ function makeStationMarker(
     </>
   );
 
-  const marker = new mapboxgl.Marker(markerElement, { anchor: 'bottom' })
+  const marker = new mapboxgl.Marker(markerElement, { anchor: 'top' })
     .setLngLat(coordinates)
     .setPopup(new mapboxgl.Popup().setDOMContent(popupContentPlaceholder));
   return marker;
