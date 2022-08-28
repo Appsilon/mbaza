@@ -68,6 +68,9 @@ const createWindow = async () => {
     icon: path.join(RESOURCES_PATH, 'assets', 'icon.png'),
     // TODO: Use default (safer) web preferences.
     webPreferences: {
+      preload: app.isPackaged
+        ? path.join(__dirname, 'preload.js')
+        : path.join(__dirname, '../../.erb/dll/preload.js'),
       // Allows the renderer to use Node.js APIs, e.g. `fs` and `child_process`.
       contextIsolation: false,
       nodeIntegration: true,

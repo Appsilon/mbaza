@@ -51,6 +51,9 @@ const configuration: webpack.Configuration = {
     path: webpackPaths.distRendererPath,
     publicPath: '/',
     filename: 'renderer.dev.js',
+    library: {
+      type: 'umd',
+    },
   },
 
   module: {
