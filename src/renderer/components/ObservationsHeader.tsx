@@ -8,18 +8,6 @@ import CreatableSelect from 'react-select/creatable';
 import { taxonOptions } from '../constants/taxons';
 import styles from './ObservationsHeader.module.scss';
 
-const cx = classNames.bind(styles);
-
-type ObservationsHeaderProps = {
-  observations: Observation[];
-  isCardMaximized: boolean;
-  selectedCardsTotal: number;
-  cardsTotalInRow: number;
-  onBackButtonClick: () => void;
-  onPredictionsOverride: (override: CreatableOption | null) => void;
-  onCardsSizeChange: (cardsTotalInRow: number) => void;
-};
-
 export default function ObservationsHeader(props: ObservationsHeaderProps) {
   const {
     observations,
@@ -31,6 +19,7 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
     onCardsSizeChange,
   } = props;
   const { t } = useTranslation();
+  const cx = classNames.bind(styles);
   const [globalOverride, setGlobalOverride] = useState<CreatableOption | null>(null);
   const [cardsMaxInRow, setCardsMaxInRow] = useState<number | undefined>(undefined);
   const [isPopoverOpen, setPopoverOpen] = useState<boolean>(false);
@@ -83,7 +72,6 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
     </p>
   ) : (
     <Popover2
-      interactionKind="click"
       popoverClassName={Classes.POPOVER2_CONTENT_SIZING}
       placement="bottom"
       isOpen={isPopoverOpen}

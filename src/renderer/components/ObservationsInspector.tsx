@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { VirtuosoGrid } from 'react-virtuoso';
 
-import MaximizedObservationCard from './MaximizedObservationCard';
 import classNames from 'classnames/bind';
+import MaximizedObservationCard from './MaximizedObservationCard';
 import ObservationCard from './ObservationCard';
 import ObservationsHeader from './ObservationsHeader';
 import { OverrideWidget } from './observationsHelpers';
