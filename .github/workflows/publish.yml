@@ -5,6 +5,8 @@ on:
       - main
 jobs:
   publish:
+    # TODO: Fix and enable automatic publishing (remove the conditional below).
+    if: ${{ github.repository_owner == 'electron-react-boilerplate' }}
     timeout-minutes: 30
     runs-on: ${{ matrix.os }}
     strategy:
