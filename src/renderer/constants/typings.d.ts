@@ -95,7 +95,9 @@ type ObservationsHeaderProps = {
   maximizedCardIndex: number | null;
   selectedCardsTotal: number;
   cardsTotalInRow: number;
+  isCardsLayoutPopover: boolean;
   onBackButtonClick: () => void;
   onPredictionsOverride: (override: CreatableOption | null) => void;
   onCardsSizeChange: (cardsTotalInRow: number) => void;
+  showCardsLayoutPopover: (arg: boolean) => void;
 };

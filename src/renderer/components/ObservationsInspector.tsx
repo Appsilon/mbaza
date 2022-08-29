@@ -14,6 +14,7 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
   const [maximizedCard, setMaximizedCard] = useState<number | null>(null);
   const [selectedCards, setSelectedCards] = useState<number[]>([]);
   const [cardsTotalInRow, setCardsTotalInRow] = useState<number>(3);
+  const [cardsLayoutPopoverOpen, setCardsLayoutPopoverOpen] = useState<boolean>(false);
   const isSelectionMode = selectedCards.length > 0;
   const lastObservationIndex = observations.length - 1;
 
@@ -33,6 +34,7 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
     } else {
       setSelectedCards(selectedCards.filter((c) => c !== cardIndex));
     }
+    setCardsLayoutPopoverOpen(false);
   };
 
   const handlePhotoClick = (cardIndex: number | null, cardSelected: boolean) => {
@@ -41,6 +43,7 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
     } else {
       setMaximizedCard(cardIndex);
     }
+    setCardsLayoutPopoverOpen(false);
   };
 
   const handleBackButtonClick = () => {
@@ -51,6 +54,7 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
     } else {
       onClose();
     }
+    setCardsLayoutPopoverOpen(false);
   };
 
   const handleGlobalOverride = (override: CreatableOption | null) => {
@@ -67,9 +71,11 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
         maximizedCardIndex={maximizedCard}
         selectedCardsTotal={selectedCards.length}
         cardsTotalInRow={cardsTotalInRow}
+        isCardsLayoutPopover={cardsLayoutPopoverOpen}
         onBackButtonClick={handleBackButtonClick}
         onPredictionsOverride={handleGlobalOverride}
         onCardsSizeChange={setCardsTotalInRow}
+        showCardsLayoutPopover={setCardsLayoutPopoverOpen}
       />
       <div className={styles.boxBody}>
         <VirtuosoGrid

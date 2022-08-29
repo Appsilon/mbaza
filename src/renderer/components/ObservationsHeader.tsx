@@ -14,16 +14,17 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
     maximizedCardIndex,
     selectedCardsTotal,
     cardsTotalInRow,
+    isCardsLayoutPopover,
     onBackButtonClick,
     onPredictionsOverride,
     onCardsSizeChange,
+    showCardsLayoutPopover,
   } = props;
   const { t } = useTranslation();
   const cx = classNames.bind(styles);
   const [globalOverride, setGlobalOverride] = useState<CreatableOption | null>(null);
   const [cardsMaxInRow, setCardsMaxInRow] = useState<number | undefined>(undefined);
-  const [isPopoverOpen, setPopoverOpen] = useState<boolean>(false);
-  const [isDialogOpen, setDialogOpen] = useState<boolean>(false);
+  const [isConfirmationDialogOpen, setConfirmationDialogOpen] = useState<boolean>(false);
   const isCardMaximized = maximizedCardIndex !== null;
   const CARD_MIN_WIDTH = 230;
 
@@ -35,7 +36,7 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
   const handleUpdateButtonClick = () => {
     onPredictionsOverride(globalOverride);
     handleBackButtonClick();
-    setDialogOpen(false);
+    setConfirmationDialogOpen(false);
   };
 
   const containerClass = cx({
@@ -57,7 +58,7 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
   const headerRef = useRef<HTMLDivElement>(null);
   const handleCardsLayoutButton = () => {
     if (headerRef.current) {
-      setPopoverOpen(!isPopoverOpen);
+      showCardsLayoutPopover(!isCardsLayoutPopover);
       setCardsMaxInRow(Math.round(headerRef.current.clientWidth / CARD_MIN_WIDTH));
       if (cardsMaxInRow && cardsTotalInRow > cardsMaxInRow) onCardsSizeChange(cardsMaxInRow);
     }
@@ -74,7 +75,7 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
     <Popover2
       popoverClassName={Classes.POPOVER2_CONTENT_SIZING}
       placement="bottom"
-      isOpen={isPopoverOpen}
+      isOpen={isCardsLayoutPopover}
       content={
         <Slider
           value={cardsTotalInRow}
@@ -129,13 +130,13 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
               className={styles.updateButton}
               intent="primary"
               disabled={!globalOverride}
-              onClick={() => setDialogOpen(true)}
+              onClick={() => setConfirmationDialogOpen(true)}
               text="Update Selected"
             />
             <Dialog
               className={styles.confirmationDialog}
-              isOpen={isDialogOpen}
-              onClose={() => setDialogOpen(false)}
+              isOpen={isConfirmationDialogOpen}
+              onClose={() => setConfirmationDialogOpen(false)}
             >
               <div className={styles.text}>{t('explore.inspect.override.warning')}</div>
               <div className={styles.buttons}>
@@ -143,7 +144,7 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
                   intent="primary"
                   minimal
                   large
-                  onClick={() => setDialogOpen(false)}
+                  onClick={() => setConfirmationDialogOpen(false)}
                   text={t('explore.inspect.override.cancel')}
                 />
                 <Button
