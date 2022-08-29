@@ -1,0 +1,107 @@
+@use '../styles/variables.module.scss' as var;
+@use '../styles/animations';
+
+.observation {
+  animation: fade-in 0.3s;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  width: 100%;
+
+  .card {
+    border-radius: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 0;
+    width: 100%;
+
+    .header {
+      align-items: center;
+      display: flex;
+      font-size: 1rem;
+      min-height: 50px;
+      padding: 5px 15px 0;
+    }
+
+    .body {
+      border-radius: 0;
+      cursor: zoom-out;
+      height: 100%;
+      overflow: hidden;
+      position: relative;
+
+      .photo {
+        display: flex;
+        height: 100%;
+        justify-content: center;
+        overflow: initial;
+        position: relative;
+        width: 100%;
+
+        .img {
+          height: 100%;
+          width: auto;
+        }
+
+        .data {
+          background-color: rgba($color: var.$c-green-10, $alpha: 0.9);
+          border-radius: var.$radius-card;
+          bottom: 20px;
+          height: auto;
+          left: 20px;
+          opacity: 0;
+          padding: 20px;
+          pointer-events: none;
+          position: absolute;
+          transition: opacity 0.3s, visibility 0s 0.3s;
+          visibility: hidden;
+          width: auto;
+        }
+      }
+
+      &:hover {
+        .data {
+          opacity: 1;
+          transition: opacity 0.3s, visibility 0s;
+          visibility: visible;
+        }
+      }
+
+      .nav {
+        bottom: 0;
+        display: flex;
+        justify-content: space-between;
+        left: 0;
+        pointer-events: none;
+        position: absolute;
+        right: 0;
+        top: 0;
+
+        .arrow {
+          background: transparent;
+          border-radius: 0;
+          box-shadow: none;
+          outline: none;
+          pointer-events: all;
+          transition: background var.$t-button;
+
+          &:hover {
+            background: rgba($color: var.$c-green-60, $alpha: 0.5);
+          }
+
+          & > span {
+            color: var.$c-green-10;
+            height: 40px;
+            width: 40px;
+
+            & > svg {
+              height: 100%;
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+  }
+}

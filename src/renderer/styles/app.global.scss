@@ -32,7 +32,7 @@ a {
   }
 }
 
-.bp4-button.bp4-intent-primary:not(.bp4-minimal) {
+.bp4-button.bp4-intent-primary {
   background-color: var.$c-green-60;
   border-radius: var.$radius-input;
   box-shadow: none;
@@ -50,5 +50,20 @@ a {
   &.bp4-disabled {
     opacity: 0.5;
     pointer-events: none;
+  }
+
+  &.bp4-minimal {
+    background-color: transparent;
+    color: var.$c-green-80;
+
+    &:hover,
+    &:focus {
+      background-color: var.$c-green-10;
+      color: var.$c-green-80;
+    }
+
+    &:active {
+      background-color: var.$c-green-20;
+    }
   }
 }

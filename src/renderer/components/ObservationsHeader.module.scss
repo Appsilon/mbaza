@@ -27,18 +27,18 @@
         font-weight: 600;
         outline: none;
         transition: background-color var.$t-button, color var.$t-button;
-    
+
         :global .bp4-icon {
           color: var.$c-green-10;
           margin-right: 5px;
           transition: color var.$t-button;
         }
-    
+
         &:active,
         &:hover {
           background: var.$c-green-40;
           color: var.$c-green-80;
-    
+
           :global .bp4-icon {
             color: var.$c-green-80;
           }
@@ -79,7 +79,10 @@
     font-size: 1rem;
     font-weight: 400;
     margin: 0;
+    overflow: hidden;
     text-align: center;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   &.selectionMode {
@@ -113,5 +116,22 @@
       font-size: 0.88rem;
       text-align: left;
     }
+  }
+}
+
+.confirmationDialog {
+  background-color: var.$c-white;
+  border-radius: var.$radius-card;
+  gap: 20px;
+  padding: 30px;
+
+  .text {
+    font-size: 1rem;
+  }
+
+  .buttons {
+    justify-content: flex-end;
+    display: flex;
+    gap: 5px;
   }
 }

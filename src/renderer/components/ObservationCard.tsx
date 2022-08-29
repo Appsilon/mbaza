@@ -1,107 +1,26 @@
 import { Button, Card, Elevation, Tooltip } from '@blueprintjs/core';
 import classNames from 'classnames/bind';
-import path from 'path';
 import { useTranslation } from 'react-i18next';
 
-import CreatableSelect from 'react-select/creatable';
-import { formatAnimalClassName } from '../constants/animalsClasses';
-import { taxonOptions } from '../constants/taxons';
 import styles from './ObservationCard.module.scss';
+import { getPredictions, PhotoDetails, PredictionsTable } from './observationsHelpers';
 
 const cx = classNames.bind(styles);
 
-type ObservationCardProps = {
-  observation: Observation;
-  predictionOverride?: CreatableOption;
-  onPredictionOverride: PredictionsOverrideHandler;
-  onPhotoClick: (cardIndex: number | null, cardSelected: boolean) => void;
-  onCardSelect: (cardIndex: number, cardSelected: boolean) => void;
-  observationIndex: number;
-  isMaximized: boolean;
-  isSelected: boolean;
-  isSelectionMode: boolean;
-};
-
-function ObservationCard(props: ObservationCardProps) {
+export default function ObservationCard(props: ObservationCardProps) {
   const {
     observation,
-    predictionOverride,
-    onPredictionOverride,
-    onPhotoClick,
-    onCardSelect,
     observationIndex,
-    isMaximized,
     isSelected,
     isSelectionMode,
+    onCardSelect,
+    onPhotoClick,
+    overrideWidget,
   } = props;
   const { t } = useTranslation();
+  const predictions = getPredictions(observation);
 
-  const topPrediction = {
-    value: observation.pred_1,
-    label: formatAnimalClassName(observation.pred_1),
-  };
-
-  const handlePredictionOverride = (newPrediction: CreatableOption | null) => {
-    if (newPrediction === null || newPrediction.value !== topPrediction.value) {
-      onPredictionOverride([observation.location], newPrediction);
-    }
-  };
-
-  const predictions = [
-    [formatAnimalClassName(observation.pred_1), observation.score_1],
-    [formatAnimalClassName(observation.pred_2), observation.score_2],
-    [formatAnimalClassName(observation.pred_3), observation.score_3],
-  ];
-
-  const predictionsTable = (
-    <table className={`${styles.predictionsTable} bp4-html-table bp4-html-table-condensed`}>
-      <thead>
-        <tr>
-          <th>{t('explore.inspect.prediction')}</th>
-          <th>{t('explore.inspect.probability')}</th>
-        </tr>
-      </thead>
-      <tbody>
-        {predictions.map((i) => (
-          <tr key={i[0]}>
-            <td>{i[0]}</td>
-            <td>
-              {((i[1] as number) * 100).toFixed(2)}
-              &nbsp;%
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  );
-  const predictionOverrideWidget = (
-    <CreatableSelect
-      value={predictionOverride || topPrediction}
-      onChange={handlePredictionOverride}
-      options={taxonOptions}
-      isDisabled={isSelected}
-      isClearable={predictionOverride !== undefined}
-      menuShouldScrollIntoView={false}
-      menuPlacement="auto"
-      className={styles.predictionOverride}
-    />
-  );
-  const photoDetail = (label: string, value: string) => (
-    <p className={styles.photoDetail}>
-      <span className={styles.label}>{`${t(`explore.inspect.${label}`)}: `}</span>
-      <span>{value}</span>
-    </p>
-  );
-  const photoDetails = (
-    <div className={styles.photoDetails}>
-      {photoDetail('date', observation.date)}
-      {photoDetail('camera', observation.camera)}
-      {photoDetail('file', path.basename(observation.location))}
-    </div>
-  );
-  const observationClass = cx({
-    observation: true,
-    maximized: isMaximized,
+  const observationClass = cx('observation', {
     selected: isSelected,
     selectable: isSelectionMode,
   });
@@ -111,7 +30,7 @@ function ObservationCard(props: ObservationCardProps) {
       <Card className={styles.card} elevation={Elevation.TWO} key={observation.location}>
         <div
           className={styles.body}
-          onClick={() => onPhotoClick(isMaximized ? null : observationIndex, !isSelected)}
+          onClick={() => onPhotoClick(observationIndex, !isSelected)}
           aria-hidden="true"
         >
           <div className={styles.photo}>
@@ -121,14 +40,14 @@ function ObservationCard(props: ObservationCardProps) {
               alt={observation.pred_1}
             />
             <div className={styles.data}>
-              {predictionsTable}
-              {photoDetails}
+              <PredictionsTable predictions={predictions} maximized={false} />
+              <PhotoDetails observation={observation} maximized={false} />
             </div>
           </div>
         </div>
         <div className={styles.header}>
           <Tooltip content={t('explore.inspect.overrideTooltip')} position="top" minimal>
-            {predictionOverrideWidget}
+            {overrideWidget}
           </Tooltip>
           <Button
             className={styles.selectButton}
@@ -141,9 +60,3 @@ function ObservationCard(props: ObservationCardProps) {
     </div>
   );
 }
-
-ObservationCard.defaultProps = {
-  predictionOverride: undefined,
-};
-
-export default ObservationCard;
