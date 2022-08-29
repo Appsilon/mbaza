@@ -72,7 +72,7 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
       })
     : t('explore.inspect.observations', { count: observations.length });
 
-  const headerRef = useRef<HTMLInputElement>();
+  const headerRef = useRef<HTMLDivElement>(null);
   const handleCardsLayoutButton = () => {
     if (headerRef.current) {
       setPopoverOpen(!isPopoverOpen);
