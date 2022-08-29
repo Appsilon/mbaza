@@ -14,9 +14,7 @@ import styles from './Map.module.scss';
 
 /*
 To produce a country file please have a look at download_map.sh
-
 Useful tutorial - https://digitalki.net/2017/12/13/offline-maps-with-mapbox-gl-js-and-electron/
-
 Possible style inspirations:
 https://github.com/maputnik/osm-liberty
 https://github.com/Toshiwoz/terry-mapper
@@ -41,17 +39,10 @@ function getObservationCoordinates(row: Observation): [number, number] {
   return [row.coordinates_long, row.coordinates_lat];
 }
 
-function circleDiameter(count: number, total: number): number {
-  const minSize = 10;
-  const maxSize = 50;
-  return minSize + (count / total) * (maxSize - minSize);
-}
-
 function makeStationMarker(
   t: TFunction,
   groupObservations: Observation[],
   species: _.Collection<string>,
-  maxSpecies: number,
   setInspectedObservations: (observations: Observation[]) => void
 ) {
   // Observations from a single station should have approximately identical
@@ -61,12 +52,10 @@ function makeStationMarker(
   const count = groupObservations.length;
   const { station } = firstObservation;
 
-  const diameter = circleDiameter(species.size(), maxSpecies);
   const maxPreviewPhotosCount = 3;
 
   const markerElement = document.createElement('div');
   markerElement.className = styles.marker;
-  markerElement.setAttribute('style', `width: ${diameter}px; height: ${diameter}px;`);
   if (markerElement) {
     markerElement.addEventListener('click', (event: Event) => {
       const activeMarkers: NodeListOf<Element> = document.querySelectorAll(
@@ -118,9 +107,9 @@ function makeStationMarker(
     </>
   );
 
-  const marker = new mapboxgl.Marker(markerElement)
+  const marker = new mapboxgl.Marker(markerElement, { anchor: 'bottom' })
     .setLngLat(coordinates)
-    .setPopup(new mapboxgl.Popup({ offset: diameter / 2 }).setDOMContent(popupContentPlaceholder));
+    .setPopup(new mapboxgl.Popup({ offset: 25 }).setDOMContent(popupContentPlaceholder));
   return marker;
 }
 
@@ -149,7 +138,6 @@ function addMarkers(
           t,
           group.observations,
           group.species,
-          maxSpecies,
           setInspectedObservations
         );
         marker.addTo(map);
