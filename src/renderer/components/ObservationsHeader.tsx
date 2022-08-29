@@ -65,13 +65,6 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
     ? t('explore.inspect.selected', { count: selectedCardsTotal })
     : t('explore.inspect.header', { station: observations[0].station });
 
-  const counterText = isCardMaximized
-    ? t('explore.inspect.observationNumber', {
-        currentObservation: `${maximizedCardIndex + 1} /`,
-        count: observations.length,
-      })
-    : t('explore.inspect.observations', { count: observations.length });
-
   const headerRef = useRef<HTMLDivElement>(null);
   const handleCardsLayoutButton = () => {
     if (headerRef.current) {
@@ -80,6 +73,41 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
       if (cardsMaxInRow && cardsTotalInRow > cardsMaxInRow) onCardsSizeChange(cardsMaxInRow);
     }
   };
+
+  const cardsDetails = isCardMaximized ? (
+    <p className={styles.counter}>
+      {t('explore.inspect.observationNumber', {
+        currentObservation: `${maximizedCardIndex + 1} /`,
+        count: observations.length,
+      })}
+    </p>
+  ) : (
+    <Popover2
+      interactionKind="click"
+      popoverClassName={Classes.POPOVER2_CONTENT_SIZING}
+      placement="bottom"
+      isOpen={isPopoverOpen}
+      content={
+        <Slider
+          value={cardsTotalInRow}
+          onChange={onCardsSizeChange}
+          vertical
+          min={1}
+          max={cardsMaxInRow}
+        />
+      }
+      renderTarget={({ isOpen, ref: ref1, ...targetProps }) => (
+        <Button
+          // eslint-disable-next-line react/jsx-props-no-spreading
+          {...targetProps}
+          elementRef={mergeRefs(ref1)}
+          intent="primary"
+          text={t('explore.inspect.layout')}
+          onClick={handleCardsLayoutButton}
+        />
+      )}
+    />
+  );
 
   return (
     <div className={containerClass} ref={headerRef}>
@@ -113,10 +141,9 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
               className={styles.updateButton}
               intent="primary"
               disabled={!globalOverride}
-              onClick={handleUpdateButtonClick}
+              onClick={() => setDialogOpen(true)}
               text="Update Selected"
             />
-
             <Dialog
               className={styles.confirmationDialog}
               isOpen={isDialogOpen}
@@ -141,31 +168,7 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
             </Dialog>
           </>
         ) : (
-          <Popover2
-            interactionKind="click"
-            popoverClassName={Classes.POPOVER2_CONTENT_SIZING}
-            placement="bottom"
-            isOpen={isPopoverOpen}
-            content={
-              <Slider
-                value={cardsTotalInRow}
-                onChange={onCardsSizeChange}
-                vertical
-                min={1}
-                max={cardsMaxInRow}
-              />
-            }
-            renderTarget={({ isOpen, ref: ref1, ...targetProps }) => (
-              <Button
-                // eslint-disable-next-line react/jsx-props-no-spreading
-                {...targetProps}
-                elementRef={mergeRefs(ref1)}
-                intent="primary"
-                text={t('explore.inspect.layout')}
-                onClick={handleCardsLayoutButton}
-              />
-            )}
-          />
+          cardsDetails
         )}
       </div>
     </div>
