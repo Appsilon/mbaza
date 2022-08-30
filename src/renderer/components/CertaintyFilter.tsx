@@ -27,7 +27,7 @@ export default function CertaintyFilter({ updateFilters }: CertaintyFilterProps)
         labelStepSize={20}
         labelRenderer={(value) => `${value}%`}
         value={range}
-        onChange={(newRange: NumberRange) => {
+        onRelease={(newRange: NumberRange) => {
           setRange(newRange);
           updateFilter(newRange);
         }}
