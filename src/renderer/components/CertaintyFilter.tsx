@@ -1,6 +1,5 @@
 import { NumberRange, RangeSlider } from '@blueprintjs/core';
-import { debounce } from 'lodash';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import styles from './CertaintyFilter.module.scss';
@@ -17,10 +16,6 @@ export default function CertaintyFilter({ updateFilters }: CertaintyFilterProps)
     const [low, high] = newRange;
     updateFilters({ certaintyRange: [low / 100, high / 100] });
   };
-  // TODO: Don't rely on `useCallback` as a semantic guarantee:
-  // https://reactjs.org/docs/hooks-reference.html#usecallback
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debouncedUpdateFilter = useCallback(debounce(updateFilter, 400), []);
 
   return (
     <div className={styles.container}>
@@ -31,10 +26,8 @@ export default function CertaintyFilter({ updateFilters }: CertaintyFilterProps)
         labelStepSize={20}
         labelRenderer={(value) => `${value}%`}
         value={range}
-        onChange={(newRange: NumberRange) => {
-          setRange(newRange);
-          debouncedUpdateFilter(newRange);
-        }}
+        onChange={(newRange: NumberRange) => setRange(newRange)}
+        onRelease={(newRange: NumberRange) => updateFilter(newRange)}
       />
     </div>
   );
