@@ -1,5 +1,4 @@
 import {
-  Button,
   Callout,
   Card,
   Elevation,
@@ -20,6 +19,7 @@ import ExplorerFilter from '../components/ExplorerFilters';
 import ExplorerMetrics from '../components/ExplorerMetrics';
 import Map from '../components/Map';
 import ObservationsInspector from '../components/ObservationsInspector';
+import PathInput from '../components/PathInput';
 import {
   EmptyClasses,
   formatAnimalClassName,
@@ -28,7 +28,7 @@ import {
 import computeEvents from '../utils/computeEvents';
 import exportDarwinCore from '../utils/exportDarwinCore';
 import exportPhotos from '../utils/exportPhotos';
-import { openDirectoryDialog, saveCsvDialog } from '../utils/fileDialog';
+import { openCsvDialog, openDirectoryDialog, saveCsvDialog } from '../utils/fileDialog';
 import readObservationsCsv from '../utils/readObservationsCsv';
 import writeCorrectedCsv from '../utils/writeCorrectedCsv';
 import styles from './ExplorePage.module.scss';
@@ -120,7 +120,7 @@ function overridesCount(observations: Observation[]): number {
 
 export default function ExplorePage() {
   const { t } = useTranslation();
-  const [filePath, setFilePath] = useState<string>();
+  const [csvFilePath, setCsvFilePath] = useState<string>('');
   const [filters, setFilters] = useState<Filters>(initialFilters);
   const [observations, setObservations] = useState<undefined | Observation[]>();
   const [isInspectorOpen, setInspectorOpen] = useState<boolean>(false);
@@ -155,12 +155,12 @@ export default function ExplorePage() {
     setPredictionOverrides(updatedOverrides);
   };
 
-  const handleNewDataImport = async () => {
-    const newObservations = await chooseFile(setFilePath, setObservations);
-    const overrides = detectOverrides(newObservations);
-    setPredictionOverrides(overrides);
-    setFilters(initialFilters);
-  };
+  // const handleNewDataImport = async () => {
+  //   const newObservations = await chooseFile(setFilePath, setObservations);
+  //   const overrides = detectOverrides(newObservations);
+  //   setPredictionOverrides(overrides);
+  //   setFilters(initialFilters);
+  // };
 
   const filterCondition = (needle: string, haystack: Entry[]) => {
     if (haystack.length === 0) return true;
@@ -212,7 +212,7 @@ export default function ExplorePage() {
     return (
       <div className={styles.containerLoaded}>
         <ExploreHeader
-          filePath={filePath}
+          filePath={csvFilePath}
           onDataImportClick={() => setObservations(undefined)}
           onEventsUpdateClick={handleEventsUpdate}
           onDataExportClick={handleCsvExport}
@@ -254,14 +254,12 @@ export default function ExplorePage() {
             <Icon className={styles.icon} color="#647f80" icon="help" iconSize={22} />
           </Tooltip>
         </div>
-        <Button
-          aria-label="Search"
-          intent="primary"
-          fill
-          large
-          onClick={handleNewDataImport}
-          text={t('explore.chooseFilePlaceholder')}
-          type="submit"
+        <PathInput
+          className={styles.pathInput}
+          placeholder={t('explore.chooseFilePlaceholder')}
+          value={csvFilePath}
+          onChange={setCsvFilePath}
+          showDialog={openCsvDialog}
         />
       </Card>
       <div className={styles.animals}>
