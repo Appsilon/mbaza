@@ -17,10 +17,6 @@ export default function CertaintyFilter({ updateFilters }: CertaintyFilterProps)
     const [low, high] = newRange;
     updateFilters({ certaintyRange: [low / 100, high / 100] });
   };
-  // TODO: Don't rely on `useCallback` as a semantic guarantee:
-  // https://reactjs.org/docs/hooks-reference.html#usecallback
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  const debouncedUpdateFilter = useCallback(debounce(updateFilter, 400), []);
 
   return (
     <div className={styles.container}>
@@ -33,7 +29,7 @@ export default function CertaintyFilter({ updateFilters }: CertaintyFilterProps)
         value={range}
         onChange={(newRange: NumberRange) => {
           setRange(newRange);
-          debouncedUpdateFilter(newRange);
+          updateFilter(newRange);
         }}
       />
     </div>
