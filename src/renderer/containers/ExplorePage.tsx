@@ -121,6 +121,7 @@ function overridesCount(observations: Observation[]): number {
 export default function ExplorePage() {
   const { t } = useTranslation();
   const [csvFilePath, setCsvFilePath] = useState<string>('');
+  const [dbDirPath, setDbDirPath] = useState<string>('');
   const [filters, setFilters] = useState<Filters>(initialFilters);
   const [observations, setObservations] = useState<undefined | Observation[]>();
   const [isInspectorOpen, setInspectorOpen] = useState<boolean>(false);
@@ -260,6 +261,13 @@ export default function ExplorePage() {
           value={csvFilePath}
           onChange={setCsvFilePath}
           showDialog={openCsvDialog}
+        />
+        <PathInput
+          className={styles.pathInput}
+          placeholder={t('explore.chooseFilePlaceholder')}
+          value={dbDirPath}
+          onChange={setDbDirPath}
+          showDialog={openDirectoryDialog}
         />
       </Card>
       <div className={styles.animals}>
