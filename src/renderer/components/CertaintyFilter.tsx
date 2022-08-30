@@ -1,6 +1,5 @@
 import { NumberRange, RangeSlider } from '@blueprintjs/core';
-import { debounce } from 'lodash';
-import { useCallback, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import styles from './CertaintyFilter.module.scss';
