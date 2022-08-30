@@ -131,7 +131,7 @@ export default function ExplorePage() {
   };
 
   const handlePredictionsOverride = (locations: string[], override: CreatableOption | null) => {
-    if (observations === undefined) return false;
+    if (observations === undefined) return;
     const updatedOverrides = { ...predictionOverrides };
     const updatedObservations = [...observations];
 
@@ -153,7 +153,6 @@ export default function ExplorePage() {
     });
     setObservations(updatedObservations);
     setPredictionOverrides(updatedOverrides);
-    return false;
   };
 
   const handleNewDataImport = async () => {
@@ -180,10 +179,7 @@ export default function ExplorePage() {
       );
     }
     return filtered;
-    // TODO: Remove `predictionOverrides` from the dependencies once `observations` are updated
-    // correctly in the `handlePredictionOverride()` function.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filters, observations, predictionOverrides]);
+  }, [filters, observations]);
 
   if (observations !== undefined) {
     const handleCsvExport = async () => {
