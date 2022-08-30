@@ -243,7 +243,10 @@
       "target": [
         "AppImage"
       ],
-      "category": "Development"
+      "asarUnpack": [
+        "node_modules/sharp/**"
+      ],
+      "category": "Utilities"
     },
     "directories": {
       "app": "release/app",
