@@ -10,7 +10,7 @@ export default async function readObservationsCsv(
   const file = await readFile(csvFilePath);
   const data = csvParse(file.toString(), (row) => ({
     ...row,
-    location: `${dbDirPath}${row.location}`,
+    location_absolute: `${dbDirPath}${row.location}`,
     timestamp: row.timestamp === undefined ? undefined : new Date(row.timestamp),
   }));
   return data as unknown as Observation[];

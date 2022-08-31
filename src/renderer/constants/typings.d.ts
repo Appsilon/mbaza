@@ -3,6 +3,7 @@ type Observation = {
   project_id: string;
   deployment_id: string;
   location: string;
+  location_absolute: string;
   identified_by: string;
   wi_taxon_id: string;
   class: string;

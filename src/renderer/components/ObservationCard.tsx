@@ -36,7 +36,7 @@ export default function ObservationCard(props: ObservationCardProps) {
           <div className={styles.photo}>
             <img
               className={styles.img}
-              src={`file:${observation.location}`}
+              src={`file:${observation.location_absolute}`}
               alt={observation.pred_1}
             />
             <div className={styles.data}>
