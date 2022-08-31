@@ -230,7 +230,7 @@ export default function ExplorePage() {
     <div className={styles.container}>
       <Card className={styles.card} elevation={Elevation.TWO}>
         <div className={styles.header}>
-          <H4 className={styles.title}>{t('explore.chooseFile')}</H4>
+          <H4 className={styles.title}>{t('explore.specifyPaths')}</H4>
           <Tooltip content={t('explore.info')}>
             <Icon className={styles.icon} color="#647f80" icon="help" iconSize={22} />
           </Tooltip>

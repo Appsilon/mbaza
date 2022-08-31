@@ -74,7 +74,7 @@
         "info": "<p>Here you can detect animals in images. If you would like to detect animals in videos, please go to Extract frames tab first.</p> <p>Please select an input directory containing subfolders with images.</p> <p>Please select an output CSV file where the results of the detection will be stored.</p> <p>You can optionally provide project and deployment IDs which will be used to populate the output CSV.</p> <p> You can also provide a CSV with the latitude and longitude coordinates of camera stations, which will automatically generate a map. </p> <p>After the detection is complete, explore the results in the Explore results tab.</p>"
       },
       "explore": {
-        "chooseFile": "Choose results file to explore",
+        "specifyPaths": "Specify file and directory paths to explore",
         "exploreResults": "Explore Results",
         "backToMap": "Back to map",
         "backToObservations": "Back to observations",
@@ -208,7 +208,7 @@
         "info": "<p>Vous pouvez ici détecter des animaux dans des images. Si vous souhaitez détecter des animaux dans des vidéos, veuillez d'abord aller dans l'onglet Extraire des images.</p> <p>Veuillez sélectionner un répertoire d'entrée contenant des sous-dossiers avec des images.</p> <p>Veuillez sélectionner un fichier .csv de sortie où seront stockés les résultats de la détection.</p> <p>Vous pouvez éventuellement fournir des identifiants de projet et de déploiement qui seront utilisés pour alimenter le CSV de sortie.</p> <p>Vous pouvez également fournir un CSV avec les coordonnées de latitude et de longitude des stations de caméra, ce qui générera une carte. </p> <p>After the detection is complete, explore the results in the Explore results tab.</p>"
       },
       "explore": {
-        "chooseFile": "Choisissez le fichier de résultats à explorer",
+        "specifyPaths": "Specify file and directory paths to explore (TODO)",
         "exploreResults": "Explore Results (TODO)",
         "backToMap": "Retour à la carte",
         "backToObservations": "Retour aux observations",
