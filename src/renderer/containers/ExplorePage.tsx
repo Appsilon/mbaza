@@ -1,4 +1,5 @@
 import {
+  Button,
   Callout,
   Card,
   Elevation,
@@ -40,10 +41,7 @@ import animals4 from '../../../assets/graphics/SVG_4.svg';
 import animals5 from '../../../assets/graphics/SVG_5.svg';
 import animals6 from '../../../assets/graphics/SVG_6.svg';
 
-const remote = require('@electron/remote');
-
 const { writeFile } = fsPromises;
-
 const animalsBackgrounds = [animals6, animals5, animals4, animals3, animals2, animals1];
 
 type Filters = {
@@ -136,7 +134,7 @@ export default function ExplorePage() {
   };
 
   const handleNewDataImport = async () => {
-    const newObservations = await readObservationsCsv(csvFilePath);
+    const newObservations = await readObservationsCsv(csvFilePath, dbDirPath);
     setObservations(newObservations);
     const overrides = detectOverrides(newObservations);
     setPredictionOverrides(overrides);
@@ -254,6 +252,7 @@ export default function ExplorePage() {
           intent="primary"
           fill
           large
+          disabled={!csvFilePath || !dbDirPath}
           onClick={handleNewDataImport}
           text={t('explore.exploreResults')}
           type="submit"
