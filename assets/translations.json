@@ -75,6 +75,7 @@
       },
       "explore": {
         "chooseFile": "Choose results file to explore",
+        "exploreResults": "Explore Results",
         "backToMap": "Back to map",
         "backToObservations": "Back to observations",
         "chooseFilePlaceholder": "Select data file",
@@ -208,6 +209,7 @@
       },
       "explore": {
         "chooseFile": "Choisissez le fichier de résultats à explorer",
+        "exploreResults": "Explore Results (TODO)",
         "backToMap": "Retour à la carte",
         "backToObservations": "Retour aux observations",
         "chooseFilePlaceholder": "Fichier de données",

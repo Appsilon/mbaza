@@ -65,27 +65,6 @@ const initialFilters: Filters = {
   certaintyRange: [0, 1],
 };
 
-async function chooseFile(
-  changeFileChoice: (path: string) => void,
-  setObservations: (observations: Observation[]) => void
-) {
-  const dialog = await remote.dialog.showOpenDialog({
-    properties: ['openFile'],
-    filters: [
-      { name: 'CSV', extensions: ['csv'] },
-      { name: 'All Files', extensions: ['*'] },
-    ],
-  });
-  if (!dialog.canceled) {
-    const path = dialog.filePaths[0];
-    const observations = await readObservationsCsv(path);
-    changeFileChoice(path);
-    setObservations(observations);
-    return observations;
-  }
-  return undefined;
-}
-
 function inRange(value: number, [low, high]: NumberRange) {
   return low <= value && value <= high;
 }
@@ -156,12 +135,13 @@ export default function ExplorePage() {
     setPredictionOverrides(updatedOverrides);
   };
 
-  // const handleNewDataImport = async () => {
-  //   const newObservations = await chooseFile(setFilePath, setObservations);
-  //   const overrides = detectOverrides(newObservations);
-  //   setPredictionOverrides(overrides);
-  //   setFilters(initialFilters);
-  // };
+  const handleNewDataImport = async () => {
+    const newObservations = await readObservationsCsv(csvFilePath);
+    setObservations(newObservations);
+    const overrides = detectOverrides(newObservations);
+    setPredictionOverrides(overrides);
+    setFilters(initialFilters);
+  };
 
   const filterCondition = (needle: string, haystack: Entry[]) => {
     if (haystack.length === 0) return true;
@@ -268,6 +248,15 @@ export default function ExplorePage() {
           value={dbDirPath}
           onChange={setDbDirPath}
           showDialog={openDirectoryDialog}
+        />
+        <Button
+          aria-label="Confirm"
+          intent="primary"
+          fill
+          large
+          onClick={handleNewDataImport}
+          text={t('explore.exploreResults')}
+          type="submit"
         />
       </Card>
       <div className={styles.animals}>
