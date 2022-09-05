@@ -94,6 +94,10 @@ function missingEvents(observations: Observation[]): number {
 function overridesCount(observations: Observation[]): number {
   return observations.reduce((a, b) => a + (b.pred_1 !== b.label ? 1 : 0), 0);
 }
+function formatLabel(label: string): string {
+  if (label) return label.replace(/_/g, ' ');
+  return '<?>';
+}
 
 export default function ExplorePage() {
   const { t } = useTranslation();
@@ -189,6 +193,12 @@ export default function ExplorePage() {
       const path = await openDirectoryDialog();
       if (path !== undefined) await exportPhotos(path, filteredObservations, photosPath);
     };
+    const handleInspector = (isOpen: boolean, station = null) => {
+      handleFilters({
+        activeStations: [{ value: station, label: formatLabel(station) }],
+      });
+      setInspectorOpen(isOpen);
+    };
 
     return (
       <div className={styles.containerLoaded}>
@@ -213,13 +223,13 @@ export default function ExplorePage() {
           <div className={styles.cardBody}>
             <Map
               observations={filteredObservations}
-              onInspect={() => setInspectorOpen(true)}
+              onInspect={handleInspector}
               photosPath={photosPath}
             />
             {isInspectorOpen && (
               <ObservationsInspector
                 observations={filteredObservations}
-                onClose={() => setInspectorOpen(false)}
+                onClose={() => handleInspector(false)}
                 predictionOverrides={predictionOverrides}
                 onPredictionsOverride={handlePredictionsOverride}
                 photosPath={photosPath}
