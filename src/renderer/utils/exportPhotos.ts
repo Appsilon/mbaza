@@ -24,6 +24,6 @@ export default async function exportPhotos(
   observations: Observation[]
 ): Promise<void> {
   for await (const o of observations) {
-    await copyFile(o.location, join(directory, filename(o)));
+    await copyFile(o.location_absolute, join(directory, filename(o)));
   }
 }
