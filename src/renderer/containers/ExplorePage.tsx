@@ -188,7 +188,8 @@ export default function ExplorePage() {
       const path = await openDirectoryDialog();
       if (path !== undefined) await exportPhotos(path, filteredObservations, photosPath);
     };
-    const handleInspector = (observations, station) => {
+    const handleInspector = (stationObservations: Observation[]) => {
+      const { station } = stationObservations[0];
       handleFilters({
         activeStations: [{ value: station, label: formatLabel(station) }],
       });
