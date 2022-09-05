@@ -4,6 +4,7 @@ import '@blueprintjs/popover2/lib/css/blueprint-popover2.css';
 import { TFunction } from 'i18next';
 import _ from 'lodash';
 import mapboxgl from 'mapbox-gl';
+import path from 'path';
 import React, { useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import { useTranslation } from 'react-i18next';
@@ -43,7 +44,8 @@ function makeStationMarker(
   t: TFunction,
   groupObservations: Observation[],
   species: _.Collection<string>,
-  setInspectedObservations: (observations: Observation[]) => void
+  setInspectedObservations: (observations: Observation[]) => void,
+  photosPath: string
 ) {
   // Observations from a single station should have approximately identical
   // coordinates, so we can pick any.
@@ -92,7 +94,10 @@ function makeStationMarker(
             className={styles.photosPreviewItem}
             onClick={() => setInspectedObservations(groupObservations)}
           >
-            <img src={`file:${observation.location_absolute}`} alt="Observations preview" />
+            <img
+              src={`file:${path.join(photosPath, observation.location)}`}
+              alt="Observations preview"
+            />
           </a>
         ))}
         <div>
@@ -117,7 +122,8 @@ function addMarkers(
   t: TFunction,
   observations: Observation[],
   map: mapboxgl.Map,
-  setInspectedObservations: (observations: Observation[]) => void
+  setInspectedObservations: (observations: Observation[]) => void,
+  photosPath: string
 ) {
   // TODO: Drop observations with missing station and warn the user.
   const markers = _(observations)
@@ -138,7 +144,8 @@ function addMarkers(
           t,
           group.observations,
           group.species,
-          setInspectedObservations
+          setInspectedObservations,
+          photosPath
         );
         marker.addTo(map);
       });
@@ -149,10 +156,11 @@ function addMarkers(
 type MapProps = {
   observations: Observation[];
   onInspect: (observations: Observation[]) => void;
+  photosPath: string;
 };
 
 export default function Map(props: MapProps) {
-  const { observations, onInspect } = props;
+  const { observations, onInspect, photosPath } = props;
   const mapRef = React.createRef<HTMLDivElement>();
   const { t } = useTranslation();
 
@@ -163,11 +171,11 @@ export default function Map(props: MapProps) {
       center: [12, -0.8],
       zoom: 6,
     });
-    addMarkers(t, observations, map, onInspect);
+    addMarkers(t, observations, map, onInspect, photosPath);
     return function cleanup() {
       map.remove();
     };
-  }, [mapRef, observations, onInspect, t]);
+  }, [mapRef, observations, onInspect, t, photosPath]);
 
   return <div ref={mapRef} className={styles.mapContainer} />;
 }

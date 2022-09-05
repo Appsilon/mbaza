@@ -3,7 +3,6 @@ type Observation = {
   project_id: string;
   deployment_id: string;
   location: string;
-  location_absolute: string;
   identified_by: string;
   wi_taxon_id: string;
   class: string;
@@ -55,6 +54,7 @@ type ObservationsInspectorProps = {
   onClose: () => void;
   predictionOverrides: PredictionOverridesMap;
   onPredictionsOverride: PredictionsOverrideHandler;
+  photosPath: string;
 };
 
 type ObservationCardProps = {
@@ -62,6 +62,7 @@ type ObservationCardProps = {
   observationIndex: number;
   isSelected: boolean;
   isSelectionMode: boolean;
+  photosPath: string;
   onCardSelect: (cardIndex: number, cardSelected: boolean) => void;
   onPhotoClick: (cardIndex: number | null, cardSelected: boolean) => void;
   overrideWidget: React.ReactNode;
@@ -70,6 +71,7 @@ type ObservationCardProps = {
 type MaximizedObservationCardProps = {
   observation: Observation;
   observationIndex: number;
+  photosPath: string;
   onPrevious: (currentIndex: number) => void;
   onNext: (currentIndex: number) => void;
   onPhotoClick: (cardIndex: number | null, cardSelected: boolean) => void;

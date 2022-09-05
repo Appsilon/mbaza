@@ -97,8 +97,8 @@ function overridesCount(observations: Observation[]): number {
 
 export default function ExplorePage() {
   const { t } = useTranslation();
-  const [csvFilePath, setCsvFilePath] = useState<string>('');
-  const [dbDirPath, setDbDirPath] = useState<string>('');
+  const [csvPath, setCsvPath] = useState<string>('');
+  const [photosPath, setPhotosPath] = useState<string>('');
   const [filters, setFilters] = useState<Filters>(initialFilters);
   const [observations, setObservations] = useState<undefined | Observation[]>();
   const [isInspectorOpen, setInspectorOpen] = useState<boolean>(false);
@@ -134,7 +134,7 @@ export default function ExplorePage() {
   };
 
   const handleNewDataImport = async () => {
-    const newObservations = await readObservationsCsv(csvFilePath, dbDirPath);
+    const newObservations = await readObservationsCsv(csvPath);
     if (newObservations) {
       setObservations(newObservations);
       const overrides = detectOverrides(newObservations);
@@ -187,13 +187,13 @@ export default function ExplorePage() {
     };
     const handlePhotosExport = async () => {
       const path = await openDirectoryDialog();
-      if (path !== undefined) await exportPhotos(path, filteredObservations);
+      if (path !== undefined) await exportPhotos(path, filteredObservations, photosPath);
     };
 
     return (
       <div className={styles.containerLoaded}>
         <ExploreHeader
-          filePath={csvFilePath}
+          filePath={csvPath}
           onDataImportClick={() => setObservations(undefined)}
           onEventsUpdateClick={handleEventsUpdate}
           onDataExportClick={handleCsvExport}
@@ -211,13 +211,18 @@ export default function ExplorePage() {
         <Card className={styles.card} elevation={Elevation.TWO}>
           <Callout intent={Intent.PRIMARY}>{t('explore.mapHint')}</Callout>
           <div className={styles.cardBody}>
-            <Map observations={filteredObservations} onInspect={() => setInspectorOpen(true)} />
+            <Map
+              observations={filteredObservations}
+              onInspect={() => setInspectorOpen(true)}
+              photosPath={photosPath}
+            />
             {isInspectorOpen && (
               <ObservationsInspector
                 observations={filteredObservations}
                 onClose={() => setInspectorOpen(false)}
                 predictionOverrides={predictionOverrides}
                 onPredictionsOverride={handlePredictionsOverride}
+                photosPath={photosPath}
               />
             )}
           </div>
@@ -238,15 +243,15 @@ export default function ExplorePage() {
         <PathInput
           className={styles.pathInput}
           placeholder={t('explore.specifyCsvFilePath')}
-          value={csvFilePath}
-          onChange={setCsvFilePath}
+          value={csvPath}
+          onChange={setCsvPath}
           showDialog={openCsvDialog}
         />
         <PathInput
           className={styles.pathInput}
           placeholder={t('explore.specifyDatabaseDirectory')}
-          value={dbDirPath}
-          onChange={setDbDirPath}
+          value={photosPath}
+          onChange={setPhotosPath}
           showDialog={openDirectoryDialog}
         />
         <Button
@@ -254,7 +259,7 @@ export default function ExplorePage() {
           intent="primary"
           fill
           large
-          disabled={!csvFilePath || !dbDirPath}
+          disabled={!csvPath || !photosPath}
           onClick={handleNewDataImport}
           text={t('explore.exploreResults')}
           type="submit"
