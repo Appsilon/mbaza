@@ -30,6 +30,7 @@ import computeEvents from '../utils/computeEvents';
 import exportDarwinCore from '../utils/exportDarwinCore';
 import exportPhotos from '../utils/exportPhotos';
 import { openCsvDialog, openDirectoryDialog, saveCsvDialog } from '../utils/fileDialog';
+import formatLabel from '../utils/formatLabel';
 import readObservationsCsv from '../utils/readObservationsCsv';
 import writeCorrectedCsv from '../utils/writeCorrectedCsv';
 import styles from './ExplorePage.module.scss';
@@ -88,10 +89,6 @@ function missingEvents(observations: Observation[]): number {
 
 function overridesCount(observations: Observation[]): number {
   return observations.reduce((a, b) => a + (b.pred_1 !== b.label ? 1 : 0), 0);
-}
-function formatLabel(label: string): string {
-  if (label) return label.replace(/_/g, ' ');
-  return '<?>';
 }
 
 export default function ExplorePage() {

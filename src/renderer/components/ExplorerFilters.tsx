@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import Select from 'react-select';
 
+import formatLabel from '../utils/formatLabel';
 import CertaintyFilter from './CertaintyFilter';
 import styles from './ExplorerFilters.module.scss';
 
@@ -18,11 +19,6 @@ const orderByName = (a: Entry, b: Entry) => {
   if (nameA > nameB) return 1;
   return 0;
 };
-
-function formatLabel(label: string): string {
-  if (label) return label.replace(/_/g, ' ');
-  return '<?>';
-}
 
 export default function ExplorerFilter(props: Props) {
   const { t } = useTranslation();
