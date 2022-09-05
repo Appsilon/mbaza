@@ -7,11 +7,7 @@ import styles from './ExplorerFilters.module.scss';
 type Props = {
   observations: Observation[];
   updateFilters: Function; // eslint-disable-line @typescript-eslint/ban-types
-};
-
-type Entry = {
-  label: string;
-  value: string;
+  activeStations: Entry[];
 };
 
 const orderByName = (a: Entry, b: Entry) => {
@@ -30,7 +26,7 @@ function formatLabel(label: string): string {
 
 export default function ExplorerFilter(props: Props) {
   const { t } = useTranslation();
-  const { observations, updateFilters, filters } = props;
+  const { observations, updateFilters, activeStations } = props;
 
   const getUniqueSet = (dataset: string[]) => {
     return Array.from(new Set(dataset)).map((entry: string) => {
@@ -64,18 +60,12 @@ export default function ExplorerFilter(props: Props) {
     <div className={styles.container}>
       <div className={styles.inputGroup}>
         <h4 className={styles.label}>{t('explore.byAnimal')}</h4>
-        <Select
-          value={filters.activeAnimals}
-          onChange={setAnimals}
-          closeMenuOnSelect={false}
-          options={animals}
-          isMulti
-        />
+        <Select onChange={setAnimals} closeMenuOnSelect={false} options={animals} isMulti />
       </div>
       <div className={styles.inputGroup}>
         <h4 className={styles.label}>{t('explore.byStation')}</h4>
         <Select
-          value={filters.activeStations}
+          value={activeStations}
           onChange={setStations}
           closeMenuOnSelect={false}
           options={stations}
@@ -84,13 +74,7 @@ export default function ExplorerFilter(props: Props) {
       </div>
       <div className={styles.inputGroup}>
         <h4 className={styles.label}>{t('explore.byCamera')}</h4>
-        <Select
-          value={filters.activeCameras}
-          onChange={setCameras}
-          closeMenuOnSelect={false}
-          options={cameras}
-          isMulti
-        />
+        <Select onChange={setCameras} closeMenuOnSelect={false} options={cameras} isMulti />
       </div>
       <CertaintyFilter updateFilters={updateFilters} />
     </div>

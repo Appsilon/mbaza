@@ -51,11 +51,6 @@ type Filters = {
   certaintyRange: NumberRange;
 };
 
-type Entry = {
-  label: string;
-  value: string;
-};
-
 const initialFilters: Filters = {
   activeAnimals: [],
   activeCameras: [],
@@ -213,7 +208,7 @@ export default function ExplorePage() {
         <ExplorerFilter
           observations={observations}
           updateFilters={handleFilters}
-          filters={filters}
+          activeStations={filters.activeStations}
         />
         <ExplorerMetrics
           data={filteredObservations}
