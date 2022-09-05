@@ -103,7 +103,7 @@ export default function ExplorePage() {
   const [isInspectorOpen, setInspectorOpen] = useState<boolean>(false);
   const [predictionOverrides, setPredictionOverrides] = useState<PredictionOverridesMap>({});
 
-  const handleFilters = (val: string[]) => {
+  const handleFilters = (val: string[] | Entry[]) => {
     setFilters({ ...filters, ...val });
   };
 
@@ -188,11 +188,11 @@ export default function ExplorePage() {
       const path = await openDirectoryDialog();
       if (path !== undefined) await exportPhotos(path, filteredObservations, photosPath);
     };
-    const handleInspector = (isOpen: boolean, station = null) => {
+    const handleInspector = (observations, station) => {
       handleFilters({
         activeStations: [{ value: station, label: formatLabel(station) }],
       });
-      setInspectorOpen(isOpen);
+      setInspectorOpen(true);
     };
 
     return (
@@ -228,7 +228,7 @@ export default function ExplorePage() {
             {isInspectorOpen && (
               <ObservationsInspector
                 observations={filteredObservations}
-                onClose={() => handleInspector(false)}
+                onClose={() => setInspectorOpen(false)}
                 predictionOverrides={predictionOverrides}
                 onPredictionsOverride={handlePredictionsOverride}
                 photosPath={photosPath}
