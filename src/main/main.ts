@@ -13,12 +13,15 @@ import log from 'electron-log';
 import { autoUpdater } from 'electron-updater';
 import path from 'path';
 
+import setupIpcMain from './ipc/main';
 import MenuBuilder from './menu';
 import { resolveHtmlPath, RESOURCES_PATH } from './util';
 
 // TODO: Drop `@electron/remote`:
 // https://github.com/electron/remote/blob/main/README.md
 require('@electron/remote/main').initialize();
+
+setupIpcMain();
 
 class AppUpdater {
   constructor() {
