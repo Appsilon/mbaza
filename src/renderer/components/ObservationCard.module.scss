@@ -18,6 +18,7 @@ $card-shadow-selected:
     box-shadow: $card-shadow-normal;
     display: flex;
     flex-direction: column;
+    height: 240px;
     padding: 0;
     transition: box-shadow $t-obs-card;
 
@@ -72,6 +73,7 @@ $card-shadow-selected:
       border-radius: var.$radius-card var.$radius-card 0 0;
       cursor: zoom-in;
       display: flex;
+      height: 100%;
       overflow: hidden;
       position: relative;
       transition: padding 0.2s ease-out;
@@ -79,13 +81,14 @@ $card-shadow-selected:
       .photo {
         border-radius: var.$radius-card - 2 var.$radius-card - 2 0 0;
         display: flex;
+        height: 100%;
         overflow: hidden;
         position: relative;
 
         .img {
           height: 100%;
           transition: opacity $t-obs-card, visibility 0s;
-          width: 100%;
+          width: auto;
         }
 
         .data {
