@@ -30,7 +30,7 @@ function formatLabel(label: string): string {
 
 export default function ExplorerFilter(props: Props) {
   const { t } = useTranslation();
-  const { observations, updateFilters } = props;
+  const { observations, updateFilters, filters } = props;
 
   const getUniqueSet = (dataset: string[]) => {
     return Array.from(new Set(dataset)).map((entry: string) => {
@@ -64,15 +64,33 @@ export default function ExplorerFilter(props: Props) {
     <div className={styles.container}>
       <div className={styles.inputGroup}>
         <h4 className={styles.label}>{t('explore.byAnimal')}</h4>
-        <Select onChange={setAnimals} closeMenuOnSelect={false} options={animals} isMulti />
+        <Select
+          value={filters.activeAnimals}
+          onChange={setAnimals}
+          closeMenuOnSelect={false}
+          options={animals}
+          isMulti
+        />
       </div>
       <div className={styles.inputGroup}>
         <h4 className={styles.label}>{t('explore.byStation')}</h4>
-        <Select onChange={setStations} closeMenuOnSelect={false} options={stations} isMulti />
+        <Select
+          value={filters.activeStations}
+          onChange={setStations}
+          closeMenuOnSelect={false}
+          options={stations}
+          isMulti
+        />
       </div>
       <div className={styles.inputGroup}>
         <h4 className={styles.label}>{t('explore.byCamera')}</h4>
-        <Select onChange={setCameras} closeMenuOnSelect={false} options={cameras} isMulti />
+        <Select
+          value={filters.activeCameras}
+          onChange={setCameras}
+          closeMenuOnSelect={false}
+          options={cameras}
+          isMulti
+        />
       </div>
       <CertaintyFilter updateFilters={updateFilters} />
     </div>

@@ -210,7 +210,11 @@ export default function ExplorePage() {
           onDarwinCoreExportClick={handleDarwinCoreExport}
           onPhotosExportClick={handlePhotosExport}
         />
-        <ExplorerFilter observations={observations} updateFilters={handleFilters} />
+        <ExplorerFilter
+          observations={observations}
+          updateFilters={handleFilters}
+          filters={filters}
+        />
         <ExplorerMetrics
           data={filteredObservations}
           rareTargets={RareAnimalsClasses}
