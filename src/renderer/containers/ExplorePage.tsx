@@ -135,10 +135,12 @@ export default function ExplorePage() {
 
   const handleNewDataImport = async () => {
     const newObservations = await readObservationsCsv(csvFilePath, dbDirPath);
-    setObservations(newObservations);
-    const overrides = detectOverrides(newObservations);
-    setPredictionOverrides(overrides);
-    setFilters(initialFilters);
+    if (newObservations) {
+      setObservations(newObservations);
+      const overrides = detectOverrides(newObservations);
+      setPredictionOverrides(overrides);
+      setFilters(initialFilters);
+    }
   };
 
   const filterCondition = (needle: string, haystack: Entry[]) => {
