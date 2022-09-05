@@ -103,7 +103,7 @@ export default function ExplorePage() {
   const [isInspectorOpen, setInspectorOpen] = useState<boolean>(false);
   const [predictionOverrides, setPredictionOverrides] = useState<PredictionOverridesMap>({});
 
-  const handleFilters = (val: string[] | Entry[]) => {
+  const handleFilters = (val: string[] | Record<string, Entry[]>) => {
     setFilters({ ...filters, ...val });
   };
 
