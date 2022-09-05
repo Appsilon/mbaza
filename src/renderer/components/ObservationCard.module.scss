@@ -3,22 +3,39 @@
 @use '../styles/animations';
 
 $t-obs-card: 0.4s;
-$card-shadow-normal:
-  0 2px 6px rgba($color: var.$c-green-60, $alpha: 0.3);
-$card-shadow-hovered:
-  0 2px 6px rgba($color: var.$c-green-60, $alpha: 0.4),
-  0 3px 12px rgba($color: var.$c-green-60, $alpha: 0.4);
-$card-shadow-selected:
-  0 2px 6px rgba($color: var.$c-green-60, $alpha: 0.5),
-  0 4px 20px rgba($color: var.$c-green-60, $alpha: 0.6);
+$card-shadow-normal: 0 2px 6px
+  rgba(
+    $color: var.$c-green-60,
+    $alpha: 0.3,
+  );
+$card-shadow-hovered: 0 2px 6px
+    rgba(
+      $color: var.$c-green-60,
+      $alpha: 0.4,
+    ),
+  0 3px 12px
+    rgba(
+      $color: var.$c-green-60,
+      $alpha: 0.4,
+    );
+$card-shadow-selected: 0 2px 6px
+    rgba(
+      $color: var.$c-green-60,
+      $alpha: 0.5,
+    ),
+  0 4px 20px
+    rgba(
+      $color: var.$c-green-60,
+      $alpha: 0.6,
+    );
 
 .observation {
   .card {
+    aspect-ratio: 4/3;
     border-radius: var.$radius-card;
     box-shadow: $card-shadow-normal;
     display: flex;
     flex-direction: column;
-    height: 240px;
     padding: 0;
     transition: box-shadow $t-obs-card;
 
@@ -97,7 +114,6 @@ $card-shadow-selected:
           overflow: auto;
           opacity: 0;
           padding: 10px;
-          pointer-events: none;
           position: absolute;
           transition: opacity $t-obs-card, visibility 0s $t-obs-card;
           visibility: hidden;
