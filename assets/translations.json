@@ -76,9 +76,10 @@
       "explore": {
         "specifyPaths": "Specify file and directory paths to explore",
         "exploreResults": "Explore Results",
+        "specifyCsvFilePath": "Select data file",
+        "specifyDatabaseDirectory": "Select database directory",
         "backToMap": "Back to map",
         "backToObservations": "Back to observations",
-        "chooseFilePlaceholder": "Select data file",
         "info": "Please select a CSV file with detection results to analyze them.",
         "mapHint": "Size of circle corresponds to the number of detected species (species richness). Click on a station to see details.",
         "changeFile": "Change data",
@@ -210,9 +211,10 @@
       "explore": {
         "specifyPaths": "Specify file and directory paths to explore (TODO)",
         "exploreResults": "Explore Results (TODO)",
+        "specifyCsvFilePath": "Fichier de données",
+        "specifyDatabaseDirectory": "Select database directory (TODO)",
         "backToMap": "Retour à la carte",
         "backToObservations": "Retour aux observations",
-        "chooseFilePlaceholder": "Fichier de données",
         "info": "Veuillez sélectionnez un fichier CSV avec les résultats de la détection pour les analyser.",
         "mapHint": "La taille du cercle correspond au nombre d'espèces détectées. Cliquez sur une station pour voir les détails.",
         "changeFile": "Modifier les données",

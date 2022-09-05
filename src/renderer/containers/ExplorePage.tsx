@@ -235,14 +235,14 @@ export default function ExplorePage() {
         </div>
         <PathInput
           className={styles.pathInput}
-          placeholder={t('explore.chooseFilePlaceholder')}
+          placeholder={t('explore.specifyCsvFilePath')}
           value={csvFilePath}
           onChange={setCsvFilePath}
           showDialog={openCsvDialog}
         />
         <PathInput
           className={styles.pathInput}
-          placeholder={t('explore.chooseFilePlaceholder')}
+          placeholder={t('explore.specifyDatabaseDirectory')}
           value={dbDirPath}
           onChange={setDbDirPath}
           showDialog={openDirectoryDialog}
