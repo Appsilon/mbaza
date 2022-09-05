@@ -14,7 +14,7 @@ import { autoUpdater } from 'electron-updater';
 import path from 'path';
 
 import MenuBuilder from './menu';
-import { resolveHtmlPath } from './util';
+import { resolveHtmlPath, RESOURCES_PATH } from './util';
 
 // TODO: Drop `@electron/remote`:
 // https://github.com/electron/remote/blob/main/README.md
@@ -53,8 +53,6 @@ const installExtensions = async () => {
     )
     .catch(console.log);
 };
-
-const RESOURCES_PATH = app.isPackaged ? process.resourcesPath : path.join(__dirname, '..', '..');
 
 const createWindow = async () => {
   if (isDebug) {
