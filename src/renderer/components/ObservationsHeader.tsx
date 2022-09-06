@@ -1,32 +1,30 @@
-import { Button, Dialog, mergeRefs, Slider } from '@blueprintjs/core';
+import { Button, Dialog, Slider } from '@blueprintjs/core';
 import { Classes, Popover2 } from '@blueprintjs/popover2';
 import classNames from 'classnames/bind';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-
 import CreatableSelect from 'react-select/creatable';
+
 import { taxonOptions } from '../constants/taxons';
 import styles from './ObservationsHeader.module.scss';
+
+const cx = classNames.bind(styles);
 
 export default function ObservationsHeader(props: ObservationsHeaderProps) {
   const {
     observations,
     maximizedCardIndex,
     selectedCardsTotal,
-    cardsTotalInRow,
-    isCardsLayoutPopover,
+    columns,
     onBackButtonClick,
     onPredictionsOverride,
-    onCardsSizeChange,
-    showCardsLayoutPopover,
+    onColumnsChange,
   } = props;
   const { t } = useTranslation();
-  const cx = classNames.bind(styles);
   const [globalOverride, setGlobalOverride] = useState<CreatableOption | null>(null);
-  const [cardsMaxInRow, setCardsMaxInRow] = useState<number | undefined>(undefined);
   const [isConfirmationDialogOpen, setConfirmationDialogOpen] = useState<boolean>(false);
+  const [isLayoutPopoverOpen, setIsLayoutPopoverOpen] = useState<boolean>(false);
   const isCardMaximized = maximizedCardIndex !== null;
-  const CARD_MIN_WIDTH = 230;
 
   const handleBackButtonClick = () => {
     onBackButtonClick();
@@ -55,15 +53,6 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
     ? t('explore.inspect.selected', { count: selectedCardsTotal })
     : t('explore.inspect.header', { station: observations[0].station });
 
-  const headerRef = useRef<HTMLDivElement>(null);
-  const handleCardsLayoutButton = () => {
-    if (headerRef.current) {
-      showCardsLayoutPopover(!isCardsLayoutPopover);
-      setCardsMaxInRow(Math.round(headerRef.current.clientWidth / CARD_MIN_WIDTH));
-      if (cardsMaxInRow && cardsTotalInRow > cardsMaxInRow) onCardsSizeChange(cardsMaxInRow);
-    }
-  };
-
   const cardsDetails = isCardMaximized ? (
     <p className={styles.counter}>
       {t('explore.inspect.observationNumber', {
@@ -75,31 +64,20 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
     <Popover2
       popoverClassName={Classes.POPOVER2_CONTENT_SIZING}
       placement="bottom"
-      isOpen={isCardsLayoutPopover}
-      content={
-        <Slider
-          value={cardsTotalInRow}
-          onChange={onCardsSizeChange}
-          vertical
-          min={1}
-          max={cardsMaxInRow}
-        />
-      }
-      renderTarget={({ isOpen, ref: ref1, ...targetProps }) => (
-        <Button
-          // eslint-disable-next-line react/jsx-props-no-spreading
-          {...targetProps}
-          elementRef={mergeRefs(ref1)}
-          intent="primary"
-          text={t('explore.inspect.layout')}
-          onClick={handleCardsLayoutButton}
-        />
-      )}
-    />
+      isOpen={isLayoutPopoverOpen}
+      onInteraction={(nextOpenState) => setIsLayoutPopoverOpen(nextOpenState)}
+      content={<Slider value={columns} onChange={onColumnsChange} vertical min={1} max={10} />}
+    >
+      <Button
+        intent="primary"
+        text={t('explore.inspect.layout')}
+        onClick={() => setIsLayoutPopoverOpen(!isLayoutPopoverOpen)}
+      />
+    </Popover2>
   );
 
   return (
-    <div className={containerClass} ref={headerRef}>
+    <div className={containerClass}>
       <div className={cx({ side: true, left: true })}>
         <Button
           className={styles.backButton}
