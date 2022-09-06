@@ -8,7 +8,7 @@ import { OverrideWidget } from './observationsHelpers';
 import styles from './ObservationsInspector.module.scss';
 
 export default function ObservationsInspector(props: ObservationsInspectorProps) {
-  const { observations, onClose, predictionOverrides, onPredictionsOverride } = props;
+  const { observations, onClose, predictionOverrides, onPredictionsOverride, photosPath } = props;
   const [maximizedCard, setMaximizedCard] = useState<number | null>(null);
   const [selectedCards, setSelectedCards] = useState<number[]>([]);
   const isSelectionMode = selectedCards.length > 0;
@@ -78,6 +78,7 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
                 observationIndex={index}
                 isSelected={isSelected}
                 isSelectionMode={isSelectionMode}
+                photosPath={photosPath}
                 onPhotoClick={handlePhotoClick}
                 onCardSelect={handleSelectedCards}
                 overrideWidget={
@@ -96,6 +97,7 @@ export default function ObservationsInspector(props: ObservationsInspectorProps)
           <MaximizedObservationCard
             observation={observations[maximizedCard]}
             observationIndex={maximizedCard}
+            photosPath={photosPath}
             onPhotoClick={handlePhotoClick}
             onPrevious={handlePreviousObservationClick}
             onNext={handleNextObservationClick}
