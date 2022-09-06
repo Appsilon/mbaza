@@ -119,6 +119,8 @@
           "observationNumber_other": "{{currentObservation}} {{count}} observations",
           "species": "{{count}} species",
           "header": "Observations by station {{station}}",
+          "overrideSelected": "Update Selected",
+          "layout": "Cards Layout",
           "prediction": "Prediction",
           "probability": "Probability",
           "override": {
@@ -254,6 +256,8 @@
           "observationNumber_other": "{{currentObservation}} {{count}} observations",
           "species": "{{count}} espèces",
           "header": "Observations par station {{station}}",
+          "overrideSelected": "Update Selected (TODO)",
+          "layout": "Cards Layout (TODO)",
           "prediction": "Prédiction",
           "probability": "Probabilité",
           "override": {

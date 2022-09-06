@@ -14,11 +14,11 @@ $card-shadow-selected:
 
 .observation {
   .card {
+    aspect-ratio: 4/3;
     border-radius: var.$radius-card;
     box-shadow: $card-shadow-normal;
     display: flex;
     flex-direction: column;
-    height: 240px;
     padding: 0;
     transition: box-shadow $t-obs-card;
 
@@ -97,7 +97,6 @@ $card-shadow-selected:
           overflow: auto;
           opacity: 0;
           padding: 10px;
-          pointer-events: none;
           position: absolute;
           transition: opacity $t-obs-card, visibility 0s $t-obs-card;
           visibility: hidden;

@@ -1,9 +1,10 @@
-import { Button, Dialog } from '@blueprintjs/core';
+import { Button, Dialog, Slider } from '@blueprintjs/core';
+import { Classes, Popover2 } from '@blueprintjs/popover2';
 import classNames from 'classnames/bind';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-
 import CreatableSelect from 'react-select/creatable';
+
 import { taxonOptions } from '../constants/taxons';
 import styles from './ObservationsHeader.module.scss';
 
@@ -14,13 +15,16 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
     observations,
     maximizedCardIndex,
     selectedCardsTotal,
+    columns,
     onBackButtonClick,
     onPredictionsOverride,
+    onColumnsChange,
   } = props;
   const { t } = useTranslation();
   const [globalOverride, setGlobalOverride] = useState<CreatableOption | null>(null);
+  const [isConfirmationDialogOpen, setConfirmationDialogOpen] = useState<boolean>(false);
+  const [isLayoutPopoverOpen, setIsLayoutPopoverOpen] = useState<boolean>(false);
   const isCardMaximized = maximizedCardIndex !== null;
-  const [isDialogOpen, setDialogOpen] = useState<boolean>(false);
 
   const handleBackButtonClick = () => {
     onBackButtonClick();
@@ -30,7 +34,7 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
   const handleUpdateButtonClick = () => {
     onPredictionsOverride(globalOverride);
     handleBackButtonClick();
-    setDialogOpen(false);
+    setConfirmationDialogOpen(false);
   };
 
   const containerClass = cx({
@@ -49,12 +53,28 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
     ? t('explore.inspect.selected', { count: selectedCardsTotal })
     : t('explore.inspect.header', { station: observations[0].station });
 
-  const counterText = isCardMaximized
-    ? t('explore.inspect.observationNumber', {
+  const cardsDetails = isCardMaximized ? (
+    <p className={styles.counter}>
+      {t('explore.inspect.observationNumber', {
         currentObservation: `${maximizedCardIndex + 1} /`,
         count: observations.length,
-      })
-    : t('explore.inspect.observations', { count: observations.length });
+      })}
+    </p>
+  ) : (
+    <Popover2
+      popoverClassName={Classes.POPOVER2_CONTENT_SIZING}
+      placement="bottom"
+      isOpen={isLayoutPopoverOpen}
+      onInteraction={(nextOpenState) => setIsLayoutPopoverOpen(nextOpenState)}
+      content={<Slider value={columns} onChange={onColumnsChange} vertical min={1} max={10} />}
+    >
+      <Button
+        intent="primary"
+        text={t('explore.inspect.layout')}
+        onClick={() => setIsLayoutPopoverOpen(!isLayoutPopoverOpen)}
+      />
+    </Popover2>
+  );
 
   return (
     <div className={containerClass}>
@@ -88,13 +108,13 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
               className={styles.updateButton}
               intent="primary"
               disabled={!globalOverride}
-              onClick={() => setDialogOpen(true)}
-              text="Update Selected"
+              onClick={() => setConfirmationDialogOpen(true)}
+              text={t('explore.inspect.overrideSelected')}
             />
             <Dialog
               className={styles.confirmationDialog}
-              isOpen={isDialogOpen}
-              onClose={() => setDialogOpen(false)}
+              isOpen={isConfirmationDialogOpen}
+              onClose={() => setConfirmationDialogOpen(false)}
             >
               <div className={styles.text}>{t('explore.inspect.override.warning')}</div>
               <div className={styles.buttons}>
@@ -102,7 +122,7 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
                   intent="primary"
                   minimal
                   large
-                  onClick={() => setDialogOpen(false)}
+                  onClick={() => setConfirmationDialogOpen(false)}
                   text={t('explore.inspect.override.cancel')}
                 />
                 <Button
@@ -115,7 +135,7 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
             </Dialog>
           </>
         ) : (
-          <p className={styles.counter}>{counterText}</p>
+          cardsDetails
         )}
       </div>
     </div>

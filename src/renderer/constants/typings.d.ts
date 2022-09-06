@@ -97,8 +97,10 @@ type ObservationsHeaderProps = {
   observations: Observation[];
   maximizedCardIndex: number | null;
   selectedCardsTotal: number;
+  columns: number;
   onBackButtonClick: () => void;
   onPredictionsOverride: (override: CreatableOption | null) => void;
+  onColumnsChange: (columns: number) => void;
 };
 
 type Entry = {

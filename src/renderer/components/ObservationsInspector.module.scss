@@ -23,5 +23,11 @@
       margin: 20px 0;
       padding: 20px;
     }
+
+    @for $i from 1 through 10 {
+      .list--#{$i} {
+        grid-template-columns: repeat(#{$i}, minmax(50px, 1fr));
+      }
+    }
   }
 }
