@@ -30,6 +30,7 @@ import computeEvents from '../utils/computeEvents';
 import exportDarwinCore from '../utils/exportDarwinCore';
 import exportPhotos from '../utils/exportPhotos';
 import { openCsvDialog, openDirectoryDialog, saveCsvDialog } from '../utils/fileDialog';
+import formatLabel from '../utils/formatLabel';
 import readObservationsCsv from '../utils/readObservationsCsv';
 import writeCorrectedCsv from '../utils/writeCorrectedCsv';
 import styles from './ExplorePage.module.scss';
@@ -49,11 +50,6 @@ type Filters = {
   activeCameras: Entry[];
   activeStations: Entry[];
   certaintyRange: NumberRange;
-};
-
-type Entry = {
-  label: string;
-  value: string;
 };
 
 const initialFilters: Filters = {
@@ -104,7 +100,7 @@ export default function ExplorePage() {
   const [isInspectorOpen, setInspectorOpen] = useState<boolean>(false);
   const [predictionOverrides, setPredictionOverrides] = useState<PredictionOverridesMap>({});
 
-  const handleFilters = (val: string[]) => {
+  const handleFilters = (val: string[] | Record<string, Entry[]>) => {
     setFilters({ ...filters, ...val });
   };
 
@@ -189,6 +185,13 @@ export default function ExplorePage() {
       const path = await openDirectoryDialog();
       if (path !== undefined) await exportPhotos(path, filteredObservations, photosPath);
     };
+    const handleInspector = (stationObservations: Observation[]) => {
+      const { station } = stationObservations[0];
+      handleFilters({
+        activeStations: [{ value: station, label: formatLabel(station) }],
+      });
+      setInspectorOpen(true);
+    };
 
     return (
       <div className={styles.containerLoaded}>
@@ -200,7 +203,11 @@ export default function ExplorePage() {
           onDarwinCoreExportClick={handleDarwinCoreExport}
           onPhotosExportClick={handlePhotosExport}
         />
-        <ExplorerFilter observations={observations} updateFilters={handleFilters} />
+        <ExplorerFilter
+          observations={observations}
+          updateFilters={handleFilters}
+          activeStations={filters.activeStations}
+        />
         <ExplorerMetrics
           data={filteredObservations}
           rareTargets={RareAnimalsClasses}
@@ -213,7 +220,7 @@ export default function ExplorePage() {
           <div className={styles.cardBody}>
             <Map
               observations={filteredObservations}
-              onInspect={() => setInspectorOpen(true)}
+              onInspect={handleInspector}
               photosPath={photosPath}
             />
             {isInspectorOpen && (

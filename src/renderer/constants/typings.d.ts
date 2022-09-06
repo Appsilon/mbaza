@@ -100,3 +100,8 @@ type ObservationsHeaderProps = {
   onBackButtonClick: () => void;
   onPredictionsOverride: (override: CreatableOption | null) => void;
 };
+
+type Entry = {
+  label: string;
+  value: string;
+};
