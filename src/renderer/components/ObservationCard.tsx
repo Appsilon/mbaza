@@ -1,5 +1,6 @@
 import { Button, Card, Elevation, Tooltip } from '@blueprintjs/core';
 import classNames from 'classnames/bind';
+import path from 'path';
 import { useTranslation } from 'react-i18next';
 
 import styles from './ObservationCard.module.scss';
@@ -13,6 +14,7 @@ export default function ObservationCard(props: ObservationCardProps) {
     observationIndex,
     isSelected,
     isSelectionMode,
+    photosPath,
     onCardSelect,
     onPhotoClick,
     overrideWidget,
@@ -36,7 +38,7 @@ export default function ObservationCard(props: ObservationCardProps) {
           <div className={styles.photo}>
             <img
               className={styles.img}
-              src={`file:${observation.location}`}
+              src={`file:${path.join(photosPath, observation.location)}`}
               alt={observation.pred_1}
             />
             <div className={styles.data}>

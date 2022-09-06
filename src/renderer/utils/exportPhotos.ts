@@ -21,9 +21,10 @@ function filename(o: Observation) {
 
 export default async function exportPhotos(
   directory: string,
-  observations: Observation[]
+  observations: Observation[],
+  photosPath: string
 ): Promise<void> {
   for await (const o of observations) {
-    await copyFile(o.location, join(directory, filename(o)));
+    await copyFile(join(photosPath, o.location), join(directory, filename(o)));
   }
 }

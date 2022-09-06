@@ -4,6 +4,7 @@ import '@blueprintjs/popover2/lib/css/blueprint-popover2.css';
 import { TFunction } from 'i18next';
 import _ from 'lodash';
 import mapboxgl from 'mapbox-gl';
+import path from 'path';
 import React, { useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import { useTranslation } from 'react-i18next';
@@ -14,9 +15,7 @@ import styles from './Map.module.scss';
 
 /*
 To produce a country file please have a look at download_map.sh
-
 Useful tutorial - https://digitalki.net/2017/12/13/offline-maps-with-mapbox-gl-js-and-electron/
-
 Possible style inspirations:
 https://github.com/maputnik/osm-liberty
 https://github.com/Toshiwoz/terry-mapper
@@ -41,18 +40,12 @@ function getObservationCoordinates(row: Observation): [number, number] {
   return [row.coordinates_long, row.coordinates_lat];
 }
 
-function circleDiameter(count: number, total: number): number {
-  const minSize = 10;
-  const maxSize = 50;
-  return minSize + (count / total) * (maxSize - minSize);
-}
-
 function makeStationMarker(
   t: TFunction,
   groupObservations: Observation[],
   species: _.Collection<string>,
-  maxSpecies: number,
-  setInspectedObservations: (observations: Observation[]) => void
+  setInspectedObservations: (observations: Observation[]) => void,
+  photosPath: string
 ) {
   // Observations from a single station should have approximately identical
   // coordinates, so we can pick any.
@@ -61,12 +54,10 @@ function makeStationMarker(
   const count = groupObservations.length;
   const { station } = firstObservation;
 
-  const diameter = circleDiameter(species.size(), maxSpecies);
   const maxPreviewPhotosCount = 3;
 
   const markerElement = document.createElement('div');
   markerElement.className = styles.marker;
-  markerElement.setAttribute('style', `width: ${diameter}px; height: ${diameter}px;`);
   if (markerElement) {
     markerElement.addEventListener('click', (event: Event) => {
       const activeMarkers: NodeListOf<Element> = document.querySelectorAll(
@@ -103,7 +94,10 @@ function makeStationMarker(
             className={styles.photosPreviewItem}
             onClick={() => setInspectedObservations(groupObservations)}
           >
-            <img src={`file:${observation.location}`} alt="Observations preview" />
+            <img
+              src={`file:${path.join(photosPath, observation.location)}`}
+              alt="Observations preview"
+            />
           </a>
         ))}
         <div>
@@ -118,9 +112,9 @@ function makeStationMarker(
     </>
   );
 
-  const marker = new mapboxgl.Marker(markerElement)
+  const marker = new mapboxgl.Marker(markerElement, { anchor: 'bottom' })
     .setLngLat(coordinates)
-    .setPopup(new mapboxgl.Popup({ offset: diameter / 2 }).setDOMContent(popupContentPlaceholder));
+    .setPopup(new mapboxgl.Popup({ offset: 25 }).setDOMContent(popupContentPlaceholder));
   return marker;
 }
 
@@ -128,7 +122,8 @@ function addMarkers(
   t: TFunction,
   observations: Observation[],
   map: mapboxgl.Map,
-  setInspectedObservations: (observations: Observation[]) => void
+  setInspectedObservations: (observations: Observation[]) => void,
+  photosPath: string
 ) {
   // TODO: Drop observations with missing station and warn the user.
   const markers = _(observations)
@@ -149,8 +144,8 @@ function addMarkers(
           t,
           group.observations,
           group.species,
-          maxSpecies,
-          setInspectedObservations
+          setInspectedObservations,
+          photosPath
         );
         marker.addTo(map);
       });
@@ -161,10 +156,11 @@ function addMarkers(
 type MapProps = {
   observations: Observation[];
   onInspect: (observations: Observation[]) => void;
+  photosPath: string;
 };
 
 export default function Map(props: MapProps) {
-  const { observations, onInspect } = props;
+  const { observations, onInspect, photosPath } = props;
   const mapRef = React.createRef<HTMLDivElement>();
   const { t } = useTranslation();
 
@@ -175,11 +171,11 @@ export default function Map(props: MapProps) {
       center: [12, -0.8],
       zoom: 6,
     });
-    addMarkers(t, observations, map, onInspect);
+    addMarkers(t, observations, map, onInspect, photosPath);
     return function cleanup() {
       map.remove();
     };
-  }, [mapRef, observations, onInspect, t]);
+  }, [mapRef, observations, onInspect, t, photosPath]);
 
   return <div ref={mapRef} className={styles.mapContainer} />;
 }

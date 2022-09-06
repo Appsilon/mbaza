@@ -20,6 +20,7 @@ import ExplorerFilter from '../components/ExplorerFilters';
 import ExplorerMetrics from '../components/ExplorerMetrics';
 import Map from '../components/Map';
 import ObservationsInspector from '../components/ObservationsInspector';
+import PathInput from '../components/PathInput';
 import {
   EmptyClasses,
   formatAnimalClassName,
@@ -28,7 +29,8 @@ import {
 import computeEvents from '../utils/computeEvents';
 import exportDarwinCore from '../utils/exportDarwinCore';
 import exportPhotos from '../utils/exportPhotos';
-import { openDirectoryDialog, saveCsvDialog } from '../utils/fileDialog';
+import { openCsvDialog, openDirectoryDialog, saveCsvDialog } from '../utils/fileDialog';
+import formatLabel from '../utils/formatLabel';
 import readObservationsCsv from '../utils/readObservationsCsv';
 import writeCorrectedCsv from '../utils/writeCorrectedCsv';
 import styles from './ExplorePage.module.scss';
@@ -40,10 +42,7 @@ import animals4 from '../../../assets/graphics/SVG_4.svg';
 import animals5 from '../../../assets/graphics/SVG_5.svg';
 import animals6 from '../../../assets/graphics/SVG_6.svg';
 
-const remote = require('@electron/remote');
-
 const { writeFile } = fsPromises;
-
 const animalsBackgrounds = [animals6, animals5, animals4, animals3, animals2, animals1];
 
 type Filters = {
@@ -53,38 +52,12 @@ type Filters = {
   certaintyRange: NumberRange;
 };
 
-type Entry = {
-  label: string;
-  value: string;
-};
-
 const initialFilters: Filters = {
   activeAnimals: [],
   activeCameras: [],
   activeStations: [],
   certaintyRange: [0, 1],
 };
-
-async function chooseFile(
-  changeFileChoice: (path: string) => void,
-  setObservations: (observations: Observation[]) => void
-) {
-  const dialog = await remote.dialog.showOpenDialog({
-    properties: ['openFile'],
-    filters: [
-      { name: 'CSV', extensions: ['csv'] },
-      { name: 'All Files', extensions: ['*'] },
-    ],
-  });
-  if (!dialog.canceled) {
-    const path = dialog.filePaths[0];
-    const observations = await readObservationsCsv(path);
-    changeFileChoice(path);
-    setObservations(observations);
-    return observations;
-  }
-  return undefined;
-}
 
 function inRange(value: number, [low, high]: NumberRange) {
   return low <= value && value <= high;
@@ -120,18 +93,19 @@ function overridesCount(observations: Observation[]): number {
 
 export default function ExplorePage() {
   const { t } = useTranslation();
-  const [filePath, setFilePath] = useState<string>();
+  const [csvPath, setCsvPath] = useState<string>('');
+  const [photosPath, setPhotosPath] = useState<string>('');
   const [filters, setFilters] = useState<Filters>(initialFilters);
   const [observations, setObservations] = useState<undefined | Observation[]>();
   const [isInspectorOpen, setInspectorOpen] = useState<boolean>(false);
   const [predictionOverrides, setPredictionOverrides] = useState<PredictionOverridesMap>({});
 
-  const handleFilters = (val: string[]) => {
+  const handleFilters = (val: string[] | Record<string, Entry[]>) => {
     setFilters({ ...filters, ...val });
   };
 
   const handlePredictionsOverride = (locations: string[], override: CreatableOption | null) => {
-    if (observations === undefined) return false;
+    if (observations === undefined) return;
     const updatedOverrides = { ...predictionOverrides };
     const updatedObservations = [...observations];
 
@@ -153,14 +127,16 @@ export default function ExplorePage() {
     });
     setObservations(updatedObservations);
     setPredictionOverrides(updatedOverrides);
-    return false;
   };
 
   const handleNewDataImport = async () => {
-    const newObservations = await chooseFile(setFilePath, setObservations);
-    const overrides = detectOverrides(newObservations);
-    setPredictionOverrides(overrides);
-    setFilters(initialFilters);
+    const newObservations = await readObservationsCsv(csvPath);
+    if (newObservations) {
+      setObservations(newObservations);
+      const overrides = detectOverrides(newObservations);
+      setPredictionOverrides(overrides);
+      setFilters(initialFilters);
+    }
   };
 
   const filterCondition = (needle: string, haystack: Entry[]) => {
@@ -180,10 +156,7 @@ export default function ExplorePage() {
       );
     }
     return filtered;
-    // TODO: Remove `predictionOverrides` from the dependencies once `observations` are updated
-    // correctly in the `handlePredictionOverride()` function.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filters, observations, predictionOverrides]);
+  }, [filters, observations]);
 
   if (observations !== undefined) {
     const handleCsvExport = async () => {
@@ -210,20 +183,31 @@ export default function ExplorePage() {
     };
     const handlePhotosExport = async () => {
       const path = await openDirectoryDialog();
-      if (path !== undefined) await exportPhotos(path, filteredObservations);
+      if (path !== undefined) await exportPhotos(path, filteredObservations, photosPath);
+    };
+    const handleInspector = (stationObservations: Observation[]) => {
+      const { station } = stationObservations[0];
+      handleFilters({
+        activeStations: [{ value: station, label: formatLabel(station) }],
+      });
+      setInspectorOpen(true);
     };
 
     return (
       <div className={styles.containerLoaded}>
         <ExploreHeader
-          filePath={filePath}
+          filePath={csvPath}
           onDataImportClick={() => setObservations(undefined)}
           onEventsUpdateClick={handleEventsUpdate}
           onDataExportClick={handleCsvExport}
           onDarwinCoreExportClick={handleDarwinCoreExport}
           onPhotosExportClick={handlePhotosExport}
         />
-        <ExplorerFilter observations={observations} updateFilters={handleFilters} />
+        <ExplorerFilter
+          observations={observations}
+          updateFilters={handleFilters}
+          activeStations={filters.activeStations}
+        />
         <ExplorerMetrics
           data={filteredObservations}
           rareTargets={RareAnimalsClasses}
@@ -234,13 +218,18 @@ export default function ExplorePage() {
         <Card className={styles.card} elevation={Elevation.TWO}>
           <Callout intent={Intent.PRIMARY}>{t('explore.mapHint')}</Callout>
           <div className={styles.cardBody}>
-            <Map observations={filteredObservations} onInspect={() => setInspectorOpen(true)} />
+            <Map
+              observations={filteredObservations}
+              onInspect={handleInspector}
+              photosPath={photosPath}
+            />
             {isInspectorOpen && (
               <ObservationsInspector
                 observations={filteredObservations}
                 onClose={() => setInspectorOpen(false)}
                 predictionOverrides={predictionOverrides}
                 onPredictionsOverride={handlePredictionsOverride}
+                photosPath={photosPath}
               />
             )}
           </div>
@@ -253,18 +242,33 @@ export default function ExplorePage() {
     <div className={styles.container}>
       <Card className={styles.card} elevation={Elevation.TWO}>
         <div className={styles.header}>
-          <H4 className={styles.title}>{t('explore.chooseFile')}</H4>
+          <H4 className={styles.title}>{t('explore.specifyPaths')}</H4>
           <Tooltip content={t('explore.info')}>
             <Icon className={styles.icon} color="#647f80" icon="help" iconSize={22} />
           </Tooltip>
         </div>
+        <PathInput
+          className={styles.pathInput}
+          placeholder={t('explore.specifyCsvFilePath')}
+          value={csvPath}
+          onChange={setCsvPath}
+          showDialog={openCsvDialog}
+        />
+        <PathInput
+          className={styles.pathInput}
+          placeholder={t('explore.specifyDatabaseDirectory')}
+          value={photosPath}
+          onChange={setPhotosPath}
+          showDialog={openDirectoryDialog}
+        />
         <Button
-          aria-label="Search"
+          aria-label="Confirm"
           intent="primary"
           fill
           large
+          disabled={!csvPath || !photosPath}
           onClick={handleNewDataImport}
-          text={t('explore.chooseFilePlaceholder')}
+          text={t('explore.exploreResults')}
           type="submit"
         />
       </Card>

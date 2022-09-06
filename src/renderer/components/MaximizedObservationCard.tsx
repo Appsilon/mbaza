@@ -1,4 +1,5 @@
 import { Button, Card, Elevation, Tooltip } from '@blueprintjs/core';
+import path from 'path';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -6,7 +7,15 @@ import styles from './MaximizedObservationCard.module.scss';
 import { getPredictions, PhotoDetails, PredictionsTable } from './observationsHelpers';
 
 export default function ObservationCard(props: MaximizedObservationCardProps) {
-  const { observation, observationIndex, onPhotoClick, onPrevious, onNext, overrideWidget } = props;
+  const {
+    observation,
+    observationIndex,
+    photosPath,
+    onPhotoClick,
+    onPrevious,
+    onNext,
+    overrideWidget,
+  } = props;
   const { t } = useTranslation();
   const predictions = getPredictions(observation);
 
@@ -41,7 +50,7 @@ export default function ObservationCard(props: MaximizedObservationCardProps) {
           >
             <img
               className={styles.img}
-              src={`file:${observation.location}`}
+              src={`file:${path.join(photosPath, observation.location)}`}
               alt={observation.pred_1}
             />
             <div className={styles.data}>

@@ -48,6 +48,7 @@ a {
   }
 
   &.bp4-disabled {
+    background-color: var.$c-green-40;
     opacity: 0.5;
     pointer-events: none;
   }
