@@ -62,8 +62,6 @@
         "find": "Find animals!",
         "logTitle": "Classifier output",
         "inProgress": "Please wait. Animal detection in progress. This may take a long time.",
-        "modelExecutableNotFound": "Could not find the model executable. Please make sure you unpacked the models in the correct directory. It should be in {{program}}.",
-        "modelWeightsNotFound": "Could not find the model weights file. Please make sure you unpacked the models in the correct directory. Model weights should be in {{modelWeightsPath}}.",
         "modelsDirectoryMissing": {
           "title": "Models directory not found",
           "description1": "You need to obtain a zip file containing the AI models and unzip it in the program's main directory. Please make sure that you have a ",
@@ -71,7 +69,7 @@
         },
         "success": "Species classification completed.",
         "failure": "Species classification failed.",
-        "info": "<p>Here you can detect animals in images. If you would like to detect animals in videos, please go to Extract frames tab first.</p> <p>Please select an input directory containing subfolders with images.</p> <p>Please select an output CSV file where the results of the detection will be stored.</p> <p>You can optionally provide project and deployment IDs which will be used to populate the output CSV.</p> <p> You can also provide a CSV with the latitude and longitude coordinates of camera stations, which will automatically generate a map. </p> <p>After the detection is complete, explore the results in the Explore results tab.</p>"
+        "info": "<p>Here you can detect animals in images.</p> <p>Please select an input directory containing subfolders with images.</p> <p>Please select an output CSV file where the results of the detection will be stored.</p> <p>You can optionally provide project and deployment IDs which will be used to populate the output CSV.</p> <p> You can also provide a CSV with the latitude and longitude coordinates of camera stations, which will automatically generate a map. </p> <p>After the detection is complete, explore the results in the Explore results tab.</p>"
       },
       "explore": {
         "specifyPaths": "Specify file and directory paths to explore",
@@ -199,8 +197,6 @@
         "find": "Trouver des animaux !",
         "logTitle": "Sortie du classifieur",
         "inProgress": "Veuillez patienter. Détection d'animaux en cours. Cela peut prendre beaucoup de temps.",
-        "modelExecutableNotFound": "Le modèle d'exécutable n'a pas été trouver. Veuillez vous assurer que vous avez décompressé les modèles dans le bon dossier. Il devrait être dans {{program}}.",
-        "modelWeightsNotFound": "Le fichier des poids modèles n'a pas été trouvé. Veuillez vous assurer que vous avez décompressé les modèles dans le bon dossier. Les poids des modèles doivent être dans le dossier {{modelWeightsPath}}.",
         "modelsDirectoryMissing": {
           "title": "Le répertoire des modèles n'a pas été trouvé",
           "description1": "Vous devez obtenir un fichier zip contenant les modèles d'IA et le décompresser dans le dossier principal du programme. Veuillez vous assurer que vous disposez d'un répertoire ",
@@ -208,7 +204,7 @@
         },
         "success": "La détection des animaux est terminée.",
         "failure": "La détection des animaux a échoué.",
-        "info": "<p>Vous pouvez ici détecter des animaux dans des images. Si vous souhaitez détecter des animaux dans des vidéos, veuillez d'abord aller dans l'onglet Extraire des images.</p> <p>Veuillez sélectionner un répertoire d'entrée contenant des sous-dossiers avec des images.</p> <p>Veuillez sélectionner un fichier .csv de sortie où seront stockés les résultats de la détection.</p> <p>Vous pouvez éventuellement fournir des identifiants de projet et de déploiement qui seront utilisés pour alimenter le CSV de sortie.</p> <p>Vous pouvez également fournir un CSV avec les coordonnées de latitude et de longitude des stations de caméra, ce qui générera une carte. </p> <p>After the detection is complete, explore the results in the Explore results tab.</p>"
+        "info": "<p>Vous pouvez ici détecter des animaux dans des images.</p> <p>Veuillez sélectionner un répertoire d'entrée contenant des sous-dossiers avec des images.</p> <p>Veuillez sélectionner un fichier .csv de sortie où seront stockés les résultats de la détection.</p> <p>Vous pouvez éventuellement fournir des identifiants de projet et de déploiement qui seront utilisés pour alimenter le CSV de sortie.</p> <p>Vous pouvez également fournir un CSV avec les coordonnées de latitude et de longitude des stations de caméra, ce qui générera une carte. </p> <p>After the detection is complete, explore the results in the Explore results tab.</p>"
       },
       "explore": {
         "specifyPaths": "Specify file and directory paths to explore (TODO)",
