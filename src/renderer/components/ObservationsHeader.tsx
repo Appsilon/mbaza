@@ -109,7 +109,7 @@ export default function ObservationsHeader(props: ObservationsHeaderProps) {
               intent="primary"
               disabled={!globalOverride}
               onClick={() => setConfirmationDialogOpen(true)}
-              text="Update Selected"
+              text={t('explore.inspect.overrideSelected')}
             />
             <Dialog
               className={styles.confirmationDialog}
