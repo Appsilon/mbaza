@@ -32,8 +32,11 @@ async function readPhoto(path: string) {
   return dst;
 }
 
-function attachLabels(model: Model, output: ort.Tensor) {
-  const entries = MODELS[model].labels.map((label, idx) => [label, output.data[idx]]);
+function buildResult(model: Model, output?: ort.Tensor) {
+  const entries = MODELS[model].labels.map((label, idx) => [
+    label,
+    output ? output.data[idx] : undefined,
+  ]);
   return Object.fromEntries(entries);
 }
 
@@ -44,12 +47,17 @@ export default async function runInference(model: Model, photoPaths: string[]) {
   // all photos at once would consume too much resources.
   /* eslint-disable no-await-in-loop */
   for (const path of photoPaths) {
-    const photo = await readPhoto(path);
-    // The first dimension of the tensor is the photo index (used for batch processing).
-    // TODO: Process photos in batches to improve performance.
-    const input = new ort.Tensor('float32', photo.data, [1, ...photo.shape]);
-    const { output } = await session.run({ input });
-    results.push(attachLabels(model, output));
+    try {
+      const photo = await readPhoto(path);
+      // The first dimension of the tensor is the photo index (used for batch processing).
+      // TODO: Process photos in batches to improve performance.
+      const input = new ort.Tensor('float32', photo.data, [1, ...photo.shape]);
+      const { output } = await session.run({ input });
+      results.push(buildResult(model, output));
+    } catch (e) {
+      console.error(e); // eslint-disable-line no-console
+      results.push(buildResult(model));
+    }
   }
   /* eslint-enable no-await-in-loop */
   return results;

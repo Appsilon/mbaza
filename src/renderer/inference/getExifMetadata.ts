@@ -2,7 +2,7 @@ import ExifReader from 'exifreader';
 import { readFile } from 'fs/promises';
 import _ from 'lodash';
 
-function getDateTime(tags: ExifReader.ExpandedTags) {
+function getDateTime(tags?: ExifReader.ExpandedTags) {
   const dateTime = _.get(tags, 'exif.DateTimeOriginal.value[0]');
   if (typeof dateTime === 'string') {
     const [date, time] = dateTime.split(' ');
@@ -11,8 +11,8 @@ function getDateTime(tags: ExifReader.ExpandedTags) {
   return { exif_date: '', exif_time: '' };
 }
 
-function getCoords(tags: ExifReader.ExpandedTags) {
-  if (tags.gps) {
+function getCoords(tags?: ExifReader.ExpandedTags) {
+  if (tags && tags.gps) {
     const { Longitude, Latitude } = tags.gps;
     return { exif_gps_long: Longitude, exif_gps_lat: Latitude };
   }
@@ -20,7 +20,12 @@ function getCoords(tags: ExifReader.ExpandedTags) {
 }
 
 function f(photo: Buffer) {
-  const tags = ExifReader.load(photo, { expanded: true });
+  let tags;
+  try {
+    tags = ExifReader.load(photo, { expanded: true });
+  } catch (e) {
+    console.error(e); // eslint-disable-line no-console
+  }
   return { ...getDateTime(tags), ...getCoords(tags) };
 }
 
