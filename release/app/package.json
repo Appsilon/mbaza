@@ -13,5 +13,8 @@
     "postinstall": "npm run electron-rebuild && npm run link-modules",
     "link-modules": "node -r ts-node/register ../../.erb/scripts/link-modules.ts"
   },
-  "dependencies": {}
+  "dependencies": {
+    "onnxruntime-node": "^1.12.1",
+    "sharp": "^0.30.7"
+  }
 }

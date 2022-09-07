@@ -13,12 +13,15 @@ import log from 'electron-log';
 import { autoUpdater } from 'electron-updater';
 import path from 'path';
 
+import setupIpcMain from './ipc/main';
 import MenuBuilder from './menu';
-import { resolveHtmlPath } from './util';
+import { resolveHtmlPath, RESOURCES_PATH } from './util';
 
 // TODO: Drop `@electron/remote`:
 // https://github.com/electron/remote/blob/main/README.md
 require('@electron/remote/main').initialize();
+
+setupIpcMain();
 
 class AppUpdater {
   constructor() {
@@ -54,8 +57,6 @@ const installExtensions = async () => {
     .catch(console.log);
 };
 
-const RESOURCES_PATH = app.isPackaged ? process.resourcesPath : path.join(__dirname, '..', '..');
-
 const createWindow = async () => {
   if (isDebug) {
     await installExtensions();
@@ -68,6 +69,9 @@ const createWindow = async () => {
     icon: path.join(RESOURCES_PATH, 'assets', 'icon.png'),
     // TODO: Use default (safer) web preferences.
     webPreferences: {
+      preload: app.isPackaged
+        ? path.join(__dirname, 'preload.js')
+        : path.join(__dirname, '../../.erb/dll/preload.js'),
       // Allows the renderer to use Node.js APIs, e.g. `fs` and `child_process`.
       contextIsolation: false,
       nodeIntegration: true,
