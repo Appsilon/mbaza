@@ -1,22 +1,15 @@
 import { csvFormat } from 'd3-dsv';
 import { writeFile } from 'fs/promises';
-import { globby } from 'globby';
 import _ from 'lodash';
 import path from 'path';
 
 import { Model } from '../../common/models';
+import listPhotos from '../utils/listPhotos';
 import getExifMetadata from './getExifMetadata';
 import getPathMetadata from './getPathMetadata';
 import getStationMetadata from './getStationMetadata';
 import getTopPredictions, { InferenceResult } from './getTopPredictions';
 import getWcsMetadata from './getWcsMetadata';
-
-function listPhotos(dir: string) {
-  // Formats supported by `sharp`: https://sharp.pixelplumbing.com/#formats
-  // File extensions: https://developer.mozilla.org/en-US/docs/Web/Media/Formats/Image_types
-  const pattern = '**/*.(jpg|jpeg|jfif|pjpeg|pjp|png|webp|gif|avif|tif|tiff)';
-  return globby(pattern, { cwd: dir, caseSensitiveMatch: false, onlyFiles: true });
-}
 
 export default async function prepareResults(
   inputPath: string,
