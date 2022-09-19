@@ -102,7 +102,7 @@ export default function MediaToolsPage() {
     <div className={styles.container}>
       <div className={styles.wrapper}>
         <Card className={styles.card} elevation={Elevation.TWO}>
-          <H1>{t('tools.createThumbnailsDetail')}</H1>
+          <H1>{t('tools.title')}</H1>
           {extractionForm}
         </Card>
         <Callout className={styles.callout} intent={Intent.PRIMARY}>
