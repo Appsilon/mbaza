@@ -187,10 +187,10 @@
         "info": "<p>Vous pouvez ici détecter des animaux dans des images.</p> <p>Veuillez sélectionner un répertoire d'entrée contenant des sous-dossiers avec des images.</p> <p>Veuillez sélectionner un fichier .csv de sortie où seront stockés les résultats de la détection.</p> <p>Vous pouvez éventuellement fournir des identifiants de projet et de déploiement qui seront utilisés pour alimenter le CSV de sortie.</p> <p>Vous pouvez également fournir un CSV avec les coordonnées de latitude et de longitude des stations de caméra, ce qui générera une carte. </p> <p>After the detection is complete, explore the results in the Explore results tab.</p>"
       },
       "explore": {
-        "specifyPaths": "Specify file and directory paths to explore (TODO)",
-        "exploreResults": "Explore Results (TODO)",
+        "specifyPaths": "(TODO) Specify file and directory paths to explore",
+        "exploreResults": "(TODO) Explore Results",
         "specifyCsvFilePath": "Fichier de données",
-        "specifyDatabaseDirectory": "Select database directory (TODO)",
+        "specifyDatabaseDirectory": "(TODO) Select database directory",
         "backToMap": "Retour à la carte",
         "backToObservations": "Retour aux observations",
         "info": "Veuillez sélectionnez un fichier CSV avec les résultats de la détection pour les analyser.",
@@ -232,8 +232,8 @@
           "observationNumber_other": "{{currentObservation}} {{count}} observations",
           "species": "{{count}} espèces",
           "header": "Observations par station {{station}}",
-          "overrideSelected": "Update Selected (TODO)",
-          "layout": "Cards Layout (TODO)",
+          "overrideSelected": "(TODO) Update Selected",
+          "layout": "(TODO) Cards Layout",
           "prediction": "Prédiction",
           "probability": "Probabilité",
           "override": {
