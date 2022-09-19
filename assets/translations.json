@@ -57,11 +57,6 @@
         "find": "Find animals!",
         "logTitle": "Classifier output",
         "inProgress": "Please wait. Animal detection in progress. This may take a long time.",
-        "modelsDirectoryMissing": {
-          "title": "Models directory not found",
-          "description1": "You need to obtain a zip file containing the AI models and unzip it in the program's main directory. Please make sure that you have a ",
-          "description2": " directory containing the models files."
-        },
         "success": "Species classification completed.",
         "failure": "Species classification failed.",
         "info": "<p>Here you can detect animals in images.</p> <p>Please select an input directory containing subfolders with images.</p> <p>Please select an output CSV file where the results of the detection will be stored.</p> <p>You can optionally provide project and deployment IDs which will be used to populate the output CSV.</p> <p> You can also provide a CSV with the latitude and longitude coordinates of camera stations, which will automatically generate a map. </p> <p>After the detection is complete, explore the results in the Explore results tab.</p>"
@@ -187,11 +182,6 @@
         "find": "Trouver des animaux !",
         "logTitle": "Sortie du classifieur",
         "inProgress": "Veuillez patienter. Détection d'animaux en cours. Cela peut prendre beaucoup de temps.",
-        "modelsDirectoryMissing": {
-          "title": "Le répertoire des modèles n'a pas été trouvé",
-          "description1": "Vous devez obtenir un fichier zip contenant les modèles d'IA et le décompresser dans le dossier principal du programme. Veuillez vous assurer que vous disposez d'un répertoire ",
-          "description2": " contenant les fichiers de modèles."
-        },
         "success": "La détection des animaux est terminée.",
         "failure": "La détection des animaux a échoué.",
         "info": "<p>Vous pouvez ici détecter des animaux dans des images.</p> <p>Veuillez sélectionner un répertoire d'entrée contenant des sous-dossiers avec des images.</p> <p>Veuillez sélectionner un fichier .csv de sortie où seront stockés les résultats de la détection.</p> <p>Vous pouvez éventuellement fournir des identifiants de projet et de déploiement qui seront utilisés pour alimenter le CSV de sortie.</p> <p>Vous pouvez également fournir un CSV avec les coordonnées de latitude et de longitude des stations de caméra, ce qui générera une carte. </p> <p>After the detection is complete, explore the results in the Explore results tab.</p>"
