@@ -1,7 +1,17 @@
+import sharp from 'sharp';
+
 export default async function createThumbnail(
-  _inputPath: string,
-  _outputPath: string,
-  _maxWidthHeight: number
+  inputPath: string,
+  outputPath: string,
+  maxWidthHeight: number
 ) {
-  return 42;
+  await sharp(inputPath)
+    .resize({
+      width: maxWidthHeight,
+      height: maxWidthHeight,
+      fit: 'inside',
+      withoutEnlargement: true,
+    })
+    .withMetadata()
+    .toFile(outputPath);
 }
