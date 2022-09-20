@@ -63,7 +63,7 @@
       },
       "explore": {
         "specifyPaths": "Specify file and directory paths to explore",
-        "exploreResults": "Explore Results",
+        "exploreResults": "Explore results",
         "specifyCsvFilePath": "Select data file",
         "specifyDatabaseDirectory": "Select database directory",
         "backToMap": "Back to map",
@@ -107,8 +107,8 @@
           "observationNumber_other": "{{currentObservation}} {{count}} observations",
           "species": "{{count}} species",
           "header": "Observations by station {{station}}",
-          "overrideSelected": "Update Selected",
-          "layout": "Cards Layout",
+          "overrideSelected": "Update selected",
+          "layout": "Cards layout",
           "prediction": "Prediction",
           "probability": "Probability",
           "override": {
@@ -157,7 +157,7 @@
         "dataForGood": "<p>Our team has gathered significant expertise in interactive data visualization, machine learning, and developing artificial intelligence solutions. We've decided to put these technologies to work in resolving the world's most pressing challenges.</p> <p>In our Data for Good initiative, we focus primarily on climate change and environmental protection projects, because we believe these issues will become the primary challenges to humanity in the decades to come.</p>"
       },
       "tools": {
-        "title": "Créer vignettes",
+        "title": "Créer des vignettes",
         "thumbnailSize": "Largeur/hauteur maximale des vignettes en pixels",
         "thumbnailSizeSmall": "Petit",
         "thumbnailSizeMedium": "Moyen",
@@ -187,10 +187,10 @@
         "info": "<p>Vous pouvez ici détecter des animaux dans des images.</p> <p>Veuillez sélectionner un répertoire d'entrée contenant des sous-dossiers avec des images.</p> <p>Veuillez sélectionner un fichier .csv de sortie où seront stockés les résultats de la détection.</p> <p>Vous pouvez éventuellement fournir des identifiants de projet et de déploiement qui seront utilisés pour alimenter le CSV de sortie.</p> <p>Vous pouvez également fournir un CSV avec les coordonnées de latitude et de longitude des stations de caméra, ce qui générera une carte. </p> <p>After the detection is complete, explore the results in the Explore results tab.</p>"
       },
       "explore": {
-        "specifyPaths": "(TODO) Specify file and directory paths to explore",
-        "exploreResults": "(TODO) Explore Results",
-        "specifyCsvFilePath": "Fichier de données",
-        "specifyDatabaseDirectory": "(TODO) Select database directory",
+        "specifyPaths": "Spécifier le chemin du fichier et du répertoire à explorer",
+        "exploreResults": "Explorez résultats",
+        "specifyCsvFilePath": "Sélectionner le fichier de données",
+        "specifyDatabaseDirectory": "Sélectionnez le répertoire de la base de données",
         "backToMap": "Retour à la carte",
         "backToObservations": "Retour aux observations",
         "info": "Veuillez sélectionnez un fichier CSV avec les résultats de la détection pour les analyser.",
@@ -226,21 +226,21 @@
         "inspect": {
           "station": "Station {{id}}",
           "observations": "{{count}} observations",
-          "selected_one": "(TODO) {{count}} observation selected",
-          "selected_other": "(TODO) {{count}} observations selected",
+          "selected_one": "{{count}} observation sélectionnée",
+          "selected_other": "{{count}} observations sélectionnées",
           "observationNumber_one": "{{currentObservation}} {{count}} observation",
           "observationNumber_other": "{{currentObservation}} {{count}} observations",
           "species": "{{count}} espèces",
           "header": "Observations par station {{station}}",
-          "overrideSelected": "(TODO) Update Selected",
-          "layout": "(TODO) Cards Layout",
+          "overrideSelected": "Mettre à jour la sélection",
+          "layout": "Disposition des images",
           "prediction": "Prédiction",
           "probability": "Probabilité",
           "override": {
             "tooltip": "Vous pouvez modifier la prédiction supérieure et exporter un CSV modifié",
-            "warning": "(TODO) Are you sure you want to override the selected predictions?",
-            "cancel": "(TODO) Cancel",
-            "confirm": "(TODO) Confirm"
+            "warning": "Êtes-vous sûr de vouloir remplacer les prédictions sélectionnées ?",
+            "cancel": "Annuler",
+            "confirm": "Confirmer"
           },
           "date": "Date",
           "camera": "ID de l'appareil photo",
