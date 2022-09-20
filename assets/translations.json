@@ -44,7 +44,7 @@
         "success": "Image extraction completed.",
         "failure": "Image extraction failed.",
         "inProgress": "Please wait. Image extraction in progress. This may take a long time.",
-        "info": "<p>You can create thumbnails for all videos and images.</p> <p>Please select an input directory containing subfolders with media (recognized formats: avi, mp4, jpg, png).</p> <p>Please select an output directory where the folder structure from the input directory will be replicated and the images will be stored.</p>"
+        "info": "<p>You can create thumbnails for all videos and images.</p> <p>Please select an input directory containing subfolders with media (recognized formats: jpg, png).</p> <p>Please select an output directory where the folder structure from the input directory will be replicated and the images will be stored.</p>"
       },
       "classify": {
         "title": "Detect animals",
