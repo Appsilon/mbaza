@@ -4,7 +4,6 @@
     "config:base",
     "group:allNonMajor"
   ],
-  "ignorePaths": ["models/"],
   "major": {
     "dependencyDashboardApproval": true
   }

@@ -32,24 +32,19 @@
         "dataForGood": "<p>Our team has gathered significant expertise in interactive data visualization, machine learning, and developing artificial intelligence solutions. We've decided to put these technologies to work in resolving the world's most pressing challenges.</p> <p>In our Data for Good initiative, we focus primarily on climate change and environmental protection projects, because we believe these issues will become the primary challenges to humanity in the decades to come.</p>"
       },
       "tools": {
-        "title": "Media tools",
-        "mode": "Mode of operation",
-        "extractFramesDetail": "Extract frames from videos at regular intervals",
-        "createThumbnailsDetail": "Create a thumbnail for each image / video",
-        "extractionInterval": "Interval between frames in seconds",
+        "title": "Create thumbnails",
         "thumbnailSize": "Maximum thumbnail width/height in pixels",
         "thumbnailSizeSmall": "Small",
         "thumbnailSizeMedium": "Medium",
         "thumbnailSizeLarge": "Large",
         "chooseInput": "Choose input directory",
         "chooseOutput": "Choose output directory",
-        "extractFrames": "Extract frames",
         "createThumbnails": "Create thumbnails",
         "logTitle": "Tool output",
         "success": "Image extraction completed.",
         "failure": "Image extraction failed.",
         "inProgress": "Please wait. Image extraction in progress. This may take a long time.",
-        "info": "<p>Please select mode of operation. You can extract frames from videos to later detect animals using the Detect animals tab (if you are not using videos, go directly to the Detect animals tab) or create thumbnails for all videos and images.</p> <p>Please select an input directory containing subfolders with media (recognized formats: avi, mp4, jpg, png).</p> <p>Please select an output directory where the folder structure from the input directory will be replicated and the images will be stored.</p>"
+        "info": "<p>You can create thumbnails for all videos and images.</p> <p>Please select an input directory containing subfolders with media (recognized formats: jpg, png).</p> <p>Please select an output directory where the folder structure from the input directory will be replicated and the images will be stored.</p>"
       },
       "classify": {
         "title": "Detect animals",
@@ -62,18 +57,13 @@
         "find": "Find animals!",
         "logTitle": "Classifier output",
         "inProgress": "Please wait. Animal detection in progress. This may take a long time.",
-        "modelsDirectoryMissing": {
-          "title": "Models directory not found",
-          "description1": "You need to obtain a zip file containing the AI models and unzip it in the program's main directory. Please make sure that you have a ",
-          "description2": " directory containing the models files."
-        },
         "success": "Species classification completed.",
         "failure": "Species classification failed.",
         "info": "<p>Here you can detect animals in images.</p> <p>Please select an input directory containing subfolders with images.</p> <p>Please select an output CSV file where the results of the detection will be stored.</p> <p>You can optionally provide project and deployment IDs which will be used to populate the output CSV.</p> <p> You can also provide a CSV with the latitude and longitude coordinates of camera stations, which will automatically generate a map. </p> <p>After the detection is complete, explore the results in the Explore results tab.</p>"
       },
       "explore": {
         "specifyPaths": "Specify file and directory paths to explore",
-        "exploreResults": "Explore Results",
+        "exploreResults": "Explore results",
         "specifyCsvFilePath": "Select data file",
         "specifyDatabaseDirectory": "Select database directory",
         "backToMap": "Back to map",
@@ -117,8 +107,8 @@
           "observationNumber_other": "{{currentObservation}} {{count}} observations",
           "species": "{{count}} species",
           "header": "Observations by station {{station}}",
-          "overrideSelected": "Update Selected",
-          "layout": "Cards Layout",
+          "overrideSelected": "Update selected",
+          "layout": "Cards layout",
           "prediction": "Prediction",
           "probability": "Probability",
           "override": {
@@ -167,24 +157,19 @@
         "dataForGood": "<p>Our team has gathered significant expertise in interactive data visualization, machine learning, and developing artificial intelligence solutions. We've decided to put these technologies to work in resolving the world's most pressing challenges.</p> <p>In our Data for Good initiative, we focus primarily on climate change and environmental protection projects, because we believe these issues will become the primary challenges to humanity in the decades to come.</p>"
       },
       "tools": {
-        "title": "Outils médias",
-        "mode": "Mode de fonctionnement",
-        "extractFramesDetail": "Extraire les images des vidéos à intervalles réguliers",
-        "createThumbnailsDetail": "Créer une vignette pour chaque image / vidéo",
-        "extractionInterval": "Intervalle entre les images en secondes",
+        "title": "Créer des vignettes",
         "thumbnailSize": "Largeur/hauteur maximale des vignettes en pixels",
         "thumbnailSizeSmall": "Petit",
         "thumbnailSizeMedium": "Moyen",
         "thumbnailSizeLarge": "Grande",
         "chooseInput": "Choisissez le dossier d'entrée",
         "chooseOutput": "Choisissez les dossiers de sortie",
-        "extractFrames": "Extraire les cadres d'image",
         "createThumbnails": "Créer les vignettes d'images",
         "logTitle": "Résultats de l'outil",
         "success": "L'extraction d'images est terminée.",
         "failure": "L'extraction d'images a échoué.",
         "inProgress": "Veuillez patienter. Extraction d'images en cours. Cela peut prendre beaucoup de temps.",
-        "info": "<p>Veuillez sélectionner le mode de fonctionnement. Vous pouvez extraire des images des vidéos pour détecter ultérieurement des animaux en utilisant l'onglet Détecter les animaux (si vous n'utilisez pas de vidéos, allez directement à l'onglet Détecter les animaux) ou créer des vignettes pour toutes les vidéos et images. </p> <p>Veuillez sélectionner un répertoire d'entrée contenant des sous-dossiers avec des médias (formats reconnus : avi, mp4, jpg, png). </p> <p>Veuillez sélectionner un répertoire de sortie où la structure des dossiers du répertoire d'entrée sera répliquée et où les images seront stockées.</p>"
+        "info": "<p>Vous pouvez créer des vignettes pour toutes les vidéos et images. </p> <p>Veuillez sélectionner un répertoire d'entrée contenant des sous-dossiers avec des médias (formats reconnus: jpg, png). </p> <p>Veuillez sélectionner un répertoire de sortie où la structure des dossiers du répertoire d'entrée sera répliquée et où les images seront stockées.</p>"
       },
       "classify": {
         "title": "Détectez animaux",
@@ -197,20 +182,15 @@
         "find": "Trouver des animaux !",
         "logTitle": "Sortie du classifieur",
         "inProgress": "Veuillez patienter. Détection d'animaux en cours. Cela peut prendre beaucoup de temps.",
-        "modelsDirectoryMissing": {
-          "title": "Le répertoire des modèles n'a pas été trouvé",
-          "description1": "Vous devez obtenir un fichier zip contenant les modèles d'IA et le décompresser dans le dossier principal du programme. Veuillez vous assurer que vous disposez d'un répertoire ",
-          "description2": " contenant les fichiers de modèles."
-        },
         "success": "La détection des animaux est terminée.",
         "failure": "La détection des animaux a échoué.",
         "info": "<p>Vous pouvez ici détecter des animaux dans des images.</p> <p>Veuillez sélectionner un répertoire d'entrée contenant des sous-dossiers avec des images.</p> <p>Veuillez sélectionner un fichier .csv de sortie où seront stockés les résultats de la détection.</p> <p>Vous pouvez éventuellement fournir des identifiants de projet et de déploiement qui seront utilisés pour alimenter le CSV de sortie.</p> <p>Vous pouvez également fournir un CSV avec les coordonnées de latitude et de longitude des stations de caméra, ce qui générera une carte. </p> <p>After the detection is complete, explore the results in the Explore results tab.</p>"
       },
       "explore": {
-        "specifyPaths": "Specify file and directory paths to explore (TODO)",
-        "exploreResults": "Explore Results (TODO)",
-        "specifyCsvFilePath": "Fichier de données",
-        "specifyDatabaseDirectory": "Select database directory (TODO)",
+        "specifyPaths": "Spécifier le chemin du fichier et du répertoire à explorer",
+        "exploreResults": "Explorez résultats",
+        "specifyCsvFilePath": "Sélectionner le fichier de données",
+        "specifyDatabaseDirectory": "Sélectionnez le répertoire de la base de données",
         "backToMap": "Retour à la carte",
         "backToObservations": "Retour aux observations",
         "info": "Veuillez sélectionnez un fichier CSV avec les résultats de la détection pour les analyser.",
@@ -246,21 +226,21 @@
         "inspect": {
           "station": "Station {{id}}",
           "observations": "{{count}} observations",
-          "selected_one": "(TODO) {{count}} observation selected",
-          "selected_other": "(TODO) {{count}} observations selected",
+          "selected_one": "{{count}} observation sélectionnée",
+          "selected_other": "{{count}} observations sélectionnées",
           "observationNumber_one": "{{currentObservation}} {{count}} observation",
           "observationNumber_other": "{{currentObservation}} {{count}} observations",
           "species": "{{count}} espèces",
           "header": "Observations par station {{station}}",
-          "overrideSelected": "Update Selected (TODO)",
-          "layout": "Cards Layout (TODO)",
+          "overrideSelected": "Mettre à jour la sélection",
+          "layout": "Disposition des images",
           "prediction": "Prédiction",
           "probability": "Probabilité",
           "override": {
             "tooltip": "Vous pouvez modifier la prédiction supérieure et exporter un CSV modifié",
-            "warning": "(TODO) Are you sure you want to override the selected predictions?",
-            "cancel": "(TODO) Cancel",
-            "confirm": "(TODO) Confirm"
+            "warning": "Êtes-vous sûr de vouloir remplacer les prédictions sélectionnées ?",
+            "cancel": "Annuler",
+            "confirm": "Confirmer"
           },
           "date": "Date",
           "camera": "ID de l'appareil photo",

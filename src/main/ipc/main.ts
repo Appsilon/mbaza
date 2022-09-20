@@ -3,13 +3,14 @@
 // This way dependencies which only work in the main process won't be bundled into the renderer.
 import { ipcMain } from 'electron';
 
-import runInference from '../inference';
+import createThumbnail from '../tools/createThumbnail';
+import runInference from '../tools/runInference';
 
 // To expose a function via the `window.ipc` object in the renderer process:
 // 1. Ensure it returns a promise (otherwise typings will be incorrect).
 // 2. Add it to the object below.
 // 3. Add its name to the corresponding object in `ipc/renderer.ts`.
-const ipc = { runInference };
+const ipc = { createThumbnail, runInference };
 
 declare global {
   interface Window {
