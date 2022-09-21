@@ -26,6 +26,10 @@ which uses
 Useful files (sample data, biomonitoring stations, icons)
 can be found on our [Drive](https://drive.google.com/drive/folders/1eQWuf5WCT429xogQ2HiZqapehvweAtxP) (Appsilon internal).
 
+To be able to run inference,
+download the [ONNX models](https://drive.google.com/drive/folders/1jQppnRm_4kLDPspg0fAulK_MK_RvxIEB)
+and place them in the `assets/models` directory.
+
 ### Commands
 
 You can run the following commands from the project root.
