@@ -48,7 +48,7 @@ export default function ObservationCard(props: ObservationCardProps) {
           </div>
         </div>
         <div className={styles.header}>
-          <Tooltip content={t('explore.inspect.overrideTooltip')} position="top" minimal>
+          <Tooltip content={t('explore.inspect.override.tooltip')} position="top" minimal>
             {overrideWidget}
           </Tooltip>
           <Button
