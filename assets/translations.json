@@ -25,10 +25,6 @@
             "link": "https://github.com/Appsilon/mbaza/releases/download/v1.2.1/Mbaza.AI.user.guide.v1-2-1.EN.pdf"
           }
         },
-        "warning": {
-          "title": "This is an early development version",
-          "message": "<p>You are using an early version of Mbaza AI.</p> <p>This application is under active development and provides core functionality only. All feedback regarding features and behavior of the application is welcome - please shoot us an email at ai4good@appsilon.com.</p>"
-        },
         "dataForGood": "<p>Our team has gathered significant expertise in interactive data visualization, machine learning, and developing artificial intelligence solutions. We've decided to put these technologies to work in resolving the world's most pressing challenges.</p> <p>In our Data for Good initiative, we focus primarily on climate change and environmental protection projects, because we believe these issues will become the primary challenges to humanity in the decades to come.</p>"
       },
       "tools": {
@@ -150,11 +146,7 @@
             "link": "https://github.com/Appsilon/mbaza/releases/download/v1.2.1/Mbaza.AI.user.guide.v1-2-1.FR.pdf"
           }
         },
-        "warning": {
-          "title": "Il s'agit d'une première version de développement",
-          "message": "<p>Vous utilisez une toute première version de Mbaza IA.</p> <p>Cette application est en cours de développement actif et fournit seulement les fonctionnalités de base. Tout commentaire concernant les fonctionnalités et le comportement de l'application est bienvenu - veuillez nous envoyer un courriel à ai4good@appsilon.com.</p>"
-        },
-        "dataForGood": "<p>Our team has gathered significant expertise in interactive data visualization, machine learning, and developing artificial intelligence solutions. We've decided to put these technologies to work in resolving the world's most pressing challenges.</p> <p>In our Data for Good initiative, we focus primarily on climate change and environmental protection projects, because we believe these issues will become the primary challenges to humanity in the decades to come.</p>"
+        "dataForGood": "<p>Notre équipe a acquis une grande expertise en matière de visualisation interactive des données, d'apprentissage automatique et de développement de solutions d'intelligence artificielle. Nous avons décidé de mettre ces technologies au service de la résolution des problèmes les plus urgents dans le monde.</p> <p>Dans le cadre de notre initiative Data for Good, nous nous concentrons principalement sur les projets liés au changement climatique et à la protection de l'environnement, car nous pensons que ces questions deviendront les principaux défis de l'humanité dans les décennies à venir.</p>"
       },
       "tools": {
         "title": "Créer des vignettes",

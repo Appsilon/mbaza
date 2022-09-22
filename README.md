@@ -2,16 +2,17 @@
 
 [![DOI:10.1101/2020.09.12.294538](https://zenodo.org/badge/DOI/10.1101/2020.09.12.294538.svg)](https://doi.org/10.1101/2020.09.12.294538)
 
-A desktop application that allows bioconservation researchers
+A desktop application which allows bioconservation researchers
 to classify camera trap animal images and analyze the results.
 
-Application landing page: https://appsilon.com/data-for-good/mbaza-ai/
+### Links
 
-### Useful files
-
-* [Windows installer](https://github.com/Appsilon/mbaza/releases/download/v1.3.1/Mbaza.AI.Setup.1.3.1.exe) (v1.3.1)
-* [User Guide](https://github.com/Appsilon/mbaza/releases/download/v1.2.1/Mbaza.AI.user.guide.v1-2-1.EN.pdf)
-  / [Mode d’emploi](https://github.com/Appsilon/mbaza/releases/download/v1.2.1/Mbaza.AI.user.guide.v1-2-1.FR.pdf) (v1.2.1)
+* [Latest release](https://github.com/Appsilon/mbaza/releases/latest):
+installers for Windows, MacOS and Linux.
+* [Landing page](https://appsilon.com/data-for-good/mbaza-ai/):
+information, testimonials, news.
+* [User guide](https://github.com/Appsilon/mbaza/releases/download/v1.2.1/Mbaza.AI.user.guide.v1-2-1.EN.pdf)
+/ [Mode d’emploi](https://github.com/Appsilon/mbaza/releases/download/v1.2.1/Mbaza.AI.user.guide.v1-2-1.FR.pdf) (v1.2.1)
 
 ## Development
 
@@ -54,9 +55,7 @@ which must be peer-reviewed before being merged.
 3. README and code comments are updated.
 4. Changes are tested (manually or with automated tests):
     1. No existing functionality is broken.
-    2. Installed app works well on Windows and Linux.
+    2. Installed app works well on all systems.
     3. The app can handle sample data available on our
     [Drive](https://drive.google.com/drive/folders/1eQWuf5WCT429xogQ2HiZqapehvweAtxP).
-5. The code adheres to
-[Airbnb style guide](https://github.com/airbnb/javascript) for JavaScript code
-and to [PEP 8](https://www.python.org/dev/peps/pep-0008/) for Python.
+5. The code adheres to the [Airbnb style guide](https://github.com/airbnb/javascript).

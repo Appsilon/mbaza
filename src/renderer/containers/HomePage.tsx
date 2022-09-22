@@ -30,13 +30,6 @@ export default function HomePage() {
               </a>
             </p>
           </Card>
-          <Callout
-            className={styles.callout}
-            title={t('home.warning.title')}
-            intent={Intent.PRIMARY}
-          >
-            <Trans i18nKey="home.warning.message" />
-          </Callout>
           <Callout className={styles.callout} intent={Intent.PRIMARY}>
             <Trans i18nKey="home.dataForGood" />
           </Callout>
