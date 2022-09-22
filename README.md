@@ -7,8 +7,10 @@ to classify camera trap animal images and analyze the results.
 
 ### Links
 
-* [Latest release](https://github.com/Appsilon/mbaza/releases/latest):
-installers for Windows, MacOS and Linux.
+* [Latest release](https://github.com/Appsilon/mbaza/releases/latest): installers for
+    * [Windows](https://github.com/Appsilon/mbaza/releases/download/v2.0.0/Mbaza.AI.Setup.2.0.0.exe)
+    * [macOS](https://github.com/Appsilon/mbaza/releases/download/v2.0.0/Mbaza.AI-2.0.0-arm64.dmg)
+    * [Linux](https://github.com/Appsilon/mbaza/releases/download/v2.0.0/Mbaza.AI-2.0.0.AppImage)
 * [Landing page](https://appsilon.com/data-for-good/mbaza-ai/):
 information, testimonials, news.
 * [User guide](https://github.com/Appsilon/mbaza/releases/download/v1.2.1/Mbaza.AI.user.guide.v1-2-1.EN.pdf)
