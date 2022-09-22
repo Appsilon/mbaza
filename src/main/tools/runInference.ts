@@ -1,4 +1,3 @@
-import ndarray from 'ndarray';
 import * as ort from 'onnxruntime-node';
 import { join } from 'path';
 import sharp from 'sharp';
@@ -6,32 +5,24 @@ import sharp from 'sharp';
 import { Model, MODELS } from '../../common/models';
 import { RESOURCES_PATH } from '../util';
 
-const WIDTH = 512;
-const HEIGHT = 384;
+const BATCH_SIZE = 1;
 const CHANNELS = 3;
 
 function modelPath(model: Model) {
   return join(RESOURCES_PATH, 'assets', 'models', MODELS[model].file);
 }
 
-async function readPhoto(path: string) {
-  const raw = await sharp(path).resize(WIDTH, HEIGHT, { fit: 'fill' }).raw().toBuffer();
-
-  // Reshape and normalize to match model input shape.
-  const srcShape = [HEIGHT, WIDTH, CHANNELS];
-  const dstShape = [CHANNELS, HEIGHT, WIDTH];
-  const src = ndarray(raw, srcShape);
-  const dst = ndarray(new Float32Array(raw.length), dstShape);
-  for (let i = 0; i < HEIGHT; i += 1) {
-    for (let j = 0; j < WIDTH; j += 1) {
-      for (let k = 0; k < CHANNELS; k += 1) {
-        dst.set(k, i, j, src.get(i, j, k) / 255);
-      }
-    }
-  }
-  return dst;
+async function readPhoto(path: string, shape: { width: number; height: number }) {
+  const raw = await sharp(path)
+    .resize({ ...shape, fit: 'fill' })
+    .raw()
+    .toBuffer();
+  const photo = new Float32Array(raw);
+  for (let i = 0; i < photo.length; i += 1) photo[i] /= 255;
+  return photo;
 }
 
+// If output is not provided, build an empty result.
 function buildResult(model: Model, output?: ort.Tensor) {
   const entries = MODELS[model].labels.map((label, idx) => [
     label,
@@ -48,10 +39,11 @@ export default async function runInference(model: Model, photoPaths: string[]) {
   /* eslint-disable no-await-in-loop */
   for (const path of photoPaths) {
     try {
-      const photo = await readPhoto(path);
-      // The first dimension of the tensor is the photo index (used for batch processing).
-      // TODO: Process photos in batches to improve performance.
-      const input = new ort.Tensor('float32', photo.data, [1, ...photo.shape]);
+      const { photoShape } = MODELS[model];
+      const photo = await readPhoto(path, photoShape);
+      // TODO: Process multiple photos per batch to improve performance.
+      const inputShape = [BATCH_SIZE, photoShape.height, photoShape.width, CHANNELS];
+      const input = new ort.Tensor('float32', photo, inputShape);
       const { output } = await session.run({ input });
       results.push(buildResult(model, output));
     } catch (e) {

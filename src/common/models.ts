@@ -1,7 +1,8 @@
 export const MODELS = {
   CENTRAL_AFRICAN_FORESTS: {
-    file: 'central_african_forests.onnx',
     name: 'Central African forests',
+    file: 'central_african_forests.onnx',
+    photoShape: { width: 768, height: 576 },
     labels: [
       'Bird',
       'Blank',
@@ -34,8 +35,9 @@ export const MODELS = {
     ],
   },
   EAST_AFRICAN_SAVANNAS: {
-    file: 'east_african_savannas.onnx',
     name: 'East African savannas',
+    file: 'east_african_savannas.onnx',
+    photoShape: { width: 512, height: 384 },
     labels: [
       'aardvark',
       'aardwolf',
