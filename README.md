@@ -31,8 +31,8 @@ can be found on our [Drive](https://drive.google.com/drive/folders/1eQWuf5WCT429
 
 To be able to run inference,
 download the ONNX models and place them in the `assets/models` directory:
-* [Central African forests](https://drive.google.com/file/d/1HHmUdq5kUib2e05YgtBQGyS-146-Q5S5/view)
-* [East African savannas](https://drive.google.com/file/d/1UeJ4nIv_uORhmYqRGAKRjmcG39gTcBKn/view)
+* [Central African forests](https://drive.google.com/uc?export=download&id=1HHmUdq5kUib2e05YgtBQGyS-146-Q5S5)
+* [East African savannas](https://drive.google.com/uc?export=download&id=1UeJ4nIv_uORhmYqRGAKRjmcG39gTcBKn)
 
 ### Commands
 
