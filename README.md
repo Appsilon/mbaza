@@ -30,8 +30,9 @@ Useful files (sample data, biomonitoring stations, icons)
 can be found on our [Drive](https://drive.google.com/drive/folders/1eQWuf5WCT429xogQ2HiZqapehvweAtxP) (Appsilon internal).
 
 To be able to run inference,
-download the [ONNX models](https://drive.google.com/drive/folders/1jQppnRm_4kLDPspg0fAulK_MK_RvxIEB)
-and place them in the `assets/models` directory.
+download the ONNX models and place them in the `assets/models` directory:
+* [Central African forests](https://drive.google.com/file/d/1HHmUdq5kUib2e05YgtBQGyS-146-Q5S5/view)
+* [East African savannas](https://drive.google.com/file/d/1UeJ4nIv_uORhmYqRGAKRjmcG39gTcBKn/view)
 
 ### Commands
 
