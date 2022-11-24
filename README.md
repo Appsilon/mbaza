@@ -27,7 +27,7 @@ which uses
 [React Fast Refresh](https://www.npmjs.com/package/react-refresh).
 
 Useful files (sample data, biomonitoring stations, icons)
-can be found on our [Drive](https://drive.google.com/drive/folders/1eQWuf5WCT429xogQ2HiZqapehvweAtxP) (Appsilon internal).
+can be found on our Drive (Appsilon-internal; see bookmarks on the Slack channel)
 
 To be able to run inference,
 download the ONNX models and place them in the `assets/models` directory:
@@ -59,6 +59,5 @@ which must be peer-reviewed before being merged.
 4. Changes are tested (manually or with automated tests):
     1. No existing functionality is broken.
     2. Installed app works well on all systems.
-    3. The app can handle sample data available on our
-    [Drive](https://drive.google.com/drive/folders/1eQWuf5WCT429xogQ2HiZqapehvweAtxP).
+    3. The app can handle our sample data.
 5. The code adheres to the [Airbnb style guide](https://github.com/airbnb/javascript).
