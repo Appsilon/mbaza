@@ -5,12 +5,25 @@
 A desktop application which allows bioconservation researchers
 to classify camera trap animal images and analyze the results.
 
+### Installation
+
+Download Mbaza installer for your system:
+* [Windows](https://github.com/Appsilon/mbaza/releases/download/v2.0.0/Mbaza.AI.Setup.2.0.0.exe)
+* [macOS x86-64 (Intel)](https://github.com/Appsilon/mbaza/releases/download/v2.0.0/Mbaza.AI-2.0.0-mac.zip)
+* [macOS ARM64 (Apple M1)](https://github.com/Appsilon/mbaza/releases/download/v2.0.0/Mbaza.AI-2.0.0-arm64-mac.zip)
+* [Linux](https://github.com/Appsilon/mbaza/releases/download/v2.0.0/Mbaza.AI-2.0.0.AppImage)
+
+### macOS
+
+By default macOS doesn't allow running app files downloaded from the Internet
+and it will display a "file is damaged" error.
+To fix it:
+1. Extract the app from the ZIP archive.
+2. Open a terminal in the directory with the extracted app.
+3. Run the following command: `xattr -cr 'Mbaza AI.app'`.
+
 ### Links
 
-* [Latest release](https://github.com/Appsilon/mbaza/releases/latest): installers for
-    * [Windows](https://github.com/Appsilon/mbaza/releases/download/v2.0.0/Mbaza.AI.Setup.2.0.0.exe)
-    * [macOS](https://github.com/Appsilon/mbaza/releases/download/v2.0.0/Mbaza.AI-2.0.0-arm64.dmg)
-    * [Linux](https://github.com/Appsilon/mbaza/releases/download/v2.0.0/Mbaza.AI-2.0.0.AppImage)
 * [Landing page](https://appsilon.com/data-for-good/mbaza-ai/):
 information, testimonials, news.
 * [User guide](https://github.com/Appsilon/mbaza/releases/download/v1.2.1/Mbaza.AI.user.guide.v1-2-1.EN.pdf)
