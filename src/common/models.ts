@@ -1,7 +1,7 @@
 export const MODELS = {
-  CENTRAL_AFRICAN_FORESTS: {
-    name: 'Central African forests',
-    file: 'central_african_forests.onnx',
+  GABON: {
+    name: 'Central African forests (Gabon)',
+    file: 'gabon.onnx',
     photoShape: { width: 768, height: 576 },
     labels: [
       'Bird',
@@ -34,9 +34,9 @@ export const MODELS = {
       'Squirrel',
     ],
   },
-  EAST_AFRICAN_SAVANNAS: {
-    name: 'East African savannas',
-    file: 'east_african_savannas.onnx',
+  SERENGETI: {
+    name: 'East African savannas (Serengeti)',
+    file: 'serengeti.onnx',
     photoShape: { width: 512, height: 384 },
     labels: [
       'aardvark',
@@ -96,7 +96,7 @@ export const MODELS = {
     ],
   },
   OL_PEJETA: {
-    name: 'Ol Pejeta',
+    name: 'East African savannas (Ol Pejeta Conservancy)',
     file: 'ol_pejeta.onnx',
     photoShape: { width: 480, height: 270 },
     labels: [

@@ -39,7 +39,7 @@ export default function Classifier() {
   const [inputPath, setInputPath] = useState<string>('');
   const [outputPath, setOutputPath] = useState<string>('');
   const [stationsCsvPath, setStationsCsvPath] = useState<string>('');
-  const [model, setModel] = useState<Model>('CENTRAL_AFRICAN_FORESTS');
+  const [model, setModel] = useState<Model>('GABON');
   const [projectId, setProjectId] = useState<string>('');
   const [deploymentId, setDeploymentId] = useState<string>('');
 
