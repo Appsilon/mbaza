@@ -44,9 +44,11 @@ can be found on our Drive (Appsilon-internal; see bookmarks on the Slack channel
 
 To be able to run inference,
 download the ONNX models and place them in the `assets/models` directory:
-* [Central African forests](https://drive.google.com/uc?export=download&id=1HHmUdq5kUib2e05YgtBQGyS-146-Q5S5)
-* [East African savannas](https://drive.google.com/uc?export=download&id=1UeJ4nIv_uORhmYqRGAKRjmcG39gTcBKn)
-* [Ol Pejeta](https://drive.google.com/uc?export=download&id=1YpRLde9t2OL-60a0M3vNeoem5tK6JjXJ)
+* [Central African forests (Gabon)](https://drive.google.com/uc?export=download&id=1HHmUdq5kUib2e05YgtBQGyS-146-Q5S5)
+* [East African savannas (Serengeti)](https://drive.google.com/uc?export=download&id=1UeJ4nIv_uORhmYqRGAKRjmcG39gTcBKn)
+* [East African savannas (Ol Pejeta Conservancy)](https://drive.google.com/uc?export=download&id=1YpRLde9t2OL-60a0M3vNeoem5tK6JjXJ)
+
+The model file names should match the entries in `src/common/models.ts`.
 
 ### Commands
 
