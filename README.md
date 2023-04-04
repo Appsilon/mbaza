@@ -76,4 +76,6 @@ which must be peer-reviewed before being merged.
     1. No existing functionality is broken.
     2. Installed app works well on all systems.
     3. The app can handle our sample data.
-5. The code adheres to the [Airbnb style guide](https://github.com/airbnb/javascript).
+5. The code adheres to the [Airbnb style guide](https://github.com/airbnb/javascript).+
+
+Lorem ipsum
