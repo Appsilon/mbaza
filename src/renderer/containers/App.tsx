@@ -18,7 +18,7 @@ export default function App(props: Props) {
 
   useEffect(() => {
     i18n.changeLanguage('en');
-  });
+  }, [i18n]);
 
   return (
     <>
