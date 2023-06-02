@@ -1,5 +1,5 @@
 import { Alignment, Button, Menu, MenuItem, Navbar, Popover } from '@blueprintjs/core';
-import { ReactNode } from 'react';
+import { useEffect, ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import Sidebar from '../components/Sidebar';
@@ -15,6 +15,10 @@ export default function App(props: Props) {
   const { children } = props;
   const { t, i18n } = useTranslation();
   useAnalytics();
+
+  useEffect(() => {
+    i18n.changeLanguage('en');
+  });
 
   return (
     <>
