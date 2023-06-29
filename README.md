@@ -7,11 +7,15 @@ to classify camera trap animal images and analyze the results.
 
 ### Installation
 
-Download Mbaza installer for your system:
-* [Windows](https://github.com/Appsilon/mbaza/releases/download/v2.1.0/Mbaza.AI.Setup.2.1.0.exe)
-* [macOS x86-64 (Intel)](https://github.com/Appsilon/mbaza/releases/download/v2.1.0/Mbaza.AI-2.1.0-mac.zip)
-* [macOS ARM64 (Apple M1)](https://github.com/Appsilon/mbaza/releases/download/v2.1.0/Mbaza.AI-2.1.0-arm64-mac.zip)
-* [Linux](https://github.com/Appsilon/mbaza/releases/download/v2.1.0/Mbaza.AI-2.1.0.AppImage)
+Visit the [latest release page](https://github.com/Appsilon/mbaza/releases/latest)
+and download Mbaza installer for your system
+(`X.Y.Z` will be the version number, e.g. `2.0.0`):
+* Windows: `Mbaza.AI.Setup.X.Y.Z.exe`
+* Linux: `Mbaza.AI-X.Y.Z.AppImage`
+* macOS:
+    * :warning: Mbaza requires additional setup to run on macOS. Read the instructions below.
+    * x86-64 (Intel): `Mbaza.AI-X.Y.Z-mac.zip`
+    * ARM64 (Apple M1): `Mbaza.AI-X.Y.Z-arm64-mac.zip`
 
 ### macOS
 
