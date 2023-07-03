@@ -22,9 +22,10 @@ and download Mbaza installer for your system
 By default macOS doesn't allow running app files downloaded from the Internet
 and it will display a "file is damaged" error.
 To fix it:
-1. Extract the app from the ZIP archive.
-2. Open a terminal in the directory with the extracted app.
-3. Run the following command: `xattr -cr 'Mbaza AI.app'`.
+1. Extract the app from the ZIP archive
+2. Open a terminal in the directory with the extracted app
+3. Run the following command: `xattr -cr 'Mbaza AI.app'`
+    - This command clears any extended attributes that may prevent the app from running.
 
 ## Links
 
